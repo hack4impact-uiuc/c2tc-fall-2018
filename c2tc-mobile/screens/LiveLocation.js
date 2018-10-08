@@ -9,8 +9,8 @@ import MapView, { ProviderPropType } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.1;
-const LONGITUDE_DELTA = 0.1;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class LiveLocation extends React.Component {
   
@@ -66,7 +66,6 @@ class LiveLocation extends React.Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onRegionChange={this.onRegionChange.bind(this)}
           onPress={this.onMapPress.bind(this)}>
         </MapView>
       </View>
