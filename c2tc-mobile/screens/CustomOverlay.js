@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 
 import MapView, { ProviderPropType } from 'react-native-maps';
-//import Location from './Location'
 import XMarksTheSpot from './CustomOverlayXMarksTheSpot';
 
 const { width, height } = Dimensions.get('window');
@@ -19,7 +18,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 class CustomOverlay extends React.Component {
   constructor(props) {
     super(props);
-    //const retrieveLocation = new Location();
 
     this.state = {
       region: {
@@ -47,26 +45,10 @@ class CustomOverlay extends React.Component {
         },
       ],
       center: {
-        longitude: LATITUDE,
-        latitude: LONGITUDE,
+        longitude: -122.4326648935676,
+        latitude: 37.79418561114521,
       },
     };
-  }
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
-        this.setState({
-          center: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,  
-          }
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
-    );
   }
 
   render() {
