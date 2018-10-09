@@ -48,7 +48,7 @@ class LiveLocation extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  onMapPress(e) {
+  onMapPress = e => {
     let region = {
       latitude: e.nativeEvent.coordinate.latitude,
       longitude: e.nativeEvent.coordinate.longitude,
@@ -66,7 +66,7 @@ class LiveLocation extends React.Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onPress={this.onMapPress.bind(this)}>
+          onPress={this.onMapPress}>
         </MapView>
       </View>
     );
