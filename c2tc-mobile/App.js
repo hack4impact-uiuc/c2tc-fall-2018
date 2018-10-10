@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native'
 
-// instagram like tab navigator
+// Instagram like tab navigator
 import {TabNavigator} from 'react-navigation'
 
 // Components on the navigator
@@ -18,7 +18,7 @@ class MainScreen extends Component {
 
 export default MainScreen;
 
-// This constance will create the TabNavigator that displays the instagram-like tab bar
+// This instance will create the TabNavigator that displays the instagram-like tab bar
 const AppTabNavigator = TabNavigator({
 
     MapTab: {
