@@ -81,9 +81,5 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
+export default CustomOverlay;
 
-<<<<<<< HEAD
-export default CustomOverlay;
-=======
-export default CustomOverlay;
->>>>>>> master
