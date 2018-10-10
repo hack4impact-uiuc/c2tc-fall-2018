@@ -13,6 +13,7 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+const layer1Data = require('../assets/data/layer1_loc.json');
 let id = 0;
 
 function randomColor() {
@@ -42,6 +43,9 @@ class LiveLocation extends React.Component {
       }
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+    this.setState({
+      markers: this.renderMarkers(layer1Data)
+    });
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -54,6 +58,23 @@ class LiveLocation extends React.Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  renderMarkers(data) {
+    var list = [];
+    for (i = 0; i < 100; i++) {
+      list.push(
+        {
+          coordinate: {
+            "latitude": data[i].lat,
+            "longitude": data[i].long,
+          },
+          key: id++,
+          color: '#000000',
+        },
+      );
+    }
+    return list;
   }
 
   onMapPress = e => {
