@@ -82,4 +82,8 @@ const styles = StyleSheet.create({
   },
 });
 
+<<<<<<< HEAD
 export default CustomOverlay;
+=======
+export default CustomOverlay;
+>>>>>>> master
