@@ -14,9 +14,9 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const layer1Data = require('../assets/data/layer1_loc.json');
+const policeLocations = require('../assets/data/police_locations.json');
 const layer2Data = require('../assets/data/layer2_loc.json');
-const layerData = [layer1Data, layer2Data];
+const layerData = [policeLocations, layer2Data];
 let id = 0;
 
 function randomColor() {
