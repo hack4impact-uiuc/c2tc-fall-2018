@@ -14,6 +14,8 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const layer1Data = require('../assets/data/layer1_loc.json');
+const layer2Data = require('../assets/data/layer2_loc.json');
+const layerData = [layer1Data, layer2Data];
 let id = 0;
 
 function randomColor() {
@@ -43,9 +45,9 @@ class LiveLocation extends React.Component {
       }
       this.onRegionChange(region, region.latitude, region.longitude);
     });
-    this.setState({
-      markers: this.renderMarkers(layer1Data)
-    });
+    for (var index in layerData) {
+      this.renderMarkers(layerData[index], randomColor());
+    }
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -60,9 +62,9 @@ class LiveLocation extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  renderMarkers(data) {
-    var list = [];
-    for (i = 0; i < 100; i++) {
+  renderMarkers(data, markerColor) {
+    var list = this.state.markers;
+    for (i = 0; i < data.length; i++) {
       list.push(
         {
           coordinate: {
@@ -70,11 +72,13 @@ class LiveLocation extends React.Component {
             "longitude": data[i].long,
           },
           key: id++,
-          color: '#000000',
+          color: markerColor,
         },
       );
     }
-    return list;
+    this.setState({
+      markers: list
+    });
   }
 
   onMapPress = e => {
