@@ -13,6 +13,7 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 const layer1Data = require('../assets/data/layer1_loc.json');
 const layer2Data = require('../assets/data/layer2_loc.json');
 const layerData = [layer1Data, layer2Data];
@@ -73,24 +74,12 @@ class LiveLocation extends React.Component {
           },
           key: id++,
           color: markerColor,
+          title: data[i].place_name,
         },
       );
     }
     this.setState({
       markers: list
-    });
-  }
-
-  onMapPress = e => {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: e.nativeEvent.coordinate,
-          key: id++,
-          color: randomColor(),
-        },
-      ],
     });
   }
 
@@ -102,23 +91,18 @@ class LiveLocation extends React.Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onPress={this.onMapPress}>
+        >
           {this.state.markers.map(marker => (
             <Marker
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-            />
+              title={marker.title}
+            >
+              
+            </Marker>
           ))}
         </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
-          >
-            <Text>Tap on the map to create a marker of random color</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     );
   }
