@@ -9,6 +9,8 @@ import {
 
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 
+import Panel from '../components/Panel';
+
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
@@ -86,12 +88,11 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
+        <Panel />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
           >
-            <Text>Tap on the map to create a marker of random color</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -111,12 +112,6 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-  },
-  bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 20,
   },
   latlng: {
     width: 200,
