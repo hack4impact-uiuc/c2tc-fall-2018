@@ -15,6 +15,10 @@ const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const policeLocations = require('../assets/data/police_locations.json');
+const layer2Data = require('../assets/data/layer2_loc.json');
+const layerData = [policeLocations, layer2Data];
 let id = 0;
 
 function randomColor() {
@@ -44,6 +48,9 @@ class LiveLocation extends React.Component {
       }
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+    for (var index in layerData) {
+      this.renderMarkers(layerData[index], randomColor());
+    }
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -58,16 +65,23 @@ class LiveLocation extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  onMapPress = e => {
-    this.setState({
-      markers: [
-        ...this.state.markers,
+  renderMarkers(data, markerColor) {
+    var list = this.state.markers;
+    for (i = 0; i < data.length; i++) {
+      list.push(
         {
-          coordinate: e.nativeEvent.coordinate,
+          coordinate: {
+            "latitude": data[i].lat,
+            "longitude": data[i].long,
+          },
           key: id++,
-          color: randomColor(),
+          color: markerColor,
+          title: data[i].place_name,
         },
-      ],
+      );
+    }
+    this.setState({
+      markers: list
     });
   }
 
@@ -79,13 +93,16 @@ class LiveLocation extends React.Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onPress={this.onMapPress}>
+        >
           {this.state.markers.map(marker => (
             <Marker
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-            />
+              title={marker.title}
+            >
+              
+            </Marker>
           ))}
         </MapView>
         <Panel />
