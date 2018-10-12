@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   View,
   Text,
   Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+  TouchableOpacity
+} from "react-native";
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from "react-native-maps";
 
-import Panel from '../components/Panel';
+import Panel from "../components/Panel";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require('../assets/data/police_locations.json');
-const layer2Data = require('../assets/data/layer2_loc.json');
+const policeLocations = require("../assets/data/police_locations.json");
+const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
 let id = 0;
 
@@ -30,10 +30,10 @@ class LiveLocation extends React.Component {
     super(props);
 
     this.state = {
-        mapRegion: null,
-        lastLat: null,
-        lastLong: null,
-        markers: [],        
+      mapRegion: null,
+      lastLat: null,
+      lastLong: null,
+      markers: []
     };
   }
 
@@ -67,17 +67,15 @@ class LiveLocation extends React.Component {
   renderMarkers(data, markerColor) {
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
-      list.push(
-        {
-          coordinate: {
-            "latitude": data[i].lat,
-            "longitude": data[i].long,
-          },
-          key: id++,
-          color: markerColor,
-          title: data[i].place_name,
+      list.push({
+        coordinate: {
+          latitude: data[i].lat,
+          longitude: data[i].long
         },
-      );
+        key: id++,
+        color: markerColor,
+        title: data[i].place_name
+      });
     }
     this.setState({
       markers: list
@@ -108,19 +106,15 @@ class LiveLocation extends React.Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={marker.title}
-            >
-              
-            </Marker>
+            />
           ))}
         </MapView>
         <Panel />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-          >
-          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({ markers: [] })} />
         </View>
-          onPress={this.onMapPress}
+        onPress=
+        {this.onMapPress}
         />
       </View>
     );
@@ -138,24 +132,24 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject
   },
   latlng: {
     width: 200,
-    alignItems: 'stretch',
+    alignItems: "stretch"
   },
   button: {
     width: 80,
     paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
+    alignItems: "center",
+    marginHorizontal: 10
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 20,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent"
   },
-    ...StyleSheet.absoluteFillObject
-  });
+  ...StyleSheet.absoluteFillObject
+});
 
 export default LiveLocation;

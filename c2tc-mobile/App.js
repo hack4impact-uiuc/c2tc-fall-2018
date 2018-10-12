@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import LiveLocation from './screens/LiveLocation';
+import React, { Component } from "react";
+import LiveLocation from "./screens/LiveLocation";
 
 export default class App extends Component {
-
-    render() {
-        return (
-            <LiveLocation></LiveLocation>
-            //<Panel />
-        );
-      }
+  render() {
+    return (
+      <LiveLocation />
+      //<Panel />
+    );
+  }
 }
