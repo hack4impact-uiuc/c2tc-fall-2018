@@ -1,46 +1,13 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import LiveLocation from './screens/LiveLocation';
+import Panel from './components/Panel'
 
-// Instagram like tab navigator
-import { TabNavigator } from "react-navigation";
+export default class App extends Component {
 
-// Components on the navigator
-import MapTab from "./components/AppTabNavigator/MapTab";
-import SettingTab from "./components/AppTabNavigator/SettingTab";
-
-class MainScreen extends Component {
-  render() {
-    return <AppTabNavigator />;
-  }
+    render() {
+        return (
+            <LiveLocation></LiveLocation>
+            //<Panel />
+        );
+      }
 }
-
-export default MainScreen;
-
-// This instance will create the TabNavigator that displays the instagram-like tab bar
-const AppTabNavigator = TabNavigator(
-  {
-    MapTab: {
-      screen: MapTab
-    },
-
-    SettingTab: {
-      screen: SettingTab
-    }
-  },
-  {
-    animationEnabled: true,
-    swipeEnabled: true,
-    tabBarPosition: "bottom",
-    tabBarOptions: {
-      style: {
-        ...Platform.select({
-          android: {
-            backgroundColor: "white"
-          }
-        })
-      },
-      showLabel: false,
-      showIcon: true
-    }
-  }
-);
