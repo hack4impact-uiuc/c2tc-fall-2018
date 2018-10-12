@@ -105,8 +105,6 @@ class LiveLocation extends React.Component {
             </Marker>
           ))}
         </MapView>
-<<<<<<< HEAD
-=======
         <Panel />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -114,7 +112,6 @@ class LiveLocation extends React.Component {
           >
           </TouchableOpacity>
         </View>
->>>>>>> panel done
       </View>
     );
   }
