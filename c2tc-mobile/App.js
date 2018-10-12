@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native'
 
 // Instagram like tab navigator
 import {TabNavigator} from 'react-navigation'
