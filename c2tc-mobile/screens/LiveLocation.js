@@ -11,7 +11,7 @@ import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 
 import Panel from '../components/Panel';
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -26,26 +26,25 @@ function randomColor() {
 }
 
 class LiveLocation extends React.Component {
-  
   constructor(props) {
     super(props);
-    
+
     this.state = {
         mapRegion: null,
         lastLat: null,
         lastLong: null,
-        markers: [],
-    }        
+        markers: [],        
+    };
   }
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      }
+      };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
     for (var index in layerData) {
@@ -84,6 +83,15 @@ class LiveLocation extends React.Component {
       markers: list
     });
   }
+  onMapPress = e => {
+    let region = {
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA
+    };
+    this.onRegionChange(region, region.latitude, region.longitude);
+  };
 
   render() {
     return (
@@ -112,20 +120,22 @@ class LiveLocation extends React.Component {
           >
           </TouchableOpacity>
         </View>
+          onPress={this.onMapPress}
+        />
       </View>
     );
   }
 }
 
 LiveLocation.propTypes = {
-  provider: ProviderPropType,
+  provider: ProviderPropType
 };
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -145,6 +155,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     backgroundColor: 'transparent',
   },
-});
+    ...StyleSheet.absoluteFillObject
+  });
 
 export default LiveLocation;
