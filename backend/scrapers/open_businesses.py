@@ -16,8 +16,15 @@ payload = {
 }
 headers = {"content-type": "application/json", "Authorization": "Bearer " + api_key}
 
+<<<<<<< HEAD
 # Accepts url string and dictionary of querystring parameters, returns properly
 # formatted url.
+=======
+'''
+Accepts url string and dictionary of querystring parameters, returns properly
+formatted url.
+'''
+>>>>>>> Standalone crime scraper working
 def get_qs_url(url, args):
     qs_url = url
     i = 0
