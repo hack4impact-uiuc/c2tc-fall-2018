@@ -47,9 +47,10 @@ def create_app(test_config=None):
     app.logger.setLevel(logging.DEBUG)
 
     # import and register blueprints
-    from api.views import main
+    from api.views import main, business
 
     app.register_blueprint(main.main)
+    app.register_blueprint(business.business)
 
     # register error Handler
     app.register_error_handler(Exception, all_exception_handler)

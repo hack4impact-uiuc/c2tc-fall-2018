@@ -21,6 +21,3 @@ mongoengine = "*"
 black = "==18.6b4"
 mypy = "*"
 pytest = "*"
-
-[requires]
-python_version = "3.7"
