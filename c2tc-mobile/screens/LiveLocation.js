@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import MapView, { Marker, ProviderPropType } from 'react-native-maps';
-
+ 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
@@ -17,6 +17,8 @@ const policeLocations = require('../assets/data/police_locations.json');
 const layer2Data = require('../assets/data/layer2_loc.json');
 const layerData = [policeLocations, layer2Data];
 let id = 0;
+
+let renderLayers = true;
 
 function randomColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -82,8 +84,18 @@ class LiveLocation extends React.Component {
     });
   }
 
-  _onPressLearnMore() {
-    alert('on Press!');
+  _onPressToggleLayers = () => {
+    if (renderLayers === true) {
+      this.setState({
+        markers: []
+      });
+      renderLayers = false;
+    } else {
+      for (var index in layerData) {
+        this.renderMarkers(layerData[index], randomColor());
+      }
+      renderLayers = true;
+    }
   }
 
   render() {
@@ -106,7 +118,7 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         <Button
-            onPress={this._onPressLearnMore}
+            onPress={this._onPressToggleLayers}
             title="Learn More"
             color="#841584"
           />
