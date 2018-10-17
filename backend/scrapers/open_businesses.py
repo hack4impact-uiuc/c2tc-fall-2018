@@ -19,8 +19,10 @@ headers = {
 'Authorization':'Bearer '+api_key,
 }
 
-#Accepts url string and dictionary of querystring parameters, returns properly
-#formatted url.
+'''
+Accepts url string and dictionary of querystring parameters, returns properly
+formatted url.
+'''
 def get_qs_url(url, args):
     qs_url = url
     i = 0
