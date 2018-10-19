@@ -1,6 +1,8 @@
 import requests
 import json
 
+##TODO: Changes - Only get route number and the hex color
+
 api_key = "901d92ed96ae44c280f3e3c7c48fc300"
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
