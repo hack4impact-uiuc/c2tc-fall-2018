@@ -1,13 +1,12 @@
 # conftest.py is used by pytest to share fixtures
 # https://docs.pytest.org/en/latest/fixture.html#conftest-py-sharing-fixture-functions
-import pytest 
+import pytest
 from api import create_app
+
 
 @pytest.fixture(scope="session")
 def client():
-    config_dict = {
-        "DEBUG": True,
-    }
+    config_dict = {"DEBUG": True}
     app = create_app(config_dict)
     app.app_context().push()
 

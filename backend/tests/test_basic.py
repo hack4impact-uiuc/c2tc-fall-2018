@@ -7,5 +7,7 @@ import mongomock
 def test_index(client):
     rs = client.get("/")
     assert rs.status_code == 200
+
+
 def test_basic():
-    assert(True)
+    assert True
