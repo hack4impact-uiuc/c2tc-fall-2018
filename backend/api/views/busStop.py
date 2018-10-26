@@ -37,6 +37,7 @@ def scrape_stops():
     stop_data = scrape()
     for stop_id in list(stop_data.keys())[:30]:
         save_stop_to_db(stop_data[stop_id])
+    return create_response(message="success!")
 
 def save_stop_to_db(stop_dict):
     busStop = BusStop.objects.create(
