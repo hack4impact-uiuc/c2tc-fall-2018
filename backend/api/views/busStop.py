@@ -1,6 +1,7 @@
 from flask import Blueprint
 from api.models.BusStop import BusStop
 from api.core import create_response, serialize_list, logger
+from api.scrapers.bus_stops import scrape
 
 busStop = Blueprint("busStop", __name__)
 
@@ -28,5 +29,21 @@ def create_busStop():
     busStop.routes["Route 1"] = "ffffffff"
     busStop.routes["Route 2"] = "00000000"
     busStop.save()
-    
+
     return create_response(message="success!")
+
+@busStop.route("/scrape_stops", methods=["POST"])
+def scrape_stops():
+    stop_data = scrape()
+    for stop_id in stop_data.keys():
+        save_stop_to_db(stop_data[stop_id])
+
+def save_stop_to_db(stop_dict):
+    busStop = BusStop.objects.create(
+        stop_id=stop_dict["stop_id"],
+        stop_name=stop_dict["stop_name"],
+        latitude=stop_dict["latitude"],
+        longitude=stop_dict["longitude"],
+        routes=stop_dict.get("routes")
+    )
+    busStop.save()

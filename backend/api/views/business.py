@@ -6,13 +6,13 @@ from api.core import create_response, serialize_list, logger
 
 business = Blueprint("business", __name__)
 
-
+'''
 @business.route("/open_businesses", methods=["GET"])
 def open_businesses():
-    '''
+    ''
     Querystring args:   time= #### (time as 4 digit 24hr time, eg. 1430 = 2:30pm)
                         day = # (integer 0-6, where 0 is Monday)
-    '''
+    ''
     data = Business.objects()
     time = int(request.args.get("time"))
     day = int(request.args.get("day"))
@@ -23,6 +23,7 @@ def open_businesses():
             open_businesses.append(b)
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
+'''
 
 @business.route("/businesses", methods=["GET"])
 def get_business():
