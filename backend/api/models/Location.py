@@ -1,6 +1,4 @@
-from mongoengine.fields import (
-    StringField
-)
+from mongoengine.fields import StringField
 from mongoengine import EmbeddedDocument
 
 class Location(EmbeddedDocument):

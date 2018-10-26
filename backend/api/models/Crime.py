@@ -14,7 +14,7 @@ import datetime
 class Crime(mongoengine.DynamicDocument):
     """Crime Document Schema"""
 
-    incident_id = StringField(required = True)
+    incident_id = StringField(required = True, unique = True)
     incident_datetime = DateTimeField(default = datetime.datetime.now())
     incident_type_primary = StringField(required = True)
     incident_description = StringField(required = True)
@@ -26,6 +26,5 @@ class Crime(mongoengine.DynamicDocument):
     hour_of_day = IntField(required = True)
     day_of_week = StringField(required = True)
     parent_incident_type = StringField(required = True)
-
 
 

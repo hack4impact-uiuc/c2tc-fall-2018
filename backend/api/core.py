@@ -6,6 +6,10 @@ from werkzeug.local import LocalProxy
 from flask import current_app, jsonify
 from flask.wrappers import Response
 
+from bson import ObjectId
+from datetime import datetime
+import json
+
 # logger object for all views to use
 logger = LocalProxy(lambda: current_app.logger)
 
@@ -22,6 +26,14 @@ class Mixin:
         d_out["_id"] = d_out.pop("id", None)  # rename id key to interface with response
         return d_out
 
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        if isinstance(o, datetime):
+            return o.strftime("%m/%d/%Y, %H:%M:%S")
+        return json.JSONEncoder.default(self, o)
 
 def create_response(
     data: dict = None, status: int = 200, message: str = ""
@@ -44,7 +56,12 @@ def create_response(
     """
     if type(data) is not dict and data is not None:
         raise TypeError("Data should be a dictionary 😞")
-
+    # if data is None:
+    #     raise TypeError("Data is empty 😞")
+    # for key in data:
+    #     if isinstance(data[key], ObjectId):
+    #         data[key] = str(data[key])
+    data = JSONEncoder().encode(data)
     response = {"success": 200 <= status < 300, "message": message, "result": data}
     return jsonify(response), status
 

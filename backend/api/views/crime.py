@@ -6,11 +6,19 @@ crime = Blueprint("crime", __name__)
 
 @crime.route("/crimes", methods=["GET"])
 def get_crime():
-    logger.info("CRIMES: %s", Crime.objects())
-    return create_response(data = Crime.objects())
+    """
+    GET function for retrieving Crime objects
+    """
+    response = [crime.to_mongo() for crime in Crime.objects]
+    response = {"crimes" : response}
+    logger.info("CRIMES: %s", response)
+    return create_response(data = response)
 
 @crime.route("/crimes", methods=["POST"])
 def create_crime():
+    """
+    POST function for posting a hard-coded Crime object for testing purposes
+    """
     crime = Crime.objects.create(
         incident_id="1",
         incident_type_primary="Peeing in public",

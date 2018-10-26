@@ -8,11 +8,19 @@ business = Blueprint("business", __name__)
 
 @business.route("/businesses", methods=["GET"])
 def get_business():
-    logger.info("BUSINESSES: %s", Business.objects())
-    return create_response(data = Business.objects())
+    """
+    GET function for retrieving Business objects
+    """
+    response = [business.to_mongo() for business in Business.objects]
+    response = {"businesses" : response}
+    logger.info("BUSINESSES: %s", response)
+    return create_response(data = response)
 
 @business.route("/businesses", methods=["POST"])
 def create_business():
+    """
+    POST function for posting a hard-coded Business object for testing purposes
+    """
     location = Location(city="Champaign", country="USA", address1="addy1", state="IL", zip_code="12345")
     
     open_hours = OpenHours(start="0000", end="1111", is_overnight=True, day=3)    
