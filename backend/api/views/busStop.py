@@ -35,7 +35,7 @@ def create_busStop():
 @busStop.route("/scrape_stops", methods=["POST"])
 def scrape_stops():
     stop_data = scrape()
-    for stop_id in stop_data.keys():
+    for stop_id in list(stop_data.keys())[:30]:
         save_stop_to_db(stop_data[stop_id])
 
 def save_stop_to_db(stop_dict):
