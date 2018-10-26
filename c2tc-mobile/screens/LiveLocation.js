@@ -11,6 +11,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const policeLocations = require("../assets/data/police_locations.json");
 const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
+const policeColor = "#841584";
 let id = 0;
 
 let renderLayers = true;
@@ -77,7 +78,7 @@ class LiveLocation extends React.Component {
   }
 
   _onPressToggleLayers = () => {
-    if (renderLayers === true) {
+    if (renderLayers) {
       this.setState({
         markers: []
       });
@@ -111,7 +112,7 @@ class LiveLocation extends React.Component {
         <Button
           onPress={this._onPressToggleLayers}
           title="Toggle Police"
-          color="#841584"
+          color={policeColor}
         />
       </View>
     );
