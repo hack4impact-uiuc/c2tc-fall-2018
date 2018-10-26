@@ -86,6 +86,7 @@ def get_full_stop_info(stop_data, payload, url):
         for stop_route in single_stop_routes_raw["routes"]:
             route_list[stop_route["route_short_name"]] = stop_route["route_text_color"]
         stop_data[stop_id]["routes"] = route_list
+        #print(stop_data[stop_id])
         #save_stop_to_db(stop_data[stop_id])
         stop_counter += 1  # debugging
         perc_complete = float(stop_counter) / total_stops * 100  # debugging

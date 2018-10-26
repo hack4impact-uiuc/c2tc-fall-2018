@@ -42,8 +42,8 @@ def save_stop_to_db(stop_dict):
     busStop = BusStop.objects.create(
         stop_id=stop_dict["stop_id"],
         stop_name=stop_dict["stop_name"],
-        latitude=stop_dict["latitude"],
-        longitude=stop_dict["longitude"],
+        latitude=stop_dict["stop_lat"],
+        longitude=stop_dict["stop_lon"],
         routes=stop_dict.get("routes")
     )
     busStop.save()
