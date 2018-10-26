@@ -1,20 +1,15 @@
-import React from 'react';
-import {
-  Button,
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import React from "react";
+import { Button, StyleSheet, View, Dimensions } from "react-native";
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
- 
-const { width, height } = Dimensions.get('window');
+import MapView, { Marker, ProviderPropType } from "react-native-maps";
+
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require('../assets/data/police_locations.json');
-const layer2Data = require('../assets/data/layer2_loc.json');
+const policeLocations = require("../assets/data/police_locations.json");
+const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
 let id = 0;
 
@@ -25,26 +20,25 @@ function randomColor() {
 }
 
 class LiveLocation extends React.Component {
-  
   constructor(props) {
     super(props);
-    
+
     this.state = {
-        mapRegion: null,
-        lastLat: null,
-        lastLong: null,
-        markers: [],
-    }     
+      mapRegion: null,
+      lastLat: null,
+      lastLong: null,
+      markers: []
+    };
   }
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      }
+      };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
     for (var index in layerData) {
@@ -67,17 +61,15 @@ class LiveLocation extends React.Component {
   renderMarkers(data, markerColor) {
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
-      list.push(
-        {
-          coordinate: {
-            "latitude": data[i].lat,
-            "longitude": data[i].long,
-          },
-          key: id++,
-          color: markerColor,
-          title: data[i].place_name,
+      list.push({
+        coordinate: {
+          latitude: data[i].lat,
+          longitude: data[i].long
         },
-      );
+        key: id++,
+        color: markerColor,
+        title: data[i].place_name
+      });
     }
     this.setState({
       markers: list
@@ -96,7 +88,7 @@ class LiveLocation extends React.Component {
       }
       renderLayers = true;
     }
-  }
+  };
 
   render() {
     return (
@@ -113,54 +105,53 @@ class LiveLocation extends React.Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={marker.title}
-            > 
-            </Marker>
+            />
           ))}
         </MapView>
         <Button
-            onPress={this._onPressToggleLayers}
-            title="Toggle Police"
-            color="#841584"
-          />
+          onPress={this._onPressToggleLayers}
+          title="Toggle Police"
+          color="#841584"
+        />
       </View>
     );
   }
 }
 
 LiveLocation.propTypes = {
-  provider: ProviderPropType,
+  provider: ProviderPropType
 };
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject
   },
   bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: "rgba(255,255,255,0.7)",
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 20,
+    borderRadius: 20
   },
   latlng: {
     width: 200,
-    alignItems: 'stretch',
+    alignItems: "stretch"
   },
   button: {
     width: 80,
     paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
+    alignItems: "center",
+    marginHorizontal: 10
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: "transparent"
+  }
 });
 
 export default LiveLocation;
