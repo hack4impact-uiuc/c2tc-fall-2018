@@ -119,7 +119,7 @@ class LiveLocation extends React.Component {
         </MapView>
         <Button
             onPress={this._onPressToggleLayers}
-            title="Learn More"
+            title="Toggle Police"
             color="#841584"
           />
       </View>
