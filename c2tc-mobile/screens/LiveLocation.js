@@ -13,7 +13,10 @@ const policeLocations = require("../assets/data/police_locations.json");
 const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
 const layerKey = ["police", "light", "construction"];
+const policeColor = "#841584";
+
 let id = 0;
+let renderLayers = true;
 
 function randomColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -78,9 +81,19 @@ class LiveLocation extends React.Component {
     });
   }
 
-  _onPressLearnMore() {
-    alert("on Press!");
-  }
+  _onPressToggleLayers = () => {
+    if (renderLayers) {
+      this.setState({
+        markers: []
+      });
+      renderLayers = false;
+    } else {
+      for (var index in layerData) {
+        this.renderMarkers(layerData[index], randomColor());
+      }
+      renderLayers = true;
+    }
+  };
 
   render() {
     return (
@@ -101,6 +114,11 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         <Panel ref="panel" />
+        <Button
+          onPress={this._onPressToggleLayers}
+          title="Toggle Police"
+          color={policeColor}
+        />
       </View>
     );
   }
