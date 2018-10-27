@@ -18,14 +18,15 @@ export default class ButtonInterace extends React.Component {
     return this.state.type;
   }
 
-  _onPressLearnMore() {
-    alert("on Press!");
-  }
+  updateLayer = () => {
+    this.props.parentPanel.updateLayerList(this.getType());
+    this.props.parentPanel.props.toggleLayers();
+  };
 
   render() {
     return (
       <Button
-        onPress={this._onPressLearnMore}
+        onPress={this.updateLayer}
         title={this.props.type}
         color="#841584"
       />

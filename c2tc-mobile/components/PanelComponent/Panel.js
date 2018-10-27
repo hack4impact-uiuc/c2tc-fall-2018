@@ -32,18 +32,26 @@ export default class Panel extends React.Component {
   }
 
   getLayerTypes() {
-    return this.state.toggleLayerList;
+    var list = this.state.toggleLayerList;
+    return list;
   }
 
-  // var ButtonInterface = React.createClass({
-  //   render: function () {
-  //     return <button onClick={this.props.onClick}>{this.props.type}</button>;
-  //   },
-  // });
+  updateLayerList = type => {
+    var list = this.state.toggleLayerList;
+    var listLength = list.length;
 
-  updateLayerList() {
-    this.state.toggleLayerList.push(this.props.type);
-  }
+    var isContaining = false;
+    for (i = 0; i < listLength; i++) {
+      if (list[i] == type) {
+        isContaining = true;
+        break;
+      }
+    }
+
+    if (!isContaining) {
+      this.state.toggleLayerList.push(type);
+    }
+  };
 
   render() {
     return (
@@ -56,11 +64,8 @@ export default class Panel extends React.Component {
         onDrag={v => this.draggedValue.setValue(v)}
       >
         <View style={styles.panel}>
-          <ButtonInterface
-            onClick={this.updateLayerList}
-            type="Police"
-            ref="button"
-          />
+          <ButtonInterface type="Police" ref="button" parentPanel={this} />
+          <ButtonInterface type="Lights" ref="button" parentPanel={this} />
         </View>
       </SlidingUpPanel>
     );
