@@ -3,6 +3,8 @@ import { Button, StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 
+import PhoneButton from "../components/PhoneButton";
+
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
@@ -109,11 +111,10 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        <Button
-          onPress={this._onPressToggleLayers}
-          title="Toggle Police"
-          color={policeColor}
-        />
+       <PhoneButton
+       type="Call Neeraj"
+       ref="button"
+       />
       </View>
     );
   }
