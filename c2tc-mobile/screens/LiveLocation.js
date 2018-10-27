@@ -111,11 +111,7 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-       <PhoneButton
-       type="Call Neeraj"
-       ref="button"
-       number="6509069888"
-       />
+        <PhoneButton type="Call Neeraj" ref="button" number="6509069888" />
       </View>
     );
   }

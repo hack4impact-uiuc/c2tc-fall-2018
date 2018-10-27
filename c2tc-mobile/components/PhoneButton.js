@@ -1,8 +1,8 @@
 import React from "react";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import call from 'react-native-phone-call'
+import Icon from "react-native-vector-icons/FontAwesome";
+import call from "react-native-phone-call";
 
-const buttonColor = "#424242"
+const buttonColor = "#424242";
 
 export default class PhoneButton extends React.Component {
   constructor(props) {
@@ -20,17 +20,21 @@ export default class PhoneButton extends React.Component {
 
   _onPressCall() {
     const args = {
-        number: this.state.number,
-        prompt: false
-      }
-    call(args).catch(console.error)
+      number: this.state.number,
+      prompt: false
+    };
+    call(args).catch(console.error);
   }
 
   render() {
     return (
-        <Icon.Button name="phone" backgroundColor={buttonColor} onPress={this._onPressCall.bind(this)}>
+      <Icon.Button
+        name="phone"
+        backgroundColor={buttonColor}
+        onPress={this._onPressCall.bind(this)}
+      >
         {this.getType()}
-        </Icon.Button>
+      </Icon.Button>
     );
   }
 }
