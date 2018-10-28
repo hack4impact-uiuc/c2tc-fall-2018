@@ -20,6 +20,8 @@ def open_businesses():
     open_businesses = []
     for b in data:
         curr_day = get_open_business_day(b, day)
+        if curr_day == None:
+            continue
         if int(curr_day.start) <= time and int(curr_day.end) >= time:
             #open
             open_businesses.append(b)
