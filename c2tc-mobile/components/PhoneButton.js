@@ -18,13 +18,13 @@ export default class PhoneButton extends React.Component {
     return this.state.type;
   }
 
-  _onPressCall = () =>{
+  _onPressCall = () => {
     const args = {
       number: this.state.number,
       prompt: false
     };
     call(args).catch(console.error);
-  }
+  };
 
   render() {
     return (
