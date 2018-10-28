@@ -52,8 +52,8 @@ def save_crime_to_db(crime_dict):
         address_1=crime_dict.get("address_1"),
         city=crime_dict.get("city"),
         state=crime_dict.get("state"),
-        latitude=crime_dict.get("latitude"),
-        longitude=crime_dict.get("longitude"),
+        latitude=float(crime_dict.get("latitude")),
+        longitude=float(crime_dict.get("longitude")),
         hour_of_day=crime_dict.get("hour_of_day"),
         day_of_week=crime_dict.get("day_of_week"),
         parent_incident_type=crime_dict.get("parent_incident_type")
