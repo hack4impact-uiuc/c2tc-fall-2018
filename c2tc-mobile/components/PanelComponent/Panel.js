@@ -53,13 +53,13 @@ export default class Panel extends React.Component {
     }
   };
 
-  setRef = (reference) => {
+  setRef = reference => {
     this._panel = reference;
-  }
+  };
 
-  setDrag = (velocity) => {
+  setDrag = velocity => {
     this.draggedValue.setValue(velocity);
-  }
+  };
 
   render() {
     return (
