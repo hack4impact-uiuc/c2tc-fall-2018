@@ -24,7 +24,7 @@ def open_businesses():
             continue
         if int(curr_day.start) <= time and int(curr_day.end) >= time:
             #open
-            open_businesses.append(b)
+            open_businesses.append(b.to_mongo())
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
 
