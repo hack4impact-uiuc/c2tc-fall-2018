@@ -6,13 +6,15 @@ from api.models.BusStop import BusStop
 
 ##TODO: Changes - Only get route number and the hex color
 
-api_key = "95b24e883247444095625960a8bbee98"
+api_keys = ["95b24e883247444095625960a8bbee98",
+    "901d92ed96ae44c280f3e3c7c48fc300",
+    "80678f088271417aa6d0cdb898aa5624"]
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
 
-stops_payload = {"key": api_key}
+stops_payload = {"key": api_keys[0]}
 
-routes_payload = {"key": api_key, "stop_id": ""}  # change stop_id to id of stop
+routes_payload = {"key": api_keys[0], "stop_id": ""}  # change stop_id to id of stop
 
 stops_req_fields = ["stop_id", "stop_lat", "stop_lon", "stop_name"]
 
@@ -77,9 +79,14 @@ def get_full_stop_info(stop_data, payload, url):
     routes that run through that stop.
     """
     stop_counter = 0  # for debugging
+    api_key_counter = 0
     total_stops = len(stop_data.keys())  # debugging
     print(total_stops, "stops to process.")  # debugging
-    for stop_id in list(stop_data.keys())[:30]:
+    for stop_id in list(stop_data.keys()):
+        if stop_counter % 800 == 0:
+            payload["key"] = api_keys[api_key_counter]
+            if api_key_counter < len(api_keys)-1:
+                api_key_counter += 1
         payload["stop_id"] = stop_id
         single_stop_routes_raw = requests.get(get_qs_url(url, payload)).json()
         route_list = {}
