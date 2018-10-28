@@ -3,6 +3,7 @@ from api.models.Business import Business
 from api.models.Location import Location
 from api.models.OpenHours import OpenHours
 from api.core import create_response, serialize_list, logger
+from api.scrapers.open_businesses import business_scrape
 
 business = Blueprint("business", __name__)
 
@@ -55,3 +56,21 @@ def create_business():
     business.save()
 
     return create_response(message="success!")
+
+@business.route("/scrape_businesses", methods=["POST"])
+def scrape_businesses():
+    data = business_scrape()
+    for business_id in data.keys():
+        save_business_to_db(data[business_id])
+    return create_response(message="success!")
+
+def save_business_to_db(business_dict):
+    business = Business.objects.create(
+        name=business_dict.get("name"),
+        yelp_id=business_dict.get("yelp_id"),
+        image_url=business_dict.get("image_url"),
+        display_phone=business_dict.get("display_hours"),
+        location=business_dict.get("location"),
+        open_hours=business_dict.get("open_hours")
+    )
+    business.save()

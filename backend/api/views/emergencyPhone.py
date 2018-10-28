@@ -1,6 +1,7 @@
 from flask import Blueprint
 from api.models.EmergencyPhone import EmergencyPhone
 from api.core import create_response, serialize_list, logger
+from api.scrapers.emergency_phones import get_phones
 
 emergencyPhone = Blueprint("emergencyPhone", __name__)
 
@@ -25,5 +26,19 @@ def create_emergencyPhone():
         longitude=300.3
     )
     emergencyPhone.save()
-    
+
     return create_response(message="success!")
+@emergencyPhone.route("/scrape_phones", methods=["POST"])
+def scrape_phones():
+    data = get_phones()
+    for phone in data:
+        save_phone_to_db(phone)
+    return create_response(message="success!")
+
+def save_phone_to_db(phone_dict):
+    emergencyPhone = EmergencyPhone.objects.create(
+        emergencyPhone_id=phone_dict.get("id"),
+        latitude=phone_dict.get("latitude"),
+        longitude=phone_dict.get("longitude")
+    )
+    emergencyPhone.save()
