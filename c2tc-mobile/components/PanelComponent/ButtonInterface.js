@@ -24,11 +24,12 @@ export default class ButtonInterace extends React.Component {
   };
 
   render() {
+    var buttonColor = "purple";
     return (
       <Button
         onPress={this.updateLayer}
         title={this.props.type}
-        color="#841584"
+        color={buttonColor}
       />
     );
   }
