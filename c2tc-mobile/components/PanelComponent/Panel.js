@@ -53,15 +53,23 @@ export default class Panel extends React.Component {
     }
   };
 
+  setRef = (reference) => {
+    this._panel = reference;
+  }
+
+  setDrag = (velocity) => {
+    this.draggedValue.setValue(velocity);
+  }
+
   render() {
     return (
       <SlidingUpPanel
         visible
         startCollapsed
         showBackdrop={false}
-        ref={c => (this._panel = c)}
+        ref={this.setRef}
         draggableRange={this.props.draggableRange}
-        onDrag={v => this.draggedValue.setValue(v)}
+        onDrag={this.setDrag}
       >
         <View style={styles.panel}>
           <ButtonInterface type="Police" ref="button" parentPanel={this} />

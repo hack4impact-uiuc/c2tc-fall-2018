@@ -64,7 +64,6 @@ class LiveLocation extends React.Component {
 
   renderMarkers(data, markerColor) {
     var list = this.state.markers;
-    console.log(data.length);
     for (i = 0; i < data.length; i++) {
       list.push({
         coordinate: {
@@ -113,12 +112,7 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        <Panel ref="panel" />
-        <Button
-          onPress={this._onPressToggleLayers}
-          title="Toggle Police"
-          color={policeColor}
-        />
+        <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
   }
