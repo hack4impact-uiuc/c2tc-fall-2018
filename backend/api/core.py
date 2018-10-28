@@ -35,8 +35,10 @@ class JSONEncoder(json.JSONEncoder):
             return o.strftime("%m/%d/%Y, %H:%M:%S")
         return json.JSONEncoder.default(self, o)
 
+
 def create_response(
-    data: dict = None, status: int = 200, message: str = "") -> Tuple[Response, int]:
+    data: dict = None, status: int = 200, message: str = ""
+) -> Tuple[Response, int]:
     """
     Wraps response in a consistent format throughout the API.
     
@@ -61,9 +63,13 @@ def create_response(
     #     raise TypeError("Data is empty 😞")
     # for key in data:
     #     if isinstance(data[key], ObjectId):
-            # data[key] = str(data[key])
+    # data[key] = str(data[key])
     data = JSONEncoder().encode(data)
-    response = {"success": 200 <= status < 300, "message": message, "result": json.loads(data)}
+    response = {
+        "success": 200 <= status < 300,
+        "message": message,
+        "result": json.loads(data),
+    }
     return jsonify(response), status
 
 

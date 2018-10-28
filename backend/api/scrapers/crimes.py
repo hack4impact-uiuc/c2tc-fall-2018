@@ -69,6 +69,7 @@ def pull_data(headers, payload, api_url):
         return_data[record["incident_id"]] = record
     return return_data
 
+
 def crime_scrape():
     payload = {"$where": "incident_datetime > '" + get_datetime(days_of_crime) + "'"}
     headers = {"content-type": "application/json", "X-App-Token": app_token}

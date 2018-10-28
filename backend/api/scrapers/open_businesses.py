@@ -30,6 +30,7 @@ def get_qs_url(url, args):
         i += 1
     return qs_url
 
+
 def business_scrape():
     mined_data = {}  # this dict's keys will be business names, values will be dict
     # containing location, image_url, close hours, open hours
@@ -68,8 +69,8 @@ def business_scrape():
                 print(v)
         payload["offset"] += 50
 
-    #with open("mined_raw_data.txt", "w") as file:
-        #file.write(json.dumps(mined_data))
+    # with open("mined_raw_data.txt", "w") as file:
+    # file.write(json.dumps(mined_data))
 
     t1 = time.time()
     total_time = t1 - t0

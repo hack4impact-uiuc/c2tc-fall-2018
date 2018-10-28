@@ -1,14 +1,17 @@
 import requests
 import json
 import sys
-sys.path.append('../../')
+
+sys.path.append("../../")
 from api.models.BusStop import BusStop
 
 ##TODO: Changes - Only get route number and the hex color
 
-api_keys = ["95b24e883247444095625960a8bbee98",
+api_keys = [
+    "95b24e883247444095625960a8bbee98",
     "901d92ed96ae44c280f3e3c7c48fc300",
-    "80678f088271417aa6d0cdb898aa5624"]
+    "80678f088271417aa6d0cdb898aa5624",
+]
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
 
@@ -52,8 +55,9 @@ def get_stops(payload, url, req_fields):
             return_data[stop_point["stop_id"]] = stop_point_data
     return return_data
 
+
 def save_stop_to_db(stop_dict):
-    '''
+    """
     busStop = BusStop.objects.create(
         stop_id=stop_dict["stop_id"],
         stop_name=stop_dict["stop_name"],
@@ -61,15 +65,16 @@ def save_stop_to_db(stop_dict):
         longitude=stop_dict["longitude"],
         routes=stop_dict["routes"]
     )
-    '''
+    """
     busStop = BusStop.objects.create(
         stop_id="stop1",
         stop_name="transit plaza",
         latitude=100.0,
         longitude=200.0,
-        routes = {}
+        routes={},
     )
     busStop.save()
+
 
 def get_full_stop_info(stop_data, payload, url):
     """
@@ -85,7 +90,7 @@ def get_full_stop_info(stop_data, payload, url):
     for stop_id in list(stop_data.keys()):
         if stop_counter % 800 == 0:
             payload["key"] = api_keys[api_key_counter]
-            if api_key_counter < len(api_keys)-1:
+            if api_key_counter < len(api_keys) - 1:
                 api_key_counter += 1
         payload["stop_id"] = stop_id
         single_stop_routes_raw = requests.get(get_qs_url(url, payload)).json()
@@ -93,8 +98,8 @@ def get_full_stop_info(stop_data, payload, url):
         for stop_route in single_stop_routes_raw["routes"]:
             route_list[stop_route["route_short_name"]] = stop_route["route_text_color"]
         stop_data[stop_id]["routes"] = route_list
-        #print(stop_data[stop_id])
-        #save_stop_to_db(stop_data[stop_id])
+        # print(stop_data[stop_id])
+        # save_stop_to_db(stop_data[stop_id])
         stop_counter += 1  # debugging
         perc_complete = float(stop_counter) / total_stops * 100  # debugging
         print(
@@ -106,9 +111,10 @@ def get_full_stop_info(stop_data, payload, url):
         )  # debugging
     return stop_data
 
+
 def scrape():
     stop_data = get_stops(stops_payload, stops_url, stops_req_fields)
     stop_data = get_full_stop_info(stop_data, routes_payload, routes_url)
     return stop_data
-    #with open("scrapers/bus_data.txt", "w") as file:
-        #file.write(json.dumps(stop_data))
+    # with open("scrapers/bus_data.txt", "w") as file:
+    # file.write(json.dumps(stop_data))

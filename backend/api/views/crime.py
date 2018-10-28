@@ -5,16 +5,18 @@ from api.scrapers.crimes import crime_scrape
 
 crime = Blueprint("crime", __name__)
 
+
 @crime.route("/crimes", methods=["GET"])
 def get_crime():
     """
     GET function for retrieving Crime objects
     """
     response = [crime.to_mongo() for crime in Crime.objects]
-    response = {"crimes" : response}
+    response = {"crimes": response}
     logger.info("CRIMES: %s", response)
-    print (response)
-    return create_response(data = response)
+    print(response)
+    return create_response(data=response)
+
 
 @crime.route("/crimes", methods=["POST"])
 def create_crime():
@@ -32,11 +34,12 @@ def create_crime():
         longitude=200.2,
         hour_of_day=23,
         day_of_week="Monday",
-        parent_incident_type="Disturbing the peace"
+        parent_incident_type="Disturbing the peace",
     )
     crime.save()
 
     return create_response(message="success!")
+
 
 @crime.route("/scrape_crimes", methods=["POST"])
 def scrape_crimes():
@@ -44,6 +47,7 @@ def scrape_crimes():
     for crime_id in crime_data.keys():
         save_crime_to_db(crime_data[crime_id])
     return create_response(message="success!")
+
 
 def save_crime_to_db(crime_dict):
     crime = Crime.objects.create(
@@ -57,6 +61,6 @@ def save_crime_to_db(crime_dict):
         longitude=float(crime_dict.get("longitude")),
         hour_of_day=crime_dict.get("hour_of_day"),
         day_of_week=crime_dict.get("day_of_week"),
-        parent_incident_type=crime_dict.get("parent_incident_type")
+        parent_incident_type=crime_dict.get("parent_incident_type"),
     )
     crime.save()
