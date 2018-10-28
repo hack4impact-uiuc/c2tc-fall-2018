@@ -7,24 +7,32 @@ from api.scrapers.open_businesses import business_scrape
 
 business = Blueprint("business", __name__)
 
-'''
+
 @business.route("/open_businesses", methods=["GET"])
 def open_businesses():
-    ''
+    '''
     Querystring args:   time= #### (time as 4 digit 24hr time, eg. 1430 = 2:30pm)
                         day = # (integer 0-6, where 0 is Monday)
-    ''
+    '''
     data = Business.objects()
     time = int(request.args.get("time"))
     day = int(request.args.get("day"))
     open_businesses = []
     for b in data:
-        if int(b.open_hours[day].start) <= time && b.open_hours[day].end >= time:
+        curr_day = get_open_business_day(b, day)
+        if int(curr_day.start) <= time and int(curr_day.end) >= time:
             #open
             open_businesses.append(b)
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
-'''
+
+def get_open_business_day(business, day):
+    if len(business.open_hours) == 0:
+        return None
+    for open_day in business.open_hours:
+        if open_day.get("day") != None and int(open_day.get("day")) == day:
+            return open_day
+    return None
 
 @business.route("/businesses", methods=["GET"])
 def get_business():
