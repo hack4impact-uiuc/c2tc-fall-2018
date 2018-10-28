@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from api.models.Business import Business
 from api.models.Location import Location
 from api.models.OpenHours import OpenHours
@@ -30,7 +30,7 @@ def get_open_business_day(business, day):
     if len(business.open_hours) == 0:
         return None
     for open_day in business.open_hours:
-        if open_day.get("day") != None and int(open_day.get("day")) == day:
+        if open_day.day == day:
             return open_day
     return None
 
