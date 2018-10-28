@@ -36,9 +36,9 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 def create_response(
-    data: dict = None, status: int = 200, message: str = ""
-) -> Tuple[Response, int]:
-    """Wraps response in a consistent format throughout the API.
+    data: dict = None, status: int = 200, message: str = "") -> Tuple[Response, int]:
+    """
+    Wraps response in a consistent format throughout the API.
     
     Format inspired by https://medium.com/@shazow/how-i-design-json-api-responses-71900f00f2db
     Modifications included:
@@ -54,15 +54,16 @@ def create_response(
     :param message <str> optional message
     :returns tuple of Flask Response and int
     """
+
     if type(data) is not dict and data is not None:
         raise TypeError("Data should be a dictionary 😞")
     # if data is None:
     #     raise TypeError("Data is empty 😞")
     # for key in data:
     #     if isinstance(data[key], ObjectId):
-    #         data[key] = str(data[key])
+            # data[key] = str(data[key])
     data = JSONEncoder().encode(data)
-    response = {"success": 200 <= status < 300, "message": message, "result": data}
+    response = {"success": 200 <= status < 300, "message": message, "result": json.loads(data)}
     return jsonify(response), status
 
 

@@ -13,6 +13,7 @@ def get_crime():
     response = [crime.to_mongo() for crime in Crime.objects]
     response = {"crimes" : response}
     logger.info("CRIMES: %s", response)
+    print (response)
     return create_response(data = response)
 
 @crime.route("/crimes", methods=["POST"])
