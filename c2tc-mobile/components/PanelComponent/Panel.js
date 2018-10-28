@@ -1,10 +1,6 @@
 import React from "react";
 
-import {
-  View,
-  Dimensions,
-  Animated
-} from "react-native";
+import { View, Dimensions, Animated } from "react-native";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
@@ -82,6 +78,6 @@ const styles = {
     flex: 1,
     backgroundColor: "white",
     position: "relative",
-    opacity: 0.7,
+    opacity: 0.7
   }
 };
