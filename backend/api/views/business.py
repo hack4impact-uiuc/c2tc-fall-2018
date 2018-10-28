@@ -65,12 +65,23 @@ def scrape_businesses():
     return create_response(message="success!")
 
 def save_business_to_db(business_dict):
+    location = Location(city=business_dict["location"].get("city"),
+                        country=business_dict["location"].get("country"),
+                        address1=business_dict["location"].get("address1"),
+                        state=business_dict["location"].get("state"),
+                        zip_code=business_dict["location"].get("zip_code"))
+    hours_data = business_dict["hours"][0]["open"]
+    open_hours = []
+    for hours in hours_data:
+        new_hours = OpenHours(start=hours["start"], end=hours["end"], is_overnight=hours["is_overnight"], day=hours["day"])
+        open_hours.append(new_hours)
+
     business = Business.objects.create(
         name=business_dict.get("name"),
         yelp_id=business_dict.get("yelp_id"),
         image_url=business_dict.get("image_url"),
         display_phone=business_dict.get("display_hours"),
-        location=business_dict.get("location"),
-        open_hours=business_dict.get("open_hours")
+        location=location,
+        open_hours=open_hours
     )
     business.save()
