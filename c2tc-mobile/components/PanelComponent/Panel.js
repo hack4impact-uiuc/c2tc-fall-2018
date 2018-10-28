@@ -1,11 +1,8 @@
 import React from "react";
 
 import {
-  AppRegistry,
-  Text,
   View,
   Dimensions,
-  Image,
   Animated
 } from "react-native";
 
@@ -85,6 +82,6 @@ const styles = {
     flex: 1,
     backgroundColor: "white",
     position: "relative",
-    opacity: 0.7
+    opacity: 0.7,
   }
 };

@@ -3,7 +3,7 @@ import { Button, StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Panel from "../components/PanelComponent/Panel";
-
+import Tab from "../components/Tab";
 import PhoneButton from "../components/PhoneButton";
 
 const { width, height } = Dimensions.get("window");
@@ -115,6 +115,7 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
+        <Tab />
       </View>
     );
   }
