@@ -70,11 +70,14 @@ def save_business_to_db(business_dict):
                         address1=business_dict["location"].get("address1"),
                         state=business_dict["location"].get("state"),
                         zip_code=business_dict["location"].get("zip_code"))
-    hours_data = business_dict["hours"][0]["open"]
     open_hours = []
-    for hours in hours_data:
-        new_hours = OpenHours(start=hours["start"], end=hours["end"], is_overnight=hours["is_overnight"], day=hours["day"])
-        open_hours.append(new_hours)
+    hours_struct = business_dict.get("hours")
+    if hours_struct != None:
+        hours_data = hours_struct[0].get("open")
+        if hours_data != None:
+            for hours in hours_data:
+                new_hours = OpenHours(start=hours["start"], end=hours["end"], is_overnight=hours["is_overnight"], day=hours["day"])
+                open_hours.append(new_hours)
 
     business = Business.objects.create(
         name=business_dict.get("name"),
