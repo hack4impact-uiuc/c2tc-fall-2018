@@ -18,7 +18,7 @@ export default class PhoneButton extends React.Component {
     return this.state.type;
   }
 
-  _onPressCall() {
+  _onPressCall = () =>{
     const args = {
       number: this.state.number,
       prompt: false
@@ -31,7 +31,7 @@ export default class PhoneButton extends React.Component {
       <Icon.Button
         name="phone"
         backgroundColor={buttonColor}
-        onPress={this._onPressCall.bind(this)}
+        onPress={this._onPressCall()}
       >
         {this.getType()}
       </Icon.Button>
