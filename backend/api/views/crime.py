@@ -33,5 +33,9 @@ def create_crime():
         parent_incident_type="Disturbing the peace"
     )
     crime.save()
-    
+
     return create_response(message="success!")
+
+@crime.route("/scrape_crimes", methods=["POST"])
+def scrape_crimes():
+    crime_data = 
