@@ -2,6 +2,7 @@ import React from "react";
 import { Button, StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
+import Panel from "../components/PanelComponent/Panel";
 
 import PhoneButton from "../components/PhoneButton";
 
@@ -13,9 +14,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const policeLocations = require("../assets/data/police_locations.json");
 const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
+const layerKey = ["police", "light", "construction"];
 const policeColor = "#841584";
-let id = 0;
 
+let id = 0;
 let renderLayers = true;
 
 function randomColor() {
@@ -44,6 +46,7 @@ class LiveLocation extends React.Component {
       };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+
     for (var index in layerData) {
       this.renderMarkers(layerData[index], randomColor());
     }
@@ -112,6 +115,7 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         {/* <PhoneButton type="Call Neeraj" ref="button" number="6509069888" /> */}
+        <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
   }
