@@ -114,7 +114,6 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        {/* <PhoneButton type="Call Neeraj" ref="button" number="6509069888" /> */}
         <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
