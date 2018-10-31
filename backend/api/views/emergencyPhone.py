@@ -40,12 +40,12 @@ def scrape_phones():
     """
     try:
         data = get_phones()
-        delete_phone_collection()
         for phone in data:
             save_phone_to_db(phone)
         return create_response(status=200, message="success!")
     except Exception as e:
         return create_response(status=500, message="Exception raised: " + repr(e))
+
 
 def save_phone_to_db(phone_dict):
     """
@@ -58,22 +58,3 @@ def save_phone_to_db(phone_dict):
         longitude=phone_dict.get("longitude"),
     )
     emergencyPhone.save()
-
-@emergencyPhone.route("/clear_phones", methods=["DELETE"])
-def clear_phones():
-    """
-    DELETE method which wraps the clear emergency phones collection function as
-    an API endpoint.
-    """
-    try:
-        result = delete_phone_collection()
-        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
-    except Exception as e:
-        return create_response(status=500, message="Could not clear collection: " + repr(e))
-
-def delete_phone_collection():
-    """
-    Helper function to delete phone collection in db.
-    """
-    result = EmergencyPhone.delete_many({})
-    return result
