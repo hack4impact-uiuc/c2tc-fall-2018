@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Panel from "../components/PanelComponent/Panel";
@@ -14,15 +14,11 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const policeLocations = require("../assets/data/police_locations.json");
 const lightLocations = require("../assets/data/light_locations.json");
 
-const layerData = {"police": policeLocations, "lights": lightLocations};
-const renderData = {"police": true, lights: false};
-const colorData = {"police": "#841584", lights: "#000000"};
+const layerData = { police: policeLocations, lights: lightLocations };
+const colorData = { police: "#841584", lights: "#000000" };
 
+let renderData = { police: true, lights: false };
 let id = 0;
-
-function randomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
 
 class LiveLocation extends React.Component {
   constructor(props) {
@@ -47,7 +43,7 @@ class LiveLocation extends React.Component {
       this.onRegionChange(region, region.latitude, region.longitude);
     });
 
-     for (var index in layerData) {
+    for (var index in layerData) {
       this.renderMarkers(layerData[index], colorData[index]);
     }
   }
@@ -82,11 +78,12 @@ class LiveLocation extends React.Component {
     });
   }
 
-  _onPressToggleLayers = (layer) => {
+  _onPressToggleLayers = layer => {
     if (renderData[layer]) {
-      var list = this.state.markers.filter(marker => marker["color"] !== colorData[layer]);
       this.setState({
-        markers: list
+        markers: this.state.markers.filter(
+          marker => marker["color"] !== colorData[layer]
+        )
       });
       renderData[layer] = false;
     } else {
