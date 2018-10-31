@@ -26,3 +26,125 @@
 
 |   streetlight_id  |   latitude  |   longitude  |
 |:-:|:-:|:-:|
+
+## Endpoints Documentation
+
+### Endpoint
+
+    GET /open_businesses
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    GET /businesses
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /businesses
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /scrape_businesses
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    GET /busStops
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /busStops
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /scrape_stops
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    GET /crimes
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /crimes
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /scrape_crimes
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    GET /emergencyPhones
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /emergencyPhones
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /scrape_phones
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    GET /streetlights
+
+**Description**
+
+**Response**
+
+### Endpoint
+
+    POST /streetlights
+
+**Description**
+
+**Response**
