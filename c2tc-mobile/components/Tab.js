@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 import Tabs from "react-native-tabs";
 
@@ -9,27 +9,31 @@ export default class Tab extends Component {
     this.state = { page: "filter" };
   }
 
-  getState() {
+  getPage() {
     return this.state.page;
+  }
+
+  _onSelect = (tab) => {
+    this.setState({ page: tab.props.name })
   }
 
   render() {
     return (
       <Tabs
         selected={this.state.page}
-        style={{ backgroundColor: "white", opacity: 0.5 }}
+        style={styles.background}
         selectedStyle={{ color: "purple" }}
-        onSelect={el => this.setState({ page: el.props.name })}
+        onSelect={tab => this._onSelect(tab)}
       >
         <Text
           name="filter"
-          selectedIconStyle={{ borderTopWidth: 2, borderTopColor: "purple" }}
+          selectedIconStyle={styles.tab}
         >
           Filters
         </Text>
         <Text
           name="contact"
-          selectedIconStyle={{ borderTopWidth: 2, borderTopColor: "purple" }}
+          selectedIconStyle={styles.tab}
         >
           Contacts
         </Text>
@@ -37,3 +41,14 @@ export default class Tab extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  background: {
+    backgroundColor: "white",
+    opacity: 0.5
+  },
+  tab: {
+    borderTopWidth: 2,
+    borderTopColor: "purple"
+  }
+});
