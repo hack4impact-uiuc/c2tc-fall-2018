@@ -8,6 +8,11 @@ export default class Tab extends Component {
     super(props);
     this.state = { page: "filter" };
   }
+
+  getState() {
+    return this.state.page;
+  }
+
   render() {
     return (
       <Tabs

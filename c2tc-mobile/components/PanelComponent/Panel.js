@@ -65,8 +65,8 @@ export default class Panel extends React.Component {
         onDrag={this.setDrag}
       >
         <View style={styles.panel}>
-          <ButtonInterface type="Police" ref="button" parentPanel={this} />
-          <ButtonInterface type="Lights" ref="button" parentPanel={this} />
+          <ButtonInterface type="police" ref="button" parentPanel={this} />
+          <ButtonInterface type="lights" ref="button" parentPanel={this} />
         </View>
       </SlidingUpPanel>
     );

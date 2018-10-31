@@ -16,7 +16,7 @@ export default class ButtonInterace extends React.Component {
 
   updateLayer = () => {
     this.props.parentPanel.updateLayerList(this.getType());
-    this.props.parentPanel.props.toggleLayers();
+    this.props.parentPanel.props.toggleLayers(this.props.type);
   };
 
   render() {
