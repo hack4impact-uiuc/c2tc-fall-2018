@@ -10,9 +10,10 @@ def get_streetlight():
     GET function for retrieving Streetlight objects
     """
     response = [streetlight.to_mongo() for streetlight in Streetlight.objects]
-    response = {"streetlights" : response}
+    response = {"streetlights": response}
     logger.info("STREETLIGHTS: %s", response)
-    return create_response(data = response)
+    return create_response(data=response)
+
 
 @streetlight.route("/streetlights", methods=["POST"])
 def create_streetlight():
@@ -20,10 +21,8 @@ def create_streetlight():
     POST function for posting a hard-coded Streetlight object for testing purposes
     """
     streetlight = Streetlight.objects.create(
-        streetlight_id=0,
-        latitude=200.2,
-        longitude=300.3
+        streetlight_id=0, latitude=200.2, longitude=300.3
     )
     streetlight.save()
-    
+
     return create_response(message="success!")
