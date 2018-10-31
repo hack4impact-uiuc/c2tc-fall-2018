@@ -13,9 +13,9 @@ export default class Tab extends Component {
     return this.state.page;
   }
 
-  _onSelect = (tab) => {
-    this.setState({ page: tab.props.name })
-  }
+  _onSelect = tab => {
+    this.setState({ page: tab.props.name });
+  };
 
   render() {
     return (
@@ -25,16 +25,10 @@ export default class Tab extends Component {
         selectedStyle={{ color: "purple" }}
         onSelect={tab => this._onSelect(tab)}
       >
-        <Text
-          name="filter"
-          selectedIconStyle={styles.tab}
-        >
+        <Text name="filter" selectedIconStyle={styles.tab}>
           Filters
         </Text>
-        <Text
-          name="contact"
-          selectedIconStyle={styles.tab}
-        >
+        <Text name="contact" selectedIconStyle={styles.tab}>
           Contacts
         </Text>
       </Tabs>
