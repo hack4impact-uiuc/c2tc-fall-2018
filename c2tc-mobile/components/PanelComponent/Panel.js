@@ -31,6 +31,26 @@ export default class Panel extends React.Component {
     };
   }
 
+  componentDidMount() {
+      return fetch('https://backend-xnbrzeooeu.now.sh/busStops')
+          .then((event) => {
+            console.log(event);
+           })
+          // event.json())
+          // .then((eventJson) => {
+          //     console.log(eventJson);
+          //     this.setState({
+          //         isLoading: false,
+          //         dataSource: eventJson,
+          //     }, function(){
+
+          //     });
+          // })
+          .catch((error) => {
+              console.error(error);
+          });
+  }
+
   getLayerTypes() {
     var list = this.state.toggleLayerList;
     return list;
