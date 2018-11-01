@@ -32,23 +32,25 @@ export default class Panel extends React.Component {
   }
 
   componentDidMount() {
-      return fetch('https://backend-xnbrzeooeu.now.sh/busStops')
-          .then((event) => {
-            console.log(event);
-           })
-          // event.json())
-          // .then((eventJson) => {
-          //     console.log(eventJson);
-          //     this.setState({
-          //         isLoading: false,
-          //         dataSource: eventJson,
-          //     }, function(){
+    return (
+      fetch("https://backend-xnbrzeooeu.now.sh/busStops")
+        .then(event => {
+          console.log(event);
+        })
+        // event.json())
+        // .then((eventJson) => {
+        //     console.log(eventJson);
+        //     this.setState({
+        //         isLoading: false,
+        //         dataSource: eventJson,
+        //     }, function(){
 
-          //     });
-          // })
-          .catch((error) => {
-              console.error(error);
-          });
+        //     });
+        // })
+        .catch(error => {
+          console.error(error);
+        })
+    );
   }
 
   getLayerTypes() {
