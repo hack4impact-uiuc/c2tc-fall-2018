@@ -40,17 +40,17 @@ async function getEmergencyPhones() {
   }
 }
 
-/*
-  This function is commented because the backend data is not available yet.
-*/
-// async function getStreetLight() {
-//   try {
-//     let response = await fetch("https://backend-xnbrzeooeu.now.sh/streetLight");
-//     let responseJson = await response.json();
-//     console.log(responseJson.result.streetLight);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
+//This function is commented because the backend data is not available yet.
 
+/*
+async function getStreetLight() {
+  try {
+    let response = await fetch("https://backend-xnbrzeooeu.now.sh/streetLight");
+    let responseJson = await response.json();
+    console.log(responseJson.result.streetLight);
+  } catch (error) {
+    console.error(error);
+  }
+}
+*/
 export { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };

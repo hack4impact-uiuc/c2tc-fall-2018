@@ -12,7 +12,7 @@ import {
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 
-import API from "../DataFetcher";
+import API from "../API";
 
 const { height } = Dimensions.get("window");
 
