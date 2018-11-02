@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
+import PhoneButton from "./PhoneButtonInterface";
 import Tabs from "react-native-tabs";
 
 const { height } = Dimensions.get("window");
@@ -59,11 +60,32 @@ export default class Panel extends Component {
     return this.state.page;
   }
 
+  renderButton = () => {
+    if (this.state.page === "filter") {
+      return (
+        <View style={styles.panel}>
+          <ButtonInterface type="police" ref="button" parentPanel={this} />
+          <ButtonInterface type="lights" ref="button" parentPanel={this} />
+        </View>
+      )
+    }
+    return (
+      <View style={styles.panel}>
+        <PhoneButton
+       type="Call Neeraj"
+       ref="button"
+       number="6509069888"
+       />
+      </View>
+    )
+  }
+
   _onSelect = tab => {
     this.setState({ page: tab.props.name });
   };
 
   render() {
+    let filter = this.state.page === "filter";
     return (
       <React.Fragment>
         <SlidingUpPanel
@@ -74,10 +96,20 @@ export default class Panel extends Component {
           draggableRange={this.props.draggableRange}
           onDrag={this.setDrag}
         >
+          {filter ? (
           <View style={styles.panel}>
             <ButtonInterface type="police" ref="button" parentPanel={this} />
             <ButtonInterface type="lights" ref="button" parentPanel={this} />
           </View>
+      ) : (
+        <View style={styles.panel}>
+            <PhoneButton
+          type="Call Neeraj"
+          ref="button"
+          number="6509069888"
+          />
+          </View>
+      )}
         </SlidingUpPanel>
         <Tabs
           selected={this.state.page}

@@ -4,14 +4,10 @@ import { Button } from "react-native";
 export default class ButtonInterace extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      type: this.props.type
-    };
   }
 
   getType() {
-    return this.state.type;
+    return this.props.type;
   }
 
   updateLayer = () => {

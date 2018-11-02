@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button, StyleSheet } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import call from "react-native-phone-call";
@@ -8,20 +9,15 @@ const buttonColor = "#424242";
 export default class PhoneButton extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      type: this.props.type,
-      number: this.props.number
-    };
   }
 
   getType() {
-    return this.state.type;
+    return this.props.type;
   }
 
   _onPressCall = () => {
-    const args = {
-      number: this.state.number,
+       const args = {
+      number: this.props.number,
       prompt: false
     };
     call(args).catch(console.error);
@@ -29,13 +25,18 @@ export default class PhoneButton extends Component {
 
   render() {
     return (
-      <Icon.Button
-        name="phone"
-        backgroundColor={buttonColor}
-        onPress={this._onPressCall()}
-      >
-        {this.getType()}
-      </Icon.Button>
+      <Button
+      onPress={this._onPressCall}
+      title={this.props.type}
+      color={"red"}
+    />
     );
   }
 }
+
+const styles = StyleSheet.create({
+  background: {
+    color: "yellow",
+    opacity: 1
+  },
+});
