@@ -3,6 +3,7 @@ import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
+import API from "../components/API";
 
 const { width, height } = Dimensions.get("window");
 

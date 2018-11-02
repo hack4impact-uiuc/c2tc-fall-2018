@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 
+import API from "../API";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 import PhoneButton from "./PhoneButtonInterface";
@@ -24,6 +25,10 @@ export default class Panel extends Component {
       toggleLayerList: [],
       page: "filter"
     };
+  }
+
+  async componentDidMount() {
+    console.log(API);
   }
 
   getLayerTypes() {
