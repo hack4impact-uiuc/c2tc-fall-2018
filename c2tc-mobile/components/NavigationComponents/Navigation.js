@@ -84,9 +84,14 @@ export default class Panel extends Component {
           ) : (
             <View style={styles.panel}>
               <PhoneButton
-                type="Call Neeraj"
+                type="Call SafeRides"
                 ref="button"
-                number="6509069888"
+                number="2172657433"
+              />
+              <PhoneButton
+                type="Call SafeWalks"
+                ref="button"
+                number="2173331216"
               />
             </View>
           )}

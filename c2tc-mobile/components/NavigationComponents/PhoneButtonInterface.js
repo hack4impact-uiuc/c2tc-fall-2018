@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Button, StyleSheet } from "react-native";
+import { Button } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import call from "react-native-phone-call";
-
-const buttonColor = "#424242";
 
 export default class PhoneButton extends Component {
   constructor(props) {
