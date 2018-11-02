@@ -37,6 +37,66 @@
 
 **Response**
 
+    {
+        "message": "",
+        "result": {
+            "businesses": [
+                {
+                    "_id": "5bd63a71ed396d1d5b198f8b",
+                    "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/5tn-zU6PGPvbZoXnPi4Ahw/o.jpg",
+                    "location": {
+                        "address1": "1209 W Oregon St",
+                        "city": "Urbana",
+                        "country": "US",
+                        "state": "IL",
+                        "zip_code": "61801"
+                    },
+                    "name": "The Red Herring Vegetarian Restaurant",
+                    "open_hours": [
+                        {
+                            "day": 0,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        },
+                        {
+                            "day": 1,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        },
+                        {
+                            "day": 2,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        },
+                        {
+                            "day": 2,
+                            "end": "2000",
+                            "is_overnight": false,
+                            "start": "1700"
+                        },
+                        {
+                            "day": 3,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        },
+                        {
+                            "day": 4,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        }
+                    ],
+                    "yelp_id": "kKCwp86xU9XKRnAALQDhrw"
+                }
+            ]
+        },
+        "success": true
+    }
+
 ### Endpoint
 
     GET /businesses
