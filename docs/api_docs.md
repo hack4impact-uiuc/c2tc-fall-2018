@@ -38,7 +38,7 @@
 **Response**
 
     {
-        "message": "",
+        "message": "Success",
         "result": {
             "businesses": [
                 {
@@ -58,36 +58,6 @@
                             "end": "1430",
                             "is_overnight": false,
                             "start": "1100"
-                        },
-                        {
-                            "day": 1,
-                            "end": "1430",
-                            "is_overnight": false,
-                            "start": "1100"
-                        },
-                        {
-                            "day": 2,
-                            "end": "1430",
-                            "is_overnight": false,
-                            "start": "1100"
-                        },
-                        {
-                            "day": 2,
-                            "end": "2000",
-                            "is_overnight": false,
-                            "start": "1700"
-                        },
-                        {
-                            "day": 3,
-                            "end": "1430",
-                            "is_overnight": false,
-                            "start": "1100"
-                        },
-                        {
-                            "day": 4,
-                            "end": "1430",
-                            "is_overnight": false,
-                            "start": "1100"
                         }
                     ],
                     "yelp_id": "kKCwp86xU9XKRnAALQDhrw"
@@ -104,6 +74,36 @@
 **Description**
 
 **Response**
+
+    {
+        "message": "Success",
+        "result": {
+            "businesses": [
+                {
+                    "_id": "5bd63a71ed396d1d5b198f8b",
+                    "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/5tn-zU6PGPvbZoXnPi4Ahw/o.jpg",
+                    "location": {
+                        "address1": "1209 W Oregon St",
+                        "city": "Urbana",
+                        "country": "US",
+                        "state": "IL",
+                        "zip_code": "61801"
+                    },
+                    "name": "The Red Herring Vegetarian Restaurant",
+                    "open_hours": [
+                        {
+                            "day": 0,
+                            "end": "1430",
+                            "is_overnight": false,
+                            "start": "1100"
+                        }
+                    ],
+                    "yelp_id": "kKCwp86xU9XKRnAALQDhrw"
+                }
+            ]
+        },
+        "success": true
+    }
 
 ### Endpoint
 
@@ -129,6 +129,25 @@
 
 **Response**
 
+    {
+        "message": "Success",
+        "result": {
+            "busStops": [
+                {
+                    "_id": "5bd64156ed396d1ee50955c3",
+                    "latitude": 40.114512,
+                    "longitude": -88.180673,
+                    "routes": {
+                        "6": "000000"
+                    },
+                    "stop_id": "150DALE:1",
+                    "stop_name": "U.S. 150 & Dale (NE Corner)"
+                }
+            ]
+        },
+        "success": true
+    }
+
 ### Endpoint
 
     POST /busStops
@@ -152,6 +171,30 @@
 **Description**
 
 **Response**
+
+    {
+        "message": "",
+        "result": {
+            "crimes": [
+                {
+                    "_id": "5bc916d53d336f0592ef45fa",
+                    "address_1": "Outside Shreyas's apartment",
+                    "city": "Champaign",
+                    "day_of_week": "Monday",
+                    "hour_of_day": 23,
+                    "incident_datetime": "10/18/2018, 18:27:09",
+                    "incident_description": "Self explanatory",
+                    "incident_id": "1",
+                    "incident_type_primary": "Peeing in public",
+                    "latitude": 100.1,
+                    "longitude": 200.2,
+                    "parent_incident_type": "Disturbing the peace",
+                    "state": "IL"
+                }
+            ]
+        },
+        "success": true
+    }
 
 ### Endpoint
 
@@ -177,6 +220,21 @@
 
 **Response**
 
+    {
+        "message": "",
+        "result": {
+            "emergencyPhones": [
+                {
+                    "_id": "5bd634afed396d1a9001053c",
+                    "emergencyPhone_id": 0,
+                    "latitude": 40.0957696644812,
+                    "longitude": -88.2405983758263
+                }
+            ]
+        },
+        "success": true
+    }
+
 ### Endpoint
 
     POST /emergencyPhones
@@ -200,6 +258,21 @@
 **Description**
 
 **Response**
+
+    {
+        "message": "",
+        "result": {
+            "streetlights": [
+                {
+                    "_id": "5bd280ab3d336f02d2b06a18",
+                    "latitude": 200.2,
+                    "longitude": 300.3,
+                    "streetlight_id": 0
+                }
+            ]
+        },
+        "success": true
+    }
 
 ### Endpoint
 
