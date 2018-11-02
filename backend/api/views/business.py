@@ -144,8 +144,8 @@ def clear_businesses():
     an API endpoint.
     """
     try:
-        result = delete_business_collection()
-        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+        count = delete_business_collection()
+        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
     except Exception as e:
         return create_response(status=500, message="Could not clear collection: " + repr(e))
 
@@ -153,5 +153,6 @@ def delete_business_collection():
     """
     Helper function to delete phone collection in db.
     """
-    result = Business.delete_many({})
-    return result
+    count = len(Business.objects())
+    [business.delete() for business in Business.objects()]
+    return count
