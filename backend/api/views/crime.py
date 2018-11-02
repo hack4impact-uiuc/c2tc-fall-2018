@@ -49,6 +49,7 @@ def scrape_crimes():
     """
     try:
         crime_data = crime_scrape()
+        delete_crime_collection()
         for crime_id in crime_data.keys():
             save_crime_to_db(crime_data[crime_id])
         return create_response(status=200, message="success!")
@@ -66,16 +67,35 @@ def save_crime_to_db(crime_dict):
     an actual mongoDB object.
     """
     crime = Crime.objects.create(
-        incident_id=crime_dict.get("incident_id"),
-        incident_type_primary=crime_dict.get("incident_type_primary"),
-        incident_description=crime_dict.get("incident_description"),
-        address_1=crime_dict.get("address_1"),
-        city=crime_dict.get("city"),
-        state=crime_dict.get("state"),
-        latitude=float(crime_dict.get("latitude")),
-        longitude=float(crime_dict.get("longitude")),
-        hour_of_day=crime_dict.get("hour_of_day"),
-        day_of_week=crime_dict.get("day_of_week"),
-        parent_incident_type=crime_dict.get("parent_incident_type"),
+    incident_id=crime_dict.get("incident_id"),
+    incident_type_primary=crime_dict.get("incident_type_primary"),
+    incident_description=crime_dict.get("incident_description"),
+    address_1=crime_dict.get("address_1"),
+    city=crime_dict.get("city"),
+    state=crime_dict.get("state"),
+    latitude=float(crime_dict.get("latitude")),
+    longitude=float(crime_dict.get("longitude")),
+    hour_of_day=crime_dict.get("hour_of_day"),
+    day_of_week=crime_dict.get("day_of_week"),
+    parent_incident_type=crime_dict.get("parent_incident_type"),
     )
     crime.save()
+
+@crime.route("/clear_crimes", methods=["DELETE"])
+def clear_crimes():
+    """
+    DELETE method which wraps the clear crimes collection function as
+    an API endpoint.
+    """
+    try:
+        result = delete_crime_collection()
+        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+    except Exception as e:
+        return create_response(status=500, message="Could not clear collection: " + repr(e))
+
+def delete_crime_collection():
+    """
+    Helper function to delete crime collection in db.
+    """
+    result = Crime.delete_many({})
+    return result

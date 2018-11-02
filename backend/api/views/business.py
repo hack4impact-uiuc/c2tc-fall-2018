@@ -89,6 +89,7 @@ def scrape_businesses():
     """
     try:
         data = business_scrape()
+        delete_business_collection()
         for business_id in data.keys():
             save_business_to_db(data[business_id])
         return create_response(status=200, message="success!")
@@ -135,3 +136,22 @@ def save_business_to_db(business_dict):
         open_hours=open_hours,
     )
     business.save()
+
+@business.route("/clear_businesses", methods=["DELETE"])
+def clear_businesses():
+    """
+    DELETE method which wraps the delete business collection function as
+    an API endpoint.
+    """
+    try:
+        result = delete_business_collection()
+        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+    except Exception as e:
+        return create_response(status=500, message="Could not clear collection: " + repr(e))
+
+def delete_business_collection():
+    """
+    Helper function to delete phone collection in db.
+    """
+    result = Business.delete_many({})
+    return result

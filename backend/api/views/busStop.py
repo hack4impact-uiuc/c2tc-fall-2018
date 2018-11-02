@@ -45,6 +45,7 @@ def scrape_stops():
     """
     try:
         stop_data = scrape()
+        delete_stop_collection()
         for stop_id in stop_data.keys():
             save_stop_to_db(stop_data[stop_id])
         return create_response(status=200, message="success!")
@@ -69,3 +70,22 @@ def save_stop_to_db(stop_dict):
         routes=stop_dict.get("routes"),
     )
     busStop.save()
+
+@busStop.route("/clear_stops", methods=["DELETE"])
+def clear_stops():
+    """
+    DELETE method which wraps the delete stops collection function as
+    an API endpoint.
+    """
+    try:
+        result = delete_stop_collection()
+        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+    except Exception as e:
+        return create_response(status=500, message="Could not clear collection: " + repr(e))
+
+def delete_stop_collection():
+    """
+    Helper function to delete stop collection in db.
+    """
+    result = BusStop.delete_many({})
+    return result
