@@ -6,6 +6,8 @@ import requests
 
 busStop = Blueprint("busStop", __name__)
 
+# TODO: change busStop to bus-stop in urls
+
 
 @busStop.route("/bus-stops", methods=["GET"])
 def get_busStop():
