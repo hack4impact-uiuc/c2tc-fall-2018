@@ -79,8 +79,8 @@ def clear_stops():
     an API endpoint.
     """
     try:
-        result = delete_stop_collection()
-        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+        count = delete_stop_collection()
+        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
     except Exception as e:
         return create_response(status=500, message="Could not clear collection: " + repr(e))
 
@@ -89,5 +89,6 @@ def delete_stop_collection():
     """
     Helper function to delete stop collection in db.
     """
-    result = BusStop.delete_many({})
-    return result
+    count = len(BusStop.objects())
+    [stop.delete() for stop in BusStop.objects()]
+    return count

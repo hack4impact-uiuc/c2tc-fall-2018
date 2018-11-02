@@ -88,8 +88,8 @@ def clear_crimes():
     an API endpoint.
     """
     try:
-        result = delete_crime_collection()
-        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+        count = delete_crime_collection()
+        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
     except Exception as e:
         return create_response(status=500, message="Could not clear collection: " + repr(e))
 
@@ -97,5 +97,6 @@ def delete_crime_collection():
     """
     Helper function to delete crime collection in db.
     """
-    result = Crime.delete_many({})
-    return result
+    count = len(Crime.objects())
+    [crime.delete() for crime in Crime.objects()]
+    return count

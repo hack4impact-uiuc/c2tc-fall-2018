@@ -66,8 +66,8 @@ def clear_phones():
     an API endpoint.
     """
     try:
-        result = delete_phone_collection()
-        return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
+        count = delete_phone_collection()
+        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
     except Exception as e:
         return create_response(status=500, message="Could not clear collection: " + repr(e))
 
@@ -75,5 +75,6 @@ def delete_phone_collection():
     """
     Helper function to delete phone collection in db.
     """
-    result = EmergencyPhone.delete_many({})
-    return result
+    count = len(EmergencyPhone.objects())
+    [phone.delete() for phone in EmergencyPhone.objects()]
+    return count
