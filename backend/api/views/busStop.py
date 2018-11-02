@@ -6,8 +6,6 @@ import requests
 
 busStop = Blueprint("busStop", __name__)
 
-# TODO: change busStop to bus-stop in urls
-
 
 @busStop.route("/bus-stops", methods=["GET"])
 def get_busStop():
@@ -65,9 +63,13 @@ def clear_stops():
     """
     try:
         count = delete_stop_collection()
-        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
     except Exception as e:
-        return create_response(status=500, message="Could not clear collection: " + repr(e))
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
 
 
 def delete_stop_collection():

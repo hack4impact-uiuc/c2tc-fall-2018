@@ -18,8 +18,8 @@ def open_businesses():
     querystring.
     """
     data = Business.objects()
-    time = int(request.args.get("time",default=-1))
-    day = int(request.args.get("day",default=-1))
+    time = int(request.args.get("time", default=-1))
+    day = int(request.args.get("day", default=-1))
     if time == -1 or day == -1:
         return get_business()
     open_businesses = []
@@ -55,7 +55,9 @@ def get_business():
     response = [business.to_mongo() for business in Business.objects]
     response = {"businesses": response}
     logger.info("BUSINESSES: %s", response)
-    return create_response(data=response, status=200, message="Returning all businesses.")
+    return create_response(
+        data=response, status=200, message="Returning all businesses."
+    )
 
 
 @business.route("/businesses", methods=["POST"])
@@ -115,6 +117,7 @@ def save_business_to_db(business_dict):
     )
     business.save()
 
+
 @business.route("/businesses", methods=["DELETE"])
 def clear_businesses():
     """
@@ -123,9 +126,14 @@ def clear_businesses():
     """
     try:
         count = delete_business_collection()
-        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
     except Exception as e:
-        return create_response(status=500, message="Could not clear collection: " + repr(e))
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
 
 def delete_business_collection():
     """

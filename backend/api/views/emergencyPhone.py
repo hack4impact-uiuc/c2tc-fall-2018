@@ -34,6 +34,7 @@ def scrape_phones():
     except Exception as e:
         return create_response(status=500, message="Exception raised: " + repr(e))
 
+
 def save_phone_to_db(phone_dict):
     """
     Helper function to save python dict object representing an emergency phone
@@ -46,6 +47,7 @@ def save_phone_to_db(phone_dict):
     )
     emergencyPhone.save()
 
+
 @emergencyPhone.route("/emergency-phones", methods=["DELETE"])
 def clear_phones():
     """
@@ -54,9 +56,14 @@ def clear_phones():
     """
     try:
         count = delete_phone_collection()
-        return create_response(status=200, message="Success! Deleted " + str(count) + " records.")
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
     except Exception as e:
-        return create_response(status=500, message="Could not clear collection: " + repr(e))
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
 
 def delete_phone_collection():
     """
