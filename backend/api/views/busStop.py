@@ -21,21 +21,6 @@ def get_busStop():
 
 
 @busStop.route("/busStops", methods=["POST"])
-def create_busStop():
-    """
-    POST function for posting a hard-coded BusStop object for testing purposes
-    """
-    busStop = BusStop.objects.create(
-        stop_id="0", stop_name="Shreyas", latitude=200.2, longitude=300.3
-    )
-    busStop.routes["Route 1"] = "ffffffff"
-    busStop.routes["Route 2"] = "00000000"
-    busStop.save()
-
-    return create_response(message="success!")
-
-
-@busStop.route("/scrape_stops", methods=["POST"])
 def scrape_stops():
     """
     POST function which scrapes data from scrape() method in bus_stops.py
@@ -72,7 +57,7 @@ def save_stop_to_db(stop_dict):
     busStop.save()
 
 
-@busStop.route("/clear_stops", methods=["DELETE"])
+@busStop.route("/busStops", methods=["DELETE"])
 def clear_stops():
     """
     DELETE method which wraps the delete stops collection function as
