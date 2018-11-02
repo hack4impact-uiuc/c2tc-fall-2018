@@ -35,6 +35,8 @@
 
 **Description**
 
+Gets a list of businesses that are open at the time specified in the querystring.
+
 **Parameters**
 
 |   Name    |  Type  | Required                      | Description               |
@@ -80,6 +82,8 @@
 
 **Description**
 
+GET function for retrieving Business objects
+
 **Response**
 
     {
@@ -118,6 +122,8 @@
 
 **Description**
 
+POST function for posting a hard-coded Business object for testing purposes
+
 **Response**
 
 ### Endpoint
@@ -126,6 +132,9 @@
 
 **Description**
 
+POST function which scrapes data from business_scrape() method in
+open_businesses.py scraper and stores them in the businesses db collection. Should be run maybe once a month.
+
 **Response**
 
 ### Endpoint
@@ -133,6 +142,8 @@
     GET /busStops
 
 **Description**
+
+GET function for retrieving BusStop objects
 
 **Response**
 
@@ -161,6 +172,8 @@
 
 **Description**
 
+POST function for posting a hard-coded BusStop object for testing purposes
+
 **Response**
 
 ### Endpoint
@@ -169,6 +182,8 @@
 
 **Description**
 
+POST function which scrapes data from scrape() method in bus_stops.py scraper and stores them in the busStops db collection. Should be run probably once a month or so, because bus routes only change once or twice a year.
+
 **Response**
 
 ### Endpoint
@@ -176,6 +191,8 @@
     GET /crimes
 
 **Description**
+
+GET function for retrieving Crime objects
 
 **Response**
 
@@ -209,6 +226,8 @@
 
 **Description**
 
+POST function for posting a hard-coded Crime object for testing purposes
+
 **Response**
 
 ### Endpoint
@@ -217,6 +236,8 @@
 
 **Description**
 
+POST function which scrapes data from crime_scrape() method in crimes.py scraper and stores them in the crimes db collection. This should probably be run every day, or every hour at night.
+
 **Response**
 
 ### Endpoint
@@ -224,6 +245,8 @@
     GET /emergencyPhones
 
 **Description**
+
+GET function for retrieving EmergencyPhone objects
 
 **Response**
 
@@ -248,6 +271,8 @@
 
 **Description**
 
+POST function for posting a hard-coded EmergencyPhone object for testing purposes
+
 **Response**
 
 ### Endpoint
@@ -256,6 +281,8 @@
 
 **Description**
 
+POST function which calls get_phones() from the emergency_phones.py scraper and stores phone data to the database. This data is hardcoded and will probably never change, so this endpoint only needs to be called if the db is reset or the collection is lost.
+
 **Response**
 
 ### Endpoint
@@ -263,6 +290,8 @@
     GET /streetlights
 
 **Description**
+
+GET function for retrieving Streetlight objects
 
 **Response**
 
@@ -286,5 +315,7 @@
     POST /streetlights
 
 **Description**
+
+POST function for posting a hard-coded Streetlight object for testing purposes
 
 **Response**
