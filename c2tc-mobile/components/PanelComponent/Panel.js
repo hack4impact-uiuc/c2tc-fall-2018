@@ -1,13 +1,14 @@
-import React from "react";
-
+import React, { Component } from "react";
+import { StyleSheet, Text } from "react-native";
 import { View, Dimensions, Animated } from "react-native";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
+import Tabs from "react-native-tabs";
 
 const { height } = Dimensions.get("window");
 
-export default class Panel extends React.Component {
+export default class Panel extends Component {
   static defaultProps = {
     draggableRange: {
       top: height / 1.75,
@@ -20,7 +21,8 @@ export default class Panel extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toggleLayerList: []
+      toggleLayerList: [],
+      page: "filter"
     };
   }
 
@@ -54,8 +56,17 @@ export default class Panel extends React.Component {
     this.draggedValue.setValue(velocity);
   };
 
+  getPage() {
+    return this.state.page;
+  }
+
+  _onSelect = tab => {
+    this.setState({ page: tab.props.name });
+  };
+
   render() {
     return (
+<React.Fragment>
       <SlidingUpPanel
         visible
         startCollapsed
@@ -69,15 +80,37 @@ export default class Panel extends React.Component {
           <ButtonInterface type="lights" ref="button" parentPanel={this} />
         </View>
       </SlidingUpPanel>
+            <Tabs
+            selected={this.state.page}
+            style={styles.background}
+            selectedStyle={{ color: "purple" }}
+            onSelect={tab => this._onSelect(tab)}
+          >
+            <Text name="filter" selectedIconStyle={styles.tab}>
+              Filters
+            </Text>
+            <Text name="contact" selectedIconStyle={styles.tab}>
+              Contacts
+            </Text>
+          </Tabs>
+</React.Fragment>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   panel: {
     flex: 1,
     backgroundColor: "white",
     position: "relative",
     opacity: 0.7
+  },
+  background: {
+    backgroundColor: "white",
+    opacity: 0.5
+  },
+  tab: {
+    borderTopWidth: 2,
+    borderTopColor: "purple"
   }
-};
+});

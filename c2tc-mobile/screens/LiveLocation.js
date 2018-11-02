@@ -3,8 +3,7 @@ import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Panel from "../components/PanelComponent/Panel";
-import Tab from "../components/Tab";
-import PhoneButton from "../components/PhoneButton";
+//import PhoneButton from "../components/PhoneButton";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -111,7 +110,6 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
-        <Tab />
       </View>
     );
   }
