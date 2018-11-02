@@ -35,6 +35,7 @@ class JSONEncoder(json.JSONEncoder):
             return o.strftime("%m/%d/%Y, %H:%M:%S")
         return json.JSONEncoder.default(self, o)
 
+
 def create_response(
     data: dict = None, status: int = 200, message: str = ""
 ) -> Tuple[Response, int]:

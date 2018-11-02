@@ -4,6 +4,7 @@ from api.core import create_response, serialize_list, logger
 
 streetlight = Blueprint("streetlight", __name__)
 
+
 @streetlight.route("/streetlights", methods=["GET"])
 def get_streetlight():
     """
