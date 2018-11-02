@@ -40,6 +40,9 @@ async function getEmergencyPhones() {
   }
 }
 
+/*
+  This function is commented because the backend data is not available yet.
+*/
 // async function getStreetLight() {
 //   try {
 //     let response = await fetch("https://backend-xnbrzeooeu.now.sh/streetLight");

@@ -34,14 +34,6 @@ export default class Panel extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      let response = await fetch("https://backend-xnbrzeooeu.now.sh/busStops");
-      let responseJson = await response.json();
-      console.log(responseJson.result.busStops);
-    } catch (error) {
-      console.error(error);
-    }
-
     console.log(API);
   }
 
