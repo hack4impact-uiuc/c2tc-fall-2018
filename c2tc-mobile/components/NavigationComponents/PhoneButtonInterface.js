@@ -16,7 +16,7 @@ export default class PhoneButton extends Component {
   }
 
   _onPressCall = () => {
-       const args = {
+    const args = {
       number: this.props.number,
       prompt: false
     };
@@ -26,17 +26,10 @@ export default class PhoneButton extends Component {
   render() {
     return (
       <Button
-      onPress={this._onPressCall}
-      title={this.props.type}
-      color={"red"}
-    />
+        onPress={this._onPressCall}
+        title={this.props.type}
+        color={"purple"}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  background: {
-    color: "yellow",
-    opacity: 1
-  },
-});

@@ -60,26 +60,6 @@ export default class Panel extends Component {
     return this.state.page;
   }
 
-  renderButton = () => {
-    if (this.state.page === "filter") {
-      return (
-        <View style={styles.panel}>
-          <ButtonInterface type="police" ref="button" parentPanel={this} />
-          <ButtonInterface type="lights" ref="button" parentPanel={this} />
-        </View>
-      )
-    }
-    return (
-      <View style={styles.panel}>
-        <PhoneButton
-       type="Call Neeraj"
-       ref="button"
-       number="6509069888"
-       />
-      </View>
-    )
-  }
-
   _onSelect = tab => {
     this.setState({ page: tab.props.name });
   };
@@ -97,19 +77,19 @@ export default class Panel extends Component {
           onDrag={this.setDrag}
         >
           {filter ? (
-          <View style={styles.panel}>
-            <ButtonInterface type="police" ref="button" parentPanel={this} />
-            <ButtonInterface type="lights" ref="button" parentPanel={this} />
-          </View>
-      ) : (
-        <View style={styles.panel}>
-            <PhoneButton
-          type="Call Neeraj"
-          ref="button"
-          number="6509069888"
-          />
-          </View>
-      )}
+            <View style={styles.panel}>
+              <ButtonInterface type="police" ref="button" parentPanel={this} />
+              <ButtonInterface type="lights" ref="button" parentPanel={this} />
+            </View>
+          ) : (
+            <View style={styles.panel}>
+              <PhoneButton
+                type="Call Neeraj"
+                ref="button"
+                number="6509069888"
+              />
+            </View>
+          )}
         </SlidingUpPanel>
         <Tabs
           selected={this.state.page}
