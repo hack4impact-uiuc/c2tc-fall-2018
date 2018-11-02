@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
+
 import Icon from "react-native-vector-icons/FontAwesome";
 import call from "react-native-phone-call";
 
 const buttonColor = "#424242";
 
-export default class PhoneButton extends React.Component {
+export default class PhoneButton extends Component {
   constructor(props) {
     super(props);
 

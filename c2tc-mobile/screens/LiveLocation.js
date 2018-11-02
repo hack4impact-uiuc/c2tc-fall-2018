@@ -1,25 +1,23 @@
-import React from "react";
+import React, { Component } from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
-import Panel from "../components/PanelComponent/Panel";
-//import PhoneButton from "../components/PhoneButton";
+import Navigation from "../components/NavigationComponents/Navigation";
 
 const { width, height } = Dimensions.get("window");
+
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const policeLocations = require("../assets/data/police_locations.json");
 const lightLocations = require("../assets/data/light_locations.json");
-
 const layerData = { police: policeLocations, lights: lightLocations };
 const colorData = { police: "#841584", lights: "#000000" };
-
 let renderData = { police: true, lights: false };
 let id = 0;
 
-class LiveLocation extends React.Component {
+class LiveLocation extends Component {
   constructor(props) {
     super(props);
 
@@ -109,7 +107,7 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
+        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
   }

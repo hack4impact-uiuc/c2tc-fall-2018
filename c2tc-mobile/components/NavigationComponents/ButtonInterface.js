@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button } from "react-native";
 
-export default class ButtonInterace extends React.Component {
+export default class ButtonInterace extends Component {
   constructor(props) {
     super(props);
 
