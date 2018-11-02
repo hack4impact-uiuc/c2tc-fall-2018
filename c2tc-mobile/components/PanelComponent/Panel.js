@@ -66,34 +66,34 @@ export default class Panel extends Component {
 
   render() {
     return (
-<React.Fragment>
-      <SlidingUpPanel
-        visible
-        startCollapsed
-        showBackdrop={false}
-        ref={this.setRef}
-        draggableRange={this.props.draggableRange}
-        onDrag={this.setDrag}
-      >
-        <View style={styles.panel}>
-          <ButtonInterface type="police" ref="button" parentPanel={this} />
-          <ButtonInterface type="lights" ref="button" parentPanel={this} />
-        </View>
-      </SlidingUpPanel>
-            <Tabs
-            selected={this.state.page}
-            style={styles.background}
-            selectedStyle={{ color: "purple" }}
-            onSelect={tab => this._onSelect(tab)}
-          >
-            <Text name="filter" selectedIconStyle={styles.tab}>
-              Filters
-            </Text>
-            <Text name="contact" selectedIconStyle={styles.tab}>
-              Contacts
-            </Text>
-          </Tabs>
-</React.Fragment>
+      <React.Fragment>
+        <SlidingUpPanel
+          visible
+          startCollapsed
+          showBackdrop={false}
+          ref={this.setRef}
+          draggableRange={this.props.draggableRange}
+          onDrag={this.setDrag}
+        >
+          <View style={styles.panel}>
+            <ButtonInterface type="police" ref="button" parentPanel={this} />
+            <ButtonInterface type="lights" ref="button" parentPanel={this} />
+          </View>
+        </SlidingUpPanel>
+        <Tabs
+          selected={this.state.page}
+          style={styles.background}
+          selectedStyle={{ color: "purple" }}
+          onSelect={tab => this._onSelect(tab)}
+        >
+          <Text name="filter" selectedIconStyle={styles.tab}>
+            Filters
+          </Text>
+          <Text name="contact" selectedIconStyle={styles.tab}>
+            Contacts
+          </Text>
+        </Tabs>
+      </React.Fragment>
     );
   }
 }
