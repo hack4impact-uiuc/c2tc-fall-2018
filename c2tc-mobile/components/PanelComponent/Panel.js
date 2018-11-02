@@ -12,6 +12,8 @@ import {
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 
+import API from "../DataFetcher";
+
 const { height } = Dimensions.get("window");
 
 export default class Panel extends React.Component {
@@ -39,6 +41,8 @@ export default class Panel extends React.Component {
     } catch (error) {
       console.error(error);
     }
+
+    console.log(API);
   }
 
   getLayerTypes() {
