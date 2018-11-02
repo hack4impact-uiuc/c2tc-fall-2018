@@ -35,6 +35,13 @@
 
 **Description**
 
+**Parameters**
+
+|   Name    |  Type  | Required                      | Description               |
+|:---------:|:------:|:-----------------------------:|:-------------------------:|
+| time  | int | **Required** | #### (time as 4 digit 24hr time, eg. 1430 = 2:30pm)
+| day  | int | **Required** | # (integer 0-6, where 0 is Monday)
+
 **Response**
 
     {
