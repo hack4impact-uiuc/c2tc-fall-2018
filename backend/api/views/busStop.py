@@ -71,6 +71,7 @@ def save_stop_to_db(stop_dict):
     )
     busStop.save()
 
+
 @busStop.route("/clear_stops", methods=["DELETE"])
 def clear_stops():
     """
@@ -82,6 +83,7 @@ def clear_stops():
         return create_response(status=200, message="Success! Deleted " + result.deleted_count + " records.")
     except Exception as e:
         return create_response(status=500, message="Could not clear collection: " + repr(e))
+
 
 def delete_stop_collection():
     """
