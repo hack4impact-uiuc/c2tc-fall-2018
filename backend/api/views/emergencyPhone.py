@@ -6,18 +6,18 @@ from api.scrapers.emergency_phones import get_phones
 emergencyPhone = Blueprint("emergencyPhone", __name__)
 
 
-@emergencyPhone.route("/emergencyPhones", methods=["GET"])
+@emergencyPhone.route("/emergency-phones", methods=["GET"])
 def get_emergencyPhone():
     """
     GET function for retrieving EmergencyPhone objects
     """
     response = [emergencyPhone.to_mongo() for emergencyPhone in EmergencyPhone.objects]
-    response = {"emergencyPhones": response}
+    response = {"emergency-phones": response}
     logger.info("EMERGENCYPHONES: %s", response)
     return create_response(data=response)
 
 
-@emergencyPhone.route("/emergencyPhones", methods=["POST"])
+@emergencyPhone.route("/emergency-phones", methods=["POST"])
 def scrape_phones():
     """
     POST function which calls get_phones() from the emergency_phones.py scraper
@@ -46,7 +46,7 @@ def save_phone_to_db(phone_dict):
     )
     emergencyPhone.save()
 
-@emergencyPhone.route("/emergencyPhones", methods=["DELETE"])
+@emergencyPhone.route("/emergency-phones", methods=["DELETE"])
 def clear_phones():
     """
     DELETE method which wraps the clear emergency phones collection function as

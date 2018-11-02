@@ -9,18 +9,18 @@ busStop = Blueprint("busStop", __name__)
 # TODO: change busStop to bus-stop in urls
 
 
-@busStop.route("/busStops", methods=["GET"])
+@busStop.route("/bus-stops", methods=["GET"])
 def get_busStop():
     """
     GET function for retrieving BusStop objects
     """
     response = [busStop.to_mongo() for busStop in BusStop.objects]
-    response = {"busStops": response}
+    response = {"bus-stops": response}
     logger.info("BUSSTOPS: %s", response)
     return create_response(data=response)
 
 
-@busStop.route("/busStops", methods=["POST"])
+@busStop.route("/bus-stops", methods=["POST"])
 def scrape_stops():
     """
     POST function which scrapes data from scrape() method in bus_stops.py
@@ -57,7 +57,7 @@ def save_stop_to_db(stop_dict):
     busStop.save()
 
 
-@busStop.route("/busStops", methods=["DELETE"])
+@busStop.route("/bus-stops", methods=["DELETE"])
 def clear_stops():
     """
     DELETE method which wraps the delete stops collection function as
