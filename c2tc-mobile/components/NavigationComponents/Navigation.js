@@ -8,15 +8,12 @@ import PhoneButton from "./PhoneButtonInterface";
 import Tabs from "react-native-tabs";
 
 const { height } = Dimensions.get("window");
+const draggableRange = {
+  top: height / 1.75,
+  bottom: 120
+};
 
-export default class Panel extends Component {
-  static defaultProps = {
-    draggableRange: {
-      top: height / 1.75,
-      bottom: 120
-    }
-  };
-
+export default class Navigation extends Component {
   draggedValue = new Animated.Value(-120);
 
   constructor(props) {
@@ -78,7 +75,7 @@ export default class Panel extends Component {
           startCollapsed
           showBackdrop={false}
           ref={this.setRef}
-          draggableRange={this.props.draggableRange}
+          draggableRange={draggableRange}
           onDrag={this.setDrag}
         >
           {filter ? (

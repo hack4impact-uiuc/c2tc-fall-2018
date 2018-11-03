@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "react-native";
 
-import Icon from "react-native-vector-icons/FontAwesome";
 import call from "react-native-phone-call";
 
 export default class PhoneButton extends Component {
