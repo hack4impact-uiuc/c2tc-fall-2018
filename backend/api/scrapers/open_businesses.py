@@ -1,9 +1,8 @@
 import requests
 import json
 import time
-import api.scrapers.api_constants as api_constants
 
-api_key = api_constants.open_businesses_key
+api_key = "dD6vL4WCEnKquFTLsUWpWm2RaUCTiQlSgr-lw0m4DrDkbzmycTXIcOyPZUDttVeWkaRY1lr9WFD87ebLoy4sS6raIcPED-jiChg8KPLa9mGL3JAILiNtUZqnHOW3W3Yx"
 search_url = "https://api.yelp.com/v3/businesses/search"
 details_url = "https://api.yelp.com/v3/businesses/"  # {id} after last backslash
 

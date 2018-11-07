@@ -2,9 +2,8 @@ import requests
 import json
 import time
 import datetime
-import api.scrapers.api_constants as api_constants
 
-app_token = api_constants.crime_key  # Effectively the api key
+app_token = "3vAi4grxLm8Lql1sffmqGNo2o"  # Effectively the api key
 api_url = "https://moto.data.socrata.com/resource/3h5f-6xbh.json"
 
 days_of_crime = 30  # How many days of crime data to pull from API
