@@ -140,5 +140,6 @@ def delete_business_collection():
     Helper function to delete phone collection in db.
     """
     count = len(Business.objects())
-    [business.delete() for business in Business.objects()]
+    for business in Business.objects():
+        business.delete()
     return count

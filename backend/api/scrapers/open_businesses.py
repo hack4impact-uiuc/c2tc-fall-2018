@@ -1,8 +1,9 @@
 import requests
 import json
 import time
+import api_keys
 
-api_key = "dD6vL4WCEnKquFTLsUWpWm2RaUCTiQlSgr-lw0m4DrDkbzmycTXIcOyPZUDttVeWkaRY1lr9WFD87ebLoy4sS6raIcPED-jiChg8KPLa9mGL3JAILiNtUZqnHOW3W3Yx"
+api_key = api_keys.open_businesses_key
 search_url = "https://api.yelp.com/v3/businesses/search"
 details_url = "https://api.yelp.com/v3/businesses/"  # {id} after last backslash
 

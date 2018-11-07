@@ -79,5 +79,6 @@ def delete_stop_collection():
     Helper function to delete stop collection in db.
     """
     count = len(BusStop.objects())
-    [stop.delete() for stop in BusStop.objects()]
+    for stop in BusStop.objects():
+        stop.delete()
     return count

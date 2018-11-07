@@ -2,12 +2,9 @@ import requests
 import json
 import sys
 from api.models.BusStop import BusStop
+import api_keys
 
-api_keys = [
-    "95b24e883247444095625960a8bbee98",
-    "901d92ed96ae44c280f3e3c7c48fc300",
-    "80678f088271417aa6d0cdb898aa5624",
-]
+api_keys = api_keys.bus_stop_keys
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
 stops_payload = {"key": api_keys[0]}
