@@ -2,9 +2,9 @@ import requests
 import json
 import sys
 from api.models.BusStop import BusStop
-import api_keys
+import api.scrapers.api_constants as api_constants
 
-api_keys = api_keys.bus_stop_keys
+api_keys = api_constants.bus_stop_keys
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
 stops_payload = {"key": api_keys[0]}
