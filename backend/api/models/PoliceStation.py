@@ -1,7 +1,4 @@
-from mongoengine.fields import (
-    StringField,
-    FloatField
-)
+from mongoengine.fields import StringField, FloatField
 import mongoengine
 
 # DynamicDocument allows for unspecified fields to be put in as well

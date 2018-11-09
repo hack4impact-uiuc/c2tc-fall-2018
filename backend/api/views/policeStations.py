@@ -16,6 +16,7 @@ def get_police_stations():
     logger.info("POLICESTATIONS: %s", response)
     return create_response(data=response)
 
+
 @policeStation.route("/police-stations", methods=["POST"])
 def scrape_station():
     """

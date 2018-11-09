@@ -47,7 +47,15 @@ def create_app(test_config=None):
     app.logger.setLevel(logging.DEBUG)
 
     # import and register blueprints
-    from api.views import main, business, crime, streetlight, emergencyPhone, busStop, policeStations
+    from api.views import (
+        main,
+        business,
+        crime,
+        streetlight,
+        emergencyPhone,
+        busStop,
+        policeStations,
+    )
 
     app.register_blueprint(main.main)
     app.register_blueprint(business.business)
