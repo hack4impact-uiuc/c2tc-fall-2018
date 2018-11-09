@@ -95,27 +95,15 @@ class LiveLocation extends Component {
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
-      await AsyncStorage.setItem(
-        "emergencyData",
-        JSON.stringify(emergencyData)
-      );
+      await AsyncStorage.setItem("emergencyData", JSON.stringify(emergencyData));
     }
-
-    this.state.busStop = JSON.parse(await AsyncStorage.getItem("busStop"));
-    this.state.crime = JSON.parse(await AsyncStorage.getItem("crimeData"));
-    this.state.business = JSON.parse(
-      await AsyncStorage.getItem("businessData")
-    );
-    this.state.emergency = JSON.parse(
-      await AsyncStorage.getItem("emergencyData")
-    );
 
     this.setState({
       layerData: {
-        busStop: this.state.busStop,
-        crime: this.state.crime,
-        business: this.state.business,
-        emergency: this.state.emergency
+        busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
+        crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
+        business: JSON.parse(await AsyncStorage.getItem("businessData")),
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
       },
       colorData: {
         busStop: "#841584",
@@ -123,7 +111,7 @@ class LiveLocation extends Component {
         business: "#ffffff",
         emergency: "#123123"
       }
-    });
+    })
     console.log(JSON.parse(this.state.busStop));
   }
 
