@@ -18,7 +18,6 @@ export default class ButtonInterace extends Component {
   };
 
   render() {
-    // console.log(this.props.parentPanel.props.layers)
     var buttonColor = this.props.parentPanel.props.layers[this.props.type];
     return (
       <TouchableOpacity
