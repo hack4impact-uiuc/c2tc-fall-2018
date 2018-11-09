@@ -140,7 +140,7 @@ class LiveLocation extends Component {
         },
         key: id++,
         color: markerColor,
-        image: icons[layer],
+        image: icons[layer]
         //title: data[i].place_name
       });
     }
