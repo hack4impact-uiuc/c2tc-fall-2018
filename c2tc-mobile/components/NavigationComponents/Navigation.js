@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     backgroundColor: "white",
     opacity: 1,
-    padding: 38
+    padding: 38,
   },
   tab: {
     borderTopWidth: 0,
-    borderTopColor: "#c7c7cc"
+    borderTopColor: "#c7c7cc",
   }
 });

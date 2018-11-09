@@ -22,25 +22,28 @@ export default class PhoneButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this._onPressCall} style={styles.button}>
-        <Text style={styles.text}>{this.props.type}</Text>
-      </TouchableOpacity>
+    <TouchableOpacity
+      onPress={this._onPressCall}
+      style={styles.button}
+    >
+    <Text style={styles.text}>{this.props.type}</Text>
+    </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
-    backgroundColor: "#e5e5ea",
-    borderRadius: 8,
-    width: 166,
-    height: 52,
+    alignItems: 'center',
+    backgroundColor: '#e5e5ea',
+    borderRadius:8,
+    width:166,
+    height:52,
     paddingVertical: 15,
-    margin: 20
+    margin: 20,
   },
   text: {
     fontSize: 20,
-    color: "white"
+    color: "white",
   }
 });
