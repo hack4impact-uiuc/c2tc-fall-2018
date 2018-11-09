@@ -19,11 +19,8 @@ export default class ButtonInterace extends Component {
   render() {
     var buttonColor = "purple";
     return (
-      <TouchableOpacity
-        onPress={this.updateLayer}
-        style={styles.button}
-      >
-      <Text style={styles.text}>{this.props.type}</Text>
+      <TouchableOpacity onPress={this.updateLayer} style={styles.button}>
+        <Text style={styles.text}>{this.props.type}</Text>
       </TouchableOpacity>
     );
   }
