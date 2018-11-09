@@ -31,8 +31,8 @@ class LiveLocation extends Component {
     };
   }
 
-  componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition(position => {
+  async componentDidMount() {
+    navigator.geolocation.getCurrentPosition(position => {
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
@@ -40,9 +40,24 @@ class LiveLocation extends Component {
         longitudeDelta: LONGITUDE_DELTA
       };
       this.onRegionChange(region, region.latitude, region.longitude);
-    });
+    },
+    (error) => console.log({ error: error.message })
+    );
+
+    this.watchID = await navigator.geolocation.watchPosition(position => {
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      };
+      this.onRegionChange(region, region.latitude, region.longitude);
+    },
+    (error) => console.log({ error: error.message })
+    );
 
     for (var index in layerData) {
+      console.log(index);
       this.renderMarkers(layerData[index], colorData[index]);
     }
   }
@@ -69,7 +84,8 @@ class LiveLocation extends Component {
         },
         key: id++,
         color: markerColor,
-        title: data[i].place_name
+        title: data[i].place_name,
+
       });
     }
     this.setState({
@@ -106,6 +122,7 @@ class LiveLocation extends Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={marker.title}
+              description={marker.description}
             />
           ))}
         </MapView>
