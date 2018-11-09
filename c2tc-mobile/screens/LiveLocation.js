@@ -20,6 +20,13 @@ let renderData = {
 };
 let id = 0;
 
+const icons = {
+  busStop: require("../assets/images/bus.png"),
+  crime: require("../assets/images/crime.png"),
+  business: require("../assets/images/business.png"),
+  emergency: require("../assets/images/phone.png")
+};
+
 class LiveLocation extends Component {
   constructor(props) {
     super(props);
@@ -72,6 +79,7 @@ class LiveLocation extends Component {
 
     for (var index in this.state.layerData) {
       this.renderMarkers(
+        index,
         this.state.layerData[index],
         this.state.colorData[index]
       );
@@ -121,7 +129,7 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  renderMarkers(data, markerColor) {
+  renderMarkers(layer, data, markerColor) {
     console.log(data);
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
@@ -131,7 +139,8 @@ class LiveLocation extends Component {
           longitude: data[i].longitude
         },
         key: id++,
-        color: markerColor
+        color: markerColor,
+        image: icons[layer],
         //title: data[i].place_name
       });
     }
@@ -150,6 +159,7 @@ class LiveLocation extends Component {
       renderData[layer] = false;
     } else {
       this.renderMarkers(
+        layer,
         this.state.layerData[layer],
         this.state.colorData[layer]
       );
@@ -171,7 +181,7 @@ class LiveLocation extends Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              image={require("../assets/images/bus.png")}
+              image={marker.image}
               title={"asdf"}
               description={"bdsf"}
             />
