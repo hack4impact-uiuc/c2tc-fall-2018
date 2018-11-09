@@ -3,7 +3,6 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
 
@@ -13,10 +12,6 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require("../assets/data/police_locations.json");
-const lightLocations = require("../assets/data/light_locations.json");
-//const layerData = { police: policeLocations, lights: lightLocations };
-//const colorData = { police: "#841584", lights: "#000000" };
 let renderData = {
   busStop: true,
   crime: false,
