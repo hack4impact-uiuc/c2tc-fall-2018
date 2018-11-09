@@ -32,28 +32,30 @@ class LiveLocation extends Component {
   }
 
   async componentDidMount() {
-    navigator.geolocation.getCurrentPosition(position => {
-      let region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      };
-      this.onRegionChange(region, region.latitude, region.longitude);
-    },
-    (error) => console.log({ error: error.message })
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
     );
 
-    this.watchID = await navigator.geolocation.watchPosition(position => {
-      let region = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      };
-      this.onRegionChange(region, region.latitude, region.longitude);
-    },
-    (error) => console.log({ error: error.message })
+    this.watchID = await navigator.geolocation.watchPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
     );
 
     for (var index in layerData) {
@@ -84,8 +86,7 @@ class LiveLocation extends Component {
         },
         key: id++,
         color: markerColor,
-        title: data[i].place_name,
-
+        title: data[i].place_name
       });
     }
     this.setState({
