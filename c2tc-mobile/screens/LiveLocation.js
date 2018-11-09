@@ -59,7 +59,6 @@ class LiveLocation extends Component {
     );
 
     for (var index in layerData) {
-      console.log(index);
       this.renderMarkers(layerData[index], colorData[index]);
     }
   }
@@ -123,7 +122,6 @@ class LiveLocation extends Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               title={marker.title}
-              description={marker.description}
             />
           ))}
         </MapView>
