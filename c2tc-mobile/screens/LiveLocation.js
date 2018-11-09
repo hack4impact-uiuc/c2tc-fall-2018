@@ -34,10 +34,6 @@ class LiveLocation extends Component {
       lastLat: null,
       lastLong: null,
       markers: [],
-      busStop: [],
-      crime: [],
-      business: [],
-      emergency: [],
       layerData: {},
       colorData: {}
     };
@@ -95,7 +91,10 @@ class LiveLocation extends Component {
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
-      await AsyncStorage.setItem("emergencyData", JSON.stringify(emergencyData));
+      await AsyncStorage.setItem(
+        "emergencyData",
+        JSON.stringify(emergencyData)
+      );
     }
 
     this.setState({
@@ -103,7 +102,7 @@ class LiveLocation extends Component {
         busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
       },
       colorData: {
         busStop: "#841584",
@@ -111,7 +110,7 @@ class LiveLocation extends Component {
         business: "#ffffff",
         emergency: "#123123"
       }
-    })
+    });
     console.log(JSON.parse(this.state.busStop));
   }
 

@@ -24,9 +24,7 @@ export default class Navigation extends Component {
     };
   }
 
-  async componentDidMount() {
-    console.log(API.getBusStops());
-  }
+  async componentDidMount() {}
 
   getLayerTypes() {
     var list = this.state.toggleLayerList;
