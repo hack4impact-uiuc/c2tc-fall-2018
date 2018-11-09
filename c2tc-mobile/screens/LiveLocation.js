@@ -27,7 +27,8 @@ class LiveLocation extends Component {
       mapRegion: null,
       lastLat: null,
       lastLong: null,
-      markers: []
+      markers: [],
+      renderData: { police: true, lights: false }
     };
   }
 
@@ -94,16 +95,16 @@ class LiveLocation extends Component {
   }
 
   _onPressToggleLayers = layer => {
-    if (renderData[layer]) {
+    if (this.state.renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
           marker => marker["color"] !== colorData[layer]
         )
       });
-      renderData[layer] = false;
+      this.state.renderData[layer] = false;
     } else {
       this.renderMarkers(layerData[layer], colorData[layer]);
-      renderData[layer] = true;
+      this.state.renderData[layer] = true;
     }
   };
 
@@ -125,7 +126,7 @@ class LiveLocation extends Component {
             />
           ))}
         </MapView>
-        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
+        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} layers={this.state.renderData}/>
       </View>
     );
   }
