@@ -79,23 +79,29 @@ export default class Navigation extends Component {
           {filter ? (
             <View style={styles.title}>
               <Text style={styles.filter}>Filters</Text>
-            <View style={styles.panel}>
-
-              <ButtonInterface type="Bus Stops" ref="button" parentPanel={this} />
-              <ButtonInterface type="Crimes" ref="button" parentPanel={this} />
-              <ButtonInterface
-                type="Open Businesses"
-                ref="button"
-                parentPanel={this}
-              />
-              <ButtonInterface
-                type="Emergencies"
-                ref="button"
-                parentPanel={this}
-              />
+              <View style={styles.panel}>
+                <ButtonInterface
+                  type="Bus Stops"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Crimes"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Open Businesses"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Emergencies"
+                  ref="button"
+                  parentPanel={this}
+                />
+              </View>
             </View>
-            </View>
-
           ) : (
             <View style={styles.panel}>
               <PhoneButton
@@ -146,7 +152,7 @@ const styles = StyleSheet.create({
   title: {
     height: 20,
     width: width,
-    flex:1,
+    flex: 1,
     justifyContent: "center",
     backgroundColor: "white"
   },

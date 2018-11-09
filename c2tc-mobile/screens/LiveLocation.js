@@ -188,7 +188,11 @@ class LiveLocation extends Component {
             />
           ))}
         </MapView>
-        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} layers={this.state.renderData}/>
+        <Navigation
+          ref="panel"
+          toggleLayers={this._onPressToggleLayers}
+          layers={this.state.renderData}
+        />
       </View>
     );
   }

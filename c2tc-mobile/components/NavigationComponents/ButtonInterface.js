@@ -21,7 +21,10 @@ export default class ButtonInterace extends Component {
     // console.log(this.props.parentPanel.props.layers)
     var buttonColor = this.props.parentPanel.props.layers[this.props.type];
     return (
-      <TouchableOpacity onPress={this.updateLayer} style={ buttonColor ? styles.buttonOn : styles.buttonOff }>
+      <TouchableOpacity
+        onPress={this.updateLayer}
+        style={buttonColor ? styles.buttonOn : styles.buttonOff}
+      >
         <Text style={styles.text}>{this.props.type}</Text>
       </TouchableOpacity>
     );
@@ -36,7 +39,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 52,
     paddingVertical: 15,
-    margin: 20,
+    margin: 20
     // flexDirection: "row",
     // flex: 1,
     // justifyContent: "space-around"
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 52,
     paddingVertical: 15,
-    margin: 20,
+    margin: 20
     // flex: 1,
     // flexDirection: "row",
     // justifyContent: "space-around"
