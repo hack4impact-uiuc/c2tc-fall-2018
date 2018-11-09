@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -12,12 +12,20 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require("../assets/data/police_locations.json");
-const lightLocations = require("../assets/data/light_locations.json");
-const layerData = { police: policeLocations, lights: lightLocations };
-const colorData = { police: "#841584", lights: "#000000" };
-let renderData = { police: true, lights: false };
+let renderData = {
+  busStop: true,
+  crime: false,
+  business: false,
+  emergency: false
+};
 let id = 0;
+
+const icons = {
+  busStop: require("../assets/images/bus.png"),
+  crime: require("../assets/images/crime.png"),
+  business: require("../assets/images/business.png"),
+  emergency: require("../assets/images/phone.png")
+};
 
 class LiveLocation extends Component {
   constructor(props) {
@@ -28,11 +36,22 @@ class LiveLocation extends Component {
       lastLat: null,
       lastLong: null,
       markers: [],
-      renderData: { police: true, lights: false }
+      renderData: { police: true, lights: false },
+      layerData: {},
+      colorData: {}
     };
   }
 
   async componentDidMount() {
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      };
+      this.onRegionChange(region, region.latitude, region.longitude);
+    });
     navigator.geolocation.getCurrentPosition(
       position => {
         let region = {
@@ -59,9 +78,44 @@ class LiveLocation extends Component {
       error => console.log({ error: error.message })
     );
 
-    for (var index in layerData) {
-      this.renderMarkers(layerData[index], colorData[index]);
+    for (var layer in this.state.layerData) {
+      this.renderMarkers(
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
+      );
     }
+
+    if (AsyncStorage.getAllKeys().length != 4) {
+      let busStopData = await API.getBusStops();
+      let crimeData = await API.getCrimes();
+      let businessData = await API.getBusinesses();
+      let emergencyData = await API.getEmergencyPhones();
+
+      await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
+      await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
+      await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
+      await AsyncStorage.setItem(
+        "emergencyData",
+        JSON.stringify(emergencyData)
+      );
+    }
+
+    this.setState({
+      layerData: {
+        busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
+        crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
+        business: JSON.parse(await AsyncStorage.getItem("businessData")),
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+      },
+      colorData: {
+        busStop: "#841584",
+        crime: "#000000",
+        business: "#ffffff",
+        emergency: "#123123"
+      }
+    });
+    console.log(JSON.parse(this.state.busStop));
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -76,17 +130,19 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  renderMarkers(data, markerColor) {
+  renderMarkers(layer, data, markerColor) {
+    console.log(data);
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
         coordinate: {
-          latitude: data[i].lat,
-          longitude: data[i].long
+          latitude: data[i].latitude,
+          longitude: data[i].longitude
         },
         key: id++,
         color: markerColor,
-        title: data[i].place_name
+        image: icons[layer]
+        //title: data[i].place_name
       });
     }
     this.setState({
@@ -98,12 +154,16 @@ class LiveLocation extends Component {
     if (this.state.renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
-          marker => marker["color"] !== colorData[layer]
+          marker => marker["color"] !== this.state.colorData[layer]
         )
       });
       this.state.renderData[layer] = false;
     } else {
-      this.renderMarkers(layerData[layer], colorData[layer]);
+      this.renderMarkers(
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
+      );
       this.state.renderData[layer] = true;
     }
   };
@@ -122,7 +182,9 @@ class LiveLocation extends Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              title={marker.title}
+              image={marker.image}
+              title={"asdf"}
+              description={"bdsf"}
             />
           ))}
         </MapView>
