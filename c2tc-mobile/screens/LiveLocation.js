@@ -3,7 +3,7 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
 
@@ -17,7 +17,12 @@ const policeLocations = require("../assets/data/police_locations.json");
 const lightLocations = require("../assets/data/light_locations.json");
 //const layerData = { police: policeLocations, lights: lightLocations };
 //const colorData = { police: "#841584", lights: "#000000" };
-let renderData = { busStop: true, crime: false, business: false, emergency: false };
+let renderData = {
+  busStop: true,
+  crime: false,
+  business: false,
+  emergency: false
+};
 let id = 0;
 
 class LiveLocation extends Component {
@@ -34,7 +39,7 @@ class LiveLocation extends Component {
       business: [],
       emergency: [],
       layerData: {},
-      colorData: {},
+      colorData: {}
     };
   }
 
@@ -48,9 +53,37 @@ class LiveLocation extends Component {
       };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
+    );
+
+    this.watchID = await navigator.geolocation.watchPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
+    );
 
     for (var index in this.state.layerData) {
-      this.renderMarkers(this.state.layerData[index], this.state.colorData[index]);
+      this.renderMarkers(
+        this.state.layerData[index],
+        this.state.colorData[index]
+      );
     }
 
     if (AsyncStorage.getAllKeys().length != 4) {
@@ -62,20 +95,36 @@ class LiveLocation extends Component {
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
-      await AsyncStorage.setItem("emergencyData", JSON.stringify(emergencyData));
+      await AsyncStorage.setItem(
+        "emergencyData",
+        JSON.stringify(emergencyData)
+      );
     }
 
     this.state.busStop = JSON.parse(await AsyncStorage.getItem("busStop"));
     this.state.crime = JSON.parse(await AsyncStorage.getItem("crimeData"));
-    this.state.business = JSON.parse(await AsyncStorage.getItem("businessData"));
-    this.state.emergency = JSON.parse(await AsyncStorage.getItem("emergencyData"));
+    this.state.business = JSON.parse(
+      await AsyncStorage.getItem("businessData")
+    );
+    this.state.emergency = JSON.parse(
+      await AsyncStorage.getItem("emergencyData")
+    );
 
     this.setState({
-      layerData: {busStop: this.state.busStop, crime: this.state.crime, business: this.state.business, emergency: this.state.emergency},
-      colorData: {busStop: "#841584", crime: "#000000", business: "#ffffff", emergency: "#123123"}
-    })
+      layerData: {
+        busStop: this.state.busStop,
+        crime: this.state.crime,
+        business: this.state.business,
+        emergency: this.state.emergency
+      },
+      colorData: {
+        busStop: "#841584",
+        crime: "#000000",
+        business: "#ffffff",
+        emergency: "#123123"
+      }
+    });
     console.log(JSON.parse(this.state.busStop));
-
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -100,7 +149,7 @@ class LiveLocation extends Component {
           longitude: data[i].longitude
         },
         key: id++,
-        color: markerColor,
+        color: markerColor
         //title: data[i].place_name
       });
     }
@@ -118,7 +167,10 @@ class LiveLocation extends Component {
       });
       renderData[layer] = false;
     } else {
-      this.renderMarkers(this.state.layerData[layer], this.state.colorData[layer]);
+      this.renderMarkers(
+        this.state.layerData[layer],
+        this.state.colorData[layer]
+      );
       renderData[layer] = true;
     }
   };
@@ -137,7 +189,7 @@ class LiveLocation extends Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              image={require('../assets/images/bus.png')}
+              image={require("../assets/images/bus.png")}
               title={"asdf"}
               description={"bdsf"}
             />

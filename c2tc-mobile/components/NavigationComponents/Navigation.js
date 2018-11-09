@@ -82,8 +82,16 @@ export default class Navigation extends Component {
             <View style={styles.panel}>
               <ButtonInterface type="busStop" ref="button" parentPanel={this} />
               <ButtonInterface type="crime" ref="button" parentPanel={this} />
-              <ButtonInterface type="business" ref="button" parentPanel={this} />
-              <ButtonInterface type="emergency" ref="button" parentPanel={this} />
+              <ButtonInterface
+                type="business"
+                ref="button"
+                parentPanel={this}
+              />
+              <ButtonInterface
+                type="emergency"
+                ref="button"
+                parentPanel={this}
+              />
             </View>
           ) : (
             <View style={styles.panel}>
