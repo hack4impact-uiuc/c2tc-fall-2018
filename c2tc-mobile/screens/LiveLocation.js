@@ -77,11 +77,11 @@ class LiveLocation extends Component {
       error => console.log({ error: error.message })
     );
 
-    for (var index in this.state.layerData) {
+    for (var layer in this.state.layerData) {
       this.renderMarkers(
-        index,
-        this.state.layerData[index],
-        this.state.colorData[index]
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
       );
     }
 
