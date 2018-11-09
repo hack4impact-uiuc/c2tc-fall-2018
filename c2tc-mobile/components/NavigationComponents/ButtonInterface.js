@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 52,
     paddingVertical: 15,
-     margin: 20,
-    flexDirection: "row",
-    flex: 1,
-    justifyContent: "space-around"
+    margin: 20,
+    // flexDirection: "row",
+    // flex: 1,
+    // justifyContent: "space-around"
   },
   buttonOff: {
     alignItems: "center",
@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     width: 150,
     height: 52,
     paddingVertical: 15,
-     margin: 20,
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around"
+    margin: 20,
+    // flex: 1,
+    // flexDirection: "row",
+    // justifyContent: "space-around"
   },
   text: {
     fontSize: 20,
