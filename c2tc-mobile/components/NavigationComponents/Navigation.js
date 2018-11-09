@@ -10,7 +10,7 @@ import Tabs from "react-native-tabs";
 const { height } = Dimensions.get("window");
 const draggableRange = {
   top: height / 1.75,
-  bottom: 120
+  bottom: 170
 };
 
 export default class Navigation extends Component {
@@ -24,9 +24,7 @@ export default class Navigation extends Component {
     };
   }
 
-  async componentDidMount() {
-    console.log(API);
-  }
+  async componentDidMount() {}
 
   getLayerTypes() {
     var list = this.state.toggleLayerList;
@@ -80,8 +78,18 @@ export default class Navigation extends Component {
         >
           {filter ? (
             <View style={styles.panel}>
-              <ButtonInterface type="police" ref="button" parentPanel={this} />
-              <ButtonInterface type="lights" ref="button" parentPanel={this} />
+              <ButtonInterface type="busStop" ref="button" parentPanel={this} />
+              <ButtonInterface type="crime" ref="button" parentPanel={this} />
+              <ButtonInterface
+                type="business"
+                ref="button"
+                parentPanel={this}
+              />
+              <ButtonInterface
+                type="emergency"
+                ref="button"
+                parentPanel={this}
+              />
             </View>
           ) : (
             <View style={styles.panel}>
@@ -100,7 +108,7 @@ export default class Navigation extends Component {
         </SlidingUpPanel>
         <Tabs
           selected={this.state.page}
-          style={styles.background}
+          style={styles.tabbg}
           selectedStyle={{ color: "purple" }}
           onSelect={tab => this._onSelect(tab)}
         >
@@ -118,17 +126,26 @@ export default class Navigation extends Component {
 
 const styles = StyleSheet.create({
   panel: {
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
     flex: 1,
+    flexDirection: "row",
     backgroundColor: "white",
     position: "relative",
-    opacity: 0.7
+    opacity: 1,
+    borderRadius: 8
   },
-  background: {
+  tabbg: {
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
     backgroundColor: "white",
-    opacity: 0.5
+    opacity: 1,
+    padding: 38
   },
   tab: {
-    borderTopWidth: 2,
-    borderTopColor: "purple"
+    borderTopWidth: 0,
+    borderTopColor: "#c7c7cc"
   }
 });
