@@ -25,7 +25,7 @@ export default class Navigation extends Component {
   }
 
   async componentDidMount() {
-    console.log(API);
+    console.log(API.getBusStops());
   }
 
   getLayerTypes() {
@@ -80,8 +80,10 @@ export default class Navigation extends Component {
         >
           {filter ? (
             <View style={styles.panel}>
-              <ButtonInterface type="police" ref="button" parentPanel={this} />
-              <ButtonInterface type="lights" ref="button" parentPanel={this} />
+              <ButtonInterface type="busStop" ref="button" parentPanel={this} />
+              <ButtonInterface type="crime" ref="button" parentPanel={this} />
+              <ButtonInterface type="business" ref="button" parentPanel={this} />
+              <ButtonInterface type="emergency" ref="button" parentPanel={this} />
             </View>
           ) : (
             <View style={styles.panel}>

@@ -2,6 +2,7 @@ async function getBusStops() {
   try {
     let response = await fetch("https://backend-xnbrzeooeu.now.sh/busStops");
     let responseJson = await response.json();
+    //console.log(responseJson.result.busStops);
     return responseJson.result.busStops;
   } catch (error) {
     console.error(error);
@@ -53,4 +54,4 @@ async function getStreetLight() {
   }
 }
 */
-export { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };
+export default { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };

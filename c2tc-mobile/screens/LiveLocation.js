@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import API from "../components/API";
 
@@ -14,9 +15,9 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const policeLocations = require("../assets/data/police_locations.json");
 const lightLocations = require("../assets/data/light_locations.json");
-const layerData = { police: policeLocations, lights: lightLocations };
-const colorData = { police: "#841584", lights: "#000000" };
-let renderData = { police: true, lights: false };
+//const layerData = { police: policeLocations, lights: lightLocations };
+//const colorData = { police: "#841584", lights: "#000000" };
+let renderData = { busStop: true, crime: false, business: false, emergency: false };
 let id = 0;
 
 class LiveLocation extends Component {
@@ -27,11 +28,17 @@ class LiveLocation extends Component {
       mapRegion: null,
       lastLat: null,
       lastLong: null,
-      markers: []
+      markers: [],
+      busStop: [],
+      crime: [],
+      business: [],
+      emergency: [],
+      layerData: {},
+      colorData: {},
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
@@ -42,9 +49,33 @@ class LiveLocation extends Component {
       this.onRegionChange(region, region.latitude, region.longitude);
     });
 
-    for (var index in layerData) {
-      this.renderMarkers(layerData[index], colorData[index]);
+    for (var index in this.state.layerData) {
+      this.renderMarkers(this.state.layerData[index], this.state.colorData[index]);
     }
+
+    if (AsyncStorage.getAllKeys().length != 4) {
+      let busStopData = await API.getBusStops();
+      let crimeData = await API.getCrimes();
+      let businessData = await API.getBusinesses();
+      let emergencyData = await API.getEmergencyPhones();
+
+      await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
+      await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
+      await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
+      await AsyncStorage.setItem("emergencyData", JSON.stringify(emergencyData));
+    }
+
+    this.state.busStop = JSON.parse(await AsyncStorage.getItem("busStop"));
+    this.state.crime = JSON.parse(await AsyncStorage.getItem("crimeData"));
+    this.state.business = JSON.parse(await AsyncStorage.getItem("businessData"));
+    this.state.emergency = JSON.parse(await AsyncStorage.getItem("emergencyData"));
+
+    this.setState({
+      layerData: {busStop: this.state.busStop, crime: this.state.crime, business: this.state.business, emergency: this.state.emergency},
+      colorData: {busStop: "#841584", crime: "#000000", business: "#ffffff", emergency: "#123123"}
+    })
+    console.log(JSON.parse(this.state.busStop));
+
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -60,16 +91,17 @@ class LiveLocation extends Component {
   }
 
   renderMarkers(data, markerColor) {
+    console.log(data);
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
         coordinate: {
-          latitude: data[i].lat,
-          longitude: data[i].long
+          latitude: data[i].latitude,
+          longitude: data[i].longitude
         },
         key: id++,
         color: markerColor,
-        title: data[i].place_name
+        //title: data[i].place_name
       });
     }
     this.setState({
@@ -81,12 +113,12 @@ class LiveLocation extends Component {
     if (renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
-          marker => marker["color"] !== colorData[layer]
+          marker => marker["color"] !== this.state.colorData[layer]
         )
       });
       renderData[layer] = false;
     } else {
-      this.renderMarkers(layerData[layer], colorData[layer]);
+      this.renderMarkers(this.state.layerData[layer], this.state.colorData[layer]);
       renderData[layer] = true;
     }
   };
@@ -105,7 +137,9 @@ class LiveLocation extends Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              title={marker.title}
+              image={require('../assets/images/bus.png')}
+              title={"asdf"}
+              description={"bdsf"}
             />
           ))}
         </MapView>
