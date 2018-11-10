@@ -14,12 +14,6 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let renderData = {
-  busStop: false,
-  crime: false,
-  business: false,
-  emergency: false
-};
 let id = 0;
 
 const icons = {
@@ -38,7 +32,12 @@ class LiveLocation extends Component {
       lastLat: null,
       lastLong: null,
       markers: [],
-      renderData: { police: true, lights: false },
+      renderData: {
+        busStop: false,
+        crime: false,
+        business: false,
+        emergency: false
+      },
       layerData: {},
       loading: true,
       colorData: {}
@@ -119,7 +118,8 @@ class LiveLocation extends Component {
       },
       loading: false
     });
-    console.log(this.state.loading);
+    //console.log(this.state.loading);
+    //console.log(this.state.layerData);
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -135,7 +135,7 @@ class LiveLocation extends Component {
   }
 
   renderMarkers(layer, data, markerColor) {
-    console.log(data);
+    data = this.state.layerData[layer];
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
@@ -146,7 +146,6 @@ class LiveLocation extends Component {
         key: id++,
         color: markerColor,
         image: icons[layer]
-        //title: data[i].place_name
       });
     }
     this.setState({
@@ -163,6 +162,7 @@ class LiveLocation extends Component {
       });
       this.state.renderData[layer] = false;
     } else {
+      console.log(layer);
       this.renderMarkers(
         layer,
         this.state.layerData[layer],
@@ -176,6 +176,7 @@ class LiveLocation extends Component {
     if (this.state.loading) {
       return <Loader loading={this.state.loading} />;
     }
+    console.log(this.state.layerData);
     return (
       <View style={styles.container}>
         <MapView
