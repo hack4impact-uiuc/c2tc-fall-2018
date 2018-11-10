@@ -116,7 +116,7 @@ class LiveLocation extends Component {
         business: "#ffffff",
         emergency: "#123123"
       },
-      loading: false,
+      loading: false
     });
     console.log(this.state.loading);
   }
@@ -173,32 +173,30 @@ class LiveLocation extends Component {
 
   render() {
     if (this.state.loading) {
-      return (
-        <Loader loading={this.state.loading} />
-      )
+      return <Loader loading={this.state.loading} />;
     } else {
       return (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          region={this.state.mapRegion}
-          showsUserLocation={true}
-          followUserLocation={true}
-        >
-          {this.state.markers.map(marker => (
-            <Marker
-              key={marker.key}
-              coordinate={marker.coordinate}
-              pinColor={marker.color}
-              image={marker.image}
-              title={"asdf"}
-              description={"bdsf"}
-            />
-          ))}
-        </MapView>
-        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
-      </View>
-    );
+        <View style={styles.container}>
+          <MapView
+            style={styles.map}
+            region={this.state.mapRegion}
+            showsUserLocation={true}
+            followUserLocation={true}
+          >
+            {this.state.markers.map(marker => (
+              <Marker
+                key={marker.key}
+                coordinate={marker.coordinate}
+                pinColor={marker.color}
+                image={marker.image}
+                title={"asdf"}
+                description={"bdsf"}
+              />
+            ))}
+          </MapView>
+          <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
+        </View>
+      );
     }
   }
 }
