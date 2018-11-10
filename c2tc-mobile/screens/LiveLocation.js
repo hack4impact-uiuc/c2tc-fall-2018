@@ -6,6 +6,7 @@ import Navigation from "../components/NavigationComponents/Navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,7 +36,8 @@ class LiveLocation extends Component {
       lastLong: null,
       markers: [],
       layerData: {},
-      colorData: {}
+      colorData: {},
+      loading: true,
     };
   }
 
@@ -102,16 +104,26 @@ class LiveLocation extends Component {
         busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
       },
       colorData: {
         busStop: "#841584",
         crime: "#000000",
         business: "#ffffff",
         emergency: "#123123"
-      }
+      },
+      loading: false,
     });
-    console.log(JSON.parse(this.state.busStop));
+    console.log(this.state.loading);
+  }
+
+  pause() {
+    console.log("asdfas");
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+      });
+    }, 2500);
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -163,7 +175,12 @@ class LiveLocation extends Component {
   };
 
   render() {
-    return (
+    if (this.state.loading) {
+      return (
+        <Loader loading={this.state.loading} />
+      )
+    } else {
+      return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
@@ -185,6 +202,7 @@ class LiveLocation extends Component {
         <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
+    }
   }
 }
 
