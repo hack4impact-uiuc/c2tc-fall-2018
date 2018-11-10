@@ -160,7 +160,6 @@ class LiveLocation extends Component {
       });
       this.state.renderData[layer] = false;
     } else {
-      console.log(layer);
       this.renderMarkers(
         layer,
         this.state.layerData[layer],
