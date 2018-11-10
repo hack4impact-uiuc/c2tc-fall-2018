@@ -118,8 +118,6 @@ class LiveLocation extends Component {
       },
       loading: false
     });
-    //console.log(this.state.loading);
-    //console.log(this.state.layerData);
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -176,7 +174,6 @@ class LiveLocation extends Component {
     if (this.state.loading) {
       return <Loader loading={this.state.loading} />;
     }
-    console.log(this.state.layerData);
     return (
       <View style={styles.container}>
         <MapView
