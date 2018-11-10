@@ -174,9 +174,7 @@ class LiveLocation extends Component {
 
   render() {
     if (this.state.loading) {
-      return (
-        <Loader loading={this.state.loading} />
-      );
+      return <Loader loading={this.state.loading} />;
     }
     return (
       <View style={styles.container}>
