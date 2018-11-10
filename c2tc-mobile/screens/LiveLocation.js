@@ -1,26 +1,35 @@
-import React from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
+import React, { Component } from "react";
+import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
-import Panel from "../components/PanelComponent/Panel";
-import Tab from "../components/Tab";
-import PhoneButton from "../components/PhoneButton";
+import Navigation from "../components/NavigationComponents/Navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
+
+import API from "../components/API";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
+
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require("../assets/data/police_locations.json");
-const lightLocations = require("../assets/data/light_locations.json");
-
-const layerData = { police: policeLocations, lights: lightLocations };
-const colorData = { police: "#841584", lights: "#000000" };
-
-let renderData = { police: true, lights: false };
+let renderData = {
+  busStop: false,
+  crime: false,
+  business: false,
+  emergency: false
+};
 let id = 0;
 
-class LiveLocation extends React.Component {
+const icons = {
+  busStop: require("../assets/images/bus.png"),
+  crime: require("../assets/images/crime.png"),
+  business: require("../assets/images/business.png"),
+  emergency: require("../assets/images/phone.png")
+};
+
+class LiveLocation extends Component {
   constructor(props) {
     super(props);
 
@@ -28,11 +37,15 @@ class LiveLocation extends React.Component {
       mapRegion: null,
       lastLat: null,
       lastLong: null,
-      markers: []
+      markers: [],
+      renderData: { police: true, lights: false },
+      layerData: {},
+      loading: true,
+      colorData: {}
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
@@ -42,10 +55,71 @@ class LiveLocation extends React.Component {
       };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
+    );
 
-    for (var index in layerData) {
-      this.renderMarkers(layerData[index], colorData[index]);
+    this.watchID = await navigator.geolocation.watchPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region, region.latitude, region.longitude);
+      },
+      error => console.log({ error: error.message })
+    );
+
+    for (var layer in this.state.layerData) {
+      this.renderMarkers(
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
+      );
     }
+
+    if (AsyncStorage.getAllKeys().length != 4) {
+      let busStopData = await API.getBusStops();
+      let crimeData = await API.getCrimes();
+      let businessData = await API.getBusinesses();
+      let emergencyData = await API.getEmergencyPhones();
+
+      await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
+      await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
+      await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
+      await AsyncStorage.setItem(
+        "emergencyData",
+        JSON.stringify(emergencyData)
+      );
+    }
+
+    this.setState({
+      layerData: {
+        busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
+        crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
+        business: JSON.parse(await AsyncStorage.getItem("businessData")),
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+      },
+      colorData: {
+        busStop: "#841584",
+        crime: "#000000",
+        business: "#ffffff",
+        emergency: "#123123"
+      },
+      loading: false
+    });
+    console.log(this.state.loading);
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -60,17 +134,19 @@ class LiveLocation extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  renderMarkers(data, markerColor) {
+  renderMarkers(layer, data, markerColor) {
+    console.log(data);
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
         coordinate: {
-          latitude: data[i].lat,
-          longitude: data[i].long
+          latitude: data[i].latitude,
+          longitude: data[i].longitude
         },
         key: id++,
         color: markerColor,
-        title: data[i].place_name
+        image: icons[layer]
+        //title: data[i].place_name
       });
     }
     this.setState({
@@ -79,20 +155,27 @@ class LiveLocation extends React.Component {
   }
 
   _onPressToggleLayers = layer => {
-    if (renderData[layer]) {
+    if (this.state.renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
-          marker => marker["color"] !== colorData[layer]
+          marker => marker["color"] !== this.state.colorData[layer]
         )
       });
-      renderData[layer] = false;
+      this.state.renderData[layer] = false;
     } else {
-      this.renderMarkers(layerData[layer], colorData[layer]);
-      renderData[layer] = true;
+      this.renderMarkers(
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
+      );
+      this.state.renderData[layer] = true;
     }
   };
 
   render() {
+    if (this.state.loading) {
+      return <Loader loading={this.state.loading} />;
+    }
     return (
       <View style={styles.container}>
         <MapView
@@ -106,12 +189,17 @@ class LiveLocation extends React.Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              title={marker.title}
+              image={marker.image}
+              title={"asdf"}
+              description={"bdsf"}
             />
           ))}
         </MapView>
-        <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
-        <Tab />
+        <Navigation
+          ref="panel"
+          toggleLayers={this._onPressToggleLayers}
+          layers={this.state.renderData}
+        />
       </View>
     );
   }
