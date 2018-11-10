@@ -38,6 +38,7 @@ class LiveLocation extends Component {
       lastLat: null,
       lastLong: null,
       markers: [],
+      renderData: { police: true, lights: false },
       layerData: {},
       loading: true,
       colorData: {}
@@ -154,50 +155,55 @@ class LiveLocation extends Component {
   }
 
   _onPressToggleLayers = layer => {
-    if (renderData[layer]) {
+    if (this.state.renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
           marker => marker["color"] !== this.state.colorData[layer]
         )
       });
-      renderData[layer] = false;
+      this.state.renderData[layer] = false;
     } else {
       this.renderMarkers(
         layer,
         this.state.layerData[layer],
         this.state.colorData[layer]
       );
-      renderData[layer] = true;
+      this.state.renderData[layer] = true;
     }
   };
 
   render() {
     if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
-    } else {
       return (
-        <View style={styles.container}>
-          <MapView
-            style={styles.map}
-            region={this.state.mapRegion}
-            showsUserLocation={true}
-            followUserLocation={true}
-          >
-            {this.state.markers.map(marker => (
-              <Marker
-                key={marker.key}
-                coordinate={marker.coordinate}
-                pinColor={marker.color}
-                image={marker.image}
-                title={"asdf"}
-                description={"bdsf"}
-              />
-            ))}
-          </MapView>
-          <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
-        </View>
+        <Loader loading={this.state.loading} />
       );
     }
+    return (
+      <View style={styles.container}>
+        <MapView
+          style={styles.map}
+          region={this.state.mapRegion}
+          showsUserLocation={true}
+          followUserLocation={true}
+        >
+          {this.state.markers.map(marker => (
+            <Marker
+              key={marker.key}
+              coordinate={marker.coordinate}
+              pinColor={marker.color}
+              image={marker.image}
+              title={"asdf"}
+              description={"bdsf"}
+            />
+          ))}
+        </MapView>
+        <Navigation
+          ref="panel"
+          toggleLayers={this._onPressToggleLayers}
+          layers={this.state.renderData}
+        />
+      </View>
+    );
   }
 }
 
