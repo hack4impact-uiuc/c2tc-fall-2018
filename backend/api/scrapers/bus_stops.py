@@ -44,7 +44,7 @@ def get_stops(payload, url, req_fields):
         for field in req_fields:
             stop_data[field] = stop.get(field)
         stop_data["stop_lat"] = stop.get("stop_points")[0].get("stop_lat")
-        stop_data["stop_long"] = stop.get("stop_points")[0].get("stop_long")
+        stop_data["stop_lon"] = stop.get("stop_points")[0].get("stop_lon")
         return_data[stop["stop_id"]] = stop_data
     return return_data
 
