@@ -3,7 +3,7 @@ from mongoengine.fields import (
     ListField,
     EmbeddedDocumentField,
     EmbeddedDocumentListField,
-    FloatField
+    FloatField,
 )
 from api.models.Location import Location
 from api.models.OpenHours import OpenHours

@@ -115,7 +115,7 @@ def save_business_to_db(business_dict):
         location=location,
         open_hours=open_hours,
         latitude=business_dict.get("latitude"),
-        longitude=business_dict.get("longitude")
+        longitude=business_dict.get("longitude"),
     )
     business.save()
 
