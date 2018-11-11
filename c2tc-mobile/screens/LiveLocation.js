@@ -3,8 +3,10 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
 
@@ -12,12 +14,6 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-let renderData = {
-  busStop: true,
-  crime: false,
-  business: false,
-  emergency: false
-};
 let id = 0;
 
 const icons = {
@@ -36,7 +32,14 @@ class LiveLocation extends Component {
       lastLat: null,
       lastLong: null,
       markers: [],
+      renderData: {
+        busStop: false,
+        crime: false,
+        business: false,
+        emergency: false
+      },
       layerData: {},
+      loading: true,
       colorData: {}
     };
   }
@@ -112,9 +115,9 @@ class LiveLocation extends Component {
         crime: "#000000",
         business: "#ffffff",
         emergency: "#123123"
-      }
+      },
+      loading: false
     });
-    console.log(JSON.parse(this.state.busStop));
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -130,7 +133,7 @@ class LiveLocation extends Component {
   }
 
   renderMarkers(layer, data, markerColor) {
-    console.log(data);
+    data = this.state.layerData[layer];
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
@@ -141,7 +144,6 @@ class LiveLocation extends Component {
         key: id++,
         color: markerColor,
         image: icons[layer]
-        //title: data[i].place_name
       });
     }
     this.setState({
@@ -150,24 +152,27 @@ class LiveLocation extends Component {
   }
 
   _onPressToggleLayers = layer => {
-    if (renderData[layer]) {
+    if (this.state.renderData[layer]) {
       this.setState({
         markers: this.state.markers.filter(
           marker => marker["color"] !== this.state.colorData[layer]
         )
       });
-      renderData[layer] = false;
+      this.state.renderData[layer] = false;
     } else {
       this.renderMarkers(
         layer,
         this.state.layerData[layer],
         this.state.colorData[layer]
       );
-      renderData[layer] = true;
+      this.state.renderData[layer] = true;
     }
   };
 
   render() {
+    if (this.state.loading) {
+      return <Loader loading={this.state.loading} />;
+    }
     return (
       <View style={styles.container}>
         <MapView
@@ -187,7 +192,11 @@ class LiveLocation extends Component {
             />
           ))}
         </MapView>
-        <Navigation ref="panel" toggleLayers={this._onPressToggleLayers} />
+        <Navigation
+          ref="panel"
+          toggleLayers={this._onPressToggleLayers}
+          layers={this.state.renderData}
+        />
       </View>
     );
   }
