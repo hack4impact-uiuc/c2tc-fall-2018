@@ -15,6 +15,7 @@ flask-script = "*"
 sqlalchemy-utils = "*"
 flask = "*"
 mongoengine = "*"
+apscheduler = "*"
 
 [dev-packages]
 "flake8" = "*"
