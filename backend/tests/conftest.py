@@ -16,5 +16,3 @@ def client():
     client = app.test_client()
 
     yield client
-
-    # remove the file
