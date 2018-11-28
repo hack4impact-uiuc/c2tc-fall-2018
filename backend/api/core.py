@@ -99,6 +99,6 @@ def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
     try:
         mongo_section = config["mongo_creds"]
         return (mongo_section["mongo_db_name"], mongo_section["mongo_url"])
-    except TypeError:
+    except KeyError:
         print(f"Couldn't parse {file} for mongo creds... Check whether it exists.")
         return (None, None)
