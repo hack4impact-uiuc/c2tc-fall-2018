@@ -9,6 +9,6 @@ def test_phone(client):
     print(rs.json)
     assert rs.status_code == 200
 
+
 def test_basic():
     assert True
-
