@@ -15,10 +15,10 @@ sqlalchemy-utils = "*"
 flask = "*"
 mongoengine = "*"
 itsdangerous = "*"
+ipdb = "*"
 
 [dev-packages]
 "flake8" = "*"
 black = "==18.6b4"
 mypy = "*"
 pytest = "*"
-mongomock = "*"
