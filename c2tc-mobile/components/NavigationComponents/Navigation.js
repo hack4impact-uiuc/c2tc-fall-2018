@@ -78,8 +78,8 @@ export default class Navigation extends Component {
         >
           {filter ? (
             <View style={styles.title}>
-              <Text style={styles.filter}>Filters</Text>
               <View style={styles.panel}>
+              <Text style={styles.filter}>Filters</Text>
                 <ButtonInterface
                   type="busStop"
                   ref="button"
@@ -154,9 +154,13 @@ const styles = StyleSheet.create({
   },
   filter: {
     // fontFamily: "SFProDisplay-Bold",
-    fontSize: 20,
+    borderRadius: 8,
+    width:width,
+    fontWeight:"bold",
+    fontSize: 23,
+    padding: 15,
     color: "black",
-    height: 25,
+    height: 58,
     textAlign: "left",
     position: "relative"
   },
