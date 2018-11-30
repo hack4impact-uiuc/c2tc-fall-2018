@@ -24,6 +24,7 @@ def test_update(client):
     '''
     Tests update endpoint.
     '''
+    pass
     rs = client.post("/businesses")
     collection = Business.objects()
     assert len(collection) > 0
@@ -44,7 +45,7 @@ def test_get_basic(client):
     '''
     Tests get endpoint (all businesses)
     '''
-    assert True
+    assert False == True
 
 def test_get_weekday_afternoon(client):
     '''
