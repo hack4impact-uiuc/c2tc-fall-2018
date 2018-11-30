@@ -35,7 +35,7 @@ export default class PhoneButton extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    width: Dimensions.get("window").width / 2,
+    width: (Dimensions.get("window").width / 2) - 50,
     alignItems: "center"
   },
   button: {
@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontWeight: "500",
+    fontWeight: "600",
     width: 150,
-    height: 37,
+    height: 32,
     fontSize: 17,
     color: "black"
   }

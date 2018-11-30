@@ -10,7 +10,7 @@ import Colors from "../../constants/Colors";
 const { height, width } = Dimensions.get("window");
 const draggableRange = {
   top: height / 1.75,
-  bottom: 170
+  bottom: 160
 };
 
 export default class Navigation extends Component {
@@ -154,7 +154,7 @@ export default class Navigation extends Component {
           <Text name="contact" selectedIconStyle={styles.tab}>
             <FontAwesome
               name="phone"
-              size={37}
+              size={38}
               color={filter ? Colors.tabUnselected : Colors.tabSelected}
             />
           </Text>
@@ -168,13 +168,13 @@ const styles = StyleSheet.create({
   panel: {
     shadowColor: "black",
     shadowOpacity: 0.1,
-    shadowRadius: 3,
+    shadowRadius: 2,
     flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
     flexDirection: "column",
     opacity: 1,
-    borderRadius: 8,
+    borderRadius: 10,
     flexWrap: "wrap"
   },
   title: {
@@ -185,13 +185,15 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginBottom: 20
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   filter: {
     borderRadius: 10,
     width: width,
     fontWeight: "700",
-    fontSize: 24,
+    fontSize: 25,
     padding: 15,
     color: "black",
     height: 58,
@@ -202,8 +204,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     borderTopColor: "rgba(142,142,147,0.70)",
     shadowColor: "black",
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
+    shadowOpacity: 0.15,
+    shadowRadius: 15,
     backgroundColor: "white",
     opacity: 1,
     padding: 38

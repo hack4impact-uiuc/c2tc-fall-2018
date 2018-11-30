@@ -56,14 +56,9 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     alignContent: "center",
     flexDirection: "row",
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: "rgba(142,142,147,0)",
     flexWrap: "wrap",
-    padding: 10
-  },
-  view: {
-    width: Dimensions.get("window").width / 2,
-    height: 60,
     padding: 10
   },
   unselectedButton: {
@@ -71,10 +66,15 @@ const styles = StyleSheet.create({
     alignContent: "center",
     flexWrap: "wrap",
     borderColor: "rgba(142,142,147,0.70)",
-    borderWidth: 2,
+    borderWidth: 1.5,
     backgroundColor: "white",
     borderRadius: 9,
     padding: 10
+  },
+  view: {
+    width: (Dimensions.get("window").width / 2) - 10,
+    height: 50,
+    padding: 3
   },
   icon: {
     position: "relative",
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: '400',
     width: 100,
-    height: 50,
+    height: 40,
     fontSize: 20,
     color: "white"
   },
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: '400',
     width: 100,
-    height: 50,
+    height: 40,
     fontSize: 20,
     color: "#8e8e93"
   }
