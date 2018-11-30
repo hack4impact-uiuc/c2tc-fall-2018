@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
-
-import API from "../API";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 import PhoneButton from "./PhoneButtonInterface";
 import Tabs from "react-native-tabs";
+import Colors from "../../constants/Colors";
 
 const { height, width } = Dimensions.get("window");
 const draggableRange = {
@@ -79,37 +78,60 @@ export default class Navigation extends Component {
           {filter ? (
             <View style={styles.title}>
               <View style={styles.panel}>
-              <Text style={styles.filter}>Filters</Text>
-                <ButtonInterface
-                  type="busStop"
-                  ref="button"
-                  parentPanel={this}
-                />
-                <ButtonInterface type="crime" ref="button" parentPanel={this} />
-                <ButtonInterface
-                  type="business"
-                  ref="button"
-                  parentPanel={this}
-                />
-                <ButtonInterface
-                  type="emergency"
-                  ref="button"
-                  parentPanel={this}
-                />
+                <Text style={styles.filter}>Filters</Text>
+                <View style={styles.row}>
+                  <ButtonInterface
+                    icon="bus"
+                    name = "Bus Stops"
+                    type="busStop"
+                    ref="button"
+                    color= {Colors.busStop}
+                    parentPanel={this}
+                  />
+                  <ButtonInterface 
+                    icon="exclamation-triangle"
+                    name = "Crimes"
+                    type="crime" 
+                    ref="button" 
+                    color={Colors.crime}
+                    parentPanel={this} />
+                </View>
+                <View style={styles.row}>
+                  <ButtonInterface
+                    icon="store-alt"
+                    name = "Open Businesses"
+                    type="business"
+                    ref="button"
+                    color= {Colors.business}
+                    parentPanel={this}
+                  />
+                  <ButtonInterface
+                    icon="phone"
+                    name = "Emergency Phones"
+                    type="emergency"
+                    ref="button"
+                    color= {Colors.emergency}
+                    parentPanel={this}
+                  />
+                </View>
               </View>
             </View>
           ) : (
             <View style={styles.panel}>
-              <PhoneButton
-                type="Call SafeRides"
-                ref="button"
-                number="2172657433"
-              />
-              <PhoneButton
-                type="Call SafeWalks"
-                ref="button"
-                number="2173331216"
-              />
+              <View style={styles.row}>
+                <PhoneButton
+                  icon="car"
+                  name="SafeRide"
+                  ref="button"
+                  number="2172657433"
+                />
+                <PhoneButton
+                  icon="walk"
+                  name="SafeWalk"
+                  ref="button"
+                  number="2173331216"
+                />
+                </View>
             </View>
           )}
         </SlidingUpPanel>
@@ -139,8 +161,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
-    position: "relative",
-    justifyContent: "space-around",
+    flexDirection:'column',
     opacity: 1,
     borderRadius: 8,
     flexWrap: "wrap"
@@ -152,8 +173,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white"
   },
+  row:{
+    flexDirection:'row',
+    marginBottom:20
+  },
   filter: {
-    // fontFamily: "SFProDisplay-Bold",
     borderRadius: 8,
     width:width,
     fontWeight:"bold",
