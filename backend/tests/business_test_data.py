@@ -27,43 +27,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 1,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 2,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 3,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 4,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 5,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           },
           {
             "day": 6,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0600"
           }
         ],
@@ -84,43 +84,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 1,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 2,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 3,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 4,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 5,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 6,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           }
         ],
@@ -141,43 +141,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 1,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 2,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 3,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 4,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 5,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0530"
           },
           {
             "day": 6,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "0700"
           }
         ],
@@ -198,43 +198,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 1,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 2,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 3,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 4,
             "end": "0100",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "1100"
           },
           {
             "day": 5,
             "end": "0100",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "1100"
           },
           {
             "day": 6,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           }
         ],
@@ -255,43 +255,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 1,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 2,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 3,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 4,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 5,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           },
           {
             "day": 6,
             "end": "2200",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           }
         ],
@@ -312,43 +312,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 1,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 2,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 3,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 4,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 5,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 6,
             "end": "1800",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1100"
           }
         ],
@@ -383,43 +383,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 1,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 2,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 3,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 4,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 5,
             "end": "2100",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           },
           {
             "day": 6,
             "end": "2000",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1030"
           }
         ],
@@ -454,43 +454,43 @@ businesses = [{
           {
             "day": 0,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 1,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 2,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 3,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 4,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 5,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           },
           {
             "day": 6,
             "end": "2300",
-            "is_overnight": false,
+            "is_overnight": False,
             "start": "1000"
           }
         ],
@@ -511,43 +511,43 @@ businesses = [{
           {
             "day": 0,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 1,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 2,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 3,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 4,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 5,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           },
           {
             "day": 6,
             "end": "0000",
-            "is_overnight": true,
+            "is_overnight": True,
             "start": "0000"
           }
         ],
