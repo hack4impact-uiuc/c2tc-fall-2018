@@ -1,6 +1,7 @@
 # from api.models import  Person
 import pytest
-import mongomock
+from api.models.Business import Business
+
 
 # client passed from client - look into pytest for more info about fixtures
 # test client api: http://flask.pocoo.org/docs/1.0/api/#test-client
