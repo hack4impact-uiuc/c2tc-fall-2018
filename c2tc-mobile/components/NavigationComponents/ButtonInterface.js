@@ -53,9 +53,11 @@ export default class ButtonInterace extends Component {
 
 const styles = StyleSheet.create({
   selectedButton: {
-    borderRadius: 8,
+    borderRadius: 9,
     alignContent: "center",
     flexDirection: "row",
+    borderWidth: 2,
+    borderColor: "rgba(142,142,147,0)",
     flexWrap: "wrap",
     padding: 10
   },
@@ -68,10 +70,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     flexWrap: "wrap",
-    borderColor: "grey",
-    borderWidth: 1,
+    borderColor: "rgba(142,142,147,0.70)",
+    borderWidth: 2,
     backgroundColor: "white",
-    borderRadius: 8,
+    borderRadius: 9,
     padding: 10
   },
   icon: {
@@ -80,6 +82,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     textAlign: "center",
+    fontWeight: '400',
     width: 100,
     height: 50,
     fontSize: 20,
@@ -87,9 +90,10 @@ const styles = StyleSheet.create({
   },
   unselectedText: {
     textAlign: "center",
+    fontWeight: '400',
     width: 100,
     height: 50,
     fontSize: 20,
-    color: "grey"
+    color: "#8e8e93"
   }
 });

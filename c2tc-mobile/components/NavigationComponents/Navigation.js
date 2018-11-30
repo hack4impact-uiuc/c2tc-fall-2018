@@ -154,7 +154,7 @@ export default class Navigation extends Component {
           <Text name="contact" selectedIconStyle={styles.tab}>
             <FontAwesome
               name="phone"
-              size={32}
+              size={37}
               color={filter ? Colors.tabUnselected : Colors.tabSelected}
             />
           </Text>
@@ -181,18 +181,17 @@ const styles = StyleSheet.create({
     height: 20,
     width: width,
     flex: 1,
-    justifyContent: "center",
-    backgroundColor: "white"
+    justifyContent: "center"
   },
   row: {
     flexDirection: "row",
     marginBottom: 20
   },
   filter: {
-    borderRadius: 8,
+    borderRadius: 10,
     width: width,
-    fontWeight: "bold",
-    fontSize: 23,
+    fontWeight: "700",
+    fontSize: 24,
     padding: 15,
     color: "black",
     height: 58,
@@ -200,6 +199,8 @@ const styles = StyleSheet.create({
     position: "relative"
   },
   tabbg: {
+    borderTopWidth: 0.5,
+    borderTopColor: "rgba(142,142,147,0.70)",
     shadowColor: "black",
     shadowOpacity: 0.3,
     shadowRadius: 10,
