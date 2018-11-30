@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 import PhoneButton from "./PhoneButtonInterface";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 import Tabs from "react-native-tabs";
 import Colors from "../../constants/Colors";
 
@@ -83,35 +83,36 @@ export default class Navigation extends Component {
                 <View style={styles.row}>
                   <ButtonInterface
                     icon="bus"
-                    name = "Bus Stops"
+                    name="Bus Stops"
                     type="busStop"
                     ref="button"
-                    color= {Colors.busStop}
+                    color={Colors.busStop}
                     parentPanel={this}
                   />
-                  <ButtonInterface 
+                  <ButtonInterface
                     icon="exclamation-triangle"
-                    name = "Crimes"
-                    type="crime" 
-                    ref="button" 
+                    name="Crimes"
+                    type="crime"
+                    ref="button"
                     color={Colors.crime}
-                    parentPanel={this} />
+                    parentPanel={this}
+                  />
                 </View>
                 <View style={styles.row}>
                   <ButtonInterface
                     icon="shopping-cart"
-                    name = "Open Businesses"
+                    name="Open Businesses"
                     type="business"
                     ref="button"
-                    color= {Colors.business}
+                    color={Colors.business}
                     parentPanel={this}
                   />
                   <ButtonInterface
                     icon="phone"
-                    name = "Emergency Phones"
+                    name="Emergency Phones"
                     type="emergency"
                     ref="button"
-                    color= {Colors.emergency}
+                    color={Colors.emergency}
                     parentPanel={this}
                   />
                 </View>
@@ -133,7 +134,7 @@ export default class Navigation extends Component {
                   ref="button"
                   number="2173331216"
                 />
-                </View>
+              </View>
             </View>
           )}
         </SlidingUpPanel>
@@ -144,10 +145,18 @@ export default class Navigation extends Component {
           onSelect={tab => this._onSelect(tab)}
         >
           <Text name="filter" selectedIconStyle={styles.tab}>
-            <FontAwesome name="map" size={32} color={filter ? Colors.tabSelected : Colors.tabUnselected} />
+            <FontAwesome
+              name="map"
+              size={32}
+              color={filter ? Colors.tabSelected : Colors.tabUnselected}
+            />
           </Text>
           <Text name="contact" selectedIconStyle={styles.tab}>
-          <FontAwesome name="phone" size={32} color={filter ? Colors.tabUnselected : Colors.tabSelected} />
+            <FontAwesome
+              name="phone"
+              size={32}
+              color={filter ? Colors.tabUnselected : Colors.tabSelected}
+            />
           </Text>
         </Tabs>
       </React.Fragment>
@@ -163,7 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "white",
-    flexDirection:'column',
+    flexDirection: "column",
     opacity: 1,
     borderRadius: 8,
     flexWrap: "wrap"
@@ -175,14 +184,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white"
   },
-  row:{
-    flexDirection:'row',
-    marginBottom:20
+  row: {
+    flexDirection: "row",
+    marginBottom: 20
   },
   filter: {
     borderRadius: 8,
-    width:width,
-    fontWeight:"bold",
+    width: width,
+    fontWeight: "bold",
     fontSize: 23,
     padding: 15,
     color: "black",
