@@ -25,7 +25,7 @@ export default class ButtonInterace extends Component {
           onPress={this.updateLayer}
           style={isSelected ? [styles.selectedButton,  {backgroundColor: this.props.color}] : styles.unselectedButton}
         >
-          <FontAwesome style={styles.icon} size={3} name={this.props.icon} size={32} color={isSelected ? "white" :this.props.color} />
+          <FontAwesome name={this.props.icon} size={32} color={isSelected ? "white" :this.props.color} />
           <Text style={isSelected ? styles.selectedText : styles.unselectedText}>{this.props.name                                                                                                                                                                       }</Text>
         </TouchableOpacity>
       </View>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   selectedText:{
     textAlign: 'center',
     width:100,
-    height:60,
+    height:50,
     fontSize: 20,
     color:"white",
   },

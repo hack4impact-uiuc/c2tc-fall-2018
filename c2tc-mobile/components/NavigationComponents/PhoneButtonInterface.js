@@ -19,7 +19,7 @@ export default class PhoneButton extends Component {
     return (
       <View style={styles.view}>
         <TouchableOpacity onPress={this._onPressCall} style={styles.button}>
-          <FontAwesome name={this.props.icon} color="black" size="30"/>
+          <FontAwesome name={this.props.icon} color="black" size={30}/>
         </TouchableOpacity>
         <Text style={styles.text}>{this.props.name}</Text>
       </View>

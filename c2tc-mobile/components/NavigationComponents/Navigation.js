@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 import PhoneButton from "./PhoneButtonInterface";
+import { FontAwesome } from '@expo/vector-icons';
 import Tabs from "react-native-tabs";
 import Colors from "../../constants/Colors";
 
@@ -98,7 +99,7 @@ export default class Navigation extends Component {
                 </View>
                 <View style={styles.row}>
                   <ButtonInterface
-                    icon="store-alt"
+                    icon="shopping-cart"
                     name = "Open Businesses"
                     type="business"
                     ref="button"
@@ -118,6 +119,7 @@ export default class Navigation extends Component {
             </View>
           ) : (
             <View style={styles.panel}>
+              <Text style={styles.filter}>Contacts</Text>
               <View style={styles.row}>
                 <PhoneButton
                   icon="car"
@@ -126,7 +128,7 @@ export default class Navigation extends Component {
                   number="2172657433"
                 />
                 <PhoneButton
-                  icon="walk"
+                  icon="male"
                   name="SafeWalk"
                   ref="button"
                   number="2173331216"
@@ -142,10 +144,10 @@ export default class Navigation extends Component {
           onSelect={tab => this._onSelect(tab)}
         >
           <Text name="filter" selectedIconStyle={styles.tab}>
-            Filters
+            <FontAwesome name="map" size={32} color={filter ? Colors.tabSelected : Colors.tabUnselected} />
           </Text>
           <Text name="contact" selectedIconStyle={styles.tab}>
-            Contacts
+          <FontAwesome name="phone" size={32} color={filter ? Colors.tabUnselected : Colors.tabSelected} />
           </Text>
         </Tabs>
       </React.Fragment>
