@@ -85,7 +85,7 @@ def save_business_to_db(business_dict):
     """
     Helper function to save python dict object representing a business db entry
     to an actual mongoDB object. Gracefully handles missing hours attribute by
-    replacing it with an empty list.
+    replacing it with an empty list.delete
     """
     location = Location(
         city=business_dict["location"].get("city"),
