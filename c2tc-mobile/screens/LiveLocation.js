@@ -160,7 +160,7 @@ class LiveLocation extends Component {
 
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
-    var list = this.state.markers;
+    let list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
         coordinate: {
