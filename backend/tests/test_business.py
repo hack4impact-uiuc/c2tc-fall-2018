@@ -44,6 +44,7 @@ def test_get_basic(client):
     '''
     Tests get endpoint (all businesses)
     '''
+    client.delete("/businesses")
     insert_test_data(client)
     rs = client.get("/businesses")
     collection = rs.json['result']['businesses']
@@ -53,7 +54,8 @@ def test_get_weekday_afternoon(client):
     '''
     Tests get endpoint (Tuesday 3:43pm)
     '''
-    #insert_test_data(client)
+    client.delete("/businesses")
+    insert_test_data(client)
     rs = client.get("/businesses?day=1&time=1543")
     collection = rs.json['result']['businesses']
     assert len(collection) == 9
@@ -62,7 +64,8 @@ def test_get_weekday_morning(client):
     '''
     Tests get endpoint (Wednesday 10:00am)
     '''
-    #insert_test_data(client)
+    client.delete("/businesses")
+    insert_test_data(client)
     rs = client.get("/businesses?day=2&time=1000")
     collection = rs.json['result']['businesses']
     assert len(collection) == 4
@@ -71,7 +74,8 @@ def test_get_weekend_earlymorning(client):
     '''
     Tests get endpoint (Saturday 12:30am)
     '''
-    #insert_test_data(client)
+    client.delete("/businesses")
+    insert_test_data(client)
     rs = client.get("/businesses?day=5&time=0030")
     collection = rs.json['result']['businesses']
     assert len(collection) == 2
@@ -80,7 +84,8 @@ def test_get_weekday_earlymorning(client):
     '''
     Tests get endpoint (Thursday 3:12am)
     '''
-    #insert_test_data(client)
+    client.delete("/businesses")
+    insert_test_data(client)
     rs = client.get("/businesses?day=3&time=0312")
     collection = rs.json['result']['businesses']
     #print(rs.json)
