@@ -37,7 +37,6 @@ def insert_test_data(client):
     Puts test data in the db
     '''
     businesses = get_businesses()
-    assert businesses[0] = False
     for business_dict in businesses:
         save_business_to_db(business_dict)
 
