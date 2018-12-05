@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
+import { Constants, Location, Permissions } from 'expo';
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -8,7 +9,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../components/API";
 import Loader from "../components/Loader";
 
-import CurrentLocationButton from "../components/NavigationComponents";
+import CurrentLocationButton from "../components/NavigationComponents/CurrentLocationButton";
 
 const { width, height } = Dimensions.get("window");
 
@@ -42,7 +43,8 @@ class LiveLocation extends Component {
       },
       layerData: {},
       loading: true,
-      colorData: {}
+      colorData: {},
+      locationResult: null    
     };
   }
 
@@ -120,6 +122,8 @@ class LiveLocation extends Component {
       },
       loading: false
     });
+
+    this.getLocationAsync();
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -175,6 +179,34 @@ class LiveLocation extends Component {
     }
   };
 
+  backToUser = () => {
+    this.setState({
+      mapRegion: this.state.locationResult,
+    })
+  }
+
+  onRegionChangeRender = (region) => {
+    this.state.mapRegion = region;
+  }
+
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+      locationResult: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let locationTwo = {
+      "latitude": location.coords.latitude,
+      "latitudeDelta": LATITUDE_DELTA,
+      "longitude": location.coords.longitude,
+      "longitudeDelta": LONGITUDE_DELTA
+    }
+    this.setState({ locationResult: locationTwo });
+  };
+  
   render() {
     if (this.state.loading) {
       return <Loader loading={this.state.loading} />;
@@ -187,6 +219,7 @@ class LiveLocation extends Component {
           showsUserLocation={true}
           followUserLocation={true}
           showsMyLocationButton={true}
+          onRegionChange={this.onRegionChangeRender}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -204,7 +237,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        <CurrentLocationButton />
+        <CurrentLocationButton changeLocation={this.backToUser}/>
       </View>
     );
   }
