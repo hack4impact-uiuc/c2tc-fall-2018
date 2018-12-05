@@ -14,7 +14,7 @@ export default class CurrentLocationButton extends Component {
         return (
             <Button
                onPress = {this.props.changeLocation}
-               title = "Red button!"
+               title = "User Location!"
                color = "red"
             />
          );
