@@ -6,10 +6,6 @@ export default class CurrentLocationButton extends Component {
     super(props);
   }
 
-  handlePress() {
-    this.props.changeLocation();
-  }
-
   render() {
     return (
       <Button
