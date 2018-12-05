@@ -8,6 +8,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../components/API";
 import Loader from "../components/Loader";
 
+import CurrentLocationButton from "../components/NavigationComponents";
+
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
@@ -132,6 +134,10 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
+  componentWillMount() {
+    setTimeout(() => {this.setState({statusBarHeight: 5})}, 500);
+  }
+
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
     var list = this.state.markers;
@@ -180,6 +186,7 @@ class LiveLocation extends Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
+          showsMyLocationButton={true}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -197,6 +204,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
+        <CurrentLocationButton />
       </View>
     );
   }
@@ -210,7 +218,8 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: 5
   },
   map: {
     ...StyleSheet.absoluteFillObject
