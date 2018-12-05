@@ -40,7 +40,8 @@ class LiveLocation extends Component {
       },
       layerData: {},
       loading: true,
-      colorData: {}
+      colorData: {},
+      markerClicked: false
     };
   }
 
@@ -151,6 +152,18 @@ class LiveLocation extends Component {
     });
   }
 
+  markerClick = () => {
+    this.setState({
+      markerClicked: true
+    });
+  };
+  
+   changeMarkerToFalse = () => {
+    this.setState({
+      markerClicked: false
+    });
+  };
+
   _onPressToggleLayers = layer => {
     if (this.state.renderData[layer]) {
       this.setState({
@@ -189,11 +202,14 @@ class LiveLocation extends Component {
               image={marker.image}
               title={"asdf"}
               description={"bdsf"}
+              onPress={() => this.markerClick()}
             />
           ))}
         </MapView>
         <Navigation
           ref="panel"
+          description={this.state.markerClicked}
+          onDescExit={this.changeMarkerToFalse}
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
