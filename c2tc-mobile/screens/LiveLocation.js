@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
-import { Constants, Location, Permissions } from 'expo';
+import { Constants, Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -44,7 +44,7 @@ class LiveLocation extends Component {
       layerData: {},
       loading: true,
       colorData: {},
-      locationResult: null    
+      locationResult: null
     };
   }
 
@@ -139,7 +139,9 @@ class LiveLocation extends Component {
   }
 
   componentWillMount() {
-    setTimeout(() => {this.setState({statusBarHeight: 5})}, 500);
+    setTimeout(() => {
+      this.setState({ statusBarHeight: 5 });
+    }, 500);
   }
 
   renderMarkers(layer, data, markerColor) {
@@ -181,32 +183,32 @@ class LiveLocation extends Component {
 
   backToUser = () => {
     this.setState({
-      mapRegion: this.state.locationResult,
-    })
-  }
+      mapRegion: this.state.locationResult
+    });
+  };
 
-  onRegionChangeRender = (region) => {
+  onRegionChangeRender = region => {
     this.state.mapRegion = region;
-  }
+  };
 
   getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-      locationResult: 'Permission to access location was denied',
+        locationResult: "Permission to access location was denied"
       });
     }
 
     let location = await Location.getCurrentPositionAsync({});
     let locationTwo = {
-      "latitude": location.coords.latitude,
-      "latitudeDelta": LATITUDE_DELTA,
-      "longitude": location.coords.longitude,
-      "longitudeDelta": LONGITUDE_DELTA
-    }
+      latitude: location.coords.latitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitude: location.coords.longitude,
+      longitudeDelta: LONGITUDE_DELTA
+    };
     this.setState({ locationResult: locationTwo });
   };
-  
+
   render() {
     if (this.state.loading) {
       return <Loader loading={this.state.loading} />;
@@ -237,7 +239,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        <CurrentLocationButton changeLocation={this.backToUser}/>
+        <CurrentLocationButton changeLocation={this.backToUser} />
       </View>
     );
   }

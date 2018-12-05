@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
-import { Button } from 'react-native'
+import React, { Component } from "react";
+import { Button } from "react-native";
 
 export default class CurrentLocationButton extends Component {
   constructor(props) {
     super(props);
-  }   
+  }
 
-   handlePress() {
-      this.props.changeLocation();
-   }
+  handlePress() {
+    this.props.changeLocation();
+  }
 
-    render() {
-        return (
-            <Button
-               onPress = {this.props.changeLocation}
-               title = "User Location!"
-               color = "red"
-            />
-         );
-    }
+  render() {
+    return (
+      <Button
+        onPress={this.props.changeLocation}
+        title="User Location!"
+        color="red"
+      />
+    );
+  }
 }
