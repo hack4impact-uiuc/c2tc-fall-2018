@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center"
   },
   filter: {
     borderRadius: 10,

@@ -35,7 +35,7 @@ export default class PhoneButton extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    width: (Dimensions.get("window").width / 2) - 50,
+    width: Dimensions.get("window").width / 2 - 50,
     alignItems: "center"
   },
   button: {

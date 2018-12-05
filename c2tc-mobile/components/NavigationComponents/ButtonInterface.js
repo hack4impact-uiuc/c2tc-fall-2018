@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   view: {
-    width: (Dimensions.get("window").width / 2) - 10,
+    width: Dimensions.get("window").width / 2 - 10,
     height: 50,
     padding: 3
   },
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     textAlign: "center",
-    fontWeight: '400',
+    fontWeight: "400",
     width: 100,
     height: 40,
     fontSize: 20,
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   unselectedText: {
     textAlign: "center",
-    fontWeight: '400',
+    fontWeight: "400",
     width: 100,
     height: 40,
     fontSize: 20,
