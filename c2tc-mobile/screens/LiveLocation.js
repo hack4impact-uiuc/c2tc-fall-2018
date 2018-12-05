@@ -45,7 +45,7 @@ class LiveLocation extends Component {
   }
 
   setRegion(region) {
-    if(this.state.ready) {
+    if (this.state.ready) {
       setTimeout(() => this.map.mapview.animateToRegion(region), 10);
     }
   }
