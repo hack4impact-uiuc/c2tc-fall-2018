@@ -6,10 +6,6 @@ from api.views.business import save_business_to_db
 
 # client passed from client - look into pytest for more info about fixtures
 # test client api: http://flask.pocoo.org/docs/1.0/api/#test-client
-def test_index(client):
-    rs = client.get("/")
-    print(businesses)
-    assert rs.status_code == 200
 
 def test_delete(client):
     '''
@@ -50,7 +46,7 @@ def test_get_basic(client):
     '''
     insert_test_data(client)
     rs = client.get("/businesses")
-    collection = Business.objects()
+    print(rs.json)
     assert len(collection) == 12
 
 def test_get_weekday_afternoon(client):
@@ -87,4 +83,5 @@ def test_get_weekday_earlymorning(client):
     #insert_test_data(client)
     rs = client.get("/businesses?day=3&time=0312")
     collection = Business.objects()
+    print(rs.json)
     assert len(collection) == 1
