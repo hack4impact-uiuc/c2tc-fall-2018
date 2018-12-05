@@ -46,7 +46,7 @@ def test_get_basic(client):
     '''
     insert_test_data(client)
     rs = client.get("/businesses")
-    print(rs.json)
+    collection = rs.json['result']['businesses']
     assert len(collection) == 12
 
 def test_get_weekday_afternoon(client):
@@ -55,7 +55,7 @@ def test_get_weekday_afternoon(client):
     '''
     #insert_test_data(client)
     rs = client.get("/businesses?day=1&time=1543")
-    collection = Business.objects()
+    collection = rs.json['result']['businesses']
     assert len(collection) == 9
 
 def test_get_weekday_morning(client):
@@ -64,7 +64,7 @@ def test_get_weekday_morning(client):
     '''
     #insert_test_data(client)
     rs = client.get("/businesses?day=2&time=1000")
-    collection = Business.objects()
+    collection = rs.json['result']['businesses']
     assert len(collection) == 4
 
 def test_get_weekend_earlymorning(client):
@@ -73,7 +73,7 @@ def test_get_weekend_earlymorning(client):
     '''
     #insert_test_data(client)
     rs = client.get("/businesses?day=5&time=0030")
-    collection = Business.objects()
+    collection = rs.json['result']['businesses']
     assert len(collection) == 2
 
 def test_get_weekday_earlymorning(client):
@@ -82,6 +82,6 @@ def test_get_weekday_earlymorning(client):
     '''
     #insert_test_data(client)
     rs = client.get("/businesses?day=3&time=0312")
-    collection = Business.objects()
-    print(rs.json)
+    collection = rs.json['result']['businesses']
+    #print(rs.json)
     assert len(collection) == 1
