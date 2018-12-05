@@ -1,7 +1,7 @@
 # from api.models import  Person
 import pytest
 from api.models.Business import Business
-from tests.business_test_data import businesses
+from tests.business_test_data import get_businesses
 from api.views.business import save_business_to_db
 
 # client passed from client - look into pytest for more info about fixtures
@@ -36,6 +36,8 @@ def insert_test_data(client):
     '''
     Puts test data in the db
     '''
+    businesses = get_businesses()
+    assert businesses[0] = False
     for business_dict in businesses:
         save_business_to_db(business_dict)
 

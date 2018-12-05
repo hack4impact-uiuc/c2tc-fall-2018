@@ -553,3 +553,6 @@ businesses = [{
         ],
         "yelp_id": "wCoAzScVWpL9bsDsyf1EIQ"
       }]
+
+def get_businesses():
+    return businesses
