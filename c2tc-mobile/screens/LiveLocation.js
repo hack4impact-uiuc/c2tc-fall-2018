@@ -4,7 +4,7 @@ import { Constants, Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Colors from "../constants/Colors";
 
 import API from "../components/API";
 import Loader from "../components/Loader";
@@ -23,7 +23,8 @@ const icons = {
   busStop: require("../assets/images/bus.png"),
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
-  emergency: require("../assets/images/phone.png")
+  emergency: require("../assets/images/phone.png"),
+  policeStations: require("../assets/images/police.png")
 };
 
 class LiveLocation extends Component {
@@ -46,6 +47,12 @@ class LiveLocation extends Component {
       colorData: {},
       locationResult: null
     };
+  }
+
+  setRegion(region) {
+    if (this.state.ready) {
+      setTimeout(() => this.map.mapview.animateToRegion(region), 10);
+    }
   }
 
   async componentDidMount() {
@@ -97,6 +104,7 @@ class LiveLocation extends Component {
       let crimeData = await API.getCrimes();
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
+      let policeStations = await API.getPoliceStations();
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -105,6 +113,10 @@ class LiveLocation extends Component {
         "emergencyData",
         JSON.stringify(emergencyData)
       );
+      await AsyncStorage.setItem(
+        "policeStations",
+        JSON.stringify(policeStations)
+      );
     }
 
     this.setState({
@@ -112,13 +124,15 @@ class LiveLocation extends Component {
         busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+        policeStations: JSON.parse(await AsyncStorage.getItem("policeStations"))
       },
       colorData: {
-        busStop: "#841584",
-        crime: "#000000",
-        business: "#ffffff",
-        emergency: "#123123"
+        busStop: Colors.busStop,
+        crime: Colors.crime,
+        business: Colors.business,
+        emergency: Colors.emergency,
+        policeStations: Colors.police
       },
       loading: false
     });
