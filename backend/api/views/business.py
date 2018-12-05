@@ -22,13 +22,19 @@ def open_businesses():
     day = int(request.args.get("day", default=-1))
     if time == -1 or day == -1:
         return get_business()
+    p_day = day - 1
+    if p_day == -1:
+        p_day = 6
     open_businesses = []
     for b in data:
         curr_day = get_open_business_day(b, day)
+        prev_day = get_open_business_day(b, p_day)
         if curr_day == None:
             continue
         if int(curr_day.start) <= time and int(curr_day.end) >= time:
             # open
+            open_businesses.append(b.to_mongo())
+        elif prev_day != None and prev_day.is_overnight and int(curr_day.end) >= time:
             open_businesses.append(b.to_mongo())
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
