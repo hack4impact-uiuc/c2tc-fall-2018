@@ -56,8 +56,15 @@ def test_get_weekday_afternoon(client):
     '''
     client.delete("/businesses")
     insert_test_data(client)
-    rs = client.get("/businesses?day=1&time=1543")
+    params = {
+    'day': '1',
+    'time': '1543'
+    }
+    rs = client.get("/businesses", query_string = params)
+    # print(rs)
+    print(rs.json)
     collection = rs.json['result']['businesses']
+    print(collection)
     assert len(collection) == 9
 
 def test_get_weekday_morning(client):
