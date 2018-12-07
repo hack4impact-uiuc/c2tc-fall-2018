@@ -41,7 +41,9 @@ class LiveLocation extends Component {
       layerData: {},
       loading: true,
       colorData: {},
-      markerClicked: false
+      markerClicked: false,
+      markerTitle: "",
+      markerDescrption: ""
     };
   }
 
@@ -141,6 +143,19 @@ class LiveLocation extends Component {
 
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
+    if (markerColor === this.state.colorData.busStop) {
+      title = "Bus Stop"
+      description = "There is a bus stop here."
+    } else if (markerColor === this.state.colorData.emergency) {
+      title = "Emergency Phone"
+      description = "There is an emergency phone here."
+    } else if (markerColor === this.state.colorData.crime) {
+      title = "Crime"
+      description = "A crime happened here."
+    } else if (markerColor === this.state.colorData.business) {
+      title = "Business"
+      description = "There is an open business here."
+    }
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       list.push({
@@ -150,7 +165,9 @@ class LiveLocation extends Component {
         },
         key: id++,
         color: markerColor,
-        image: icons[layer]
+        image: icons[layer],
+        title: title,
+        description: description
       });
     }
     this.setState({
@@ -158,9 +175,11 @@ class LiveLocation extends Component {
     });
   }
 
-  markerClick = () => {
+  markerClick = (title, description) => {
     this.setState({
-      markerClicked: true
+      markerClicked: true,
+      markerTitle: title,
+      markerDescrption: description
     });
   };
   
@@ -206,15 +225,17 @@ class LiveLocation extends Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               image={marker.image}
-              title={"asdf"}
-              description={"bdsf"}
-              onPress={() => this.markerClick()}
+              title={marker.title}
+              description={marker.description}
+              onPress={() => {this.markerClick(marker.title, marker.description)}}
             />
           ))}
         </MapView>
         <Navigation
           ref="panel"
           description={this.state.markerClicked}
+          descriptionTitle={this.state.markerTitle}
+          descriptionContent={this.state.markerDescrption}
           onDescExit={this.changeMarkerToFalse}
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}

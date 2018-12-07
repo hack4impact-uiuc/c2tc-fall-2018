@@ -80,8 +80,8 @@ export default class Navigation extends Component {
           {this.props.description ? (
             <View style={styles.title}>
               <View style={styles.panel}>
-                <Text style={styles.filter}>Description Title</Text>
-                <Text>Description content.</Text>
+                <Text style={styles.filter}>{ this.props.descriptionTitle }</Text>
+                <Text>{ this.props.descriptionContent }</Text>
               </View>
             </View>
           ) : (
