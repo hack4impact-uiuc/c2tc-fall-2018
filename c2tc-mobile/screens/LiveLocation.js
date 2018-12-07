@@ -18,6 +18,7 @@ const LATITUDE_DELTA = 0.017;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let id = 0;
+let newLine = "\n\n";
 
 const icons = {
   busStop: require("../assets/images/bus.png"),
@@ -164,7 +165,10 @@ class LiveLocation extends Component {
 
     let pythag =
       Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-      Math.sin(deltaLong / 2) * Math.sin(deltaLong / 2) * Math.cos(currentLat) * Math.cos(finalLat);
+      Math.sin(deltaLong / 2) *
+        Math.sin(deltaLong / 2) *
+        Math.cos(currentLat) *
+        Math.cos(finalLat);
     let deriv = 2 * Math.atan2(Math.sqrt(pythag), Math.sqrt(1 - pythag));
     let mult = earthRadius * deriv;
     kmToMiles = mult / 1.6;
@@ -201,9 +205,9 @@ class LiveLocation extends Component {
         title = distance + " miles away";
         description =
           "CRIME" +
-          "\n\n" +
+          newLine +
           data[i].incident_type_primary +
-          "\n\n" +
+          newLine +
           data[i].incident_description +
           " at " +
           data[i].incident_datetime;
