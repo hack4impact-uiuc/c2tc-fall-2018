@@ -19,13 +19,11 @@ def test_update(client):
     '''
     Tests update endpoint.
     '''
-    '''
-    rs = client.post("/emergency-phones")
-    collection = Business.objects()
+    rs = client.post("/crimes")
+    collection = Crime.objects()
     assert len(collection) > 0
     assert rs.status_code == 200
 
-    '''
 
 def insert_test_data(client):
     '''
