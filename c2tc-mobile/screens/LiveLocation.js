@@ -141,25 +141,25 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  getDistance(lat1,lon1,lat2,lon2) {
+  getDistance(lat1, lon1, lat2, lon2) {
     var R = 6371;
-    var dLat = this.toRad(lat2-lat1);
-    var dLon = this.toRad(lon2-lon1);
+    var dLat = this.toRad(lat2 - lat1);
+    var dLon = this.toRad(lon2 - lon1);
     var lat1 = this.toRad(lat1);
     var lat2 = this.toRad(lat2);
 
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     f = d / 1.6;
-    return Math.round(f * 100) / 100
+    return Math.round(f * 100) / 100;
   }
-  
-  toRad(Value) 
-    {
-        return Value * Math.PI / 180;
-    }
+
+  toRad(Value) {
+    return (Value * Math.PI) / 180;
+  }
 
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
@@ -171,10 +171,22 @@ class LiveLocation extends Component {
       } else if (markerColor === this.state.colorData.emergency) {
         title = "Emergency Phone";
         description = "There is an emergency phone here.";
-      } else if (markerColor === this.state.colorData.crime) {      
-        distance = this.getDistance(data[i].latitude, data[i].longitude, this.state.mapRegion.latitude, this.state.mapRegion.longitude)
-        title = distance + " miles away"
-        description = "CRIME" + "\n\n" + data[i].incident_type_primary + "\n\n" + data[i].incident_description + " at " + data[i].incident_datetime;
+      } else if (markerColor === this.state.colorData.crime) {
+        distance = this.getDistance(
+          data[i].latitude,
+          data[i].longitude,
+          this.state.mapRegion.latitude,
+          this.state.mapRegion.longitude
+        );
+        title = distance + " miles away";
+        description =
+          "CRIME" +
+          "\n\n" +
+          data[i].incident_type_primary +
+          "\n\n" +
+          data[i].incident_description +
+          " at " +
+          data[i].incident_datetime;
       } else if (markerColor === this.state.colorData.business) {
         title = data[i].name;
         description = "There is an open business here.";
