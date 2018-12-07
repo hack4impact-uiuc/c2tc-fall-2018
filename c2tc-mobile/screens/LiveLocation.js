@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
+import { Constants, Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -7,6 +8,8 @@ import Colors from "../constants/Colors";
 
 import API from "../components/API";
 import Loader from "../components/Loader";
+
+import CurrentLocationButton from "../components/NavigationComponents/CurrentLocationButton";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,7 +23,8 @@ const icons = {
   busStop: require("../assets/images/bus.png"),
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
-  emergency: require("../assets/images/phone.png")
+  emergency: require("../assets/images/phone.png"),
+  policeStations: require("../assets/images/police.png")
 };
 
 class LiveLocation extends Component {
@@ -43,7 +47,8 @@ class LiveLocation extends Component {
       colorData: {},
       markerClicked: false,
       markerTitle: "",
-      markerDescrption: ""
+      markerDescrption: "",
+      locationResult: null
     };
   }
 
@@ -102,6 +107,7 @@ class LiveLocation extends Component {
       let crimeData = await API.getCrimes();
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
+      let policeStations = await API.getPoliceStations();
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -110,6 +116,10 @@ class LiveLocation extends Component {
         "emergencyData",
         JSON.stringify(emergencyData)
       );
+      await AsyncStorage.setItem(
+        "policeStations",
+        JSON.stringify(policeStations)
+      );
     }
 
     this.setState({
@@ -117,16 +127,20 @@ class LiveLocation extends Component {
         busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+        policeStations: JSON.parse(await AsyncStorage.getItem("policeStations"))
       },
       colorData: {
         busStop: Colors.busStop,
         crime: Colors.crime,
         business: Colors.business,
-        emergency: Colors.emergency
+        emergency: Colors.emergency,
+        policeStations: Colors.police
       },
       loading: false
     });
+
+    this.getLocationAsync();
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -160,10 +174,16 @@ class LiveLocation extends Component {
   toRad(Value) {
     return (Value * Math.PI) / 180;
   }
+  
+  componentWillMount() {
+    setTimeout(() => {
+      this.setState({ statusBarHeight: 5 });
+    }, 500);
+  }
 
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
-    var list = this.state.markers;
+    let list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       if (markerColor === this.state.colorData.busStop) {
         title = data[i].stop_name;
@@ -240,6 +260,34 @@ class LiveLocation extends Component {
     }
   };
 
+  backToUser = () => {
+    this.setState({
+      mapRegion: this.state.locationResult
+    });
+  };
+
+  onRegionChangeRender = region => {
+    this.state.mapRegion = region;
+  };
+
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        locationResult: "Permission to access location was denied"
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let locationTwo = {
+      latitude: location.coords.latitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitude: location.coords.longitude,
+      longitudeDelta: LONGITUDE_DELTA
+    };
+    this.setState({ locationResult: locationTwo });
+  };
+
   render() {
     if (this.state.loading) {
       return <Loader loading={this.state.loading} />;
@@ -251,6 +299,8 @@ class LiveLocation extends Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
+          showsMyLocationButton={true}
+          onRegionChange={this.onRegionChangeRender}
         >
           {this.state.markers.map(marker => (
             <Marker
@@ -277,6 +327,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
+        <CurrentLocationButton changeLocation={this.backToUser} />
       </View>
     );
   }
@@ -290,7 +341,8 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    paddingTop: 5
   },
   map: {
     ...StyleSheet.absoluteFillObject
