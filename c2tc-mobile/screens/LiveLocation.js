@@ -146,17 +146,18 @@ class LiveLocation extends Component {
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       if (markerColor === this.state.colorData.busStop) {
-        title = "Bus Stop"
-        description = "There is a bus stop here."
+        title = "Bus Stop";
+        description = "There is a bus stop here.";
       } else if (markerColor === this.state.colorData.emergency) {
-        title = "Emergency Phone"
-        description = "There is an emergency phone here."
+        title = "Emergency Phone";
+        description = "There is an emergency phone here.";
       } else if (markerColor === this.state.colorData.crime) {
-        title = data[i].incident_type_primary
-        description = data[i].incident_description + " at " + data[i].incident_datetime
+        title = data[i].incident_type_primary;
+        description =
+          data[i].incident_description + " at " + data[i].incident_datetime;
       } else if (markerColor === this.state.colorData.business) {
-        title = data[i].name
-        description = "There is an open business here."
+        title = data[i].name;
+        description = "There is an open business here.";
       }
       list.push({
         coordinate: {
@@ -182,8 +183,8 @@ class LiveLocation extends Component {
       markerDescrption: description
     });
   };
-  
-   changeMarkerToFalse = () => {
+
+  changeMarkerToFalse = () => {
     this.setState({
       markerClicked: false
     });
@@ -227,9 +228,11 @@ class LiveLocation extends Component {
               image={marker.image}
               title={marker.title}
               description={marker.description}
-              onPress={() => {this.markerClick(marker.title, marker.description)}}
+              onPress={() => {
+                this.markerClick(marker.title, marker.description);
+              }}
             >
-            <MapView.Callout tooltip={true} />
+              <MapView.Callout tooltip={true} />
             </Marker>
           ))}
         </MapView>
