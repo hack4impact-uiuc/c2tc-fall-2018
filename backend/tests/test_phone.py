@@ -19,13 +19,10 @@ def test_update(client):
     '''
     Tests update endpoint.
     '''
-    '''
     rs = client.post("/emergency-phones")
-    collection = Business.objects()
+    collection = EmergencyPhone.objects()
     assert len(collection) > 0
     assert rs.status_code == 200
-
-    '''
 
 def insert_test_data(client):
     '''
@@ -48,13 +45,3 @@ def test_get_basic(client):
     rs = client.get("/emergency-phones")
     collection = rs.json['result']['emergencyPhones']
     assert len(collection) == 3
-
-def test_insert_bad_data(client):
-    '''
-    Tests get endpoint (all phones)
-    '''
-    phones = get_bad_data()
-    for phone_dict in phones:
-        save_phone_to_db(phone_dict)
-
-    assert len(collection) == 0
