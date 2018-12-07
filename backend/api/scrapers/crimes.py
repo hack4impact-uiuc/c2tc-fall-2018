@@ -67,22 +67,20 @@ def pull_data(headers, payload, api_url):
     for raw_record in data.json():
         record = {}
         for field in req_fields:
-            if (field == "incident_description"):
+            if field == "incident_description":
                 record[field] = format_string(raw_record.get(field))
-            elif (field == "incident_type_primary"):
+            elif field == "incident_type_primary":
                 record[field] = raw_record.get(field).title()
             else:
                 record[field] = raw_record.get(field)
         return_data[record["incident_id"]] = record
     return return_data
 
+
 def format_string(text):
-    TAG_RE = re.compile(r'<[^>]+>')
-    stripped = TAG_RE.sub('', text)
+    TAG_RE = re.compile(r"<[^>]+>")
+    stripped = TAG_RE.sub("", text)
     return stripped.capitalize()
-
-
-    
 
 
 def crime_scrape():

@@ -60,7 +60,7 @@ def save_crime_to_db(crime_dict):
         hour_of_day=crime_dict.get("hour_of_day"),
         day_of_week=crime_dict.get("day_of_week"),
         parent_incident_type=crime_dict.get("parent_incident_type"),
-        incident_datetime=formatted_date
+        incident_datetime=formatted_date,
     )
     crime.save()
 
