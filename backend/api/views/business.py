@@ -36,8 +36,8 @@ def open_businesses():
             open_businesses.append(b.to_mongo())
         if prev_day != None:
             print(type(prev_day.is_overnight))
-        elif prev_day != None and prev_day.is_overnight == "true" and int(prev_day.end) >= time:
-            open_businesses.append(b.to_mongo())
+        #elif prev_day != None and prev_day.is_overnight == "true" and int(prev_day.end) >= time:
+            #open_businesses.append(b.to_mongo())
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
 
@@ -147,9 +147,7 @@ def clear_businesses():
 
 def delete_business_collection():
     """
-    Helper function to delete phone collection in db.
+    Helper function to delete business collection in db.
     """
-    count = len(Business.objects())
-    for business in Business.objects():
-        business.delete()
-    return count
+    result = Business.objects().delete()
+    return result
