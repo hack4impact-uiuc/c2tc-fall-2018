@@ -152,11 +152,10 @@ class LiveLocation extends Component {
         title = "Emergency Phone"
         description = "There is an emergency phone here."
       } else if (markerColor === this.state.colorData.crime) {
-        title = "Crime"
-        description = data[i].incident_type_primary
+        title = data[i].incident_type_primary
+        description = data[i].incident_description + " at " + data[i].incident_datetime
       } else if (markerColor === this.state.colorData.business) {
         title = data[i].name
-
         description = "There is an open business here."
       }
       list.push({
@@ -229,7 +228,9 @@ class LiveLocation extends Component {
               title={marker.title}
               description={marker.description}
               onPress={() => {this.markerClick(marker.title, marker.description)}}
-            />
+            >
+            <MapView.Callout tooltip={true} />
+            </Marker>
           ))}
         </MapView>
         <Navigation
