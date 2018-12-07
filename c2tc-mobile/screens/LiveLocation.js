@@ -11,7 +11,7 @@ import Loader from "../components/Loader";
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.017;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let id = 0;
@@ -143,21 +143,22 @@ class LiveLocation extends Component {
 
   renderMarkers(layer, data, markerColor) {
     data = this.state.layerData[layer];
-    if (markerColor === this.state.colorData.busStop) {
-      title = "Bus Stop"
-      description = "There is a bus stop here."
-    } else if (markerColor === this.state.colorData.emergency) {
-      title = "Emergency Phone"
-      description = "There is an emergency phone here."
-    } else if (markerColor === this.state.colorData.crime) {
-      title = "Crime"
-      description = "A crime happened here."
-    } else if (markerColor === this.state.colorData.business) {
-      title = "Business"
-      description = "There is an open business here."
-    }
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
+      if (markerColor === this.state.colorData.busStop) {
+        title = "Bus Stop"
+        description = "There is a bus stop here."
+      } else if (markerColor === this.state.colorData.emergency) {
+        title = "Emergency Phone"
+        description = "There is an emergency phone here."
+      } else if (markerColor === this.state.colorData.crime) {
+        title = "Crime"
+        description = data[i].incident_type_primary
+      } else if (markerColor === this.state.colorData.business) {
+        title = data[i].name
+
+        description = "There is an open business here."
+      }
       list.push({
         coordinate: {
           latitude: data[i].latitude,
