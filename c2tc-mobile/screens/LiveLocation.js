@@ -174,7 +174,7 @@ class LiveLocation extends Component {
   toRad(Value) {
     return (Value * Math.PI) / 180;
   }
-  
+
   componentWillMount() {
     setTimeout(() => {
       this.setState({ statusBarHeight: 5 });
