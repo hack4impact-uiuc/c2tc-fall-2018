@@ -156,23 +156,23 @@ class LiveLocation extends Component {
   }
 
   getDistance(lat1, lon1, lat2, lon2) {
-    var R = 6371;
-    var dLat = this.toRad(lat2 - lat1);
-    var dLon = this.toRad(lon2 - lon1);
-    var lat1 = this.toRad(lat1);
-    var lat2 = this.toRad(lat2);
+    let earthRadius = 6371;
+    let deltaLat = this.toRad(lat2 - lat1);
+    let deltaLong = this.toRad(lon2 - lon1);
+    let currentLat = this.toRad(lat1);
+    let finalLat = this.toRad(lat2);
 
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    f = d / 1.6;
-    return Math.round(f * 100) / 100;
+    let pythag =
+      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+      Math.sin(deltaLong / 2) * Math.sin(deltaLong / 2) * Math.cos(currentLat) * Math.cos(finalLat);
+    let deriv = 2 * Math.atan2(Math.sqrt(pythag), Math.sqrt(1 - pythag));
+    let mult = earthRadius * deriv;
+    kmToMiles = mult / 1.6;
+    return Math.round(kmToMiles * 100) / 100;
   }
 
-  toRad(Value) {
-    return (Value * Math.PI) / 180;
+  toRad(value) {
+    return (value * Math.PI) / 180;
   }
 
   componentWillMount() {
