@@ -71,8 +71,6 @@ def pull_data(headers, payload, api_url):
                 record[field] = format_string(raw_record.get(field))
             elif (field == "incident_type_primary"):
                 record[field] = raw_record.get(field).title()
-            elif (field == "incident_datetime"):
-                print(raw_record.get(field))
             else:
                 record[field] = raw_record.get(field)
         return_data[record["incident_id"]] = record
