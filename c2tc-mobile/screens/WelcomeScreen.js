@@ -121,7 +121,7 @@ class WelcomeScreen extends React.Component {
             alignSelf: 'center',
             width: 500,
             height: 500,
-            margin: -355,
+            margin: -300,
           }}
           source={require('../assets/images/welcome/6.png')}
           resizeMode="contain"
