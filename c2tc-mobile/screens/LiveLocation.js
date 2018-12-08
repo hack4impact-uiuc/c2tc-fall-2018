@@ -25,7 +25,7 @@ const icons = {
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
   emergency: require("../assets/images/phone.png"),
-  policeStations: require("../assets/images/police.png"),
+  policeStations: require("../assets/images/police.png")
   // streetLights: require("../assets/images/streetlights.png"),
 };
 
@@ -132,7 +132,9 @@ class LiveLocation extends Component {
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
         emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
-        policeStations: JSON.parse(await AsyncStorage.getItem("policeStations")),
+        policeStations: JSON.parse(
+          await AsyncStorage.getItem("policeStations")
+        ),
         streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
       },
       colorData: {

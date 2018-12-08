@@ -127,14 +127,14 @@ export default class Navigation extends Component {
                       />
                     </View>
                     <View style={styles.row}>
-                    <ButtonInterface
-                    icon="shield"
-                    name="Police Stations"
-                    type="policeStations"
-                    ref="button"
-                    color={Colors.police}
-                    parentPanel={this}
-                  />
+                      <ButtonInterface
+                        icon="shield"
+                        name="Police Stations"
+                        type="policeStations"
+                        ref="button"
+                        color={Colors.police}
+                        parentPanel={this}
+                      />
                       <ButtonInterface
                         icon="lightbulb-o"
                         name="Streetlights"
