@@ -26,7 +26,7 @@ const icons = {
   business: require("../assets/images/business.png"),
   emergency: require("../assets/images/phone.png"),
   policeStations: require("../assets/images/police.png"),
-  streetLights: require("../assets/images/streetlights.png"),
+  // streetLights: require("../assets/images/streetlights.png"),
 };
 
 class LiveLocation extends Component {
@@ -110,7 +110,7 @@ class LiveLocation extends Component {
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
       let policeStations = await API.getPoliceStations();
-      let streetLights = await API.getStreetLight();
+      // let streetLights = await API.getStreetLight();
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -123,6 +123,7 @@ class LiveLocation extends Component {
         "policeStations",
         JSON.stringify(policeStations)
       );
+      // await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
 
     this.setState({
@@ -338,7 +339,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        <CurrentLocationButton changeLocation={this.backToUser} />
+        {/* <CurrentLocationButton changeLocation={this.backToUser} /> */}
       </View>
     );
   }
