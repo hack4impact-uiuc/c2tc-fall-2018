@@ -35,12 +35,12 @@ python manage.py runserver
 ```
 To run the frontend
 ```
-cd react_frontend
+cd c2tc-mobile
 npm install                 # install dependencies
 npm install -g expo-cli     # do this step if you have never used expo before.
 # Install the Expo Mobile App on phone if you have never used expo before.
 expo start
-# scan QR code with phone (use camera if you have an iphone and use expo app if you have an android.)
+# Scan QR code with phone (use camera if you have an iphone and use expo app if you have an android.)
 ```
 Note: if you prefer using npm, use `npm` instead of `yarn` in commands provided above
 
