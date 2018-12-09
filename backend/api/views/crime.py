@@ -99,16 +99,18 @@ def delete_crime_collection():
             print("{crime.incident_id} : not deleted")
     return count
 
+
 def check_long():
     """
     Helper function to get important crimes
     """
-    with open('./api/views/header.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+    with open("./api/views/header.csv") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
             if row[0] not in dic:
                 dic["[UIPD] " + row[0].upper()] = row[1]
     print(dic)
+
 
 def check_filter(id):
     """
