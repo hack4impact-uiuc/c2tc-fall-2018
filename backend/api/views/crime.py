@@ -91,14 +91,13 @@ def delete_crime_collection():
             crime.delete()
         else:
             crime.duration = duration - 30
-            print("{crime.incident_id} : not deleted")
     return count
 
 def check_long():
     """
     Helper function to get important crimes
     """
-    with open('./api/views/header.csv') as csv_file:
+    with open('./api/views/crime_duration.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         for row in csv_reader:
             if row[0] not in dic:
