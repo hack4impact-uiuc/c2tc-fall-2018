@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+import { Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -332,6 +332,10 @@ class LiveLocation extends Component {
             </Marker>
           ))}
         </MapView>
+        <View style={styles.zoom}>
+          <CurrentLocationButton changeLocation={this.backToUser} />
+        </View>
+
         <Navigation
           ref="panel"
           description={this.state.markerClicked}
@@ -341,7 +345,7 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        {/* <CurrentLocationButton changeLocation={this.backToUser} /> */}
+        <CurrentLocationButton changeLocation={this.backToUser} />
       </View>
     );
   }
@@ -352,6 +356,11 @@ LiveLocation.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  zoom: {
+    position: "absolute",
+    top: "30%",
+    alignSelf: "flex-end"
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",
