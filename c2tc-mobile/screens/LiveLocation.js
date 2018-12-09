@@ -357,7 +357,7 @@ LiveLocation.propTypes = {
 const styles = StyleSheet.create({
   zoom: {
     position: "absolute",
-    top: "30%",
+    top: "5%",
     alignSelf: "flex-end"
   },
   container: {
