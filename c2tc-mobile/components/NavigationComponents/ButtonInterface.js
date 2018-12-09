@@ -79,19 +79,21 @@ const styles = StyleSheet.create({
     width: 35
   },
   selectedText: {
-    textAlign: "center",
+    paddingLeft: 10,
+    textAlign: "left",
     fontWeight: "400",
-    width: 100,
+    width: Dimensions.get("window").width / 2 - 75,
     flexWrap: "wrap",
     height: 50,
     fontSize: 18,
     color: "white"
   },
   unselectedText: {
-    textAlign: "center",
+    paddingLeft: 10,
+    textAlign: "left",
     fontWeight: "400",
     flexWrap: "wrap",
-    width: 100,
+    width: Dimensions.get("window").width / 2 - 75,
     height: 50,
     fontSize: 18,
     color: "#8e8e93"
