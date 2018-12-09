@@ -18,14 +18,15 @@ def test_delete(client):
     assert rs.status_code == 200
 
 
-# def test_update(client):
-#     """
-#     Tests update endpoint.
-#     """
-#     rs = client.post("/businesses")
-#     collection = Business.objects()
-#     assert len(collection) > 0
-#     assert rs.status_code == 200
+
+def test_update(client):
+    """
+    Tests update endpoint.
+    """
+    # rs = client.post("/businesses")
+    # collection = Business.objects()
+    # assert len(collection) > 0
+    # assert rs.status_code == 200
 
 
 def insert_test_data(client):
