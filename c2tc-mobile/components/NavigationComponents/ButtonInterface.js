@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     width: 100,
     height: 40,
-    fontSize: 20,
+    fontSize: 18,
     color: "white"
   },
   unselectedText: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     width: 100,
     height: 40,
-    fontSize: 20,
+    fontSize: 18,
     color: "#8e8e93"
   }
 });
