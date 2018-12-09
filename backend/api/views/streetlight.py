@@ -17,19 +17,6 @@ def get_streetlight():
     logger.info("STREETLIGHTS: %s", response)
     return create_response(data=response)
 
-
-# @streetlight.route("/streetlights", methods=["POST"])
-# def create_streetlight():
-#     """
-#     POST function for posting a hard-coded Streetlight object for testing purposes
-#     """
-#     streetlight = Streetlight.objects.create(
-#         streetlight_id=0, latitude=200.2, longitude=300.3
-#     )
-#     streetlight.save()
-
-#     return create_response(message="success!")
-
 @streetlight.route("/streetlights", methods=["POST"])
 def scrape_streetlights():
     """
@@ -38,13 +25,9 @@ def scrape_streetlights():
     """
     try:
         data = streetlight_scrape()
-        # print(type(data))
         delete_streetlight_collection()
         for streetlight_id in data.keys():
-            print("data: ", data[streetlight_id])
-            # print("id: ", streetlight_id)
             save_streetlight_to_db(data[streetlight_id])
-            # print("data again: ", data[streetlight_id])
         return create_response(status=200, message="success!")
     except requests.exceptions.HTTPError:
         return create_response(status=500, message="HTTPError")
@@ -59,7 +42,6 @@ def save_streetlight_to_db(streetlight_dict):
     Helper function to save python dict object representing a streetlight db entry
     to an actual mongoDB object.
     """
-    print("yeet1")
     latitude=streetlight_dict.get("latitude") 
     longitude=streetlight_dict.get("longitude")
     if latitude and longitude:
@@ -67,14 +49,31 @@ def save_streetlight_to_db(streetlight_dict):
             latitude=streetlight_dict.get("latitude"), 
             longitude=streetlight_dict.get("longitude")
         )
-        # Streetlight.collection.dro
         streetlight.save()
+
+@streetlight.route("/streetlights", methods=["DELETE"])
+def clear_streetlights():
+    """
+    DELETE method which wraps the delete streetlight collection function as
+    an API endpoint.
+    """
+    try:
+        count = delete_streetlight_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
 
 def delete_streetlight_collection():
     """
     Helper function to delete streetlight collection in db.
     """
     result = len(Streetlight.objects())
+    count = 0
     for streetlight in Streetlight.objects():
         streetlight.delete()
+        count = count + 1
     return result
