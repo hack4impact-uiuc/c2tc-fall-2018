@@ -345,7 +345,6 @@ class LiveLocation extends Component {
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        <CurrentLocationButton changeLocation={this.backToUser} />
       </View>
     );
   }
