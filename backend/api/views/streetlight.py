@@ -17,6 +17,7 @@ def get_streetlight():
     logger.info("STREETLIGHTS: %s", response)
     return create_response(data=response)
 
+
 @streetlight.route("/streetlights", methods=["POST"])
 def scrape_streetlights():
     """
@@ -42,14 +43,15 @@ def save_streetlight_to_db(streetlight_dict):
     Helper function to save python dict object representing a streetlight db entry
     to an actual mongoDB object.
     """
-    latitude=streetlight_dict.get("latitude") 
-    longitude=streetlight_dict.get("longitude")
+    latitude = streetlight_dict.get("latitude")
+    longitude = streetlight_dict.get("longitude")
     if latitude and longitude:
         streetlight = Streetlight.objects.create(
-            latitude=streetlight_dict.get("latitude"), 
-            longitude=streetlight_dict.get("longitude")
+            latitude=streetlight_dict.get("latitude"),
+            longitude=streetlight_dict.get("longitude"),
         )
         streetlight.save()
+
 
 @streetlight.route("/streetlights", methods=["DELETE"])
 def clear_streetlights():
@@ -66,6 +68,7 @@ def clear_streetlights():
         return create_response(
             status=500, message="Could not clear collection: " + repr(e)
         )
+
 
 def delete_streetlight_collection():
     """
