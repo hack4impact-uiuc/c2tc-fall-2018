@@ -1,19 +1,24 @@
 import React from "react";
-import { Animated, View, Image, Text, ImageBackground, Button, StyleSheet } from "react-native";
+import {
+  Animated,
+  View,
+  Image,
+  Text,
+  ImageBackground,
+  Button,
+  StyleSheet
+} from "react-native";
 
 class FadeInView extends React.Component {
   state = {
-    fadeAnim: new Animated.Value(0),
+    fadeAnim: new Animated.Value(0)
   };
 
   componentDidMount() {
-    Animated.timing(
-      this.state.fadeAnim,
-      {
-        toValue: 1,
-        duration: 1500
-      }
-    ).start();
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 1,
+      duration: 1500
+    }).start();
   }
 
   render() {
@@ -76,5 +81,5 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     margin: 13
-  },
+  }
 });
