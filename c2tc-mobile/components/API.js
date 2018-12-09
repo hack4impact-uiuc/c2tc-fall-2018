@@ -60,7 +60,9 @@ async function getPoliceStations() {
 
 async function getStreetLight() {
   try {
-    let response = await fetch("https://h4i-cut-to-the-case-backend.now.sh/streetlights");
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/streetlights"
+    );
     let responseJson = await response.json();
     return responseJson.result.streetlights;
   } catch (error) {
