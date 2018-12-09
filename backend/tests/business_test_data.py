@@ -9,7 +9,7 @@ businesses = [{
           "zip_code": "61802"
         },
         "name": "Cookies by Design",
-        "open_hours": [],
+        "hours": [{"open":[]}],
         "yelp_id": "Xg0KdzifsyAtHQVwFRUJ5A"
       },
       {
@@ -23,7 +23,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Bob Evans",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2100",
@@ -66,6 +67,7 @@ businesses = [{
             "is_overnight": False,
             "start": "0600"
           }
+          ]}
         ],
         "yelp_id": "5uvf3QpmrdU2aiqmF4278A"
       },
@@ -80,7 +82,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "TGI Fridays",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2200",
@@ -123,6 +126,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1100"
           }
+          ]}
         ],
         "yelp_id": "iO86eCaZJBHqi1sZ1ELk6A"
       },
@@ -137,7 +141,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Panera Bread",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2100",
@@ -180,6 +185,7 @@ businesses = [{
             "is_overnight": False,
             "start": "0700"
           }
+          ]}
         ],
         "yelp_id": "2pbOSrbB5AtQIa240AXNvQ"
       },
@@ -194,7 +200,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Old Chicago",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2300",
@@ -237,6 +244,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1100"
           }
+          ]}
         ],
         "yelp_id": "TEXUVhF-G_v2Sxwqti8HQA"
       },
@@ -251,7 +259,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Red Robin Gourmet Burgers",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2200",
@@ -294,6 +303,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1100"
           }
+          ]}
         ],
         "yelp_id": "y2V42mxWvVoH4NvUT_n8eg"
       },
@@ -308,7 +318,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Panda Express",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2100",
@@ -351,6 +362,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1100"
           }
+          ]}
         ],
         "yelp_id": "MA5R-mV6ljRM1MK6Mdiv5g"
       },
@@ -365,7 +377,7 @@ businesses = [{
           "zip_code": "61874"
         },
         "name": "Star Karaoke",
-        "open_hours": [],
+        "hours": [{"open":[]}],
         "yelp_id": "dE_5fWVjBA0W4H7q2iwijQ"
       },
       {
@@ -379,7 +391,8 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "McAlister's Deli",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2100",
@@ -422,6 +435,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1030"
           }
+          ]}
         ],
         "yelp_id": "o9nGD3J0btXjE9M6IdgZTA"
       },
@@ -436,7 +450,7 @@ businesses = [{
           "zip_code": "61820"
         },
         "name": "Great American Grill",
-        "open_hours": [],
+        "hours": [{"open":[]}],
         "yelp_id": "vVNN2uxnrlTU4fmr59x9zg"
       },
       {
@@ -450,7 +464,8 @@ businesses = [{
           "zip_code": "61802"
         },
         "name": "Arby's",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "2300",
@@ -493,6 +508,7 @@ businesses = [{
             "is_overnight": False,
             "start": "1000"
           }
+          ]}
         ],
         "yelp_id": "3C_S1j70o3nYJUTvnVo7dQ"
       },
@@ -507,7 +523,8 @@ businesses = [{
           "zip_code": "61801"
         },
         "name": "McDonald's",
-        "open_hours": [
+        "hours": [
+        {"open":[
           {
             "day": 0,
             "end": "0000",
@@ -550,6 +567,7 @@ businesses = [{
             "is_overnight": True,
             "start": "0000"
           }
+          ]}
         ],
         "yelp_id": "wCoAzScVWpL9bsDsyf1EIQ"
       }]
