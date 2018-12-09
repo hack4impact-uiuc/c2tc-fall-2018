@@ -38,12 +38,12 @@ def scrape_streetlights():
     """
     try:
         data = streetlight_scrape()
-        # print(data)
+        # print(type(data))
         delete_streetlight_collection()
         for streetlight_id in data.keys():
             print("data: ", data[streetlight_id])
             # print("id: ", streetlight_id)
-            # save_streetlight_to_db(data[streetlight_id])
+            save_streetlight_to_db(data[streetlight_id])
             # print("data again: ", data[streetlight_id])
         return create_response(status=200, message="success!")
     except requests.exceptions.HTTPError:
@@ -60,17 +60,21 @@ def save_streetlight_to_db(streetlight_dict):
     to an actual mongoDB object.
     """
     print("yeet1")
-    streetlight = Streetlight.objects.create(
-        streetlight_id=streetlight_dict["id"], 
-        latitude=streetlight_dict.get("latitude"), 
-        longitude=streetlight_dict.get("longitude")
-    )
-    print("yeet2")
-    streetlight.save()
+    latitude=streetlight_dict.get("latitude") 
+    longitude=streetlight_dict.get("longitude")
+    if latitude and longitude:
+        streetlight = Streetlight.objects.create(
+            latitude=streetlight_dict.get("latitude"), 
+            longitude=streetlight_dict.get("longitude")
+        )
+        # Streetlight.collection.dro
+        streetlight.save()
 
 def delete_streetlight_collection():
     """
     Helper function to delete streetlight collection in db.
     """
-    result = Streetlight.objects().delete()
+    result = len(Streetlight.objects())
+    for streetlight in Streetlight.objects():
+        streetlight.delete()
     return result
