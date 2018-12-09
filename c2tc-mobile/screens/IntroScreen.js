@@ -1,37 +1,29 @@
 import React from "react";
-import {
-  Animated,
-  View,
-  Image,
-  Text,
-  ImageBackground,
-  Button
-} from "react-native";
+import { Animated, View, Image, Text, ImageBackground, Button, StyleSheet } from "react-native";
 
 class FadeInView extends React.Component {
   state = {
-    fadeAnim: new Animated.Value(0) // Initial value for opacity: 0
+    fadeAnim: new Animated.Value(0),
   };
 
   componentDidMount() {
     Animated.timing(
-      // Animate over time
-      this.state.fadeAnim, // The animated value to drive
+      this.state.fadeAnim,
       {
-        toValue: 1, // Animate to opacity: 1 (opaque)
-        duration: 1500 // Make it take a while
+        toValue: 1,
+        duration: 1500
       }
-    ).start(); // Starts the animation
+    ).start();
   }
 
   render() {
     let { fadeAnim } = this.state;
 
     return (
-      <Animated.View // Special animatable View
+      <Animated.View
         style={{
           ...this.props.style,
-          opacity: fadeAnim // Bind opacity to animated value
+          opacity: fadeAnim
         }}
       >
         {this.props.children}
@@ -40,34 +32,49 @@ class FadeInView extends React.Component {
   }
 }
 
-class IntroScreen extends React.Component {
+export default class IntroScreen extends React.Component {
   render() {
     return (
-      <ImageBackground
-        source={require("../assets/images/welcome/0.png")}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <Image
-          style={{
-            alignSelf: "center",
-            width: 330,
-            height: 330,
-            margin: 130
-          }}
-          source={require("../assets/images/welcome/0-1.png")}
-          resizeMode="contain"
-        />
-        // =========================== // TODO: add a "Get Started" Button //
-        (refer to https://philkuo.com/hack4impact/c2tc_mockup_current/ for
-        details) // ===========================
-        <Button
-          title="Get Started"
-          color="white"
-          onClick={() => this.props.navigation.goBack()}
-        />
-      </ImageBackground>
+      <FadeInView>
+        <ImageBackground
+          source={require("../assets/images/welcome/0.png")}
+          style={styles.view}
+        >
+          <Image
+            style={styles.image}
+            source={require("../assets/images/welcome/0-1.png")}
+            resizeMode="contain"
+          />
+          <Button
+            title="Get Started"
+            color="white"
+            style={styles.button}
+            onPress={() => this.props.navigation.goBack()}
+          />
+        </ImageBackground>
+      </FadeInView>
     );
   }
 }
 
-export default IntroScreen;
+const styles = StyleSheet.create({
+  view: {
+    width: "100%",
+    height: "100%"
+  },
+  image: {
+    alignSelf: "center",
+    width: 330,
+    height: 330,
+    margin: 130
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#e5e5ea",
+    borderRadius: 900,
+    paddingTop: 17,
+    width: 60,
+    height: 60,
+    margin: 13
+  },
+});

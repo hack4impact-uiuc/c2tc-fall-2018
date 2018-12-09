@@ -1,9 +1,59 @@
 import React, { Component } from "react";
+import { StyleSheet, AsyncStorage } from "react-native";
+import { createStackNavigator } from 'react-navigation';
+
 import LiveLocation from "./screens/LiveLocation";
 import IntroScreen from "./screens/IntroScreen";
 
-export default class App extends Component {
+class App extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			isLoaded: false,
+		};
+	}
+	async componentDidMount() {
+		if (AsyncStorage.getAllKeys().length != 1) {
+			await AsyncStorage.setItem("loaded", JSON.stringify(1));
+   		} else {
+   			this.setState({
+   				isLoaded: true,
+   			});
+   		}
+	}
+
   render() {
+  	if (this.state.isLoaded) {
+  		return <LiveLocation />;
+  	}
+
     return <IntroScreen />;
   }
 }
+
+export default createStackNavigator({
+  Intro: {
+    screen: App,
+    navigationOptions: {
+        header: null,
+        headerMode: 'screen',
+      }
+  },
+  MapScreen: {
+    screen: LiveLocation,
+    navigationOptions: {
+        header: null,
+        headerMode: 'screen',
+      }
+  },
+},);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
