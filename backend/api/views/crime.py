@@ -103,8 +103,8 @@ def check_crime_duration():
     """
     Helper function to get important crimes
     """
-    with open('./api/views/crime_duration.csv') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+    with open("./api/views/crime_duration.csv") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
             if row[0] not in important_crime:
                 important_crime["[UIPD] " + row[0].upper()] = row[1]
