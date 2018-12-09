@@ -203,14 +203,11 @@ class LiveLocation extends Component {
           this.state.mapRegion.longitude
         );
         title = distance + " miles away";
-        description =
-          "CRIME" +
-          newLine +
-          data[i].incident_type_primary +
-          newLine +
-          data[i].incident_description +
-          " at " +
-          data[i].incident_datetime;
+        description = [
+          data[i].incident_type_primary,
+          data[i].incident_description,
+          data[i].incident_datetime
+        ]
       } else if (markerColor === this.state.colorData.business) {
         title = data[i].name;
         description = "There is an open business here.";
@@ -238,6 +235,7 @@ class LiveLocation extends Component {
       markerTitle: title,
       markerDescrption: description
     });
+    console.log(description)
   };
 
   changeMarkerToFalse = () => {
