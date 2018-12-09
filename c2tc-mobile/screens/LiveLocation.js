@@ -207,7 +207,7 @@ class LiveLocation extends Component {
           data[i].incident_type_primary,
           data[i].incident_description,
           data[i].incident_datetime
-        ]
+        ];
       } else if (markerColor === this.state.colorData.business) {
         title = data[i].name;
         description = "There is an open business here.";
@@ -235,7 +235,7 @@ class LiveLocation extends Component {
       markerTitle: title,
       markerDescrption: description
     });
-    console.log(description)
+    console.log(description);
   };
 
   changeMarkerToFalse = () => {

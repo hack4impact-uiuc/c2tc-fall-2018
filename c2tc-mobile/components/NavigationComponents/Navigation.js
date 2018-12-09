@@ -67,7 +67,7 @@ export default class Navigation extends Component {
 
   render() {
     let filter = this.state.page === "filter";
-    console.log(this.props.descriptionTitle)
+    console.log(this.props.descriptionTitle);
     return (
       <React.Fragment>
         <SlidingUpPanel
@@ -82,11 +82,17 @@ export default class Navigation extends Component {
             <View style={styles.title}>
               <View style={styles.panel}>
                 <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
-                <Text style={styles.text}>{this.props.descriptionContent[2]}</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[2]}
+                </Text>
                 <Text style={styles.subtitle}>Crime Type:</Text>
-                <Text style={styles.text}>{this.props.descriptionContent[0]}</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[0]}
+                </Text>
                 <Text style={styles.subtitle}>Crime Description:</Text>
-                <Text style={styles.text}>{this.props.descriptionContent[1]}</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[1]}
+                </Text>
               </View>
             </View>
           ) : (
@@ -212,7 +218,7 @@ const styles = StyleSheet.create({
     height: 5,
     width: width,
     flex: 1,
-    justifyContent: "center" 
+    justifyContent: "center"
   },
   row: {
     flexDirection: "row",
