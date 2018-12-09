@@ -25,13 +25,8 @@ const icons = {
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
   emergency: require("../assets/images/phone.png"),
-<<<<<<< HEAD
   policeStations: require("../assets/images/police.png"),
   streetLights: require("../assets/images/streetlights.png")
-=======
-  policeStations: require("../assets/images/police.png")
-  // streetLights: require("../assets/images/streetlights.png"),
->>>>>>> master
 };
 
 class LiveLocation extends Component {
@@ -115,11 +110,7 @@ class LiveLocation extends Component {
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
       let policeStations = await API.getPoliceStations();
-<<<<<<< HEAD
       let streetLights = await API.getStreetLight();
-=======
-      // let streetLights = await API.getStreetLight();
->>>>>>> master
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -132,11 +123,7 @@ class LiveLocation extends Component {
         "policeStations",
         JSON.stringify(policeStations)
       );
-<<<<<<< HEAD
       await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
-=======
-      // await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
->>>>>>> master
     }
 
     this.setState({
