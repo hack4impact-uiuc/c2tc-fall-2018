@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   view: {
     width: Dimensions.get("window").width / 2 - 10,
-    height: 50,
+    height: 60,
     padding: 3
   },
   icon: {
@@ -82,15 +82,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "400",
     width: 100,
-    height: 40,
+    flexWrap: "wrap",
+    height: 50,
     fontSize: 18,
     color: "white"
   },
   unselectedText: {
     textAlign: "center",
     fontWeight: "400",
+    flexWrap: "wrap",
     width: 100,
-    height: 40,
+    height: 50,
     fontSize: 18,
     color: "#8e8e93"
   }
