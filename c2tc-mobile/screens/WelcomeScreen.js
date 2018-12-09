@@ -38,17 +38,17 @@ export default class WelcomeScreen extends React.Component {
     return (
       <View>
         <FadeInView>
-        <FadeInView>
-          <Image
-            style={{
-              alignSelf: "center",
-              width: 230,
-              height: 90,
-              marginTop: 70
-            }}
-            source={require("../assets/images/welcome/1.png")}
-            resizeMode="contain"
-          />
+          <FadeInView>
+            <Image
+              style={{
+                alignSelf: "center",
+                width: 230,
+                height: 90,
+                marginTop: 70
+              }}
+              source={require("../assets/images/welcome/1.png")}
+              resizeMode="contain"
+            />
           </FadeInView>
           <Image
             style={{
@@ -119,13 +119,12 @@ export default class WelcomeScreen extends React.Component {
             resizeMode="contain"
           />
         </FadeInView>
-                <Button
+        <Button
           title="Continue"
           color="black"
           style={styles.button}
-          onPress={() => this.props.navigation.navigate('MapScreen')}
+          onPress={() => this.props.navigation.navigate("MapScreen")}
         />
-
       </View>
     );
   }

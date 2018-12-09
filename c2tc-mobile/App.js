@@ -26,10 +26,10 @@ class App extends Component {
 
   render() {
     if (this.state.isLoaded) {
-      return <LiveLocation navigation={this.props.navigation}/>;
+      return <LiveLocation navigation={this.props.navigation} />;
     }
 
-    return <IntroScreen navigation={this.props.navigation}/>;
+    return <IntroScreen navigation={this.props.navigation} />;
   }
 }
 

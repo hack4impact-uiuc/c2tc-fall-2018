@@ -1,5 +1,13 @@
 import React from "react";
-import { Animated, View, Image, Text, ImageBackground, Button, StyleSheet } from "react-native";
+import {
+  Animated,
+  View,
+  Image,
+  Text,
+  ImageBackground,
+  Button,
+  StyleSheet
+} from "react-native";
 
 class FadeInView extends React.Component {
   state = {
@@ -46,7 +54,7 @@ export default class IntroScreen extends React.Component {
             title="Get Started"
             color="white"
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Welcome')}
+            onPress={() => this.props.navigation.navigate("Welcome")}
           />
         </ImageBackground>
       </FadeInView>
