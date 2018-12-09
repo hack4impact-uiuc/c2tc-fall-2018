@@ -89,7 +89,7 @@ def delete_crime_collection():
     Helper function to delete crime collection in db.
     """
     count = len(Crime.objects())
-    check_long()
+    check_crime_duration()
     for crime in Crime.objects():
         duration = check_filter(crime.incident_type_primary)
         if (crime.duration == None or crime.duration == 30) and duration == 30:
@@ -99,7 +99,7 @@ def delete_crime_collection():
     return count
 
 
-def check_long():
+def check_crime_duration():
     """
     Helper function to get important crimes
     """
