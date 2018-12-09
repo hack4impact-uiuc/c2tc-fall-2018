@@ -45,7 +45,7 @@ export default class IntroScreen extends React.Component {
           source={require("../assets/images/welcome/0.png")}
           style={styles.view}
         >
-          <Image
+          <ImageBackground
             style={styles.image}
             source={require("../assets/images/welcome/0-1.png")}
             resizeMode="contain"
@@ -69,17 +69,16 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    width: 330,
-    height: 330,
-    margin: 130
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-end"
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e5e5ea",
-    borderRadius: 900,
-    paddingTop: 17,
-    width: 60,
-    height: 60,
-    margin: 13
+    margin: "auto",
+    position: "absolute",
+    justifyContent: "flex-end",
+    width: "100%"
   }
 });
