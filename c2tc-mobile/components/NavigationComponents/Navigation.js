@@ -61,6 +61,7 @@ export default class Navigation extends Component {
   }
 
   _onSelect = tab => {
+    this.props.onDescExit();
     this.setState({ page: tab.props.name });
   };
 
@@ -76,76 +77,105 @@ export default class Navigation extends Component {
           draggableRange={draggableRange}
           onDrag={this.setDrag}
         >
-          {filter ? (
+          {this.props.description ? (
             <View style={styles.title}>
               <View style={styles.panel}>
-                <Text style={styles.filter}>Filters</Text>
-                <View style={styles.row}>
-                  <ButtonInterface
-                    icon="bus"
-                    name="Bus Stops"
-                    type="busStop"
-                    ref="button"
-                    color={Colors.busStop}
-                    parentPanel={this}
-                  />
-                  <ButtonInterface
-                    icon="exclamation-triangle"
-                    name="Crimes"
-                    type="crime"
-                    ref="button"
-                    color={Colors.crime}
-                    parentPanel={this}
-                  />
-                </View>
-                <View style={styles.row}>
-                  <ButtonInterface
-                    icon="shopping-cart"
-                    name="Open Businesses"
-                    type="business"
-                    ref="button"
-                    color={Colors.business}
-                    parentPanel={this}
-                  />
-                  <ButtonInterface
-                    icon="phone"
-                    name="Emergency Phones"
-                    type="emergency"
-                    ref="button"
-                    color={Colors.emergency}
-                    parentPanel={this}
-                  />
-                </View>
-                <View style={styles.row}>
-                  <ButtonInterface
-                    icon="shield"
-                    name="Police Stations"
-                    type="policeStations"
-                    ref="button"
-                    color={Colors.police}
-                    parentPanel={this}
-                  />
-                </View>
+                <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[2]}
+                </Text>
+                <Text style={styles.subtitle}>Crime Type:</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[0]}
+                </Text>
+                <Text style={styles.subtitle}>Crime Description:</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[1]}
+                </Text>
               </View>
             </View>
           ) : (
-            <View style={styles.panel}>
-              <Text style={styles.filter}>Contacts</Text>
-              <View style={styles.row}>
-                <PhoneButton
-                  icon="car"
-                  name="SafeRide"
-                  ref="button"
-                  number="2172657433"
-                />
-                <PhoneButton
-                  icon="male"
-                  name="SafeWalk"
-                  ref="button"
-                  number="2173331216"
-                />
-              </View>
-            </View>
+            [
+              filter ? (
+                <View style={styles.title} key="title">
+                  <View style={styles.panel}>
+                    <Text style={styles.filter}>Filters</Text>
+                    <View style={styles.row}>
+                      <ButtonInterface
+                        icon="bus"
+                        name="Bus Stops"
+                        type="busStop"
+                        ref="button"
+                        color={Colors.busStop}
+                        parentPanel={this}
+                      />
+                      <ButtonInterface
+                        icon="exclamation-triangle"
+                        name="Crimes"
+                        type="crime"
+                        ref="button"
+                        color={Colors.crime}
+                        parentPanel={this}
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <ButtonInterface
+                        icon="shopping-cart"
+                        name="Open Businesses"
+                        type="business"
+                        ref="button"
+                        color={Colors.business}
+                        parentPanel={this}
+                      />
+                      <ButtonInterface
+                        icon="phone"
+                        name="Emergency Phones"
+                        type="emergency"
+                        ref="button"
+                        color={Colors.emergency}
+                        parentPanel={this}
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <ButtonInterface
+                        icon="shield"
+                        name="Police Stations"
+                        type="policeStations"
+                        ref="button"
+                        color={Colors.police}
+                        parentPanel={this}
+                      />
+                      <ButtonInterface
+                        icon="lightbulb-o"
+                        name="Streetlights"
+                        type="streetLights"
+                        ref="button"
+                        color={Colors.streetlights}
+                        parentPanel={this}
+                      />
+                    </View>
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.panel}>
+                  <Text style={styles.filter}>Contacts</Text>
+                  <View style={styles.row}>
+                    <PhoneButton
+                      icon="car"
+                      name="SafeRide"
+                      ref="button"
+                      number="2172657433"
+                    />
+                    <PhoneButton
+                      icon="male"
+                      name="SafeWalk"
+                      ref="button"
+                      number="2173331216"
+                    />
+                  </View>
+                </View>
+              )
+            ]
           )}
         </SlidingUpPanel>
         <Tabs
@@ -193,6 +223,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
+  subtitle: {
+    // fontFamily: "SFProText-Semibold",
+    fontSize: 15,
+    color: "#000000",
+    letterSpacing: 0.01,
+    lineHeight: 20,
+    textAlign: "left"
+  },
+  text: {
+    height: 5,
+    width: width,
+    flex: 1,
+    justifyContent: "center"
+  },
   row: {
     flexDirection: "row",
     marginBottom: 20,
@@ -206,7 +250,29 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 15,
     color: "black",
-    height: 58,
+    // height: re,
+    textAlign: "left",
+    position: "relative"
+  },
+  subtitle: {
+    borderRadius: 10,
+    width: width,
+    fontWeight: "700",
+    fontSize: 15,
+    padding: 15,
+    color: "black",
+    // height: 15,
+    textAlign: "left",
+    position: "relative"
+  },
+  text: {
+    borderRadius: 10,
+    width: width,
+    fontWeight: "300",
+    fontSize: 10,
+    padding: 15,
+    color: "black",
+    // height: 15,
     textAlign: "left",
     position: "relative"
   },
