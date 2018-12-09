@@ -41,10 +41,12 @@ export default class IntroScreen extends React.Component {
   render() {
     return (
       <FadeInView>
+
         <ImageBackground
           source={require("../assets/images/welcome/0.png")}
           style={styles.view}
         >
+
           <ImageBackground
             style={styles.image}
             source={require("../assets/images/welcome/0-1.png")}
@@ -70,15 +72,13 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     width: "100%",
-    height: "100%",
-    justifyContent: "flex-end"
+    height: "90%",
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e5e5ea",
-    margin: "auto",
-    position: "absolute",
+    width: "100%",
     justifyContent: "flex-end",
-    width: "100%"
+    bottom: 0
   }
 });
