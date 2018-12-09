@@ -13,5 +13,6 @@ police_stations = [
     {"place_name": "Urbana Police Department", "lat": 40.109914, "long": -88.204599},
 ]
 
+
 def get_stations():
     return police_stations

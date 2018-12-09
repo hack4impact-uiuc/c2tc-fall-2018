@@ -34,7 +34,11 @@ def open_businesses():
         if int(curr_day.start) <= time and int(curr_day.end) >= time:
             # open
             open_businesses.append(b.to_mongo())
-        elif prev_day != None and prev_day.is_overnight and (int(prev_day.end) >= time or int(prev_day.end) == 0):
+        elif (
+            prev_day != None
+            and prev_day.is_overnight
+            and (int(prev_day.end) >= time or int(prev_day.end) == 0)
+        ):
             open_businesses.append(b.to_mongo())
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
