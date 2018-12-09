@@ -1,8 +1,16 @@
 import React from "react";
-import { Animated, View, Image, StyleSheet, ImageBackground, Button, Dimensions, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  Button,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 
 const { width, height } = Dimensions.get("window");
-
 
 class FadeInView extends React.Component {
   state = {
@@ -40,13 +48,15 @@ export default class WelcomeScreen extends React.Component {
   render() {
     return (
       <View>
-      	<TouchableOpacity onPress={() => this.props.navigation.navigate("Intro")}>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate("Intro")}
+        >
           <Image
             style={styles.back}
             source={require("../assets/images/back.png")}
             resizeMode="contain"
-          />      
-          </TouchableOpacity>
+          />
+        </TouchableOpacity>
         <FadeInView>
           <Image
             style={styles.welcome_1}
@@ -98,70 +108,70 @@ export default class WelcomeScreen extends React.Component {
           resizeMode="contain"
         />
         <Button
-            title="Continue"
-            color="black"
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate("MapScreen")}
-          />
+          title="Continue"
+          color="black"
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("MapScreen")}
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-	back: {
-		width: width / 10,
-		height: height / 10,
-		left: 10
-	},
-	welcome_1:{
-		alignSelf: "center",
-		width: width / 1.5,
-		height: height / 8,
-	},
-	welcome_2:{
-		alignSelf: "center",
-		width: width * 1.5,
-		height: height / 5,
-	},
-	welcome_3:{
-		alignSelf: "center",
-		width: width / 1.5,
-		height: height / 6,
-	},
-	welcome_4:{
-		alignSelf: "center",
-		width: width / 12,
-		height: height / 12,
-		margin: 10
-	},
-	welcome_5:{
-		alignSelf: "center",
-		width: width / 12,
-		height: height / 12,
-		margin: 10
-	},
-	welcome_6:{
-		alignSelf: "center",
-		width: width / 12,
-		height: height / 12,
-		margin: 10
-	},
-	welcome_7:{
-		alignSelf: "center",
-		width: width * 1.5,
-		height: height / 2,
-		margin: 10
-	},
-	welcome_8:{
-        alignSelf: "center",
-        width: "100%",
-        height: 430,
-        margin: -300,
-	},
-	button: {
-    	backgroundColor: "#e5e5ea",
-    	bottom: 0,
-    	margin: "auto"
-  	}
+  back: {
+    width: width / 10,
+    height: height / 10,
+    left: 10
+  },
+  welcome_1: {
+    alignSelf: "center",
+    width: width / 1.5,
+    height: height / 8
+  },
+  welcome_2: {
+    alignSelf: "center",
+    width: width * 1.5,
+    height: height / 5
+  },
+  welcome_3: {
+    alignSelf: "center",
+    width: width / 1.5,
+    height: height / 6
+  },
+  welcome_4: {
+    alignSelf: "center",
+    width: width / 12,
+    height: height / 12,
+    margin: 10
+  },
+  welcome_5: {
+    alignSelf: "center",
+    width: width / 12,
+    height: height / 12,
+    margin: 10
+  },
+  welcome_6: {
+    alignSelf: "center",
+    width: width / 12,
+    height: height / 12,
+    margin: 10
+  },
+  welcome_7: {
+    alignSelf: "center",
+    width: width * 1.5,
+    height: height / 2,
+    margin: 10
+  },
+  welcome_8: {
+    alignSelf: "center",
+    width: "100%",
+    height: 430,
+    margin: -300
+  },
+  button: {
+    backgroundColor: "#e5e5ea",
+    bottom: 0,
+    margin: "auto"
+  }
 });

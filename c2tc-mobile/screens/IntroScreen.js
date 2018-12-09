@@ -61,7 +61,7 @@ export default class IntroScreen extends React.Component {
     );
   }
 }
-		
+
 const styles = StyleSheet.create({
   view: {
     width: "100%",
