@@ -322,12 +322,10 @@ class LiveLocation extends Component {
             </Marker>
           ))}
         </MapView>
-        <View
-          style={styles.zoom}
-        >
-            <CurrentLocationButton changeLocation={this.backToUser} />  
+        <View style={styles.zoom}>
+          <CurrentLocationButton changeLocation={this.backToUser} />
         </View>
-        
+
         <Navigation
           ref="panel"
           description={this.state.markerClicked}
@@ -348,9 +346,9 @@ LiveLocation.propTypes = {
 
 const styles = StyleSheet.create({
   zoom: {
-    position: 'absolute',
-    top: '30%',
-    alignSelf: 'flex-end' 
+    position: "absolute",
+    top: "30%",
+    alignSelf: "flex-end"
   },
   container: {
     ...StyleSheet.absoluteFillObject,

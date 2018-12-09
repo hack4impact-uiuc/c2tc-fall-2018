@@ -10,14 +10,10 @@ export default class CurrentLocationButton extends Component {
   render() {
     return (
       <TouchableOpacity
-        style = {styles.button}
+        style={styles.button}
         onPress={this.props.changeLocation}
       >
-        <FontAwesome
-                name="crosshairs"
-                size={32}
-                color={"black"}
-              />
+        <FontAwesome name="crosshairs" size={32} color={"black"} />
       </TouchableOpacity>
     );
   }
@@ -30,7 +26,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     backgroundColor: "white",
     borderRadius: 25,
-    padding:5,
-    margin:10
-  },
+    padding: 5,
+    margin: 10
+  }
 });
