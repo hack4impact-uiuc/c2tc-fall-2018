@@ -235,7 +235,6 @@ class LiveLocation extends Component {
       markerTitle: title,
       markerDescrption: description
     });
-    console.log(description);
   };
 
   changeMarkerToFalse = () => {

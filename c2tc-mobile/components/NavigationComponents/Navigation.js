@@ -67,7 +67,6 @@ export default class Navigation extends Component {
 
   render() {
     let filter = this.state.page === "filter";
-    console.log(this.props.descriptionTitle);
     return (
       <React.Fragment>
         <SlidingUpPanel
