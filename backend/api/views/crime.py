@@ -1,9 +1,12 @@
+import csv
+import os
 from flask import Blueprint
 from api.models.Crime import Crime
 from api.core import create_response, serialize_list, logger
 from api.scrapers.crimes import crime_scrape
 
 crime = Blueprint("crime", __name__)
+dic = {}
 
 
 @crime.route("/crimes", methods=["GET"])
@@ -81,6 +84,32 @@ def delete_crime_collection():
     Helper function to delete crime collection in db.
     """
     count = len(Crime.objects())
+    check_long()
     for crime in Crime.objects():
-        crime.delete()
+        duration = check_filter(crime.incident_type_primary)
+        if (crime.duration == None or crime.duration == 30) and duration == 30:
+            crime.delete()
+        else:
+            crime.duration = duration - 30
+            print("{crime.incident_id} : not deleted")
     return count
+
+def check_long():
+    """
+    Helper function to get important crimes
+    """
+    with open('./api/views/header.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for row in csv_reader:
+            if row[0] not in dic:
+                dic["[UIPD] " + row[0].upper()] = row[1]
+    print(dic)
+
+def check_filter(id):
+    """
+    Helper function to determine if the current crime is in the dictionary
+    """
+    if id not in dic:
+        return 30
+    else:
+        return dic[id] * 30
