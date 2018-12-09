@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+import { Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -14,17 +14,19 @@ import CurrentLocationButton from "../components/NavigationComponents/CurrentLoc
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.017;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let id = 0;
+let newLine = "\n\n";
 
 const icons = {
   busStop: require("../assets/images/bus.png"),
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
   emergency: require("../assets/images/phone.png"),
-  policeStations: require("../assets/images/police.png")
+  policeStations: require("../assets/images/police.png"),
+  streetLights: require("../assets/images/streetlights.png")
 };
 
 class LiveLocation extends Component {
@@ -45,6 +47,9 @@ class LiveLocation extends Component {
       layerData: {},
       loading: true,
       colorData: {},
+      markerClicked: false,
+      markerTitle: "",
+      markerDescrption: "",
       locationResult: null
     };
   }
@@ -105,6 +110,7 @@ class LiveLocation extends Component {
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
       let policeStations = await API.getPoliceStations();
+      let streetLights = await API.getStreetLight();
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -117,6 +123,7 @@ class LiveLocation extends Component {
         "policeStations",
         JSON.stringify(policeStations)
       );
+      await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
 
     this.setState({
@@ -125,14 +132,18 @@ class LiveLocation extends Component {
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
         emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
-        policeStations: JSON.parse(await AsyncStorage.getItem("policeStations"))
+        policeStations: JSON.parse(
+          await AsyncStorage.getItem("policeStations")
+        ),
+        streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
       },
       colorData: {
         busStop: Colors.busStop,
         crime: Colors.crime,
         business: Colors.business,
         emergency: Colors.emergency,
-        policeStations: Colors.police
+        policeStations: Colors.police,
+        streetLights: Colors.streetlights
       },
       loading: false
     });
@@ -152,6 +163,29 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
+  getDistance(lat1, lon1, lat2, lon2) {
+    let earthRadius = 6371;
+    let deltaLat = this.toRad(lat2 - lat1);
+    let deltaLong = this.toRad(lon2 - lon1);
+    let currentLat = this.toRad(lat1);
+    let finalLat = this.toRad(lat2);
+
+    let pythag =
+      Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+      Math.sin(deltaLong / 2) *
+        Math.sin(deltaLong / 2) *
+        Math.cos(currentLat) *
+        Math.cos(finalLat);
+    let deriv = 2 * Math.atan2(Math.sqrt(pythag), Math.sqrt(1 - pythag));
+    let mult = earthRadius * deriv;
+    kmToMiles = mult / 1.6;
+    return Math.round(kmToMiles * 100) / 100;
+  }
+
+  toRad(value) {
+    return (value * Math.PI) / 180;
+  }
+
   componentWillMount() {
     setTimeout(() => {
       this.setState({ statusBarHeight: 5 });
@@ -162,6 +196,32 @@ class LiveLocation extends Component {
     data = this.state.layerData[layer];
     let list = this.state.markers;
     for (i = 0; i < data.length; i++) {
+      if (markerColor === this.state.colorData.busStop) {
+        title = data[i].stop_name;
+        description = "There is a bus stop here.";
+      } else if (markerColor === this.state.colorData.emergency) {
+        title = "Emergency Phone";
+        description = "There is an emergency phone here.";
+      } else if (markerColor === this.state.colorData.crime) {
+        distance = this.getDistance(
+          data[i].latitude,
+          data[i].longitude,
+          this.state.mapRegion.latitude,
+          this.state.mapRegion.longitude
+        );
+        title = distance + " miles away";
+        description = [
+          data[i].incident_type_primary,
+          data[i].incident_description,
+          data[i].incident_datetime
+        ];
+      } else if (markerColor === this.state.colorData.business) {
+        title = data[i].name;
+        description = "There is an open business here.";
+      } else {
+        title = "Title";
+        description = "Description";
+      }
       list.push({
         coordinate: {
           latitude: data[i].latitude,
@@ -169,13 +229,29 @@ class LiveLocation extends Component {
         },
         key: id++,
         color: markerColor,
-        image: icons[layer]
+        image: icons[layer],
+        title: title,
+        description: description
       });
     }
     this.setState({
       markers: list
     });
   }
+
+  markerClick = (title, description) => {
+    this.setState({
+      markerClicked: true,
+      markerTitle: title,
+      markerDescrption: description
+    });
+  };
+
+  changeMarkerToFalse = () => {
+    this.setState({
+      markerClicked: false
+    });
+  };
 
   _onPressToggleLayers = layer => {
     if (this.state.renderData[layer]) {
@@ -243,17 +319,29 @@ class LiveLocation extends Component {
               coordinate={marker.coordinate}
               pinColor={marker.color}
               image={marker.image}
-              title={"asdf"}
-              description={"bdsf"}
-            />
+              title={marker.title}
+              description={marker.description}
+              onPress={() => {
+                this.markerClick(marker.title, marker.description);
+              }}
+            >
+              <MapView.Callout tooltip={true} />
+            </Marker>
           ))}
         </MapView>
+        <View style={styles.zoom}>
+          <CurrentLocationButton changeLocation={this.backToUser} />
+        </View>
+
         <Navigation
           ref="panel"
+          description={this.state.markerClicked}
+          descriptionTitle={this.state.markerTitle}
+          descriptionContent={this.state.markerDescrption}
+          onDescExit={this.changeMarkerToFalse}
           toggleLayers={this._onPressToggleLayers}
           layers={this.state.renderData}
         />
-        <CurrentLocationButton changeLocation={this.backToUser} />
       </View>
     );
   }
@@ -264,6 +352,11 @@ LiveLocation.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  zoom: {
+    position: "absolute",
+    top: "5%",
+    alignSelf: "flex-end"
+  },
   container: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "flex-end",

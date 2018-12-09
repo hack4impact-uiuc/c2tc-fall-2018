@@ -1,5 +1,5 @@
 import React from "react";
-import { Animated, View, Image } from "react-native";
+import { Animated, View, Image, StyleSheet, Button } from "react-native";
 
 class FadeInView extends React.Component {
   state = {
@@ -33,13 +33,11 @@ class FadeInView extends React.Component {
   }
 }
 
-class WelcomeScreen extends React.Component {
+export default class WelcomeScreen extends React.Component {
   render() {
     return (
       <View>
-        // =========================== // TODO: Need to add "Back" button //
-        (see https://philkuo.com/hack4impact/c2tc_mockup_current/ for details)
-        // ===========================
+        <FadeInView>
         <FadeInView>
           <Image
             style={{
@@ -51,6 +49,7 @@ class WelcomeScreen extends React.Component {
             source={require("../assets/images/welcome/1.png")}
             resizeMode="contain"
           />
+          </FadeInView>
           <Image
             style={{
               alignSelf: "center",
@@ -112,30 +111,44 @@ class WelcomeScreen extends React.Component {
           <Image
             style={{
               alignSelf: "center",
-              width: 350,
-              height: 350,
+              width: 150,
+              height: 150,
               margin: 10
             }}
             source={require("../assets/images/welcome/5.png")}
             resizeMode="contain"
           />
         </FadeInView>
-        <Image
-          style={{
-            alignSelf: "center",
-            width: 500,
-            height: 500,
-            margin: -300
-          }}
-          source={require("../assets/images/welcome/6.png")}
-          resizeMode="contain"
+                <Button
+          title="Continue"
+          color="black"
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate('MapScreen')}
         />
-        // =========================== // TODO: Need to add "Continue" button //
-        (see https://philkuo.com/hack4impact/c2tc_mockup_current/ for details)
-        // ===========================
+
       </View>
     );
   }
 }
 
-export default WelcomeScreen;
+const styles = StyleSheet.create({
+  view: {
+    width: "100%",
+    height: "100%"
+  },
+  image: {
+    alignSelf: "center",
+    width: 330,
+    height: 330,
+    margin: 130
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#e5e5ea",
+    borderRadius: 900,
+    paddingTop: 17,
+    width: 60,
+    height: 60,
+    margin: 13
+  }
+});
