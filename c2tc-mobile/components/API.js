@@ -1,7 +1,7 @@
 async function getBusStops() {
   try {
     let response = await fetch(
-      "https://h4i-cut-to-the-case-backend.now.sh/busStops"
+      "https://h4i-cut-to-the-case-backend.now.sh/bus-stops"
     );
     let responseJson = await response.json();
     return responseJson.result.busStops;
@@ -37,7 +37,7 @@ async function getBusinesses() {
 async function getEmergencyPhones() {
   try {
     let response = await fetch(
-      "https://h4i-cut-to-the-case-backend.now.sh/emergencyPhones"
+      "https://h4i-cut-to-the-case-backend.now.sh/emergency-phones"
     );
     let responseJson = await response.json();
     return responseJson.result.emergencyPhones;
@@ -46,17 +46,35 @@ async function getEmergencyPhones() {
   }
 }
 
-//This function is commented because the backend data is not available yet.
-
-/*
-async function getStreetLight() {
+async function getPoliceStations() {
   try {
-    let response = await fetch("https://backend-xnbrzeooeu.now.sh/streetLight");
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/police-stations"
+    );
     let responseJson = await response.json();
-    console.log(responseJson.result.streetLight);
+    return responseJson.result.policeStations;
   } catch (error) {
     console.error(error);
   }
 }
-*/
-export default { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };
+
+async function getStreetLight() {
+  try {
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/streetlights"
+    );
+    let responseJson = await response.json();
+    return responseJson.result.streetlights;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export default {
+  getPoliceStations,
+  getBusStops,
+  getCrimes,
+  getBusinesses,
+  getEmergencyPhones,
+  getStreetLight
+};

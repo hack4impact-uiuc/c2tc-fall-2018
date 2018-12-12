@@ -1,7 +1,31 @@
-# How To Run Frontend
+# Frontend Instructions
 
-1. Install the Expo Mobile App.
+## Setting Up Instructions
 
-2. In your terminal, type in **expo start**. You should get a QR code on your terminal.
+```bash
+npm install -g expo-cli
+```
 
-3. If you have a iphone, scan the QR code with your camera. If you have an android, scan the QR code with the Expo Mobile App.
+Install the Expo Mobile App on phone if you have never used expo before.
+
+## How To Run The Frontend
+
+```bash
+cd c2tc-mobile
+npm install                 # install dependencies
+expo start
+# scan QR code with phone (use camera if you have an iphone or use expo app if you have an android.)
+```
+
+## How To Format The Frontend
+
+```bash
+cd c2tc-mobile
+npm install                 # install dependencies if not already installed
+npm run format
+```
+
+## Design Resources
+
+* [Mockups](https://philkuo.com/hack4impact/c2tc_mockup_current/)
+* [Prototype](https://sketch.cloud/s/AJ9Ky/PrjlrQ/play)
