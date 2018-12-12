@@ -45,7 +45,7 @@ export default class IntroScreen extends React.Component {
           source={require("../assets/images/welcome/0.png")}
           style={styles.view}
         >
-          <Image
+          <ImageBackground
             style={styles.image}
             source={require("../assets/images/welcome/0-1.png")}
             resizeMode="contain"
@@ -54,7 +54,7 @@ export default class IntroScreen extends React.Component {
             title="Get Started"
             color="white"
             style={styles.button}
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => this.props.navigation.navigate("Welcome")}
           />
         </ImageBackground>
       </FadeInView>
@@ -69,17 +69,14 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    width: 330,
-    height: 330,
-    margin: 130
+    width: "100%",
+    height: "90%"
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e5e5ea",
-    borderRadius: 900,
-    paddingTop: 17,
-    width: 60,
-    height: 60,
-    margin: 13
+    width: "100%",
+    justifyContent: "flex-end",
+    bottom: 0
   }
 });
