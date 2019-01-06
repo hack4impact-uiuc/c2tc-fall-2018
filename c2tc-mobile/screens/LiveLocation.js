@@ -197,13 +197,12 @@ class LiveLocation extends Component {
     let list = this.state.markers;
     for (i = 0; i < data.length; i++) {
       if (markerColor === this.state.colorData.busStop) {
-        buses = ""
-        for (let key in data[i].routes){
-          if(key == data[i].routes[data[i].routes.length -1]){
-            buses = buses + key + "."
-          }
-          else{
-            buses = buses + key + ", "
+        buses = "";
+        for (let key in data[i].routes) {
+          if (key == data[i].routes[data[i].routes.length - 1]) {
+            buses = buses + key + ".";
+          } else {
+            buses = buses + key + ", ";
           }
         }
         title = data[i].stop_name;
@@ -215,8 +214,8 @@ class LiveLocation extends Component {
           this.state.mapRegion.latitude,
           this.state.mapRegion.longitude
         );
-        title =  distance + " miles away";
-        description = "Emergency Phone #"+data[i].emergencyPhone_id ;
+        title = distance + " miles away";
+        description = "Emergency Phone #" + data[i].emergencyPhone_id;
       } else if (markerColor === this.state.colorData.crime) {
         distance = this.getDistance(
           data[i].latitude,
@@ -225,34 +224,33 @@ class LiveLocation extends Component {
           this.state.mapRegion.longitude
         );
         title = data[i].incident_type_primary;
-        description = 
-          data[i].incident_datetime  +"\n"+
-          distance + " miles away \n"+
-          data[i].incident_description
-        ;
+        description =
+          data[i].incident_datetime +
+          "\n" +
+          distance +
+          " miles away \n" +
+          data[i].incident_description;
       } else if (markerColor === this.state.colorData.business) {
-        address = ""
-        for (let key in data[i].location){
-          if( data[i].location[key] == data[i].location[data[i].location.length -1]){
-            address = address + data[i].location[key] + "."
-          }
-          else{
-            address = address + data[i].location[key] + ", "
+        address = "";
+        for (let key in data[i].location) {
+          if (
+            data[i].location[key] ==
+            data[i].location[data[i].location.length - 1]
+          ) {
+            address = address + data[i].location[key] + ".";
+          } else {
+            address = address + data[i].location[key] + ", ";
           }
         }
         title = data[i].name;
-        description = 
-          "Address: "+address;
-      }
-      else if (markerColor === this.state.colorData.policeStations) {
+        description = "Address: " + address;
+      } else if (markerColor === this.state.colorData.policeStations) {
         title = data[i].name;
-        description = data[i].name+" is located here";
-      }
-      else if (markerColor === this.state.colorData.streetLights) {
+        description = data[i].name + " is located here";
+      } else if (markerColor === this.state.colorData.streetLights) {
         title = "Streetlight";
         description = "";
-      }  
-      else {
+      } else {
         title = "Title";
         description = "Description";
       }
