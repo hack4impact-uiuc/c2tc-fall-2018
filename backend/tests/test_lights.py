@@ -16,6 +16,7 @@ def test_delete(client):
     assert len(collection) == 0
     assert rs.status_code == 200
 
+
 def test_update(client):
     """
     Tests update endpoint.
