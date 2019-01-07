@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Animated,
+  Text,
   View,
   Image,
   StyleSheet,
@@ -9,6 +10,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from "react-native";
+import ButtonInterface from "../components/NavigationComponents/ButtonInterface"
 
 const { width, height } = Dimensions.get("window");
 
@@ -107,12 +109,15 @@ export default class WelcomeScreen extends React.Component {
           source={require("../assets/images/welcome/6.png")}
           resizeMode="contain"
         />
-        <Button
-          title="Continue"
-          color="black"
-          style={styles.button}
-          onPress={() => this.props.navigation.navigate("MapScreen")}
-        />
+        <TouchableOpacity
+          style={styles.selectedButton}
+        >
+          <Text
+            style={styles.selectedText}
+          >
+          Continue
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -169,9 +174,24 @@ const styles = StyleSheet.create({
     height: 430,
     margin: -300
   },
-  button: {
-    backgroundColor: "#e5e5ea",
-    bottom: 0,
-    margin: "auto"
-  }
+  selectedButton: {
+    backgroundColor: "#8e44ad",
+    borderRadius: 9,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    height: 52,
+    width: 250,
+    padding: 10,
+    alignContent: "center",
+  },
+  selectedText: {
+    // paddingLeft: 10,
+    textAlign: "center",
+    // fontWeight: "400",
+    // width: Dimensions.get("window").width / 2 - 75,
+    // flexWrap: "wrap",
+    height: 50,
+    // fontSize: 18,
+    color: "white"
+  },
 });
