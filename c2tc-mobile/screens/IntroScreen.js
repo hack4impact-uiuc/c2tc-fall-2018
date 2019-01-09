@@ -54,11 +54,7 @@ export default class IntroScreen extends React.Component {
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Welcome")}
           >
-            <Text
-              style={styles.text}
-            >
-             Get Started
-            </Text>
+            <Text style={styles.text}>Get Started</Text>
           </TouchableOpacity>
         </ImageBackground>
       </FadeInView>
@@ -84,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#8e44ad",
     borderRadius: 10,
-    width: Dimensions.get("window").width -20,
+    width: Dimensions.get("window").width - 20,
     justifyContent: "flex-end",
     marginHorizontal: 10,
     paddingVertical: 15

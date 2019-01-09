@@ -10,7 +10,7 @@ import {
   Dimensions,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface"
+import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 
 const { width, height } = Dimensions.get("window");
 
@@ -59,9 +59,7 @@ export default class WelcomeScreen extends React.Component {
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <View
-          style={styles.view}
-        >
+        <View style={styles.view}>
           <FadeInView>
             <Image
               style={styles.welcome_1}
@@ -112,18 +110,10 @@ export default class WelcomeScreen extends React.Component {
             source={require("../assets/images/welcome/6.png")}
             resizeMode="contain"
           />
-        </View >
-        <View
-          style={styles.viewButton}
-        >
-          <TouchableOpacity
-            style={styles.selectedButton}
-          >
-            <Text
-              style={styles.selectedText}
-            >
-            Continue
-            </Text>
+        </View>
+        <View style={styles.viewButton}>
+          <TouchableOpacity style={styles.selectedButton}>
+            <Text style={styles.selectedText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -185,21 +175,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#8e44ad",
     borderRadius: 10,
-    width: Dimensions.get("window").width -20,
+    width: Dimensions.get("window").width - 20,
     justifyContent: "flex-end",
     marginHorizontal: 10,
     paddingVertical: 15,
     marginTop: 10
   },
-  view:{
-    height: Dimensions.get("window").height- (110 + width/10)
+  view: {
+    height: Dimensions.get("window").height - (110 + width / 10)
   },
-  viewButton:{
+  viewButton: {
     height: 150,
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
   selectedText: {
     color: "white",
     fontSize: 18
-  },
+  }
 });
