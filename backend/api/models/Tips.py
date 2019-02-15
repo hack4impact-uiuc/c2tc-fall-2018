@@ -5,7 +5,7 @@ from mongoengine.fields import (
     FloatField,
     EmbeddedDocumentField,
     ObjectIdField,
-    ListField
+    ListField,
 )
 import mongoengine
 from api.models.User import User
@@ -13,6 +13,7 @@ from api.models.User import User
 # DynamicDocument allows for unspecified fields to be put in as well
 class Tips(mongoengine.DynamicDocument):
     """Tips Document Schema"""
+
     title = StringField(required=True)
     content = StringField(required=True)
     author = EmbeddedDocumentField(User)
@@ -22,4 +23,3 @@ class Tips(mongoengine.DynamicDocument):
     category = StringField(required=True)
     upvotes = ListField(ObjectIdField())
     downvotes = ListField(ObjectIdField())
-

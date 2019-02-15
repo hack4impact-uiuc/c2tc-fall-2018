@@ -4,6 +4,7 @@ from api.core import create_response, serialize_list, logger
 
 user = Blueprint("user", __name__)
 
+
 @user.route("/users", methods=["GET"])
 def get_user():
     """

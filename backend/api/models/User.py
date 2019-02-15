@@ -5,13 +5,14 @@ from mongoengine.fields import (
     DateTimeField,
     EmbeddedDocumentListField,
     ListField,
-    ObjectIdField
+    ObjectIdField,
 )
 import mongoengine
 
 # DynamicDocument allows for unspecified fields to be put in as well
 class User(mongoengine.EmbeddedDocument):
     """User Document Schema"""
+
     net_id = StringField(required=True)
     username = StringField(required=True)
     verified = BooleanField(required=True)

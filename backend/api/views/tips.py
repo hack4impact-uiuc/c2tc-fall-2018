@@ -4,6 +4,7 @@ from api.core import create_response, serialize_list, logger
 
 tips = Blueprint("tips", __name__)
 
+
 @tips.route("/tips", methods=["GET"])
 def get_tips():
     """

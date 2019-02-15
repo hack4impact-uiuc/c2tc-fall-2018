@@ -65,7 +65,7 @@ def create_app(test_config=None):
         busStop,
         policeStations,
         user,
-        tips
+        tips,
     )
 
     app.register_blueprint(main.main)
