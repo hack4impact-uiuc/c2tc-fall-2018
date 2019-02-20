@@ -1,12 +1,13 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
 from api.models.Tips import Tips
 from api.core import create_response, serialize_list, logger
+import json
 
 tips = Blueprint("tips", __name__)
 
 
 @tips.route("/tips", methods=["GET"])
-def get_tips():
+def get_all_tips():
     """
     GET function for retrieving Tips objects
     """
@@ -15,20 +16,40 @@ def get_tips():
     logger.info("TIPS: %s", response)
     return create_response(data=response)
 
+@tips.route("/tips", methods=["POST"]) 
+def create_tip():
+    data = request.get_json()
+    tips = Tips.objects.create(
+        title = data["title"],
+        content = data["content"],
+        latitude = 0.0,
+        longitude = 0.0,
+        category = "Test",
+    )
+    tips.save()
+    return create_response(message="success!")
 
-# @emergencyPhone.route("/emergency-phones", methods=["POST"])
-# def scrape_phones():
-#     """
-#     POST function which calls get_phones() from the emergency_phones.py scraper
-#     and stores phone data to the database.
-#     This data is hardcoded and will probably never change, so this endpoint
-#     only needs to be called if the db is reset or the collection is lost.
-#     """
-#     try:
-#         data = get_phones()
-#         delete_phone_collection()
-#         for phone in data:
-#             save_phone_to_db(phone)
-#         return create_response(status=200, message="success!")
-#     except Exception as e:
-#         return create_response(status=500, message="Exception raised: " + repr(e))
+@tips.route("/tips", methods=["DELETE"])
+def clear_tips():
+    """
+    DELETE method which wraps the clear tips function as
+    an API endpoint.
+    """
+    try:
+        count = delete_tips_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
+
+def delete_tips_collection():
+    """
+    Helper function to delete phone collection in db.
+    """
+    result = Tips.objects().delete()
+    return result
+

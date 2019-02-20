@@ -27,6 +27,12 @@
 |   streetlight_id  |   latitude  |   longitude  |
 |:-:|:-:|:-:|
 
+**TIP**
+
+|   title  |   content  |   author  |   posted_time  |   latitude  |   longitude  |  category  |  upvotes  |  downvotes  |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+
+
 ## Endpoints Documentation
 
 ### Endpoint
@@ -317,5 +323,85 @@ GET function for retrieving Streetlight objects
 **Description**
 
 POST function for posting a hard-coded Streetlight object for testing purposes
+
+**Response**
+
+### Endpoint
+
+    GET /tips
+
+**Description**
+
+GET function for retrieving all tips objects
+
+**Response**
+
+### Endpoint
+
+    GET /tips/<user_id>
+
+**Description**
+
+GET function for retrieving all tips objects posted by a certain user
+
+**Response**
+
+### Endpoint
+
+    GET /tips_upvotes/<user_id>
+
+**Description**
+
+GET function for retrieving all tips objects upvoted by a certain user
+
+**Response**
+
+### Endpoint
+
+    GET /tips_downvotes/<user_id>
+
+**Description**
+
+GET function for retrieving all tips objects downvoted by a certain user
+
+**Response**
+
+### Endpoint
+
+    POST /tips
+
+**Description**
+
+POST function for a user to create a new tip
+
+**Response**
+
+### Endpoint
+
+    PUT /tips/<tips_id>
+
+**Description**
+
+PUT function for a user to edit a tip that they already posted
+
+**Response**
+
+### Endpoint
+
+    DELETE /tips/<tips_id>
+
+**Description**
+
+DELETE function to delete a specific tip object
+
+**Response**
+
+### Endpoint
+
+    DELETE /tips
+
+**Description**
+
+DELETE function to delete all tips objects
 
 **Response**
