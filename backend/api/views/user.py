@@ -6,6 +6,7 @@ from api.core import create_response, serialize_list, logger
 
 user = Blueprint("user", __name__)
 
+
 @user.route("/users", methods=["GET"])
 def get_users():
     """
@@ -16,6 +17,7 @@ def get_users():
     logger.info("USERS: %s", response)
     return create_response(data=response)
 
+
 @user.route("/users", methods=["POST"])
 def create_user():
     """
@@ -23,23 +25,24 @@ def create_user():
     """
     data = request.get_json()
     user = User.objects.create(
-        net_id = data["net_id"],
-        username = data["username"],
-        verified = data["verified"],
-        anon = data["anon"],
-        karma = 0,
-        posted_tips = [],
-        date_created = datetime.now()
+        net_id=data["net_id"],
+        username=data["username"],
+        verified=data["verified"],
+        anon=data["anon"],
+        karma=0,
+        posted_tips=[],
+        date_created=datetime.now(),
     )
     user.save()
     return create_response(message="success!")
+
 
 @user.route("/users/<id>", methods=["GET"])
 def get_user(id):
     """
     GET function for retrieving a single User
     """
-    response = User.objects.get(id=id).to_mongo();
+    response = User.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
 
 
@@ -51,14 +54,15 @@ def update_user(id):
     data = request.get_json()
     user = User.objects.get(id=id)
     user.update(
-        net_id = data["net_id"],
-        username = data["username"],
-        verified = data["verified"],
-        anon = data["anon"],
-        karma = data["karma"],
-        posted_tips = data["posted_tips"]
+        net_id=data["net_id"],
+        username=data["username"],
+        verified=data["verified"],
+        anon=data["anon"],
+        karma=data["karma"],
+        posted_tips=data["posted_tips"],
     )
     return create_response(message="success!")
+
 
 @user.route("/users/<id>", methods=["DELETE"])
 def delete_user(id):
