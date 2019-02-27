@@ -348,6 +348,17 @@ GET function for retrieving all tips objects posted by a certain user
 
 ### Endpoint
 
+    GET /tips_category/<category>
+
+**Description**
+
+GET function for retrieving all tips objects in a certain category
+
+**Response**
+
+
+### Endpoint
+
     GET /tips_upvotes/<user_id>
 
 **Description**
@@ -383,6 +394,46 @@ POST function for a user to create a new tip
 **Description**
 
 PUT function for a user to edit a tip that they already posted
+
+**Response**
+
+### Endpoint
+
+    PUT /tips_upvotes
+
+**Description**
+
+PUT function for a user to upvote a tip and add the user id to the tip upvotes list
+
+**Response**
+
+### Endpoint
+
+    PUT /tips_downvotes
+
+**Description**
+
+PUT function for a user to downvote a tip and add the user id to the tip downvotes list
+
+**Response**
+
+### Endpoint
+
+    PUT /tips_upvotes_remove
+
+**Description**
+
+PUT function for a user to remove their upvote and remove their user id from the tip upvotes list
+
+**Response**
+
+### Endpoint
+
+    PUT /tips_downvotes_remove
+
+**Description**
+
+PUT function for a user to remove their downvote and remove their user id from the tip downvote list
 
 **Response**
 
