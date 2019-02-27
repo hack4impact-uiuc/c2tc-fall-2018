@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 19,
-    fontWeight: '600',
+    fontWeight: "600"
   },
   view: {
     width: "100%",
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     marginHorizontal: 20,
     paddingVertical: 17,
-    marginTop: 120,
+    marginTop: 120
   }
 });

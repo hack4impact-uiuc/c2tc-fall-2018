@@ -127,61 +127,61 @@ export default class WelcomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   top_view: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF"
   },
   back: {
     width: 56,
     height: height / 10,
     left: 15,
-    marginTop: 20,
+    marginTop: 20
   },
   welcome_1: {
     alignSelf: "center",
     width: 236,
-    marginTop: -10,
+    marginTop: -10
   },
   welcome_2: {
     alignSelf: "center",
     width: 310,
-    marginTop: -150,
+    marginTop: -150
   },
   welcome_3: {
     alignSelf: "center",
     width: 244,
-    marginTop: -110,
+    marginTop: -110
   },
   welcome_4: {
     alignSelf: "center",
     width: 30,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   welcome_5: {
     alignSelf: "center",
     width: 30,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   welcome_6: {
     alignSelf: "center",
     width: 30,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 20
   },
   welcome_7: {
     alignSelf: "center",
     width: 310,
-    marginTop: -270,
+    marginTop: -270
   },
   welcome_8: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: -550,
     left: 0,
-    right: 0,
+    right: 0
   },
   selectedButton: {
     alignItems: "center",
@@ -191,11 +191,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     marginHorizontal: 20,
     paddingVertical: 17,
-    marginTop: -75,
+    marginTop: -75
   },
   view: {
     height: Dimensions.get("window").height - (110 + width / 10),
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF"
   },
   viewButton: {
     height: 150,
@@ -204,6 +204,6 @@ const styles = StyleSheet.create({
   selectedText: {
     color: "white",
     fontSize: 19,
-    fontWeight: '600',
+    fontWeight: "600"
   }
 });
