@@ -403,39 +403,10 @@ PUT function for a user to edit a tip that they already posted
 
 **Description**
 
-PUT function for a user to upvote a tip and add the user id to the tip upvotes list
+PUT function for a user to change their upvote or downvote on a post
 
 **Response**
 
-### Endpoint
-
-    PUT /tips_downvotes
-
-**Description**
-
-PUT function for a user to downvote a tip and add the user id to the tip downvotes list
-
-**Response**
-
-### Endpoint
-
-    PUT /tips_upvotes_remove
-
-**Description**
-
-PUT function for a user to remove their upvote and remove their user id from the tip upvotes list
-
-**Response**
-
-### Endpoint
-
-    PUT /tips_downvotes_remove
-
-**Description**
-
-PUT function for a user to remove their downvote and remove their user id from the tip downvote list
-
-**Response**
 
 ### Endpoint
 
