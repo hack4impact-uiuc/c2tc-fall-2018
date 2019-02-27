@@ -27,11 +27,11 @@ def create_user():
     user = User.objects.create(
         net_id=data["net_id"],
         username=data["username"],
-        verified=data["verified"],
+        verified=False,
         anon=data["anon"],
         karma=0,
         posted_tips=[],
-        date_created=datetime.now(),
+        date_created=datetime.now()
     )
     user.save()
     return create_response(message="success!")
@@ -53,14 +53,18 @@ def update_user(id):
     """
     data = request.get_json()
     user = User.objects.get(id=id)
-    user.update(
-        net_id=data["net_id"],
-        username=data["username"],
-        verified=data["verified"],
-        anon=data["anon"],
-        karma=data["karma"],
-        posted_tips=data["posted_tips"],
-    )
+    if "net_id" in data:
+        user.update(net_id=data["net_id"])
+    if "username" in data:
+        user.update(username=data["username"])
+    if "verified" in data:
+        user.update(verified=data["verified"])
+    if "anon" in data:
+        user.update(anon=data["anon"])
+    if "karma" in data:
+        user.update(karma=data["karma"])
+    if "posted_tips" in data:
+        user.update(posted_tips=data["posted_tips"])
     return create_response(message="success!")
 
 
