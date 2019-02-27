@@ -15,7 +15,7 @@ class Tips(mongoengine.DynamicDocument):
 
     title = StringField(required=True)
     content = StringField(required=True)
-    author = ListField(ObjectIdField())
+    author = ObjectIdField(required=True)
     posted_time = DateTimeField(required=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
