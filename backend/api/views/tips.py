@@ -20,6 +20,7 @@ def get_all_tips():
     logger.info("TIPS: %s", response)
     return create_response(data=response)
 
+
 @tips.route("/tips/<user_id>", methods=["GET"])
 def get_tips_by_user(user_id):
     """
@@ -27,17 +28,21 @@ def get_tips_by_user(user_id):
     """
     user = User.objects.get(id=user_id)
     posted_tips = (user.to_mongo())["posted_tips"]
-    posted_tips_list = [Tips.objects.get(id=str(tips)).to_mongo() for tips in posted_tips]  
+    posted_tips_list = [
+        Tips.objects.get(id=str(tips)).to_mongo() for tips in posted_tips
+    ]
     return create_response(data={"tips": posted_tips_list})
+
 
 @tips.route("/tips_category/<category>", methods=["GET"])
 def get_tips_by_category(category):
     """
     GET function for retrieving Tips objects in a certain category
     """
-    response = [tips.to_mongo() for tips in Tips.objects if tips.category==category]
+    response = [tips.to_mongo() for tips in Tips.objects if tips.category == category]
     response = {"tips": response}
     return create_response(data=response)
+
 
 @tips.route("/tips_upvotes/<tips_id>", methods=["GET"])
 def get_tip_upvotes(tips_id):
@@ -46,9 +51,12 @@ def get_tip_upvotes(tips_id):
     """
     tip = Tips.objects.get(id=tips_id)
     tips_upvotes = (tips.to_mongo())["upvotes"]
-    tips_upvotes_list = [User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes]
+    tips_upvotes_list = [
+        User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
+    ]
     response = {"upvotes": tips_upvotes_list}
-    return create_response(data=response)   
+    return create_response(data=response)
+
 
 @tips.route("/tips_downvotes/<tips_id>", methods=["GET"])
 def get_tip_downvotes(tips_id):
@@ -57,24 +65,27 @@ def get_tip_downvotes(tips_id):
     """
     tip = Tips.objects.get(id=tips_id)
     tips_downvotes = (tips.to_mongo())["downvotes"]
-    tips_downvotes_list = [User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes]
+    tips_downvotes_list = [
+        User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
+    ]
     response = {"upvotes": tips_downvotes_list}
-    return create_response(data=response) 
+    return create_response(data=response)
 
-@tips.route("/tips", methods=["POST"]) 
+
+@tips.route("/tips", methods=["POST"])
 def create_tip():
     """
     POST function for creating a new Tips object
     """
     data = request.get_json()
     tips = Tips.objects.create(
-        title = data["title"],
-        content = data["content"],
-        author = ObjectId(data["user_id"]),
-        posted_time = datetime.now(),
-        latitude = data["latitude"],
-        longitude = data["longitude"],
-        category = data["category"],
+        title=data["title"],
+        content=data["content"],
+        author=ObjectId(data["user_id"]),
+        posted_time=datetime.now(),
+        latitude=data["latitude"],
+        longitude=data["longitude"],
+        category=data["category"],
     )
     tips.save()
     user = User.objects.get(id=data["user_id"])
@@ -82,6 +93,7 @@ def create_tip():
     posted_tips.append(ObjectId(tips.id))
     user.update(posted_tips=posted_tips)
     return create_response(message="success!")
+
 
 @tips.route("/tips/<tips_id>", methods=["PUT"])
 def edit_tip(tips_id):
@@ -103,6 +115,7 @@ def edit_tip(tips_id):
     tip.save()
     return create_response(message="success!")
 
+
 @tips.route("/tips_votes", methods=["PUT"])
 def change_vote():
     """
@@ -110,7 +123,7 @@ def change_vote():
     """
     data = request.get_json()
     tip = Tips.objects.get(id=data["tips_id"])
-    if (data["vote_type"] == UPVOTE):
+    if data["vote_type"] == UPVOTE:
         if ObjectId(data["user_id"]) in tip.to_mongo()["upvotes"]:
             tip.update(pull__upvotes=ObjectId(data["user_id"]))
         else:
@@ -120,7 +133,7 @@ def change_vote():
             if ObjectId(data["user_id"]) in tip.to_mongo()["downvotes"]:
                 tip.update(pull__downvotes=ObjectId(data["user_id"]))
 
-    if (data["vote_type"] == DOWNVOTE):
+    if data["vote_type"] == DOWNVOTE:
         if ObjectId(data["user_id"]) in tip.to_mongo()["downvotes"]:
             tip.update(pull__downvotes=ObjectId(data["user_id"]))
         else:
@@ -132,14 +145,13 @@ def change_vote():
     return create_response(message="success!")
 
 
-
 @tips.route("/tips/<tips_id>", methods=["DELETE"])
 def delete_tips_by_id(tips_id):
     """
     DELETE function for deleting a tips object by id
     """
     for tips in Tips.objects:
-        if (tips_id == str(tips.id)):
+        if tips_id == str(tips.id):
             user = User.objects.get(id=str(tips.author))
             posted_tips = (user.to_mongo())["posted_tips"]
             posted_tips.remove(ObjectId(tips.id))
@@ -147,6 +159,7 @@ def delete_tips_by_id(tips_id):
             tips.delete()
             return create_response(message="success!")
     return create_response(message="Tip not found")
+
 
 @tips.route("/tips", methods=["DELETE"])
 def clear_tips():
@@ -171,4 +184,3 @@ def delete_tips_collection():
     """
     result = Tips.objects().delete()
     return result
-
