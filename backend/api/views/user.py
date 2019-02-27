@@ -31,7 +31,7 @@ def create_user():
         anon=data["anon"],
         karma=0,
         posted_tips=[],
-        date_created=datetime.now()
+        date_created=datetime.now(),
     )
     user.save()
     return create_response(message="success!")
