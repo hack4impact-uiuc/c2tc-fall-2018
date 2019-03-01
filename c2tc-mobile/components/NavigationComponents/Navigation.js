@@ -50,9 +50,7 @@ export default class Navigation extends Component {
     }
 
     if (!isContaining) {
-      if (this._mounted) {
         this.state.toggleLayerList.push(type);
-      }
     }
   };
 
@@ -79,7 +77,6 @@ export default class Navigation extends Component {
     let filter = this.state.page === "filter";
     return (
       <React.Fragment>
-        <View>
           <SlidingUpPanel
             visible
             startCollapsed
@@ -181,7 +178,6 @@ export default class Navigation extends Component {
               ]
             )}
           </SlidingUpPanel>
-        </View>
         <Tabs
           selected={this.state.page}
           style={styles.tabbg}
