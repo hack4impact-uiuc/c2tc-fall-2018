@@ -1,5 +1,5 @@
 import React from "react";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 import {
   Animated,
@@ -15,7 +15,7 @@ import {
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       isEditingName: false,
       displayName: "Test user",
@@ -23,28 +23,28 @@ export default class ProfileScreen extends React.Component {
       karmaScore: 0,
       verified: false,
       tips: []
-    }
+    };
   }
 
   handleEditPress = e => {
     this.setState({
       isEditingName: true
-    })
-  }
+    });
+  };
 
   handleSwitchVisiblity = e => {
     // this.setState({
-    //   
+    //
     // })
-    console.log("SWITCHING VISIBILIY...")
-  }
+    console.log("SWITCHING VISIBILIY...");
+  };
 
   handleSavePress = e => {
     this.setState({
       isEditingName: false
-    })
+    });
     //database update
-  }
+  };
 
   render() {
     const isEditingName = this.state.isEditingName;
@@ -52,41 +52,35 @@ export default class ProfileScreen extends React.Component {
       <View>
         {isEditingName ? (
           <View>
-            <TextInput 
-              onChangeText={(text) => this.setState({displayName: text})}  
-              placeholder={this.state.displayName}/>
+            <TextInput
+              onChangeText={text => this.setState({ displayName: text })}
+              placeholder={this.state.displayName}
+            />
             <TouchableOpacity onPress={this.handleSavePress}>
               <FontAwesome name="save" size={32} color="green" />
             </TouchableOpacity>
           </View>
         ) : (
           <View>
-            <Text>
-              Your name is {this.state.displayName}
-            </Text>
+            <Text>Your name is {this.state.displayName}</Text>
             <TouchableOpacity onPress={this.handleEditPress}>
               <FontAwesome name="edit" size={32} color="green" />
             </TouchableOpacity>
           </View>
         )}
         <Text>
-          Visible to other users? {this.state.visibleToOthers? "yes" : "no"}
+          Visible to other users? {this.state.visibleToOthers ? "yes" : "no"}
         </Text>
-        <Switch value={this.state.visibleToOthers} onValueChage={this.handleSwitchVisiblity}/>
-        <Text>
-          Karma score is: {this.state.karmaScore}
-        </Text>
-        <Text>
-          You are {this.state.verified? "" : " not "}a verified user
-        </Text>
-        <Text>
-          Tips
-        </Text>
+        <Switch
+          value={this.state.visibleToOthers}
+          onValueChage={this.handleSwitchVisiblity}
+        />
+        <Text>Karma score is: {this.state.karmaScore}</Text>
+        <Text>You are {this.state.verified ? "" : " not "}a verified user</Text>
+        <Text>Tips</Text>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
