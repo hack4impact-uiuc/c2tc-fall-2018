@@ -29,8 +29,8 @@
 
 **TIP**
 
-|   title  |   content  |   author  |   posted_time  |   latitude  |   longitude  |  category  |  upvotes  |  downvotes  |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|   title  |   content  |   author  |   posted_time  |   latitude  |   longitude  |  category  |  upvotes  |  downvotes  |  verified  |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 
 
 ## Endpoints Documentation
