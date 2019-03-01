@@ -165,7 +165,7 @@ class LiveLocation extends Component {
   }
 
   componentWillUnmount() {
-    // navigator.geolocation.clearWatch(this.watchID);
+    navigator.geolocation.clearWatch(this.watchID);
     this._mounted = false;
   }
 

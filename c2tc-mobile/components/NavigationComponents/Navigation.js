@@ -50,7 +50,9 @@ export default class Navigation extends Component {
     }
 
     if (!isContaining) {
-      this.state.toggleLayerList.push(type);
+      if (this._mounted) {
+        this.state.toggleLayerList.push(type);
+      }
     }
   };
 
