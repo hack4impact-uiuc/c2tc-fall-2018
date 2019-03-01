@@ -50,7 +50,7 @@ export default class Navigation extends Component {
     }
 
     if (!isContaining) {
-        this.state.toggleLayerList.push(type);
+      this.state.toggleLayerList.push(type);
     }
   };
 
@@ -77,107 +77,105 @@ export default class Navigation extends Component {
     let filter = this.state.page === "filter";
     return (
       <React.Fragment>
-          <SlidingUpPanel
-            visible
-            startCollapsed
-            showBackdrop={false}
-            ref={this.setRef}
-            draggableRange={draggableRange}
-            onDrag={this.setDrag}
-          >
-            {this.props.description ? (
-              <View style={styles.title}>
-                <View style={styles.panel}>
-                  <Text style={styles.filter}>
-                    {this.props.descriptionTitle}
-                  </Text>
-                  <Text>{this.props.descriptionContent}</Text>
-                </View>
+        <SlidingUpPanel
+          visible
+          startCollapsed
+          showBackdrop={false}
+          ref={this.setRef}
+          draggableRange={draggableRange}
+          onDrag={this.setDrag}
+        >
+          {this.props.description ? (
+            <View style={styles.title}>
+              <View style={styles.panel}>
+                <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
+                <Text>{this.props.descriptionContent}</Text>
               </View>
-            ) : (
-              [
-                filter ? (
-                  <View style={styles.title} key="title">
-                    <View style={styles.panel}>
-                      <Text style={styles.filter}>Filters</Text>
-                      <View style={styles.row}>
-                        <ButtonInterface
-                          icon="bus"
-                          name="Bus Stops"
-                          type="busStop"
-                          ref="button"
-                          color={Colors.busStop}
-                          parentPanel={this}
-                        />
-                        <ButtonInterface
-                          icon="exclamation-triangle"
-                          name="Crimes"
-                          type="crime"
-                          ref="button"
-                          color={Colors.crime}
-                          parentPanel={this}
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <ButtonInterface
-                          icon="shopping-cart"
-                          name="Open Businesses"
-                          type="business"
-                          ref="button"
-                          color={Colors.business}
-                          parentPanel={this}
-                        />
-                        <ButtonInterface
-                          icon="phone"
-                          name="Emergency Phones"
-                          type="emergency"
-                          ref="button"
-                          color={Colors.emergency}
-                          parentPanel={this}
-                        />
-                      </View>
-                      <View style={styles.row}>
-                        <ButtonInterface
-                          icon="shield"
-                          name="Police Stations"
-                          type="policeStations"
-                          ref="button"
-                          color={Colors.police}
-                          parentPanel={this}
-                        />
-                        <ButtonInterface
-                          icon="lightbulb-o"
-                          name="Street lights"
-                          type="streetLights"
-                          ref="button"
-                          color={Colors.streetlights}
-                          parentPanel={this}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.panel} key={"phone"}>
-                    <Text style={styles.filter}>Contacts</Text>
+            </View>
+          ) : (
+            [
+              filter ? (
+                <View style={styles.title} key="title">
+                  <View style={styles.panel}>
+                    <Text style={styles.filter}>Filters</Text>
                     <View style={styles.row}>
-                      <PhoneButton
-                        icon="car"
-                        name="SafeRide"
+                      <ButtonInterface
+                        icon="bus"
+                        name="Bus Stops"
+                        type="busStop"
                         ref="button"
-                        number="2172657433"
+                        color={Colors.busStop}
+                        parentPanel={this}
                       />
-                      <PhoneButton
-                        icon="male"
-                        name="SafeWalk"
+                      <ButtonInterface
+                        icon="exclamation-triangle"
+                        name="Crimes"
+                        type="crime"
                         ref="button"
-                        number="2173331216"
+                        color={Colors.crime}
+                        parentPanel={this}
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <ButtonInterface
+                        icon="shopping-cart"
+                        name="Open Businesses"
+                        type="business"
+                        ref="button"
+                        color={Colors.business}
+                        parentPanel={this}
+                      />
+                      <ButtonInterface
+                        icon="phone"
+                        name="Emergency Phones"
+                        type="emergency"
+                        ref="button"
+                        color={Colors.emergency}
+                        parentPanel={this}
+                      />
+                    </View>
+                    <View style={styles.row}>
+                      <ButtonInterface
+                        icon="shield"
+                        name="Police Stations"
+                        type="policeStations"
+                        ref="button"
+                        color={Colors.police}
+                        parentPanel={this}
+                      />
+                      <ButtonInterface
+                        icon="lightbulb-o"
+                        name="Street lights"
+                        type="streetLights"
+                        ref="button"
+                        color={Colors.streetlights}
+                        parentPanel={this}
                       />
                     </View>
                   </View>
-                )
-              ]
-            )}
-          </SlidingUpPanel>
+                </View>
+              ) : (
+                <View style={styles.panel} key={"phone"}>
+                  <Text style={styles.filter}>Contacts</Text>
+                  <View style={styles.row}>
+                    <PhoneButton
+                      icon="car"
+                      name="SafeRide"
+                      ref="button"
+                      number="2172657433"
+                    />
+                    <PhoneButton
+                      icon="male"
+                      name="SafeWalk"
+                      ref="button"
+                      number="2173331216"
+                    />
+                  </View>
+                </View>
+              )
+            ]
+          )}
+        </SlidingUpPanel>
         <Tabs
           selected={this.state.page}
           style={styles.tabbg}

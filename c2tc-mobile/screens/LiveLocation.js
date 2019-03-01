@@ -361,7 +361,7 @@ class LiveLocation extends Component {
         return <Loader loading={this.state.loading} />;
       }
     }
-    
+
     return (
       <View style={styles.container}>
         <MapView
