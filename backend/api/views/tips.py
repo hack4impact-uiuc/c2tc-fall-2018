@@ -71,6 +71,7 @@ def get_tip_downvotes(tips_id):
     response = {"upvotes": tips_downvotes_list}
     return create_response(data=response)
 
+
 @tips.route("/tips/verified", methods=["GET"])
 def get_verified_tips():
     """
@@ -127,19 +128,23 @@ def edit_tip(tips_id):
     tip.save()
     return create_response(message="success!")
 
+
 @tips.route("/tips/<id>/verify", methods=["PUT"])
 def update_verified(id):
     """
     PUT function for changing the tip's verified status
     """
     tip = Tips.objects.get(id=id)
-    if (request.args.get("verified") == "True"):
+    if request.args.get("verified") == "True":
         tip.update(verified=True)
         return create_response(message="success!")
-    if (request.args.get("verified") == "False"):
+    if request.args.get("verified") == "False":
         tip.update(verified=False)
         return create_response(message="success!")
-    return create_response(message="query string not recognized, it must be either True or False")
+    return create_response(
+        message="query string not recognized, it must be either True or False"
+    )
+
 
 @tips.route("/tips_votes", methods=["PUT"])
 def change_vote():

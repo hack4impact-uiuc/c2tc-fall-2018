@@ -45,6 +45,7 @@ def get_user(id):
     response = User.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
 
+
 @user.route("/users/<id>", methods=["PUT"])
 def update_user(id):
     """
@@ -75,16 +76,19 @@ def delete_user(id):
     User.objects(id=id).delete()
     return create_response(message="success!")
 
+
 @user.route("/users/<id>/verify", methods=["PUT"])
 def update_verified(id):
     """
     PUT function for changing the user's verified status
     """
     user = User.objects.get(id=id)
-    if (request.args.get("verified") == "True"):
+    if request.args.get("verified") == "True":
         user.update(verified=True)
         return create_response(message="success!")
-    if (request.args.get("verified") == "False"):
+    if request.args.get("verified") == "False":
         user.update(verified=False)
         return create_response(message="success!")
-    return create_response(message="query string not recognized, it must be either True or False")
+    return create_response(
+        message="query string not recognized, it must be either True or False"
+    )
