@@ -383,7 +383,19 @@ GET function for retrieving all tips objects downvoted by a certain user
 
 **Description**
 
-POST function for a user to create a new tip
+POST function for a user to create a new tip  
+
+The parameters are passed in as a JSON:  
+```
+{
+	"title": "be there or be squared 2",
+	"content": "make sure to be there",
+	"user_id": "5c6cd199fa676f00aec97ff2",
+	"latitude": 0,
+	"longitude": 0,
+	"category": "test"
+}
+```
 
 **Response**
 
@@ -393,7 +405,18 @@ POST function for a user to create a new tip
 
 **Description**
 
-PUT function for a user to edit a tip that they already posted
+PUT function for a user to edit a tip that they already posted  
+
+The parameters are passed in as a JSON:
+```
+{
+	"title": "be there or be squared 2",
+	"content": "make sure to be there",
+	"latitude": 0,
+	"longitude": 0,
+	"category": "test"
+}
+```
 
 **Response**
 
@@ -403,7 +426,17 @@ PUT function for a user to edit a tip that they already posted
 
 **Description**
 
-PUT function for a user to change their upvote or downvote on a post
+PUT function for a user to change their upvote or downvote on a post  
+
+The parameter are passed in as a JSON:
+```
+{
+    "tips_id": "5c6f6cc7fa676f0336bb4a8b"
+    "user_id": "5c6cd199fa676f00aec97ff2"
+    "vote_type": "UPVOTE"
+}
+```  
+"vote_type" can be either UPVOTE or DOWNVOTE
 
 **Response**
 
