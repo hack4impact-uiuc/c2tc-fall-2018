@@ -356,9 +356,12 @@ class LiveLocation extends Component {
   };
 
   render() {
-    if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
+    if (this._mounted) {
+      if (this.state.loading) {
+        return <Loader loading={this.state.loading} />;
+      }
     }
+    
     return (
       <View style={styles.container}>
         <MapView
