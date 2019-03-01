@@ -26,10 +26,20 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    this._mounted = true;
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
   handleEditPress = e => {
-    this.setState({
-      isEditingName: true
-    });
+    if (this._mounted) {
+      this.setState({
+        isEditingName: true
+      });
+    }
   };
 
   handleSwitchVisiblity = e => {
@@ -40,9 +50,12 @@ export default class ProfileScreen extends React.Component {
   };
 
   handleSavePress = e => {
-    this.setState({
-      isEditingName: false
-    });
+    if (this._mounted) {
+      this.setState({
+        isEditingName: false
+      });
+    }
+
     //database update
   };
 
