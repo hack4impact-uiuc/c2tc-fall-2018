@@ -1,5 +1,5 @@
-import * as React from "react";
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
+import React from "react";
+import { Text, StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { TextInput, withTheme } from "react-native-paper";
 
 class TipForm extends React.Component {
@@ -26,6 +26,7 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <Text style={styles.tipTitle}>Tip Title</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
@@ -34,6 +35,7 @@ class TipForm extends React.Component {
             value={this.state.tipTitle}
             onChangeText={tipTitle => this.setState({ tipTitle })}
           />
+          <Text style={styles.title}>Tip Content</Text>
           <TextInput
             mode="outlined"
             style={styles.inputBodyContainerStyle}
@@ -58,11 +60,30 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     margin: 8,
-    marginTop: 100
+    
   },
   inputBodyContainerStyle: {
     paddingBottom: 100,
     margin: 8
+  },
+  tipTitle: {
+    marginTop: 100,
+    borderRadius: 10,
+    fontWeight: "700",
+    fontSize: 25,
+    padding: 15,
+    color: "black",
+    textAlign: "left",
+    position: "relative"
+  },
+  title: {
+    borderRadius: 10,
+    fontWeight: "700",
+    fontSize: 25,
+    padding: 15,
+    color: "black",
+    textAlign: "left",
+    position: "relative"
   }
 });
 
