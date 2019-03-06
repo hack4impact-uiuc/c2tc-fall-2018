@@ -9,10 +9,6 @@ import IntroScreen from "./screens/IntroScreen";
 class App extends Component {
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   isLoaded: false
-    // };
   }
   async componentDidMount() {
     if (AsyncStorage.getAllKeys().length != 1) {
