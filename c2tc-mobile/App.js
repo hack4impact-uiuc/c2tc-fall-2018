@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation";
 import LiveLocation from "./screens/LiveLocation";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipForm from "./screens/TipForm";
 
 class App extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default createStackNavigator({
     }
   },
   MapScreen: {
-    screen: LiveLocation,
+    screen: TipForm,
     navigationOptions: {
       header: null,
       headerMode: "screen"
