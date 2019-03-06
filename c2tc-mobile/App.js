@@ -48,7 +48,7 @@ export default createStackNavigator({
     }
   },
   MapScreen: {
-    screen: TipForm,
+    screen: LiveLocation,
     navigationOptions: {
       header: null,
       headerMode: "screen"
