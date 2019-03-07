@@ -6,9 +6,10 @@ import {
   Modal,
   TouchableHighlight,
   Text,
+  Container,
 } from "react-native";
 
-import {Button} from "react-native-paper";
+import {Appbar, Button} from "react-native-paper";
 
 
 class AlertScreen extends React.Component {
@@ -42,18 +43,18 @@ class AlertScreen extends React.Component {
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
+          <Appbar.Header>
+            <Appbar.Action icon="arrow-back" onPress={() => this.setModalVisible(!this.state.modalVisible) } />
+            {/* <Appbar.Action icon="navigate-back" onPress={() => console.log("Hello, world!")} /> */}
+            <Appbar.Content title="Back" />
+          </Appbar.Header>
           <View style={{marginTop: 22}}>
             <View>
-              <Text>Sorry, in order to {this.state.attemptedAction}, you must login!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
+              <Text style={styles.reason_text}>Sorry, in order to {this.state.attemptedAction}, you must login!</Text>
             </View>
-            <Button mode="contained" onPress = {this.attemptLogin} > Sign-up or login with illinois email </Button>
+            <View style={{justifyContent: 'center', flexDirection: 'row'}}>
+              <Button mode="contained" style={styles.button} onPress = {this.attemptLogin}>Login</Button>
+            </View>
           </View>
         </Modal>
 
@@ -70,6 +71,15 @@ class AlertScreen extends React.Component {
 
 export default AlertScreen;
 const styles = StyleSheet.create({
+  reason_text: {
+    margin: 10
+  },
+
+  button:{
+    width: '40%',
+    // flex: 0.3
+  },
+
   alert: {
     position: 'absolute'
   }
