@@ -10,8 +10,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  Switch
+  Switch,
+  Image,
 } from "react-native";
+
+import {
+  Paragraph,
+  Appbar,
+  List,
+  Divider,
+  withTheme,
+  type Theme
+} from 'react-native-paper';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -20,8 +30,9 @@ export default class ProfileScreen extends React.Component {
       isEditingName: false,
       displayName: "Test user",
       visibleToOthers: true,
-      karmaScore: 0,
+      karmaScore: 42,
       verified: false,
+      email: "user@illinois.edu",
       tips: []
     }
   }
@@ -46,47 +57,76 @@ export default class ProfileScreen extends React.Component {
     //database update
   }
 
+  handleBackPress = e => {
+    console.log("Leave profile page")
+  }
+
   render() {
     const isEditingName = this.state.isEditingName;
     return (
       <View>
-        {isEditingName ? (
-          <View>
-            <TextInput 
-              onChangeText={(text) => this.setState({displayName: text})}  
-              placeholder={this.state.displayName}/>
-            <TouchableOpacity onPress={this.handleSavePress}>
-              <FontAwesome name="save" size={32} color="green" />
-            </TouchableOpacity>
+        <Appbar.Header>
+          <Appbar.BackAction onPress={this.handleBackPress} />
+          <Appbar.Content
+            title="Back"
+          />
+          {isEditingName ? (
+            <Appbar.Action icon="save" onPress={this.handleSavePress} />
+          ) : (
+            <Appbar.Action icon="edit" onPress={this.handleEditPress} />
+          )}
+        </Appbar.Header>
+        <View style={styles.profile}>
+          <Image
+            style={{width: 50, height: 50, borderRadius: 50/2}}
+            source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
+          />
+          {isEditingName ? (
+            <TextInput
+              onChangeText={text => this.setState({ displayName: text })}
+              placeholder={this.state.displayName}
+            /> ) : (
+              <Text>{this.state.displayName} </Text>
+            )}
+            <Text>{this.state.karmaScore} pts. </Text>
           </View>
-        ) : (
+          <Divider/>
           <View>
             <Text>
-              Your name is {this.state.displayName}
+              Visible to other users? {this.state.visibleToOthers? "yes" : "no"}
             </Text>
-            <TouchableOpacity onPress={this.handleEditPress}>
-              <FontAwesome name="edit" size={32} color="green" />
-            </TouchableOpacity>
+            {isEditingName ? (
+              <Switch
+                value={this.state.visibleToOthers}
+                onValueChage={this.handleSwitchVisiblity}
+              />
+            ) : (
+              null
+            ) }
           </View>
-        )}
-        <Text>
-          Visible to other users? {this.state.visibleToOthers? "yes" : "no"}
-        </Text>
-        <Switch value={this.state.visibleToOthers} onValueChage={this.handleSwitchVisiblity}/>
-        <Text>
-          Karma score is: {this.state.karmaScore}
-        </Text>
-        <Text>
-          You are {this.state.verified? "" : " not "}a verified user
-        </Text>
-        <Text>
-          Tips
-        </Text>
-      </View>
+          <Divider/>
+          <View>
+            <Paragraph>
+              <FontAwesome name="envelope" size={32}/>
+              {this.state.email}
+            </Paragraph>
+          </View>
+          <Divider/>
+          <Text>
+            Tips
+          </Text>
+        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+  profile: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginTop: 15
+  },
 });
