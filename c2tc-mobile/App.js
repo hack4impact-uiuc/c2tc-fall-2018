@@ -5,42 +5,36 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
-import { Provider, connect } from 'react-redux';
-import {store, reduxifiedNavigator} from "./Redux"
+import { Provider, connect } from "react-redux";
+import { store, reduxifiedNavigator } from "./Redux";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isLoaded: false
-    };
   }
   async componentDidMount() {
     if (AsyncStorage.getAllKeys().length != 1) {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     } else {
-      this.setState({
-        isLoaded: true
-      });
+      this._mounted = true;
     }
   }
 
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
   render() {
-    return (
-      <Navigator/>
-    )
-    // if (this.state.isLoaded) {
+    return <Navigator />;
+    // if (this._mounted) {
     //   return(
     //     <Provider store={store}>
     //       <LiveLocation  navigation={this.props.navigation} />
-    //     </Provider> 
+    //     </Provider>
     //   );
     // }
 
     // return <IntroScreen navigation={this.props.navigation} />
-
-
   }
 }
 

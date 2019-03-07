@@ -3,9 +3,9 @@ import Tabs from "react-native-tabs";
 import { StyleSheet, Text, Dimensions } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { updateDetailView,updatePage } from '../../Redux.js'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateDetailView, updatePage } from "../../Redux.js";
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -14,8 +14,8 @@ const mapDispatchToProps = dispatch => {
       updateDetailView
     },
     dispatch
-  )
-}
+  );
+};
 const mapStateToProps = state => {
   return { page: state.page };
 };
@@ -26,38 +26,41 @@ class TabBar extends Component {
   }
 
   _onSelect = tab => {
-    this.props.updatePage(tab.props.name)
-    this.props.updateDetailView(false, "","")
+    this.props.updatePage(tab.props.name);
+    this.props.updateDetailView(false, "", "");
   };
 
   render() {
     let filter = this.props.page === "filter";
     return (
-        <Tabs
-          selected={this.props.page}
-          style={styles.tabbg}
-          selectedStyle={{ color: "purple" }}
-          onSelect={tab => this._onSelect(tab)}
-        >
-          <Text name="filter" selectedIconStyle={styles.tab}>
-            <FontAwesome
-              name="map"
-              size={32}
-              color={filter ? Colors.tabSelected : Colors.tabUnselected}
-            />
-          </Text>
-          <Text name="contact" selectedIconStyle={styles.tab}>
-            <FontAwesome
-              name="phone"
-              size={38}
-              color={filter ? Colors.tabUnselected : Colors.tabSelected}
-            />
-          </Text>
-        </Tabs>
+      <Tabs
+        selected={this.props.page}
+        style={styles.tabbg}
+        selectedStyle={{ color: "purple" }}
+        onSelect={tab => this._onSelect(tab)}
+      >
+        <Text name="filter" selectedIconStyle={styles.tab}>
+          <FontAwesome
+            name="map"
+            size={32}
+            color={filter ? Colors.tabSelected : Colors.tabUnselected}
+          />
+        </Text>
+        <Text name="contact" selectedIconStyle={styles.tab}>
+          <FontAwesome
+            name="phone"
+            size={38}
+            color={filter ? Colors.tabUnselected : Colors.tabSelected}
+          />
+        </Text>
+      </Tabs>
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TabBar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TabBar);
 
 const styles = StyleSheet.create({
   tabbg: {

@@ -4,14 +4,19 @@ import { Location, Permissions } from "expo";
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
 import Colors from "../constants/Colors";
-import renderLayerMarkers from '../components/MapRendering'
+import renderLayerMarkers from "../components/MapRendering";
 import API from "../components/API";
 import Loader from "../components/Loader";
 
 import CurrentLocationButton from "../components/NavigationComponents/CurrentLocationButton";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { updateMarkers, updateMapRegion, updateRenderData, updateColorData, updateLayerData, updateDetailView } from '../Redux'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  updateMapRegion,
+  updateColorData,
+  updateLayerData,
+  updateDetailView
+} from "../Redux";
 
 const { width, height } = Dimensions.get("window");
 
@@ -19,28 +24,25 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.017;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       updateColorData,
       updateLayerData,
-      updateRenderData,
-      updateMarkers,
       updateMapRegion,
-      updateDetailView,
+      updateDetailView
     },
     dispatch
-  )
-}
+  );
+};
 const mapStateToProps = state => {
-  return { 
+  return {
     markerClicked: state.markerClicked,
     layerData: state.layerData,
     colorData: state.colorData,
     renderData: state.renderData,
     markers: state.markers,
-    mapRegion: state.mapRegion,
+    mapRegion: state.mapRegion
   };
 };
 
@@ -51,7 +53,6 @@ class LiveLocation extends Component {
     this.state = {
       lastLat: null,
       lastLong: null,
-      loading: true, 
       locationResult: null
     };
   }
@@ -63,54 +64,33 @@ class LiveLocation extends Component {
   }
 
   async componentDidMount() {
-    let location = await Location.getCurrentPositionAsync({});
-    let region = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    };
-    this.onRegionChange(region)
+    this._mounted = true;
 
-    // this.watchID = navigator.geolocation.watchPosition(position => {
-    //   let region = {
-    //     latitude: position.coords.latitude,
-    //     longitude: position.coords.longitude,
-    //     latitudeDelta: LATITUDE_DELTA,
-    //     longitudeDelta: LONGITUDE_DELTA
-    //   };
-    //   this.onRegionChange(region, region.latitude, region.longitude);
-    // });
-    // navigator.geolocation.getCurrentPosition(
-    //   position => {
-        // let region = {
-        //   latitude: position.coords.latitude,
-        //   longitude: position.coords.longitude,
-        //   latitudeDelta: LATITUDE_DELTA,
-        //   longitudeDelta: LONGITUDE_DELTA
-        // };
-    //     this.onRegionChange(region, region.latitude, region.longitude);
-    //   },
-    //   error => console.log({ error: error.message })
-    // );
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region);
+      },
+      error => console.log({ error: error.message })
+    );
 
-    // this.watchID = await navigator.geolocation.watchPositionAsync(
-    //   position => {
-    //     console.log("HERE IS POS", position)
-    //     let region = {
-    //       latitude: position.coords.latitude,
-    //       longitude: position.coords.longitude,
-    //       latitudeDelta: LATITUDE_DELTA,
-    //       longitudeDelta: LONGITUDE_DELTA
-    //     };
-    //     this.onRegionChange(region, region.latitude, region.longitude);
-    //   },
-    //   error => console.log({ error: error.message })
-    // );
-
-
-    
-
+    this.watchID = navigator.geolocation.watchPosition(
+      position => {
+        let region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA
+        };
+        this.onRegionChange(region);
+      },
+      error => console.log({ error: error.message })
+    );
 
     if (AsyncStorage.getAllKeys().length != 6) {
       let busStopData = await API.getBusStops();
@@ -133,44 +113,35 @@ class LiveLocation extends Component {
       );
       await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
-    await this.props.updateLayerData (
-      {
-        busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
-        crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
-        business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
-        policeStations: JSON.parse(
-          await AsyncStorage.getItem("policeStations")
-        ),
-        streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
-      }
-    )
+    await this.props.updateLayerData({
+      busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
+      crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
+      business: JSON.parse(await AsyncStorage.getItem("businessData")),
+      emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+      policeStations: JSON.parse(await AsyncStorage.getItem("policeStations")),
+      streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
+    });
 
-    await this.props.updateColorData(
-      {
-        busStop: Colors.busStop,
-        crime: Colors.crime,
-        business: Colors.business,
-        emergency: Colors.emergency,
-        policeStations: Colors.police,
-        streetLights: Colors.streetlights
-      }
-    )
+    await this.props.updateColorData({
+      busStop: Colors.busStop,
+      crime: Colors.crime,
+      business: Colors.business,
+      emergency: Colors.emergency,
+      policeStations: Colors.police,
+      streetLights: Colors.streetlights
+    });
 
-    this.setState({
-      loading: false
-    })
-
+    this._mounted = false;
     this.getLocationAsync();
   }
 
-  onRegionChange = (region) =>{
-    this.props.updateMapRegion(region)
+  onRegionChange = region => {
+    this.props.updateMapRegion(region);
     this.setState({
       lastLat: region.latitude || this.state.lastLat,
       lastLong: region.longitude || this.state.lastLong
     });
-  }
+  };
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
@@ -182,24 +153,12 @@ class LiveLocation extends Component {
     }, 500);
   }
 
-  // async renderMarkers(layer, data, markerColor) {
-  //   // console.log("in render markers")
-  //   const { layerData,colorData, markers, mapRegion } = this.props
-  //   let markerList = await renderLayerMarkers(layer,data,markerColor,layerData,colorData,markers,mapRegion)
-  //   return markerList
-  // }
-
   markerClick = (title, description) => {
-    this.props.updateDetailView(true, title, description)
+    this.props.updateDetailView(true, title, description);
   };
-
-  changeMarkerToFalse = () => {
-    this.props.updateDetailView(false, "","")
-  };
-
 
   backToUser = () => {
-    this.props.updateMapRegion(this.state.locationResult)
+    this.props.updateMapRegion(this.state.locationResult);
   };
 
   onRegionChangeRender = region => {
@@ -215,19 +174,18 @@ class LiveLocation extends Component {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    let locationTwo = {
+    let region = {
       latitude: location.coords.latitude,
-      latitudeDelta: LATITUDE_DELTA,
       longitude: location.coords.longitude,
+      latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     };
-    this.setState({ locationResult: locationTwo });
+    this.setState({ locationResult: region });
   };
 
   render() {
-    console.log("MY PROPS",this.props)
-    if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
+    if (this._mounted) {
+      return <Loader loading={this._mounted} />;
     }
     return (
       <View style={styles.container}>
@@ -259,10 +217,7 @@ class LiveLocation extends Component {
           <CurrentLocationButton changeLocation={this.backToUser} />
         </View>
 
-        <Navigation
-          ref="panel"
-          layers={this.props.renderData}
-        />
+        <Navigation ref="panel" layers={this.props.renderData} />
       </View>
     );
   }
@@ -272,9 +227,10 @@ LiveLocation.propTypes = {
   provider: ProviderPropType
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LiveLocation);
-
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LiveLocation);
 
 const styles = StyleSheet.create({
   zoom: {
@@ -313,4 +269,3 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   }
 });
-

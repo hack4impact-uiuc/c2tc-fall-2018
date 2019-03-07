@@ -7,10 +7,10 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import {updateRenderData,updateMarkers } from '../../Redux'
-import renderLayerMarkers from '../MapRendering'
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateRenderData, updateMarkers } from "../../Redux";
+import renderLayerMarkers from "../MapRendering";
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -19,17 +19,16 @@ const mapDispatchToProps = dispatch => {
       updateRenderData
     },
     dispatch
-  )
-}
-
+  );
+};
 
 const mapStateToProps = state => {
-  return { 
-    renderData:state.renderData,
+  return {
+    renderData: state.renderData,
     layerData: state.layerData,
     colorData: state.colorData,
     markers: state.markers,
-    mapRegion: state.mapRegion,
+    mapRegion: state.mapRegion
   };
 };
 
@@ -39,39 +38,42 @@ class ButtonInterface extends Component {
   }
 
   _onPressToggleLayers = layer => {
-    console.log("am in here")
     if (this.props.renderData[layer]) {
-      this.props.updateRenderData(layer,false)
+      this.props.updateRenderData(layer, false);
       let markers = this.props.markers.filter(
         marker => marker["color"] !== this.props.colorData[layer]
-      )
-      this.props.updateMarkers(
-        markers
-      ) 
-        
+      );
+      this.props.updateMarkers(markers);
     } else {
       this.renderMarkers(
         layer,
         this.props.layerData[layer],
         this.props.colorData[layer]
       );
-      this.props.updateRenderData(layer,true)
+      this.props.updateRenderData(layer, true);
     }
   };
 
   async renderMarkers(layer, data, markerColor) {
-    const { layerData,colorData, markers,mapRegion } = this.props
-    let markerList = await renderLayerMarkers(layer,data,markerColor,layerData,colorData,markers,mapRegion)
-    this.props.updateMarkers(markerList)
+    const { layerData, colorData, markers, mapRegion } = this.props;
+    let markerList = await renderLayerMarkers(
+      layer,
+      data,
+      markerColor,
+      layerData,
+      colorData,
+      markers,
+      mapRegion
+    );
+    this.props.updateMarkers(markerList);
   }
 
   updateLayer = () => {
-    this._onPressToggleLayers(this.props.type)
+    this._onPressToggleLayers(this.props.type);
   };
 
   render() {
-    var isSelected = this.props.renderData[this.props.type]
-    console.log(isSelected)
+    var isSelected = this.props.renderData[this.props.type];
     return (
       <View style={styles.view}>
         <TouchableOpacity
@@ -98,7 +100,10 @@ class ButtonInterface extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonInterface);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ButtonInterface);
 
 const styles = StyleSheet.create({
   selectedButton: {
