@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import api from "./components";
 
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -13,6 +14,14 @@ export default class App extends Component {
     super(props);
   }
   async componentDidMount() {
+    console.log(api.getUsers());
+    data = {
+      net_id: "alicesf2",
+      username: "alicesf2",
+      verified: False,
+      anon: False
+    };
+    console.log(api.createUser(data));
     if (AsyncStorage.getAllKeys().length != 1) {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     } else {
