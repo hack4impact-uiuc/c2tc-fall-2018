@@ -66,13 +66,7 @@ class LiveLocation extends Component {
     this._mounted = true;
 
     navigator.geolocation.getCurrentPosition(
-      function(position) {
-        alert(
-          "Lat: " +
-            position.coords.latitude +
-            "\nLon: " +
-            position.coords.longitude
-        );
+      position => {
         let region = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -81,23 +75,12 @@ class LiveLocation extends Component {
         };
         this.onRegionChange(region);
       },
-      function(error) {
-        alert(error.message);
+      error => {
+        console.log({ error: error.message });
       },
       {
-        enableHighAccuracy: true,
-        // timeout: 5000
+        enableHighAccuracy: true
       }
-      // position => {
-      //   let region = {
-      //     latitude: position.coords.latitude,
-      //     longitude: position.coords.longitude,
-      //     latitudeDelta: LATITUDE_DELTA,
-      //     longitudeDelta: LONGITUDE_DELTA
-      //   };
-      //   this.onRegionChange(region);
-      // },
-      // error => console.log({ error: error.message })
     );
 
     this.watchID = navigator.geolocation.watchPosition(
