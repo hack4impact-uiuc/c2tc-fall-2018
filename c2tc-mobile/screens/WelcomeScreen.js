@@ -6,11 +6,9 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
-  Button,
   Dimensions,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,9 +47,10 @@ class FadeInView extends React.Component {
 export default class WelcomeScreen extends React.Component {
   render() {
     return (
-      <View>
+      <View style={styles.overall}>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Intro")}
+          style={styles.top_view}
         >
           <Image
             style={styles.back}
@@ -125,74 +124,86 @@ export default class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  overall: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
+  top_view: {
+    backgroundColor: "#FFFFFF"
+  },
   back: {
-    width: width / 10,
+    width: 56,
     height: height / 10,
-    left: 10
+    left: 15,
+    marginTop: 20
   },
   welcome_1: {
     alignSelf: "center",
-    width: width / 1.5,
-    height: height / 8
+    width: 236,
+    marginTop: -10
   },
   welcome_2: {
     alignSelf: "center",
-    width: width * 1.5,
-    height: height / 5
+    width: 310,
+    marginTop: -150
   },
   welcome_3: {
     alignSelf: "center",
-    width: width / 1.5,
-    height: height / 6
+    width: 244,
+    marginTop: -110
   },
   welcome_4: {
     alignSelf: "center",
-    width: width / 12,
-    height: height / 12,
-    margin: 10
+    width: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20
   },
   welcome_5: {
     alignSelf: "center",
-    width: width / 12,
-    height: height / 12,
-    margin: 10
+    width: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20
   },
   welcome_6: {
     alignSelf: "center",
-    width: width / 12,
-    height: height / 12,
-    margin: 10
+    width: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20
   },
   welcome_7: {
     alignSelf: "center",
-    width: width * 1.5,
-    height: height / 2,
-    margin: 10
+    width: 310,
+    marginTop: -270
   },
   welcome_8: {
-    alignSelf: "center",
-    width: "100%",
-    height: 130
+    position: "absolute",
+    top: 0,
+    bottom: -550,
+    left: 0,
+    right: 0
   },
   selectedButton: {
     alignItems: "center",
-    backgroundColor: "#8e44ad",
-    borderRadius: 10,
-    width: Dimensions.get("window").width - 20,
+    backgroundColor: "#8E44AD",
+    borderRadius: 7,
+    width: Dimensions.get("window").width - 40,
     justifyContent: "flex-end",
-    marginHorizontal: 10,
-    paddingVertical: 15,
-    marginTop: 10
+    marginHorizontal: 20,
+    height: 55,
+    paddingVertical: 17,
+    marginTop: -75 // -75 works perfectly on iPhones but not on Android, 0 works fine on android but it's too low for iPhones, relative values dont work either
   },
   view: {
-    height: Dimensions.get("window").height - (110 + width / 10)
-  },
-  viewButton: {
-    height: 150,
-    backgroundColor: "white"
+    height: Dimensions.get("window").height - (110 + width / 10),
+    backgroundColor: "#FFFFFF"
   },
   selectedText: {
+    marginTop: -5,
     color: "white",
-    fontSize: 18
+    fontSize: 19,
+    fontWeight: "600"
   }
 });

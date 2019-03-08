@@ -1,7 +1,18 @@
 {
   "name": "cut-to-the-case",
+  "version": "0.0.5",
+  "description": "A mobile application that makes the students of UIUC feel safer on campus.",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "author": "Hack4Impact UIUC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hack4impact-uiuc/c2tc-spring-2019.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hack4impact-uiuc/c2tc-spring-2019/issues"
+  },
+  "homepage": "https://github.com/hack4impact-uiuc/c2tc-spring-2019#readme",
   "scripts": {
     "start": "expo start",
     "format": "prettier --write './**/*.{js,jsx,json,css}'",
@@ -17,19 +28,22 @@
   "dependencies": {
     "@expo/samples": "2.1.1",
     "csvtojson": "^2.0.8",
-    "expo": "^30.0.1",
+    "expo": "^30.0.2",
     "fs": "0.0.1-security",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-maps": "^0.21.0",
+    "react-native-paper": "^2.12.0",
     "react-native-phone-call": "^1.0.9",
     "react-native-sliding-up-down-panels": "^1.0.0",
     "react-native-tabs": "^1.0.9",
     "react-navigation": "^2.18.3",
-    "rn-sliding-up-panel": "^1.3.0"
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "rn-sliding-up-panel": "^1.3.1"
   },
   "devDependencies": {
-    "jest-expo": "30.0.0",
-    "prettier": "^1.14.3"
+    "jest-expo": "^32.0.0",
+    "prettier": "^1.16.4"
   }
 }
