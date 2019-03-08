@@ -19,10 +19,10 @@ class AlertScreen extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      modalVisible: props.shouldDisplayAlert,
-      attemptedAction: props.attemptedAction
-    }
+    // this.state = {
+    //   modalVisible: props.shouldDisplayAlert,
+    //   attemptedAction: props.attemptedAction
+    // }
   }
 
   setModalVisible(visible) {
@@ -30,7 +30,7 @@ class AlertScreen extends React.Component {
   }
 
   attemptLogin = () => {
-    console.log("HELLO WORLD")
+    console.log("ATTEMPTING TO LOGIN")
   }
 
   render() {
@@ -39,18 +39,18 @@ class AlertScreen extends React.Component {
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.props.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
           }}>
           <Appbar.Header>
-            <Appbar.Action icon="arrow-back" onPress={() => this.setModalVisible(!this.state.modalVisible) } />
+            <Appbar.Action icon="arrow-back" onPress={() => this.setModalVisible(!this.props.modalVisible) } />
             {/* <Appbar.Action icon="navigate-back" onPress={() => console.log("Hello, world!")} /> */}
             <Appbar.Content title="Back" />
           </Appbar.Header>
           <View style={{marginTop: 22}}>
             <View>
-              <Text style={styles.reason_text}>Sorry, in order to {this.state.attemptedAction}, you must login!</Text>
+              <Text style={styles.reason_text}>Sorry, in order to {this.props.attemptedAction}, you must login!</Text>
             </View>
             <View style={{justifyContent: 'center', flexDirection: 'row'}}>
               <Button mode="contained" style={styles.button} onPress = {this.attemptLogin}>Login</Button>
