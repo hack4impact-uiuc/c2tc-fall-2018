@@ -90,10 +90,10 @@ export default class ProfileScreen extends React.Component {
             )}
             <Text>{this.state.karmaScore} pts. </Text>
           </View>
-          <Divider/>
-          <View>
+          <Divider style={styles.divider}/>
+          <View style={styles.profile}>
             <Text>
-              Visible to other users? {this.state.visibleToOthers? "yes" : "no"}
+              Visible to other users? {this.state.visibleToOthers? "Yes" : "No"}
             </Text>
             {isEditingName ? (
               <Switch
@@ -104,14 +104,14 @@ export default class ProfileScreen extends React.Component {
               null
             ) }
           </View>
-          <Divider/>
-          <View>
+          <Divider style={styles.divider} />
+          <View style={styles.profile}>
             <Paragraph>
-              <FontAwesome name="envelope" size={32}/>
+              <FontAwesome name="envelope" size={15}/>
               {this.state.email}
             </Paragraph>
           </View>
-          <Divider/>
+          <Divider style={styles.divider}/>
           <Text>
             Tips
           </Text>
@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     paddingHorizontal: 16,
-    marginTop: 15
+    marginTop: 0
   },
+
+  divider: {
+    backgroundColor: 'black',
+  }
 });
