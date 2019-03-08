@@ -49,7 +49,7 @@ class FadeInView extends React.Component {
 export default class WelcomeScreen extends React.Component {
   render() {
     return (
-      <View style ={styles.overall}>
+      <View style={styles.overall}>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Intro")}
           style={styles.top_view}
@@ -126,7 +126,7 @@ export default class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  overall:{
+  overall: {
     backgroundColor: "white",
     height: Dimensions.get("window").height
   },
@@ -209,4 +209,3 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   }
 });
-
