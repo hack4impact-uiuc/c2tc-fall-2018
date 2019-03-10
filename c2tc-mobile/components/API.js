@@ -56,7 +56,9 @@ async function deleteEndpoint(endPoint) {
     console.error(error);
   }
 }
-
+async function createTip(data) {
+  return postEndpoint("tips", data);
+}
 async function getTips() {
   return getEndpoint("tips", "tips");
 }
