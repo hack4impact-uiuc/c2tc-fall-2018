@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     height:  Dimensions.get("window").height
   },
   action:{
+    marginHorizontal: 10,
     marginTop:15,
     borderRadius:15,
     padding:10,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start'
   },
   leftActions:{
-    width: Dimensions.get("window").width - 125
+    width: Dimensions.get("window").width - 145
   },
   rightActions:{
     flexDirection: 'row',
