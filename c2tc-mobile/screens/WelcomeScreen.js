@@ -6,11 +6,9 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
-  Button,
   Dimensions,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 
 const { width, height } = Dimensions.get("window");
 
@@ -49,7 +47,7 @@ class FadeInView extends React.Component {
 export default class WelcomeScreen extends React.Component {
   render() {
     return (
-      <View>
+      <View style={styles.overall}>
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Intro")}
           style={styles.top_view}
@@ -115,7 +113,7 @@ export default class WelcomeScreen extends React.Component {
         <View style={styles.viewButton}>
           <TouchableOpacity
             style={styles.selectedButton}
-            onPress={() => this.props.navigation.navigate("MapScreen")}
+            onPress={() => this.props.navigation.navigate("Map")}
           >
             <Text style={styles.selectedText}>Continue</Text>
           </TouchableOpacity>
@@ -126,6 +124,10 @@ export default class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  overall: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
   top_view: {
     backgroundColor: "#FFFFFF"
   },
@@ -190,18 +192,16 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 40,
     justifyContent: "flex-end",
     marginHorizontal: 20,
+    height: 55,
     paddingVertical: 17,
-    marginTop: 0 // -75 works perfectly on iPhones but not on Android, 0 works fine on android but it's too low for iPhones, relative values dont work either
+    marginTop: -75 // -75 works perfectly on iPhones but not on Android, 0 works fine on android but it's too low for iPhones, relative values dont work either
   },
   view: {
     height: Dimensions.get("window").height - (110 + width / 10),
     backgroundColor: "#FFFFFF"
   },
-  viewButton: {
-    height: 150,
-    backgroundColor: "white"
-  },
   selectedText: {
+    marginTop: -5,
     color: "white",
     fontSize: 19,
     fontWeight: "600"

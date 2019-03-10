@@ -6,8 +6,11 @@ import api from "./components/API";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipForm from "./screens/TipForm";
 import { Provider, connect } from "react-redux";
 import { store, reduxifiedNavigator } from "./Redux";
+import TipOverviewScreen from "./screens/TipOverviewScreen";
+import TipDetailsScreen from "./screens/TipDetailsScreen";
 
 export default class App extends Component {
   constructor(props) {
@@ -36,15 +39,6 @@ export default class App extends Component {
 
   render() {
     return <Navigator />;
-    // if (this._mounted) {
-    //   return(
-    //     <Provider store={store}>
-    //       <LiveLocation  navigation={this.props.navigation} />
-    //     </Provider>
-    //   );
-    // }
-
-    // return <IntroScreen navigation={this.props.navigation} />
   }
 }
 
@@ -63,8 +57,22 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
-  MapScreen: {
+  Map: {
     screen: MapScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipOverview: {
+    screen: TipOverviewScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipDetail: {
+    screen: TipDetailsScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
