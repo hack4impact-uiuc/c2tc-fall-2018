@@ -3,7 +3,6 @@ import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import API from "./components/API";
 
-
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
