@@ -49,7 +49,7 @@ Navigator = createStackNavigator({
   },
   Map: {
     // screen: MapScreen,
-    screen: TipForm ,
+    screen: TipForm,
     navigationOptions: {
       header: null,
       headerMode: "screen"

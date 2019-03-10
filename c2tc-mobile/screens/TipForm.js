@@ -56,15 +56,16 @@ class TipForm extends React.Component {
           />
           <Text style={styles.body}>Category</Text>
           <View style={styles.cat_container}>
-          <Tag category="campus"/>
-          <Tag category="safety"/>
-          <Tag category="food"/>
-          <Tag category="traffic"/>
+            <Tag category="campus" />
+            <Tag category="safety" />
+            <Tag category="food" />
+            <Tag category="traffic" />
           </View>
           <TouchableOpacity
             style={styles.submit_tip}
             // onPress={() => this.props.navigation.navigate("Welcome")}
-          ><Text style={styles.button_text}>Submit Tip</Text>
+          >
+            <Text style={styles.button_text}>Submit Tip</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -107,9 +108,9 @@ const styles = StyleSheet.create({
     position: "relative"
   },
   cat_container: {
-    flexDirection: 'row', 
-    alignSelf: 'flex-start',
-    marginLeft: 12,
+    flexDirection: "row",
+    alignSelf: "flex-start",
+    marginLeft: 12
   },
   button_text: {
     color: "white",
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingVertical: 17,
     marginTop: 30,
-    marginLeft: 12,
+    marginLeft: 12
   }
 });
 
