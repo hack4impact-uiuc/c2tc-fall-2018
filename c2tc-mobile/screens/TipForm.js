@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
   },
   cat_container: {
     flexDirection: 'row', 
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    marginLeft: 12,
   },
   button_text: {
     color: "white",
@@ -123,7 +124,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     marginHorizontal: 20,
     paddingVertical: 17,
-    marginTop: 30
+    marginTop: 30,
+    marginLeft: 12,
   }
 });
 
