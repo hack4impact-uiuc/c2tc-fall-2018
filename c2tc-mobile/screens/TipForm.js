@@ -3,9 +3,11 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  View
 } from "react-native";
 import { TextInput, withTheme } from "react-native-paper";
+import Tag from "../components/Tag.js";
 
 class TipForm extends React.Component {
   state = {
@@ -49,6 +51,13 @@ class TipForm extends React.Component {
             value={this.state.tipBody}
             onChangeText={tipBody => this.setState({ tipBody })}
           />
+          <Text style={styles.body}>Category</Text>
+          <View style={styles.cat_containers}>
+          <Tag category="campus"/>
+          <Tag category="safety"/>
+          <Tag category="food"/>
+          <Tag category="traffic"/>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -88,6 +97,10 @@ const styles = StyleSheet.create({
     color: "black",
     textAlign: "left",
     position: "relative"
+  },
+  cat_container: {
+    flexDirection: 'row', 
+    alignSelf: 'flex-start'
   }
 });
 
