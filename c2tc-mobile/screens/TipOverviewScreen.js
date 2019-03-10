@@ -6,10 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 import TipOverview from "../components/TipOverview";
-import Tag from "../components/Tag";
-import { Appbar, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
@@ -20,8 +17,8 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
-      user: "User",
-      currentdate: "January 4th, 2019"
+      user: "Philip",
+      currentdate: "Thursday Feb 28"
     }
   }
 
@@ -29,25 +26,22 @@ class TipOverviewScreen extends React.Component {
     console.log("Add a Tip")
   }
 
-  // componentDidMount() {
-  //
-  // }
-
   render() {
     return(
-      <ScrollView>
+      <ScrollView style={styles.tipOverview}>
         <View style={styles.header}>
-          <Text style={styles.headertext}>{this.state.currentdate}</Text>
-          <Text style={styles.headertext}>Good morning, {this.state.user}!</Text>
+          <Text style={styles.date}>{this.state.currentdate.toUpperCase()}</Text>
+          <Text style={styles.headertext}>Good Evening,</Text>
+          <Text style={styles.headertext}>{this.state.user}!</Text>
         </View>
-        <View>
+        <View style={styles.content}>
           <TouchableOpacity
              onPress={this.handleAddTipPress}
            >
-             <Text style={styles.button}> Add a Tip </Text>
+             <Text style={styles.button}> Submit A Tip ></Text>
            </TouchableOpacity>
-          <TipOverview title="Wow there is so much information to be found here!" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus cursus massa nunc, vitae porttitor felis pulvinar at." category="safety" location="location" author="author"/>
-          <TipOverview title="Wow there is so much information to be found here!" category="safety" location="location" author="author"/>
+          <TipOverview navigation = {this.props.navigation} tip = "" tags={["safety","food"]} title="Two Theft Incidents at Grainger" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus cursus massa nunc, vitae porttitor felis pulvinar at." category="safety" location="location" author="author"/>
+          <TipOverview navigation = {this.props.navigation} tip = "" tags={["safety","traffic"]} title="Car Accident on 1st St" category="safety" location="location" author="author"/>
         </View>
         </ScrollView>
     );
@@ -55,20 +49,30 @@ class TipOverviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  tipOverview:{
+    backgroundColor: "#81573D"
+  },
+  content:{
+    paddingHorizontal:35,
+  },
+  date:{
+    color:"white",
+  },    
   header: {
     padding:35,
     paddingTop:60,
-    paddingBottom:100
+    paddingBottom:100,
   },
   headertext: {
-    fontSize: 25,
-    color: "black",
+    fontSize: 27,
+    fontWeight: "400",
+    color: "white",
     borderTopColor: "#c7c7cc"
   },
   button: {
     padding:10,
     fontSize:18,
-    color: "black"
+    color: "white"
   }
 });
 

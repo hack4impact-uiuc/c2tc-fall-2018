@@ -2,79 +2,103 @@ import React from "react";
 import {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity
 } from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
-// import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 
 class TipOverview extends React.Component {
   constructor(props) {
     super(props)
   }
 
+
   render() {
     return (
-      <Card>
-        <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-        <Card.Content style={{padding:10}}>
-          <View style={{flexDirection: "row"}}>
-            <Tag category={this.props.category} color="blue"/>
-            <Tag category={"SECOND"} color="green"/>
+      <TouchableOpacity onPress={ () => this.props.navigation.navigate("TipDetail", {tip:this.props.tip}) }style = {styles.card}>
+        <View style = {styles.cardTitle}>
+          <View style = {styles.tags}>
+          {this.props.tags.map((tag) =>
+            <Tag key={tag} category={tag} />
+          )}
           </View>
-          <View style={{padding:10}}>
-            <Title>{this.props.title}</Title>
+          <Text style={styles.tipTitle}>{this.props.title}</Text>
+        </View>
+        <View style = {styles.cardActions}>
+          <View style={styles.leftActions}>
+            <Text style={styles.actionText}><FontAwesome name="map-marker" size={17} />   {this.props.location } </Text>
+            <Text style={styles.actionText}><FontAwesome name="user" size={17} />   {this.props.author}</Text>
           </View>
-        </Card.Content>
-
-        <Card.Actions>
-          <View style={styles.leftContainer}>
-            <Text><FontAwesome name="map-marker" size={15} /> {this.props.location } </Text>
-            <Text><FontAwesome name="user" size={15} /> {this.props.author}</Text>
+          <View style={styles.rightActions}>
+            <TouchableOpacity style = {styles.button} >
+              <FontAwesome
+                name="caret-up"
+                size={30}
+                color = "#9A9A9A"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity  style= {styles.button}>
+              <FontAwesome
+                name="caret-down"
+                size={30}
+                color = "#9A9A9A"
+              />
+            </TouchableOpacity>
           </View>
-
-          <View style={styles.rightContainer}>
-            <Button><FontAwesome
-              name="arrow-circle-up"
-              size={32}
-            /></Button>
-            <Button><FontAwesome
-              name="arrow-circle-down"
-              size={32}
-            /></Button>
-          </View>
-        </Card.Actions>
-
-      </Card>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  tipPreview: {
-    fontSize: 25,
-    color: "black",
-    borderTopColor: "#c7c7cc"
+  card:{
+    borderRadius: 15,
+    marginVertical: 10
   },
-  categoryheader: {
-    fontSize:20,
-    width: 100,
-    height: 25,
-    borderTopWidth: 0,
-    color: "green"
+  tags:{
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom:5
   },
-  leftContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: 10
+  cardTitle:{
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    padding:20,
+    backgroundColor: "white",
   },
-  rightContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center"
+  tipTitle:{
+    fontSize: 20,
+    fontWeight:"500"
+  },  
+  cardActions:{
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    padding:20,
+    backgroundColor: "rgba(255,255,255,.7)",
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  leftActions:{
+    width: Dimensions.get("window").width - 195
+  },
+  rightActions:{
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: 95,
+  },
+  actionText:{
+    fontSize: 17,
+  },  
+  button:{
+    alignItems:"center",
+    height:35,
+    width:35,
+    margin:5,
+    borderRadius:25,
+    backgroundColor:"white"
   }
 });
 
