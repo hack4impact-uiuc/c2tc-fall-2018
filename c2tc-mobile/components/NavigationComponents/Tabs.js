@@ -43,21 +43,27 @@ class TabBar extends Component {
           <FontAwesome
             name="users"
             size={32}
-            color={filter === "tips" ? Colors.tabSelected : Colors.tabUnselected}
+            color={
+              filter === "tips" ? Colors.tabSelected : Colors.tabUnselected
+            }
           />
         </Text>
         <Text name="filter" selectedIconStyle={styles.tab}>
           <FontAwesome
             name="map"
             size={32}
-            color={filter === "filter"? Colors.tabSelected : Colors.tabUnselected}
+            color={
+              filter === "filter" ? Colors.tabSelected : Colors.tabUnselected
+            }
           />
         </Text>
         <Text name="contact" selectedIconStyle={styles.tab}>
           <FontAwesome
             name="phone"
             size={38}
-            color={filter === "contact"? Colors.tabUnselected : Colors.tabSelected}
+            color={
+              filter === "contact" ? Colors.tabUnselected : Colors.tabSelected
+            }
           />
         </Text>
       </Tabs>

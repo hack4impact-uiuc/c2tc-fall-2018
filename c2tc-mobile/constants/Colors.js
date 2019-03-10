@@ -15,7 +15,7 @@ const streetlights = "#ffc107";
 const safety = "#8D5725";
 const campus = "orange";
 const traffic = "#ffc107";
-const food = "green"
+const food = "green";
 
 export default {
   base,
@@ -33,7 +33,7 @@ export default {
   police,
   streetlights,
   safety,
-  campus, 
+  campus,
   traffic,
   food
 };

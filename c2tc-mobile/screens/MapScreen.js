@@ -10,7 +10,7 @@ export default class MapScreen extends Component {
   render() {
     return (
       <Provider store={store}>
-        <LiveLocation navigation={this.props.navigation}/>
+        <LiveLocation navigation={this.props.navigation} />
       </Provider>
     );
   }

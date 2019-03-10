@@ -192,9 +192,8 @@ class LiveLocation extends Component {
   render() {
     if (this._mounted) {
       return <Loader loading={this._mounted} />;
-    }
-    else if(this.props.page == "tips"){
-      return (this.props.navigation.navigate("TipOverview"));
+    } else if (this.props.page == "tips") {
+      return this.props.navigation.navigate("TipOverview");
     }
     return (
       <View style={styles.container}>

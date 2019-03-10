@@ -6,7 +6,7 @@ import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipOverviewScreen from "./screens/TipOverviewScreen";
-import TipDetailsScreen from "./screens/TipDetailsScreen"
+import TipDetailsScreen from "./screens/TipDetailsScreen";
 
 export default class App extends Component {
   constructor(props) {
