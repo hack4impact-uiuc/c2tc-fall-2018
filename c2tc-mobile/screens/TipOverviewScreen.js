@@ -4,7 +4,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
@@ -29,7 +29,6 @@ class TipOverviewScreen extends React.Component {
     this.setState({ tips: tipsResponse });
   }
 
-
   render() {
     return (
       <ScrollView style={styles.tipOverview}>
@@ -41,8 +40,9 @@ class TipOverviewScreen extends React.Component {
           <Text style={styles.headertext}>{this.state.user}!</Text>
         </View>
         <View style={styles.content}>
-          <TouchableOpacity onPress={() =>
-          this.props.navigation.navigate("TipForm")}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipForm")}
+          >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
           {this.state.tips.map(tip => (
