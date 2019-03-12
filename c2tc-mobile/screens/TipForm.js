@@ -11,9 +11,9 @@ import {
 } from "react-native";
 import { TextInput, withTheme } from "react-native-paper";
 import Tag from "../components/Tag.js";
-import API from "../components/API"
+import API from "../components/API";
 import { Location } from "expo";
-import Color from "../constants/Colors"
+import Color from "../constants/Colors";
 
 class TipForm extends React.Component {
   state = {
@@ -21,39 +21,38 @@ class TipForm extends React.Component {
     body: "",
     category: "",
     author: "Megha Mallya",
-    userId:"5c86c850f875c618f8557f40",
+    userId: "5c86c850f875c618f8557f40",
     location: null
   };
 
-  async componentWillMount(){
+  async componentWillMount() {
     let location = await Location.getCurrentPositionAsync({});
     this.setState({
       location
-    })
+    });
   }
-  setCategory = (category) => {
-    this.setState({category})
-  }
-  categoryStyle = function (buttonCategory){
-    if (buttonCategory === this.state.category){
-      return{
-        backgroundColor:  Color[this.state.category]
-      }
+  setCategory = category => {
+    this.setState({ category });
+  };
+  categoryStyle = function(buttonCategory) {
+    if (buttonCategory === this.state.category) {
+      return {
+        backgroundColor: Color[this.state.category]
+      };
     }
-  }
-  handSubmitTip = async () =>{
+  };
+  handSubmitTip = async () => {
     tip = {
-      "title": this.state.title,
-      "content": this.state.body,
-      "user_id": this.state.userId,
-      "latitude": this.state.location.coords.latitude,
-      "longitude": this.state.location.coords.longitude,
-      "category": this.state.category
-    }
-    await API.createTip(tip) 
-    this.props.navigation.navigate("TipOverview")
-
-  }
+      title: this.state.title,
+      content: this.state.body,
+      user_id: this.state.userId,
+      latitude: this.state.location.coords.latitude,
+      longitude: this.state.location.coords.longitude,
+      category: this.state.category
+    };
+    await API.createTip(tip);
+    this.props.navigation.navigate("TipOverview");
+  };
 
   render() {
     const {
@@ -73,7 +72,7 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <Text style={[styles.header, {marginTop: 25}]}>Tip Title</Text>
+          <Text style={[styles.header, { marginTop: 25 }]}>Tip Title</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
@@ -96,19 +95,21 @@ class TipForm extends React.Component {
             <Picker
               selectedValue={this.state.category}
               style={styles.picker}
-              onValueChange={this.setCategory}>
-              <Picker.Item color = {Color.campus} label="Campus" value="campus" />
-              <Picker.Item color = {Color.safety} label="Safety" value="safety" />
-              <Picker.Item color = {Color.food}label="Food" value="food" />
-              <Picker.Item color = {Color.traffic} label="Traffic" value="traffic" />
+              onValueChange={this.setCategory}
+            >
+              <Picker.Item color={Color.campus} label="Campus" value="campus" />
+              <Picker.Item color={Color.safety} label="Safety" value="safety" />
+              <Picker.Item color={Color.food} label="Food" value="food" />
+              <Picker.Item
+                color={Color.traffic}
+                label="Traffic"
+                value="traffic"
+              />
             </Picker>
           </View>
           <TouchableOpacity
             style={styles.submit_tip}
-            onPress = {
-              this.handSubmitTip
-            }
-            
+            onPress={this.handSubmitTip}
           >
             <Text style={styles.button_text}>Submit Tip</Text>
           </TouchableOpacity>
@@ -120,18 +121,18 @@ class TipForm extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
-  pickerContainer:{
-    borderWidth:1,
+  pickerContainer: {
+    borderWidth: 1,
     borderColor: "black",
-    width:200,
+    width: 200,
     borderRadius: 5,
-    marginLeft:20
+    marginLeft: 20
   },
-  picker:{
-    height:50,
-    width:200,
+  picker: {
+    height: 50,
+    width: 200
   },
   wrapper: {
     flex: 1
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 25,
     paddingHorizontal: 20,
-    paddingVertical:10,
+    paddingVertical: 10,
     color: "black",
     textAlign: "left",
     position: "relative"
