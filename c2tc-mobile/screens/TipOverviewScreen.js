@@ -6,70 +6,89 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 import TipOverview from "../components/TipOverview";
-import Tag from "../components/Tag";
-import { Appbar, Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import API from "../components/API";
+import { NavigationEvents } from "react-navigation";
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       title: "title",
       content: "content",
       author: "author",
       date: "date posted",
       location: "location",
-      user: "User",
-      currentdate: "January 4th, 2019"
-    }
+      user: "Philip",
+      currentdate: "Thursday Feb 28",
+      tips: []
+    };
   }
 
-  handleAddTipPress = e => {
-    console.log("Add a Tip")
+  async componentDidMount() {
+    let tipsResponse = await API.getTips();
+    this.setState({ tips: tipsResponse });
   }
-
-  // componentDidMount() {
-  //
-  // }
-
+  onComponentFocused = async () => {
+    let tipsResponse = await API.getTips();
+    this.setState({ tips: tipsResponse });
+  };
   render() {
-    return(
-      <ScrollView>
+    return (
+      <ScrollView style={styles.tipOverview}>
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.header}>
-          <Text style={styles.headertext}>{this.state.currentdate}</Text>
-          <Text style={styles.headertext}>Good morning, {this.state.user}!</Text>
+          <Text style={styles.date}>
+            {this.state.currentdate.toUpperCase()}
+          </Text>
+          <Text style={styles.headertext}>Good Evening,</Text>
+          <Text style={styles.headertext}>{this.state.user}!</Text>
         </View>
-        <View>
+        <View style={styles.content}>
           <TouchableOpacity
-             onPress={this.handleAddTipPress}
-           >
-             <Text style={styles.button}> Add a Tip </Text>
-           </TouchableOpacity>
-          <TipOverview title="Wow there is so much information to be found here!" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus cursus massa nunc, vitae porttitor felis pulvinar at." category="safety" location="location" author="author"/>
-          <TipOverview title="Wow there is so much information to be found here!" category="safety" location="location" author="author"/>
+            onPress={() => this.props.navigation.navigate("TipForm")}
+          >
+            <Text style={styles.button}> Submit A Tip ></Text>
+          </TouchableOpacity>
+          {this.state.tips.map(tip => (
+            <TipOverview
+              key={tip._id}
+              tip={tip}
+              navigation={this.props.navigation}
+            />
+          ))}
         </View>
-        </ScrollView>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  tipOverview: {
+    backgroundColor: "#81573D"
+  },
+  content: {
+    paddingHorizontal: 35
+  },
+  date: {
+    color: "white"
+  },
   header: {
-    padding:35,
-    paddingTop:60,
-    paddingBottom:100
+    padding: 35,
+    paddingTop: 60,
+    paddingBottom: 100
   },
   headertext: {
-    fontSize: 25,
-    color: "black",
+    fontSize: 27,
+    fontWeight: "400",
+    color: "white",
     borderTopColor: "#c7c7cc"
   },
   button: {
-    padding:10,
-    fontSize:18,
-    color: "black"
+    padding: 10,
+    fontSize: 18,
+    color: "white"
   }
 });
 
-export default TipOverviewScreen
+export default TipOverviewScreen;

@@ -9,12 +9,11 @@
 ## Design Resources
 
 * [Wireframes](https://sketch.cloud/s/45Dzo)
-* [Mockups](https://philkuo.com/hack4impact/c2tc_mockup_current/)
 * [Prototype](https://sketch.cloud/s/AJ9Ky/PrjlrQ/play)
 
 ## Backend Resources
 
-* [Database Schema](https://github.com/hack4impact-uiuc/c2tc-fall-2018/blob/master/docs/api_docs.md)
+* [Database Schema](https://github.com/hack4impact-uiuc/c2tc-spring-2019/blob/master/docs/api_docs.md)
 
 ## Tech Stack
 
