@@ -5,6 +5,8 @@ import { createStackNavigator } from "react-navigation";
 import LiveLocation from "./screens/LiveLocation";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipDetailsScreen from "./screens/TipDetailsScreen";
+import TipOverviewScreen from "./screens/TipOverviewScreen";
 
 class App extends Component {
   constructor(props) {
@@ -25,11 +27,13 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.isLoaded) {
-      return <LiveLocation navigation={this.props.navigation} />;
-    }
+    // if (this.state.isLoaded) {
+    //   return <LiveLocation navigation={this.props.navigation} />;
+    // }
+    //
+    // return <IntroScreen navigation={this.props.navigation} />;
 
-    return <IntroScreen navigation={this.props.navigation} />;
+    return <TipOverviewScreen />
   }
 }
 
