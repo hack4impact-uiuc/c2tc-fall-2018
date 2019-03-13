@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import API from "../components/API";
 
 import {
   Animated,
@@ -35,6 +36,23 @@ export default class ProfileScreen extends React.Component {
       email: "user@illinois.edu",
       tips: []
     };
+  }
+
+  async componentDidMount() {
+    this._mounted = true;
+    await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
+    let user = await AsyncStorage.getItem("user_id");
+    let username = user[username];
+    let karma = user[karma];
+    let verified = user[verified];
+    let tips = user[posted_tips];
+
+    this.setState({
+      displayName: username,
+      karmaScore: karma,
+      verified,
+      tips
+    });
   }
 
   handleEditPress = e => {
