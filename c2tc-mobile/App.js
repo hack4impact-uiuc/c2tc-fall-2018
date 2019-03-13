@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import API from "./components/API";
 
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipForm from "./screens/TipForm";
+import TipOverviewScreen from "./screens/TipOverviewScreen";
+import TipDetailsScreen from "./screens/TipDetailsScreen";
 
 export default class App extends Component {
   constructor(props) {
@@ -42,20 +46,32 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
-  MapScreen: {
+  Map: {
     screen: MapScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
     }
-  }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  },
+  TipOverview: {
+    screen: TipOverviewScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipDetail: {
+    screen: TipDetailsScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipForm: {
+    screen: TipForm,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
   }
 });
