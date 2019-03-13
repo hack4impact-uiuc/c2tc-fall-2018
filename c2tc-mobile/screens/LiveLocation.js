@@ -189,28 +189,39 @@ class LiveLocation extends Component {
   };
 
   getAddress(lat, long) {
-    api_address = "http://www.mapquestapi.com/geocoding/v1/reverse?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&location=" + lat + "," + long + "&includeRoadMetadata=false&includeNearestIntersection=false";
-    // console.log(api_address);
+    api_address =
+      "http://www.mapquestapi.com/geocoding/v1/reverse?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&location=" +
+      lat +
+      "," +
+      long +
+      "&includeRoadMetadata=false&includeNearestIntersection=false";
 
     fetch(api_address)
-   .then(response => {
-     return response.json();
-   })
-   .then(responseJson => {
-    //  console.log(responseJson);
-    // address = responseJson["results"]["locations"]["street"];
-    street_address = responseJson["results"][0]["locations"][0]["street"];
-    city =responseJson["results"][0]["locations"][0]["adminArea5"];
-    state =responseJson["results"][0]["locations"][0]["adminArea3"];
-    country =responseJson["results"][0]["locations"][0]["adminArea1"];
-    postal_code =responseJson["results"][0]["locations"][0]["postalCode"].substring(0, 5);
-    full_address = street_address + " " + city + " " + state + " " + country + " " + postal_code;
-    console.log(full_address);
-   })
+      .then(response => {
+        return response.json();
+      })
+      .then(responseJson => {
+        street_address = responseJson["results"][0]["locations"][0]["street"];
+        city = responseJson["results"][0]["locations"][0]["adminArea5"];
+        state = responseJson["results"][0]["locations"][0]["adminArea3"];
+        country = responseJson["results"][0]["locations"][0]["adminArea1"];
+        postal_code = responseJson["results"][0]["locations"][0][
+          "postalCode"
+        ].substring(0, 5);
+        full_address =
+          street_address +
+          " " +
+          city +
+          " " +
+          state +
+          " " +
+          country +
+          " " +
+          postal_code;
+      });
   }
 
   render() {
-    this.getAddress(40.785091,-73.968285);
     if (this._mounted) {
       return <Loader loading={this._mounted} />;
     } else if (this.props.page == "tips") {
