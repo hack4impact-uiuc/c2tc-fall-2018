@@ -17,7 +17,7 @@ export default class App extends Component {
   async componentDidMount() {
     let is_loaded = await AsyncStorage.getItem("loaded");
     if (is_loaded) {
-      this._mounted = true;  
+      this._mounted = true;
     } else {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }

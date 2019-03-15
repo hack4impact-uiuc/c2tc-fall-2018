@@ -112,8 +112,8 @@ class LiveLocation extends Component {
       crimeData = await API.getCrimes();
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
     }
-    
-    if (!businessData){
+
+    if (!businessData) {
       businessData = await API.getBusinesses();
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
     }
