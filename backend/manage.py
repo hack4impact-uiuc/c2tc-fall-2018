@@ -13,10 +13,10 @@ app = create_app()
 manager = Manager(app)
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(scrape, 'interval', seconds=200, timezone='America/Indiana/Indianapolis')
-scheduler.add_job(crime_scrape, 'interval', seconds=300, timezone='America/Indiana/Indianapolis')
-scheduler.add_job(business_scrape, 'interval', seconds=400, timezone='America/Indiana/Indianapolis')
-scheduler.add_job(streetlight_scrape, 'interval', seconds=500, timezone='America/Indiana/Indianapolis')
+scheduler.add_job(scrape, 'interval', weeks=4, timezone='America/Indiana/Indianapolis')
+scheduler.add_job(crime_scrape, 'interval', weeks=4, timezone='America/Indiana/Indianapolis')
+scheduler.add_job(business_scrape, 'interval', weeks=4, timezone='America/Indiana/Indianapolis')
+scheduler.add_job(streetlight_scrape, 'interval', weeks=4, timezone='America/Indiana/Indianapolis')
 
 @app.route("/schedule", methods=["GET"])
 def get_schedule():
