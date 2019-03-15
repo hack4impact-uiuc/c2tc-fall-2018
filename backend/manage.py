@@ -13,15 +13,15 @@ app = create_app()
 manager = Manager(app)
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(scrape, "interval", weeks=4, timezone="America/Indiana/Indianapolis")
+scheduler.add_job(scrape, "interval", weeks=2, timezone="America/Indiana/Indianapolis")
 scheduler.add_job(
-    crime_scrape, "interval", weeks=4, timezone="America/Indiana/Indianapolis"
+    crime_scrape, "interval", weeks=2, timezone="America/Indiana/Indianapolis"
 )
 scheduler.add_job(
-    business_scrape, "interval", weeks=4, timezone="America/Indiana/Indianapolis"
+    business_scrape, "interval", weeks=2, timezone="America/Indiana/Indianapolis"
 )
 scheduler.add_job(
-    streetlight_scrape, "interval", weeks=4, timezone="America/Indiana/Indianapolis"
+    streetlight_scrape, "interval", weeks=2, timezone="America/Indiana/Indianapolis"
 )
 
 
