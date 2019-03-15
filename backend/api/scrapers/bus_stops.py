@@ -1,6 +1,8 @@
 import requests
 import json
 import sys
+from api.core import logger
+
 
 api_keys = [
     "95b24e883247444095625960a8bbee98",
@@ -88,6 +90,7 @@ def scrape():
     Wrapper function for get_stops and get_full_stop_info that returns a fully
     mined list of all bus stops.
     """
+    print("Scraper is run \n\n\n")
     stop_data = get_stops(stops_payload, stops_url, stops_req_fields)
     stop_data = get_full_stop_info(stop_data, routes_payload, routes_url)
     return stop_data
