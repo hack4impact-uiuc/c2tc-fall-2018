@@ -2,7 +2,6 @@ import requests
 import json
 import sys
 
-
 api_keys = [
     "95b24e883247444095625960a8bbee98",
     "901d92ed96ae44c280f3e3c7c48fc300",
