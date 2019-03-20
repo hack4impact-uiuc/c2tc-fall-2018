@@ -22,8 +22,8 @@ class TipDetailsScreen extends React.Component {
     return (
       <View style={styles.detail}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}><Text>Back</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.uploadButton}><FontAwesome name="upload" size={17} color="#027BFF"/></TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("TipOverview")} style={styles.backButton}><Text style={styles.backText}><FontAwesome name="chevron-left" size={20} color="#027BFF"/> Back</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("TipForm")} style={styles.uploadButton}><FontAwesome name="upload" size={20} color="#027BFF"/></TouchableOpacity>
         </View>
         <View>
           <Text style={styles.title}>{tip.title}</Text>
@@ -63,6 +63,23 @@ class TipDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backButton:{
+    paddingLeft: 10,
+    width: Dimensions.get("window").width -35,
+  },
+  backText:{
+    color: "#027BFF",
+    fontSize: 20,
+  },
+  uploadButton:{
+    marginRight:10,
+
+  },
+  header:{
+    marginTop:30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   title: {
     paddingHorizontal: 10,
     marginTop: 30,
