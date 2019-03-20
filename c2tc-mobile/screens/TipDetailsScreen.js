@@ -64,15 +64,15 @@ class TipDetailsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   backButton:{
-    paddingLeft: 10,
-    width: Dimensions.get("window").width -35,
+    paddingLeft: 20,
+    width: Dimensions.get("window").width -45,
   },
   backText:{
     color: "#027BFF",
     fontSize: 20,
   },
   uploadButton:{
-    marginRight:10,
+    marginRight:20,
 
   },
   header:{
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   title: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginTop: 30,
     fontWeight: "500",
     fontSize: 25
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height
   },
   action: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     marginTop: 15,
     borderRadius: 15,
     padding: 10,
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal:20,
     borderBottomColor: "#9C9C9C",
     borderBottomWidth: 2,
     marginBottom: 10,
@@ -131,7 +132,8 @@ const styles = StyleSheet.create({
   tags: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal:20,
     borderBottomColor: "#9C9C9C",
     borderBottomWidth: 2
   },
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     borderTopColor: "#c7c7cc"
   },
   postDetails: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     fontSize: 17
     // padding:10,
   }
