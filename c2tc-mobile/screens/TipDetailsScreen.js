@@ -21,6 +21,10 @@ class TipDetailsScreen extends React.Component {
     let tip = this.props.navigation.state.params.tip;
     return (
       <View style={styles.detail}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton}><Text>Back</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.uploadButton}><FontAwesome name="upload" size={17} color="#027BFF"/></TouchableOpacity>
+        </View>
         <View>
           <Text style={styles.title}>{tip.title}</Text>
           <View style={styles.tags}>
