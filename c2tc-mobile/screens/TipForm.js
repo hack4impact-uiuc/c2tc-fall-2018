@@ -63,7 +63,14 @@ class TipForm extends React.Component {
         keyboardVerticalOffset={0}
       >
         <View style={styles.backHeader}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("TipOverview")} style={styles.backButton}><Text style={styles.backText}><FontAwesome name="chevron-left" size={20} color="#027BFF"/> Back</Text></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.backText}>
+              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
+            </Text>
+          </TouchableOpacity>
         </View>
         <ScrollView
           style={styles.container}
@@ -121,16 +128,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  backButton:{
+  backButton: {
     paddingLeft: 20,
-    width: Dimensions.get("window").width,
+    width: Dimensions.get("window").width
   },
-  backText:{
+  backText: {
     color: "#027BFF",
-    fontSize: 20,
+    fontSize: 20
   },
-  backHeader:{
-    marginTop:30,
+  backHeader: {
+    marginTop: 30,
     flexDirection: "row",
     justifyContent: "flex-start"
   },
