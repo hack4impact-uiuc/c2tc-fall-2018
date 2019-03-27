@@ -1,10 +1,13 @@
 import React from "react";
 import {
   Text,
+  Image,
   View,
   ScrollView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions,
+  TouchableHighlight
 } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
@@ -33,6 +36,11 @@ class TipOverviewScreen extends React.Component {
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
   };
+
+  profilePicPressed = () => {
+    this.props.navigation.navigate("Profile");
+  }
+
   render() {
     return (
       <ScrollView style={styles.tipOverview}>
@@ -41,8 +49,19 @@ class TipOverviewScreen extends React.Component {
           <Text style={styles.date}>
             {this.state.currentdate.toUpperCase()}
           </Text>
-          <Text style={styles.headertext}>Good Evening,</Text>
-          <Text style={styles.headertext}>{this.state.user}!</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={[styles.headertext, {alignSelf: 'flex-start', width: Dimensions.get("window").width - 104}]}>Good Evening,{"\n"}{this.state.user}</Text>
+            <TouchableOpacity onPress={this.profilePicPressed}>
+              <Image
+                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: 'flex-end'}}
+                source={{
+                  uri:
+                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+          {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
         </View>
         <View style={styles.content}>
           <TouchableOpacity
@@ -77,6 +96,11 @@ const styles = StyleSheet.create({
     padding: 35,
     paddingTop: 60,
     paddingBottom: 100
+  },
+  header_right: {
+    // padding: 35,
+    // paddingTop: 60,
+    // paddingBottom: 100
   },
   headertext: {
     fontSize: 27,
