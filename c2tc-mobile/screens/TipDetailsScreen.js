@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
-import API from "../components/API"
+import API from "../components/API";
 
 class TipDetailsScreen extends React.Component {
   constructor(props) {
@@ -20,7 +20,9 @@ class TipDetailsScreen extends React.Component {
   }
 
   async componentDidMount() {
-    let author = await API.getUser(this.props.navigation.state.params.tip.author);
+    let author = await API.getUser(
+      this.props.navigation.state.params.tip.author
+    );
     let username = author.username;
     if (author.anon) {
       username = "Anonymous";
