@@ -4,10 +4,7 @@ async function getEndpoint(endPoint, dataKey) {
   try {
     let response = await fetch(host + "/" + endPoint);
     let responseJson = await response.json();
-    if (dataKey == "") {
-      return responseJson.result;
-    }
-    return responseJson.result[dataKey];
+    return dataKey === "" ? responseJson.result : responseJson.result[dataKey];
   } catch (error) {
     console.error(error);
   }
