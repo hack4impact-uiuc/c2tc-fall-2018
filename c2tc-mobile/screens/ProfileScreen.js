@@ -1,5 +1,6 @@
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
+import { AsyncStorage } from "react-native";
 import API from "../components/API";
 
 import {
@@ -41,17 +42,15 @@ export default class ProfileScreen extends React.Component {
   async componentDidMount() {
     this._mounted = true;
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
-    let user = await AsyncStorage.getItem("user_id");
-    let username = user[username];
-    let karma = user[karma];
-    let verified = user[verified];
-    let tips = user[posted_tips];
+    let user_id = await AsyncStorage.getItem("user_id");
+    let user = await API.getUser(user_id);
 
     this.setState({
-      displayName: username,
-      karmaScore: karma,
-      verified,
-      tips
+      displayName: user.username,
+      karmaScore: user.karma,
+      verified: user.verified,
+      tips: user.posted_tips,
+      visibleToOthers: !user.anon
     });
   }
 
