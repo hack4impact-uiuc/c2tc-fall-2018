@@ -40,7 +40,7 @@ class TipOverviewScreen extends React.Component {
 
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
-  }
+  };
 
   render() {
     return (
@@ -50,14 +50,30 @@ class TipOverviewScreen extends React.Component {
           <Text style={styles.date}>
             {this.state.currentdate.toUpperCase()}
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={[styles.headertext, {alignSelf: 'flex-start', width: Dimensions.get("window").width - 104}]}>Good Evening,{"\n"}{this.state.user}</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={[
+                styles.headertext,
+                {
+                  alignSelf: "flex-start",
+                  width: Dimensions.get("window").width - 104
+                }
+              ]}
+            >
+              Good Evening,{"\n"}
+              {this.state.user}
+            </Text>
             <TouchableOpacity onPress={this.profilePicPressed}>
               <Image
-                style={{ width: 50, height: 50, borderRadius: 50 / 2, alignSelf: 'flex-end'}}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 50 / 2,
+                  alignSelf: "flex-end"
+                }}
                 source={{
                   uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                    "https://facebook.github.io/react-native/docs/assets/favicon.png"
                 }}
               />
             </TouchableOpacity>
