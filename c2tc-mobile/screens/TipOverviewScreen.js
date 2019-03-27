@@ -14,14 +14,6 @@ import { bindActionCreators } from "redux";
 import { store } from "../Redux";
 import { connect } from "react-redux";
 
-// const mapDispatchToProps = dispatch => {
-//   return bindActionCreators(
-//     {
-//       ...state
-//     },
-//     dispatch
-//   );
-// };
 const mapStateToProps = state => {
   return {
     page: state.page
