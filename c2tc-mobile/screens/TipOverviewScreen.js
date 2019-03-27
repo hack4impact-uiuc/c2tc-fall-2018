@@ -32,6 +32,7 @@ class TipOverviewScreen extends React.Component {
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
   }
+
   onComponentFocused = async () => {
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
