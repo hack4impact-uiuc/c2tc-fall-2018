@@ -4,6 +4,9 @@ async function getEndpoint(endPoint, dataKey) {
   try {
     let response = await fetch(host + "/" + endPoint);
     let responseJson = await response.json();
+    if (dataKey == "") {
+      return responseJson.result;
+    }
     return responseJson.result[dataKey];
   } catch (error) {
     console.error(error);
@@ -68,7 +71,7 @@ async function getUsers() {
 }
 
 async function getUser(id) {
-  return getEndpoint(`users/${id}`, "user");
+  return getEndpoint(`users/${id}`, "");
 }
 
 async function createUser(data) {

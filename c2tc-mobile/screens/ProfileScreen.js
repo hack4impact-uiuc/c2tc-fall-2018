@@ -41,11 +41,13 @@ export default class ProfileScreen extends React.Component {
   async componentDidMount() {
     this._mounted = true;
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
-    let user = await AsyncStorage.getItem("user_id");
+    let user_id = await AsyncStorage.getItem("user_id");
+    let user = await API.getUser(user_id);
     let username = user[username];
     let karma = user[karma];
     let verified = user[verified];
     let tips = user[posted_tips];
+    let anon = user[anon];
 
     this.setState({
       displayName: username,

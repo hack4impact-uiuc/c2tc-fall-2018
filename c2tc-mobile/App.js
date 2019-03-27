@@ -27,11 +27,19 @@ export default class App extends Component {
   }
 
   render() {
-    return <Navigator />;
+    // return <Navigator />;
+    return <Navigator />
   }
 }
 
 Navigator = createStackNavigator({
+  TipOverview: {
+    screen: TipOverviewScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
   Intro: {
     screen: IntroScreen,
     navigationOptions: {
@@ -53,13 +61,13 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
-  TipOverview: {
-    screen: TipOverviewScreen,
-    navigationOptions: {
-      header: null,
-      headerMode: "screen"
-    }
-  },
+  // TipOverview: {
+  //   screen: TipOverviewScreen,
+  //   navigationOptions: {
+  //     header: null,
+  //     headerMode: "screen"
+  //   }
+  // },
   TipDetail: {
     screen: TipDetailsScreen,
     navigationOptions: {

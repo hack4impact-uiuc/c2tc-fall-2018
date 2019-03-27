@@ -9,13 +9,29 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import Geocoder from "react-native-geocoding";
+import API from "./API";
 
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: "Grainger"
+      address: "Grainger",
+      username: ""
     };
+  }
+
+  async componentDidMount() {
+    console.log(this.props.tip.author);
+    let user = await API.getUser(this.props.tip.author);
+    console.log(user);
+    let username = user.username;
+    if (user.anon) {
+      username = "Anonymous";
+    }
+
+    this.setState({
+      username
+    });
   }
 
   render() {
@@ -41,7 +57,7 @@ class TipOverview extends React.Component {
               <FontAwesome name="map-marker" size={17} /> {this.state.address}{" "}
             </Text>
             <Text style={styles.actionText}>
-              <FontAwesome name="user" size={17} /> {this.props.tip.author}
+              <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
           <View style={styles.rightActions}>
