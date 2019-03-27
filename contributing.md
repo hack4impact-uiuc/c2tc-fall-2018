@@ -42,7 +42,7 @@ As a best practice, create local branches to work within. They should be created
 
 #### Step 2: Code
 
-Please make sure to run `npm run format` in both `frontend/` and `pipenv run black .` in `backend/` folders before commiting to ensure that changes follow our code style. Our code style is [standard](https://github.com/standard/standard). Our frontend also uses Flow for prop typing, so remember to add those in if you are modifying props in components.
+Please make sure to run `yarn format` in both `frontend/` and `pipenv run black .` in `backend/` folders before commiting to ensure that changes follow our code style. Our code style is [standard](https://github.com/standard/standard). Our frontend also uses Flow for prop typing, so remember to add those in if you are modifying props in components.
 
 ### Step 3: Commit
 

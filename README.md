@@ -47,8 +47,8 @@ To run the frontend
 
 ```bash
 cd c2tc-mobile
-npm install                 # install dependencies
-npm install -g expo-cli     # do this step if you have never used expo before.
+yarn                         # install dependencies
+yarn global add expo-cli     # do this step if you have never used expo before.
 # Install the Expo Mobile App on phone if you have never used expo before.
 expo start
 # Scan QR code with phone (use camera if you have an iphone and use expo app if you have an android.)
