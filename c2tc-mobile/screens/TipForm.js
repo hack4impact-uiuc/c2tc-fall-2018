@@ -53,12 +53,6 @@ class TipForm extends React.Component {
     }
   };
 
-  // handleBlur = (field) -> (evt) => {
-  //   this.setState({
-  //     touched: { ...this.state.touched, [field]: true}
-  //   });
-  // }
-
   handSubmitTip = async () => {
     tip = {
       title: this.state.title,
@@ -72,13 +66,6 @@ class TipForm extends React.Component {
     this.props.navigation.navigate("TipOverview");
   };
 
-  // validate(title, content) {
-  //   return {
-  //     title: this.state.title.length === 0,
-  //     content: this.state.content.length === 0
-  //   };
-  // }
-
   shouldMarkError = field => {
     const hasError = this.validate(this.state.title, this.state.content)[field];
     const shouldShow = this.state.touched[field];
@@ -86,23 +73,6 @@ class TipForm extends React.Component {
   };
 
   render() {
-    // const isEnabled =
-    //   title.length > 0 &&
-    //   content.length > 0 &&
-    //   user_id.length > 0 &&
-    //   latitude.length > 0 &&
-    //   latitude.length < 10 &&
-    //   longitude.length > 0 &&
-    //   longitude.length < 10
-
-    // const isEnabled = !Object.keys(errors).some(x => errors[x]);
-
-    // const {
-    //   theme: {
-    //     colors: { background }
-    //   }
-    // } = this.props;
-
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
