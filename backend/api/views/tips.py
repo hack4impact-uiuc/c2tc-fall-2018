@@ -20,6 +20,7 @@ def get_all_tips():
     logger.info("TIPS: %s", response)
     return create_response(data=response)
 
+
 @tips.route("/tips/<id>", methods=["GET"])
 def get_tip(id):
     """
@@ -27,6 +28,7 @@ def get_tip(id):
     """
     response = Tips.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
+
 
 @tips.route("/tips/<user_id>", methods=["GET"])
 def get_tips_by_user(user_id):
