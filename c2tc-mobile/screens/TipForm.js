@@ -1,9 +1,16 @@
 import React from "react";
 import {
   StyleSheet,
+  KeyboardAvoidingView,
   Dimensions,
+  View,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  Picker
 } from "react-native";
-import { withTheme } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
+import { TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
@@ -74,8 +81,7 @@ class TipForm extends React.Component {
     .then(responseJson => {
         lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
         lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-        latlng = lat + ", " + lng;
-        console.log(latlng);
+        return {lat, long};
       });
   }
 
@@ -85,6 +91,12 @@ class TipForm extends React.Component {
       content: content.length === 0
     };
   }
+  
+  // shouldMarkError = (field) => {
+  //   const hasError = errors[field];
+  //   const shouldShow = this.state.touched[field];
+  //   return hasError ? shouldShow : false;
+  // };
 
   render() {
     // const isEnabled =
@@ -96,23 +108,18 @@ class TipForm extends React.Component {
     //   longitude.length > 0 &&
     //   longitude.length < 10
 
-    // const shouldMarkError = (field) => {
-    //   const hasError = errors[field];
-    //   const shouldShow = this.state.touched[field];
-    //   return hasError ? shouldShow : false;
-    // };
 
     // const errors = validate(this.state.title, this.state.content);
 
     // const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
-    const {
-      theme: {
-        colors: { background }
-      }
-    } = this.props;
+    // const {
+    //   theme: {
+    //     colors: { background }
+    //   }
+    // } = this.props;
 
-    convertAddress("Washington DC");
+    this.addressToLatLong("Washington DC");
     
     return (
       <KeyboardAvoidingView
@@ -137,8 +144,8 @@ class TipForm extends React.Component {
         >
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
-            className = {shouldMarkError('title') ? "error" : ""}
-            onBlur = {this.handleBlur('title')}
+            // className = {shouldMarkError('title') ? "error" : ""}
+            // onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"

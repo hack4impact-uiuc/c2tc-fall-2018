@@ -240,6 +240,7 @@ class LiveLocation extends Component {
           country +
           " " +
           postal_code;
+        return full_address;
       });
   }
 
