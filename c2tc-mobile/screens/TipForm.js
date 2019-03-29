@@ -22,7 +22,18 @@ class TipForm extends React.Component {
     category: "",
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
-    location: null
+    location: null,
+    address: "",
+
+    touched: {
+      title: false,
+      body: false,
+      category: false,
+      author: false,
+      userId: false,
+      location: false,
+      address: false
+    }
   };
 
   async componentWillMount() {
@@ -41,6 +52,13 @@ class TipForm extends React.Component {
       };
     }
   };
+
+  handleBlur = (field) -> (evt) => {
+    this.setState({
+      touched: { ...this.state.touched, [field]: true}
+    });
+  }
+
   handSubmitTip = async () => {
     tip = {
       title: this.state.title,
@@ -54,7 +72,47 @@ class TipForm extends React.Component {
     this.props.navigation.navigate("TipOverview");
   };
 
+  // convertAddress(address) {
+  //   api_latlong = "http://www.mapquestapi.com/geocoding/v1/address?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&maxResults=5&outFormat=json&location=" + address;
+  //   fetch(api_latlong);
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then(responseJson => {
+  //       lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
+  //       lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
+  //       latlng = lat + ", " + lng;
+  //       console.log(latlng);
+  //     });
+  // }
+
+  validate(title, content) {
+    return {
+      title: title.length === 0,
+      content: content.length === 0
+    };
+  }
+
   render() {
+    // const isEnabled =
+    //   title.length > 0 &&
+    //   content.length > 0 &&
+    //   user_id.length > 0 &&
+    //   latitude.length > 0 &&
+    //   latitude.length < 10 &&
+    //   longitude.length > 0 &&
+    //   longitude.length < 10
+
+    const shouldMarkError = (field) => {
+      const hasError = errors[field];
+      const shouldShow = this.state.touched[field];
+      return hasError ? shouldShow : false;
+    };
+
+    const errors = validate(this.state.title, this.state.content);
+
+    const isEnabled = !Object.keys(errors).some(x => errors[x]);
+
     const {
       theme: {
         colors: { background }
@@ -62,6 +120,7 @@ class TipForm extends React.Component {
     } = this.props;
 
     return (
+      //convertAddress("Washington DC");
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
@@ -74,6 +133,8 @@ class TipForm extends React.Component {
         >
           <Text style={[styles.header, { marginTop: 25 }]}>Tip Title</Text>
           <TextInput
+            className = {shouldMarkError('title') ? "error" : ""}
+            onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
@@ -89,6 +150,15 @@ class TipForm extends React.Component {
             placeholder="Content of your tip"
             value={this.state.body}
             onChangeText={body => this.setState({ body })}
+          />
+          <Text style={styles.header}>Tip Location</Text>
+          <TextInput
+            mode="outlined"
+            style={styles.inputBodyContainerStyle}
+            label="Tip Location"
+            placeholder="Location of your tip"
+            value={this.state.address}
+            onChangeText={address => this.setState({ location })}
           />
           <Text style={styles.header}>Category</Text>
           <View style={styles.pickerContainer}>
@@ -168,6 +238,10 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     marginTop: 30,
     marginLeft: 20
+  },
+  error: {
+    borderRadius: 1,
+    borderColor: "red"
   }
 });
 
