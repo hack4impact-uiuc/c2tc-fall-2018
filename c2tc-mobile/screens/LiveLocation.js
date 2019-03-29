@@ -210,7 +210,7 @@ class LiveLocation extends Component {
     this.props.updateMapRegion(this.state.locationResult);
   };
 
-  getAddress(lat, long) {
+  latlongToAddress(lat, long) {
     api_address =
       "http://www.mapquestapi.com/geocoding/v1/reverse?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&location=" +
       lat +

@@ -1,17 +1,9 @@
 import React from "react";
 import {
-  Text,
   StyleSheet,
-  ScrollView,
-  KeyboardAvoidingView,
-  View,
   Dimensions,
-  TouchableOpacity,
-  Picker
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { TextInput, withTheme } from "react-native-paper";
-import Tag from "../components/Tag.js";
+import { withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
@@ -54,11 +46,11 @@ class TipForm extends React.Component {
     }
   };
 
-  handleBlur = (field) -> (evt) => {
-    this.setState({
-      touched: { ...this.state.touched, [field]: true}
-    });
-  }
+  // handleBlur = (field) -> (evt) => {
+  //   this.setState({
+  //     touched: { ...this.state.touched, [field]: true}
+  //   });
+  // }
 
   handSubmitTip = async () => {
     tip = {
@@ -73,19 +65,19 @@ class TipForm extends React.Component {
     this.props.navigation.navigate("TipOverview");
   };
 
-  // convertAddress(address) {
-  //   api_latlong = "http://www.mapquestapi.com/geocoding/v1/address?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&maxResults=5&outFormat=json&location=" + address;
-  //   fetch(api_latlong);
-  //   .then(response => {
-  //     return response.json();
-  //   })
-  //   .then(responseJson => {
-  //       lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
-  //       lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-  //       latlng = lat + ", " + lng;
-  //       console.log(latlng);
-  //     });
-  // }
+  addressToLatLong(address) {
+    api_latlong = "http://www.mapquestapi.com/geocoding/v1/address?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&maxResults=5&outFormat=json&location=" + address;
+    fetch(api_latlong)
+    .then(response => {
+      return response.json();
+    })
+    .then(responseJson => {
+        lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
+        lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
+        latlng = lat + ", " + lng;
+        console.log(latlng);
+      });
+  }
 
   validate(title, content) {
     return {
@@ -104,15 +96,15 @@ class TipForm extends React.Component {
     //   longitude.length > 0 &&
     //   longitude.length < 10
 
-    const shouldMarkError = (field) => {
-      const hasError = errors[field];
-      const shouldShow = this.state.touched[field];
-      return hasError ? shouldShow : false;
-    };
+    // const shouldMarkError = (field) => {
+    //   const hasError = errors[field];
+    //   const shouldShow = this.state.touched[field];
+    //   return hasError ? shouldShow : false;
+    // };
 
-    const errors = validate(this.state.title, this.state.content);
+    // const errors = validate(this.state.title, this.state.content);
 
-    const isEnabled = !Object.keys(errors).some(x => errors[x]);
+    // const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
     const {
       theme: {
@@ -120,8 +112,9 @@ class TipForm extends React.Component {
       }
     } = this.props;
 
+    convertAddress("Washington DC");
+    
     return (
-      //convertAddress("Washington DC");
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
