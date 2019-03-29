@@ -97,7 +97,6 @@ class TipForm extends React.Component {
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
             className={this.shouldMarkError("title") ? "error" : ""}
-            // onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
