@@ -96,27 +96,49 @@ class LiveLocation extends Component {
       error => console.log({ error: error.message })
     );
 
-    if (AsyncStorage.getAllKeys().length != 6) {
-      let busStopData = await API.getBusStops();
-      let crimeData = await API.getCrimes();
-      let businessData = await API.getBusinesses();
-      let emergencyData = await API.getEmergencyPhones();
-      let policeStations = await API.getPoliceStations();
-      let streetLights = await API.getStreetLight();
+    let busStop = await AsyncStorage.getItem("busStop");
+    let crimeData = await AsyncStorage.getItem("crimeData");
+    let businessData = await AsyncStorage.getItem("businessData");
+    let emergencyData = await AsyncStorage.getItem("emergencyData");
+    let policeStations = await AsyncStorage.getItem("policeStations");
+    let streetLights = await AsyncStorage.getItem("streetLights");
 
+    if (!busStop) {
+      busStopData = await API.getBusStops();
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
+    }
+
+    if (!crimeData) {
+      crimeData = await API.getCrimes();
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
+    }
+
+    if (!businessData) {
+      businessData = await API.getBusinesses();
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
+    }
+
+    if (!emergencyData) {
+      emergencyData = await API.getEmergencyPhones();
       await AsyncStorage.setItem(
         "emergencyData",
         JSON.stringify(emergencyData)
       );
+    }
+
+    if (!policeStations) {
+      policeStations = await API.getPoliceStations();
       await AsyncStorage.setItem(
         "policeStations",
         JSON.stringify(policeStations)
       );
+    }
+
+    if (!streetLights) {
+      streetLights = await API.getStreetLight();
       await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
+
     await this.props.updateLayerData({
       busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
       crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
@@ -187,6 +209,39 @@ class LiveLocation extends Component {
     this.setState({ locationResult: region });
     this.props.updateMapRegion(this.state.locationResult);
   };
+
+  getAddress(lat, long) {
+    api_address =
+      "http://www.mapquestapi.com/geocoding/v1/reverse?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&location=" +
+      lat +
+      "," +
+      long +
+      "&includeRoadMetadata=false&includeNearestIntersection=false";
+
+    fetch(api_address)
+      .then(response => {
+        return response.json();
+      })
+      .then(responseJson => {
+        street_address = responseJson["results"][0]["locations"][0]["street"];
+        city = responseJson["results"][0]["locations"][0]["adminArea5"];
+        state = responseJson["results"][0]["locations"][0]["adminArea3"];
+        country = responseJson["results"][0]["locations"][0]["adminArea1"];
+        postal_code = responseJson["results"][0]["locations"][0][
+          "postalCode"
+        ].substring(0, 5);
+        full_address =
+          street_address +
+          " " +
+          city +
+          " " +
+          state +
+          " " +
+          country +
+          " " +
+          postal_code;
+      });
+  }
 
   render() {
     if (this._mounted) {

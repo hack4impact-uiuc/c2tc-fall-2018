@@ -7,7 +7,7 @@ import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
-import TipOverviewScreen from "./screens/TipOverviewScreen";
+import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 
 export default class App extends Component {
@@ -15,10 +15,11 @@ export default class App extends Component {
     super(props);
   }
   async componentDidMount() {
-    if (AsyncStorage.getAllKeys().length != 1) {
-      await AsyncStorage.setItem("loaded", JSON.stringify(1));
-    } else {
+    let is_loaded = await AsyncStorage.getItem("loaded");
+    if (is_loaded) {
       this._mounted = true;
+    } else {
+      await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
   }
 
@@ -54,7 +55,7 @@ Navigator = createStackNavigator({
     }
   },
   TipOverview: {
-    screen: TipOverviewScreen,
+    screen: TipScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
