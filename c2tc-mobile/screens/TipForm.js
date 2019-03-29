@@ -118,8 +118,6 @@ class TipForm extends React.Component {
     //   }
     // } = this.props;
 
-    this.addressToLatLong("Washington DC");
-    
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
