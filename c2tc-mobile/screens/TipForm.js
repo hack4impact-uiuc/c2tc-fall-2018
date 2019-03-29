@@ -72,19 +72,6 @@ class TipForm extends React.Component {
     this.props.navigation.navigate("TipOverview");
   };
 
-  addressToLatLong(address) {
-    api_latlong = "http://www.mapquestapi.com/geocoding/v1/address?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&maxResults=5&outFormat=json&location=" + address;
-    fetch(api_latlong)
-    .then(response => {
-      return response.json();
-    })
-    .then(responseJson => {
-        lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
-        lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-        return {lat, long};
-      });
-  }
-
   // validate(title, content) {
   //   return {
   //     title: this.state.title.length === 0,
