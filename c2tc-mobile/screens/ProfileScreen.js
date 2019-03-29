@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
-
+import TipOverview from "../components/TipOverview";
 import {
   Animated,
   View,
@@ -13,7 +13,8 @@ import {
   StyleSheet,
   TextInput,
   Switch,
-  Image
+  Image,
+  ScrollView,
 } from "react-native";
 
 import {
@@ -44,12 +45,13 @@ export default class ProfileScreen extends React.Component {
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
+    let tips = await API.getTips();
 
     this.setState({
       displayName: user.username,
       karmaScore: user.karma,
       verified: user.verified,
-      tips: user.posted_tips,
+      tips,
       visibleToOthers: !user.anon
     });
   }
@@ -75,13 +77,14 @@ export default class ProfileScreen extends React.Component {
   };
 
   handleBackPress = e => {
-    console.log("Leave profile page");
+    this.props.navigation.goBack();
   };
 
   render() {
     const isEditingName = this.state.isEditingName;
     return (
       <View>
+        <ScrollView style={styles.tipOverview}>
         <Appbar.Header>
           <Appbar.BackAction onPress={this.handleBackPress} />
           <Appbar.Content title="Back" />
@@ -130,6 +133,16 @@ export default class ProfileScreen extends React.Component {
         </View>
         <Divider style={styles.divider} />
         <Text>Tips</Text>
+          <View style={styles.content}>
+            {this.state.tips.map(tip => (
+              <TipOverview
+                key={tip._id}
+                tip={tip}
+                navigation={this.props.navigation}
+              />
+            ))}
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -147,5 +160,12 @@ const styles = StyleSheet.create({
 
   divider: {
     backgroundColor: "black"
-  }
+  },
+
+  tipOverview: {
+    backgroundColor: "white"
+  },
+  content: {
+    paddingHorizontal: 35,
+  },
 });

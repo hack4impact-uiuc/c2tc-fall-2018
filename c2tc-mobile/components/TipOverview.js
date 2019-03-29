@@ -77,7 +77,9 @@ class TipOverview extends React.Component {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
-    marginVertical: 10
+    marginVertical: 10,
+    borderColor: 'black',
+    borderWidth: 1
   },
   tags: {
     flexDirection: "row",
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     padding: 20,
-    backgroundColor: "rgba(255,255,255,.7)",
+    backgroundColor: "#E4E4E4",
     flexDirection: "row",
     justifyContent: "flex-start"
   },
