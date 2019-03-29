@@ -59,8 +59,13 @@ async function deleteEndpoint(endPoint) {
 async function createTip(data) {
   return postEndpoint("tips", data);
 }
+
 async function getTips() {
   return getEndpoint("tips", "tips");
+}
+
+async function getTip(id) {
+  return getEndpoint(`tips/${id}`, "tip");
 }
 
 async function getTipsFromUser(user_id) {
@@ -156,6 +161,7 @@ export default {
   getEmergencyPhones,
   getStreetLight,
   getTips,
+  getTip,
   createTip,
   getTipsFromUser,
   getTipsFromCategory,
