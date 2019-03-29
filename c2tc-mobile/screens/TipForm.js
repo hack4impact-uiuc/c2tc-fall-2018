@@ -85,18 +85,18 @@ class TipForm extends React.Component {
       });
   }
 
-  validate(title, content) {
-    return {
-      title: title.length === 0,
-      content: content.length === 0
-    };
-  }
+  // validate(title, content) {
+  //   return {
+  //     title: this.state.title.length === 0,
+  //     content: this.state.content.length === 0
+  //   };
+  // }
   
-  // shouldMarkError = (field) => {
-  //   const hasError = errors[field];
-  //   const shouldShow = this.state.touched[field];
-  //   return hasError ? shouldShow : false;
-  // };
+  shouldMarkError = (field) => {
+    const hasError = this.validate(this.state.title, this.state.content)[field];
+    const shouldShow = this.state.touched[field];
+    return hasError ? shouldShow : false;
+  };
 
   render() {
     // const isEnabled =
@@ -109,7 +109,6 @@ class TipForm extends React.Component {
     //   longitude.length < 10
 
 
-    // const errors = validate(this.state.title, this.state.content);
 
     // const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
@@ -144,7 +143,7 @@ class TipForm extends React.Component {
         >
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
-            // className = {shouldMarkError('title') ? "error" : ""}
+            className = {this.shouldMarkError('title') ? "error" : ""}
             // onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}
