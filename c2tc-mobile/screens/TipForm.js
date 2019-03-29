@@ -78,8 +78,8 @@ class TipForm extends React.Component {
   //     content: this.state.content.length === 0
   //   };
   // }
-  
-  shouldMarkError = (field) => {
+
+  shouldMarkError = field => {
     const hasError = this.validate(this.state.title, this.state.content)[field];
     const shouldShow = this.state.touched[field];
     return hasError ? shouldShow : false;
@@ -94,8 +94,6 @@ class TipForm extends React.Component {
     //   latitude.length < 10 &&
     //   longitude.length > 0 &&
     //   longitude.length < 10
-
-
 
     // const isEnabled = !Object.keys(errors).some(x => errors[x]);
 
@@ -128,7 +126,7 @@ class TipForm extends React.Component {
         >
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
-            className = {this.shouldMarkError('title') ? "error" : ""}
+            className={this.shouldMarkError("title") ? "error" : ""}
             // onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}

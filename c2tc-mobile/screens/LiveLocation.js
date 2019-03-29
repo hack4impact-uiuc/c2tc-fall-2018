@@ -63,7 +63,6 @@ class LiveLocation extends Component {
   }
 
   async componentDidMount() {
-
     this._mounted = true;
 
     navigator.geolocation.getCurrentPosition(
@@ -210,15 +209,14 @@ class LiveLocation extends Component {
     this.setState({ locationResult: region });
     this.props.updateMapRegion(this.state.locationResult);
   };
-  
+
   render() {
-    
     if (this._mounted) {
       return <Loader loading={this._mounted} />;
     } else if (this.props.page == "tips") {
       return this.props.navigation.navigate("TipOverview");
     }
-    
+
     return (
       <View style={styles.container}>
         <MapView
