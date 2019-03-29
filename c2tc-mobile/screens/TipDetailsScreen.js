@@ -38,6 +38,22 @@ class TipDetailsScreen extends React.Component {
 
     return (
       <View style={styles.detail}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.backText}>
+              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipForm")}
+            style={styles.uploadButton}
+          >
+            <FontAwesome name="upload" size={20} color="#027BFF" />
+          </TouchableOpacity>
+        </View>
         <View>
           <Text style={styles.title}>{tip.title}</Text>
           <View style={styles.tags}>
@@ -76,8 +92,24 @@ class TipDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    paddingLeft: 20,
+    width: Dimensions.get("window").width - 45
+  },
+  backText: {
+    color: "#027BFF",
+    fontSize: 20
+  },
+  uploadButton: {
+    marginRight: 20
+  },
+  header: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   title: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     marginTop: 30,
     fontWeight: "500",
     fontSize: 25
@@ -92,7 +124,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").height
   },
   action: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     marginTop: 15,
     borderRadius: 15,
     padding: 10,
@@ -118,7 +150,8 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderBottomColor: "#9C9C9C",
     borderBottomWidth: 2,
     marginBottom: 10,
@@ -127,7 +160,8 @@ const styles = StyleSheet.create({
   tags: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderBottomColor: "#9C9C9C",
     borderBottomWidth: 2
   },
@@ -139,7 +173,7 @@ const styles = StyleSheet.create({
     borderTopColor: "#c7c7cc"
   },
   postDetails: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     fontSize: 17
     // padding:10,
   }
