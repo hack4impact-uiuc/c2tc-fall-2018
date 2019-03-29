@@ -10,8 +10,18 @@ import {
   TouchableHighlight
 } from "react-native";
 import TipOverview from "../components/TipOverview";
+import TabBar from "../components/NavigationComponents/Tabs";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
+import { bindActionCreators } from "redux";
+import { store } from "../Redux";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => {
+  return {
+    page: state.page
+  };
+};
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
@@ -43,6 +53,9 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
+    if (this.props.page !== "tips") {
+      return this.props.navigation.navigate("Map");
+    }
     return (
       <ScrollView style={styles.tipOverview}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
@@ -132,4 +145,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TipOverviewScreen;
+export default connect(
+  mapStateToProps,
+  null
+)(TipOverviewScreen);

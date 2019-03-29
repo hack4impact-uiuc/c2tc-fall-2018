@@ -7,7 +7,7 @@ import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
-import TipOverviewScreen from "./screens/TipOverviewScreen";
+import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
@@ -56,7 +56,7 @@ Navigator = createStackNavigator({
     }
   },
   TipOverview: {
-    screen: TipOverviewScreen,
+    screen: TipScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
