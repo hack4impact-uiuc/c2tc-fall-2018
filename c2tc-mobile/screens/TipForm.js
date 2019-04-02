@@ -24,16 +24,7 @@ class TipForm extends React.Component {
     userId: "5c86c850f875c618f8557f40",
     location: null,
     address: "",
-
-    touched: {
-      title: false,
-      body: false,
-      category: false,
-      author: false,
-      userId: false,
-      location: false,
-      address: false
-    }
+    errors: []
   };
 
   async componentWillMount() {
@@ -53,56 +44,45 @@ class TipForm extends React.Component {
     }
   };
 
-  // handleBlur = (field) -> (evt) => {
-  //   this.setState({
-  //     touched: { ...this.state.touched, [field]: true}
-  //   });
-  // }
-
   handSubmitTip = async () => {
-    tip = {
-      title: this.state.title,
-      content: this.state.body,
-      user_id: this.state.userId,
-      latitude: this.state.location.coords.latitude,
-      longitude: this.state.location.coords.longitude,
-      category: this.state.category
-    };
-    await API.createTip(tip);
-    this.props.navigation.navigate("TipOverview");
+    const errors = this.validate();
+    if (errors.length > 0) {
+      this.setState({errors});
+      console.log(errors);
+      return;
+    } else {
+      tip = {
+        title: this.state.title,
+        content: this.state.body,
+        user_id: this.state.userId,
+        latitude: this.state.location.coords.latitude,
+        longitude: this.state.location.coords.longitude,
+        category: this.state.category
+      };
+      await API.createTip(tip);
+      this.props.navigation.navigate("TipOverview");
+    }
   };
 
-  // validate(title, content) {
-  //   return {
-  //     title: this.state.title.length === 0,
-  //     content: this.state.content.length === 0
-  //   };
-  // }
+  validate() {
+    const errors = [];
+    if (this.state.title.length === 0) {
+      errors.push("Name cannot be empty");
+    }
 
-  shouldMarkError = field => {
-    const hasError = this.validate(this.state.title, this.state.content)[field];
-    const shouldShow = this.state.touched[field];
-    return hasError ? shouldShow : false;
-  };
+    if (this.state.body.length === 0) {
+      errors.push("Body cannot be empty");
+    }
+
+    if (this.state.category != "campus" || this.state.category != "safety" || this.state.category != "food" || this.state.category != "traffic") {
+      errors.push("Please select a category");
+    }
+
+    return errors;
+  }
 
   render() {
-    // const isEnabled =
-    //   title.length > 0 &&
-    //   content.length > 0 &&
-    //   user_id.length > 0 &&
-    //   latitude.length > 0 &&
-    //   latitude.length < 10 &&
-    //   longitude.length > 0 &&
-    //   longitude.length < 10
-
-    // const isEnabled = !Object.keys(errors).some(x => errors[x]);
-
-    // const {
-    //   theme: {
-    //     colors: { background }
-    //   }
-    // } = this.props;
-
+    const { errors } = this.state;
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -124,10 +104,13 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <View>
+            {errors.map(error => (
+              <Text key={error}>Error: {error}</Text>
+            ))}
+          </View>
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
-            className={this.shouldMarkError("title") ? "error" : ""}
-            // onBlur = {this.handleBlur('title')}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
