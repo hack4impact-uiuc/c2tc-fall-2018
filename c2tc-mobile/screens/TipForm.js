@@ -14,7 +14,7 @@ import { TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
-import {addressToLatLong as addressToLatLong} from "../components/Geocoding";
+import { addressToLatLong } from "../components/Geocoding";
 
 class TipForm extends React.Component {
   state = {
@@ -25,8 +25,8 @@ class TipForm extends React.Component {
     userId: "5c86c850f875c618f8557f40",
     location: null,
     address: "",
-    lat:"0",
-    lng:"0",
+    lat: "0",
+    lng: "0",
     errors: []
   };
 
@@ -56,7 +56,7 @@ class TipForm extends React.Component {
     }
 
     if (errors.length > 0) {
-      this.setState({errors});
+      this.setState({ errors });
       return;
     }
 
@@ -89,7 +89,7 @@ class TipForm extends React.Component {
     if (this.state.address.length === 0) {
       // this.state.lat = this.state.location.latitude;
       // this.state.lng = this.state.location.longitude;
-      errors.push("Address cannot be empty")
+      errors.push("Address cannot be empty");
     }
 
     if (this.state.category.length === 0) {
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   errors: {
     borderRadius: 1,
-    alignItems:"center",
+    alignItems: "center",
     borderColor: "red",
     marginBottom: 10
   }
