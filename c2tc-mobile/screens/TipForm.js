@@ -14,6 +14,7 @@ import { TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
+import {addressToLatLong as addressToLatLong} from "../components/Geocoding";
 
 class TipForm extends React.Component {
   state = {
@@ -24,6 +25,8 @@ class TipForm extends React.Component {
     userId: "5c86c850f875c618f8557f40",
     location: null,
     address: "",
+    lat:"0",
+    lng:"0",
     errors: []
   };
 
@@ -46,17 +49,28 @@ class TipForm extends React.Component {
 
   handSubmitTip = async () => {
     const errors = this.validate();
+    if (this.state.address.length !== 0) {
+      const latlng = await addressToLatLong(this.state.address);
+      this.state.lat = latlng[0];
+      this.state.lng = latlng[1];
+      console.log(this.state.lat);
+      console.log(this.state.lng);
+    }
+
     if (errors.length > 0) {
       this.setState({errors});
       console.log(errors);
       return;
-    } else {
+    }
+
+    if (this.state.errors.length === 0) {
+      console.log(this.state.errors);
       tip = {
         title: this.state.title,
         content: this.state.body,
         user_id: this.state.userId,
-        latitude: this.state.location.coords.latitude,
-        longitude: this.state.location.coords.longitude,
+        latitude: this.state.lat,
+        longitude: this.state.lng,
         category: this.state.category
       };
       await API.createTip(tip);
@@ -66,6 +80,7 @@ class TipForm extends React.Component {
 
   validate() {
     const errors = [];
+
     if (this.state.title.length === 0) {
       errors.push("Name cannot be empty");
     }
@@ -74,15 +89,21 @@ class TipForm extends React.Component {
       errors.push("Body cannot be empty");
     }
 
-    if (this.state.category != "campus" || this.state.category != "safety" || this.state.category != "food" || this.state.category != "traffic") {
-      errors.push("Please select a category");
+    if (this.state.address.length === 0) {
+      // this.state.lat = this.state.location.latitude;
+      // this.state.lng = this.state.location.longitude;
+      errors.push("Address cannot be empty")
     }
 
+    if (this.state.category.length === 0) {
+      errors.push("Please select a category");
+    }
     return errors;
   }
 
   render() {
     const { errors } = this.state;
+
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -104,11 +125,9 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <View>
-            {errors.map(error => (
-              <Text key={error}>Error: {error}</Text>
-            ))}
-          </View>
+          {errors.map(error => (
+            <Text key={error}>Error: {error}</Text>
+          ))}
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
             mode="outlined"
@@ -134,7 +153,7 @@ class TipForm extends React.Component {
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
-            onChangeText={address => this.setState({ location })}
+            onChangeText={address => this.setState({ address })}
           />
           <Text style={styles.header}>Category</Text>
           <View style={styles.pickerContainer}>
@@ -190,6 +209,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   picker: {
+    //marginBottom:100,
     height: 50,
     width: 200
   },
