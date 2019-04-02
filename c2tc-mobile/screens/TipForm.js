@@ -53,13 +53,10 @@ class TipForm extends React.Component {
       const latlng = await addressToLatLong(this.state.address);
       this.state.lat = latlng[0];
       this.state.lng = latlng[1];
-      console.log(this.state.lat);
-      console.log(this.state.lng);
     }
 
     if (errors.length > 0) {
       this.setState({errors});
-      console.log(errors);
       return;
     }
 
@@ -125,9 +122,11 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          {errors.map(error => (
-            <Text key={error}>Error: {error}</Text>
-          ))}
+          <View style={styles.errors}>
+            {errors.map(error => (
+              <Text key={error}>Error: {error}</Text>
+            ))}
+          </View>
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
             mode="outlined"
@@ -209,7 +208,6 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   picker: {
-    //marginBottom:100,
     height: 50,
     width: 200
   },
@@ -250,9 +248,11 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginLeft: 20
   },
-  error: {
+  errors: {
     borderRadius: 1,
-    borderColor: "red"
+    alignItems:"center",
+    borderColor: "red",
+    marginBottom: 10
   }
 });
 
