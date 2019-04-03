@@ -1,41 +1,41 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
+import API from "./components/API";
 
-import LiveLocation from "./screens/LiveLocation";
+import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipForm from "./screens/TipForm";
+import TipScreen from "./screens/TipScreen";
+import TipDetailsScreen from "./screens/TipDetailsScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isLoaded: false
-    };
   }
   async componentDidMount() {
-    if (AsyncStorage.getAllKeys().length != 1) {
-      await AsyncStorage.setItem("loaded", JSON.stringify(1));
+    let is_loaded = await AsyncStorage.getItem("loaded");
+    if (is_loaded) {
+      this._mounted = true;
     } else {
-      this.setState({
-        isLoaded: true
-      });
+      await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   render() {
-    if (this.state.isLoaded) {
-      return <LiveLocation navigation={this.props.navigation} />;
-    }
-
-    return <IntroScreen navigation={this.props.navigation} />;
+    return <Navigator />;
   }
 }
 
-export default createStackNavigator({
+Navigator = createStackNavigator({
   Intro: {
-    screen: App,
+    screen: IntroScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
@@ -48,20 +48,39 @@ export default createStackNavigator({
       headerMode: "screen"
     }
   },
-  MapScreen: {
-    screen: LiveLocation,
+  Map: {
+    screen: MapScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
     }
-  }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  },
+  TipOverview: {
+    screen: TipScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipDetail: {
+    screen: TipDetailsScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipForm: {
+    screen: TipForm,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
   }
 });
