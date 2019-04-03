@@ -152,6 +152,8 @@ class TipForm extends React.Component {
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
+            multiline={true}
+            numberOfLines={3}
             onChangeText={address => this.setState({ address })}
           />
           <Text style={styles.header}>Category</Text>
