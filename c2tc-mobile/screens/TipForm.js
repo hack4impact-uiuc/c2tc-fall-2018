@@ -27,7 +27,16 @@ class TipForm extends React.Component {
     address: "",
     lat: "0",
     lng: "0",
-    errors: []
+    errors: [],
+    touched: {
+      title: false,
+      body: false,
+      category: false,
+      author: false,
+      userId: false,
+      location: false,
+      address: false
+    }
   };
 
   async componentWillMount() {
@@ -98,6 +107,12 @@ class TipForm extends React.Component {
     return errors;
   }
 
+  shouldMarkError = field => {
+    const hasError = this.validate(this.state.title, this.state.content)[field];
+    const shouldShow = this.state.touched[field];
+    return hasError ? shouldShow : false;
+  };
+
   render() {
     const { errors } = this.state;
 
@@ -129,6 +144,7 @@ class TipForm extends React.Component {
           </View>
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
+            className={this.shouldMarkError("title") ? "error" : ""}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
@@ -253,6 +269,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "red",
     marginBottom: 10
+  },
+  error: {
+    borderRadius: 1,
+    borderColor: "red"
   }
 });
 
