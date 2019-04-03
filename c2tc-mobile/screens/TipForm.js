@@ -93,8 +93,6 @@ class TipForm extends React.Component {
     }
 
     if (this.state.address.length === 0) {
-      // this.state.lat = this.state.location.latitude;
-      // this.state.lng = this.state.location.longitude;
       errors.push("Address cannot be empty");
     }
 
