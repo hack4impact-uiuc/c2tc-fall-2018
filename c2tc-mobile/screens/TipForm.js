@@ -148,7 +148,7 @@ class TipForm extends React.Component {
           <Text style={styles.header}>Tip Location</Text>
           <TextInput
             mode="outlined"
-            style={styles.inputBodyContainerStyle}
+            style={styles.inputContainerStyle}
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
