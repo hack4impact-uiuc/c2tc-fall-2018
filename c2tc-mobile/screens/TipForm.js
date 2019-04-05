@@ -123,36 +123,42 @@ class TipForm extends React.Component {
             ))}
           </View>
           <Text style={styles.header}>Tip Title</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputContainerStyle}
-            label="Tip Title"
-            placeholder="Title of your tip"
-            value={this.state.title}
-            onChangeText={title => this.setState({ title })}
-          />
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <TextInput
+              mode="outlined"
+              style={styles.inputContainerStyle}
+              label="Tip Title"
+              placeholder="Title of your tip"
+              value={this.state.title}
+              onChangeText={title => this.setState({ title })}
+            />
+          </View>
           <Text style={styles.header}>Tip Content</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Content"
-            placeholder="Content of your tip"
-            value={this.state.body}
-            blurOnSubmit={false}
-            multiline={true}
-            numberOfLines={5}
-            maxHeight={150}
-            onChangeText={body => this.setState({ body })}
-          />
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <TextInput
+              mode="outlined"
+              style={styles.inputBodyContainerStyle}
+              label="Tip Content"
+              placeholder="Content of your tip"
+              value={this.state.body}
+              blurOnSubmit={false}
+              multiline={true}
+              numberOfLines={5}
+              maxHeight={150}
+              onChangeText={body => this.setState({ body })}
+            />
+          </View>
           <Text style={styles.header}>Tip Location</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Location"
-            placeholder="Location of your tip"
-            value={this.state.address}
-            onChangeText={address => this.setState({ address })}
-          />
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <TextInput
+              mode="outlined"
+              style={styles.inputBodyContainerStyle}
+              label="Tip Location"
+              placeholder="Location of your tip"
+              value={this.state.address}
+              onChangeText={address => this.setState({ address })}
+            />
+          </View>
           <Text style={styles.header}>Category</Text>
           <View style={styles.pickerContainer}>
             <Picker
