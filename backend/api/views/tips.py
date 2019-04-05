@@ -9,7 +9,7 @@ from geopy import distance
 from api.constants import UPVOTE, DOWNVOTE
 
 tips = Blueprint("tips", __name__)
-
+# this code seems to be working
 
 @tips.route("/tips", methods=["GET"])
 def get_all_tips():
