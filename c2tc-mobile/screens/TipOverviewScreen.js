@@ -14,7 +14,6 @@ import TabBar from "../components/NavigationComponents/Tabs";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
-// import console = require("console");
 
 const mapStateToProps = state => {
   return {
