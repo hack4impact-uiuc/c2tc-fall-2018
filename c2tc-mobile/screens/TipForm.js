@@ -138,6 +138,10 @@ class TipForm extends React.Component {
             label="Tip Content"
             placeholder="Content of your tip"
             value={this.state.body}
+            blurOnSubmit={false}
+            multiline={true}
+            numberOfLines={5}
+            maxHeight={150}
             onChangeText={body => this.setState({ body })}
           />
           <Text style={styles.header}>Tip Location</Text>
@@ -215,7 +219,8 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   inputBodyContainerStyle: {
-    paddingBottom: 100,
+    //paddingTop: 15,
+    //paddingBottom: 10,
     marginHorizontal: 20,
     marginTop: 0
   },
