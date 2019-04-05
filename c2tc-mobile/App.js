@@ -11,6 +11,10 @@ import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
+import { Location, TaskManager } from 'expo';
+
+const LOCATION_TASK_NAME = 'background-location-task';
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +25,18 @@ export default class App extends Component {
       this._mounted = true;
     } else {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
+    }
+    console.log("running cod");
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+      console.log("oh noes, no location permission!");
+    } else {
+      Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+        accuracy: Location.Accuracy.Balanced,
+      });
     }
   }
 
@@ -82,5 +98,18 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
+  }
+});
+
+console.log("TaskManager is ");
+console.log(TaskManager);
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    // do something with the locations captured in the background
   }
 });
