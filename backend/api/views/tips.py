@@ -101,6 +101,15 @@ def get_verified_tips():
     response = {"verified_tips": response}
     return create_response(data=response)
 
+@tips.route("/tips/pending", methods=["GET"])
+def get_pending_tips():
+    """
+    GET function for retrieving all tips that are not verified yet
+    """
+    response = [tip.to_mongo() for tip in Tips.objects if tip.verified == False]
+    response = {"pending_tips": response}
+    return create_response(data=response)
+
 
 @tips.route("/tips", methods=["POST"])
 def create_tip():

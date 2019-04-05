@@ -92,6 +92,10 @@ async function getVerifiedTips() {
   return getEndpoint("tips/verified", "tips")
 }
 
+async function getPendingTips() {
+  return getEndpoint("tips/pending", "tips")
+}
+
 async function editTip(id, data) {
   return putEndpoint(`tips/${id}`, data)
 }
@@ -173,6 +177,7 @@ export default {
   getUserUpvotes,
   getUserDownvotes,
   getVerifiedTips,
+  getPendingTips,
   editTip,
   updateVerified,
   voteTip,
