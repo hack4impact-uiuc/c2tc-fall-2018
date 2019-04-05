@@ -68,6 +68,10 @@ async function getTip(id) {
   return getEndpoint(`tips/${id}`, "tip");
 }
 
+async function getTipsNearby(lat, long) {
+  return getEndpoint(`tips_nearby/?lat=${lat}&long=${long}`, "tip");
+}
+
 async function getTipsFromUser(user_id) {
   return getEndpoint(`user/${user_id}/tips`, "tips")
 }
@@ -162,6 +166,7 @@ export default {
   getStreetLight,
   getTips,
   getTip,
+  getTipsNearby,
   createTip,
   getTipsFromUser,
   getTipsFromCategory,
