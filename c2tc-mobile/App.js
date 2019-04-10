@@ -6,6 +6,7 @@ import API from "./components/API";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegistrationScreen from "./screens/RegistrationScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
 import TipScreen from "./screens/TipScreen";
@@ -43,19 +44,12 @@ Navigator = createStackNavigator({
     }
   },
   Welcome: {
-    screen: LoginScreen,
+    screen: RegistrationScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
     }
   },
-  // Login: {
-  //   screen: LoginScreen,
-  //   navigationOptions: {
-  //     header: null,
-  //     headerMode: "screen"
-  //   }
-  // },
   Map: {
     screen: MapScreen,
     navigationOptions: {
