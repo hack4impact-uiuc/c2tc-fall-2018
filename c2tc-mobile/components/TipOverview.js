@@ -13,12 +13,54 @@ import Geocoder from "react-native-geocoding";
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
+    this.voteButtons = this.voteButtons.bind(this);
+    this.verifyButtons = this.verifyButtons.bind(this);
     this.state = {
       address: "Grainger"
     };
   }
 
+  categoryStyle = function(buttonCategory) {
+    if (buttonCategory === this.state.category) {
+      return {
+        backgroundColor: Color[this.state.category]
+      };
+    }
+  };
+
+  voteButtons() {
+    return (
+      <View style={styles.rightActions}>
+        <TouchableOpacity style={styles.button}>
+          <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  verifyButtons() {
+    return (
+      <View style={styles.rightActions}>
+        <TouchableOpacity style={styles.button}>
+          <Text>Review</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   render() {
+    const overviewType = "all";
+    let RightActions;
+
+    if (overviewType == "all") {
+      RightActions = voteButtons();
+    } else {
+      RightActions = verifyButtons();
+    }
+
     return (
       <TouchableOpacity
         onPress={() =>
@@ -44,14 +86,7 @@ class TipOverview extends React.Component {
               <FontAwesome name="user" size={17} /> {this.props.tip.author}
             </Text>
           </View>
-          <View style={styles.rightActions}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-          </View>
+          {RightActions}
         </View>
       </TouchableOpacity>
     );
