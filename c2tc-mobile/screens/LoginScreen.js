@@ -53,7 +53,7 @@ export default class Login extends Component {
             label="Username"
             placeholder="Username"
             value={this.state.usr}
-            onChangeText={username => this.setState({ usr })}
+            onChangeText={usr => this.setState({ usr })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput

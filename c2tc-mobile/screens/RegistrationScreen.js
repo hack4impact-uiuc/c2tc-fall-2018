@@ -19,13 +19,45 @@ export default class Registration extends Component {
   state = {
     usr: "",
     pswd: "",
-    repswd: ""
-
+    repswd: "",
+    errors: []
   };
 
-  handleRegistration = async () => {};
+  handleRegistration = async () => {
+    const errors = this.validate();
+    if (errors.length === 0) {
+      //Login
+    } else {
+      this.setState({ errors });
+    }
+  };
+
+  validate() {
+    const errors = [];
+
+    if (this.state.usr.length === 0) {
+      errors.push("Username cannot be empty");
+    }
+
+    if (this.state.pswd.length === 0) {
+      errors.push("Password cannot be empty");
+    }
+
+    if (this.state.repswd.length === 0) {
+      errors.push("Re-enter password cannot be empty");
+    }
+
+    if (this.state.pswd !== this.state.repswd) {
+      errors.push("Passwords do not match!");
+    }
+
+    return errors;
+  }
 
   render() {
+
+    const { errors } = this.state;
+
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -48,6 +80,11 @@ export default class Registration extends Component {
           removeClippedSubviews={false}
         >
           <Text style={styles.full_header}>Create Account</Text>
+          <View style={styles.errors}>
+            {errors.map(error => (
+              <Text key={error}>Error: {error}</Text>
+            ))}
+          </View>
           <Text style={styles.header}>Username</Text>
           <TextInput
             mode="outlined"
@@ -55,7 +92,7 @@ export default class Registration extends Component {
             label="Username"
             placeholder="Username"
             value={this.state.usr}
-            onChangeText={username => this.setState({ usr })}
+            onChangeText={usr => this.setState({ usr })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput
