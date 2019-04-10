@@ -9,8 +9,8 @@ import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
 import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
-import TipVerificationScreen from "./screens/TipVerificationScreen";
 import TipVerificationDetailsScreen from "./screens/TipVerificationDetailsScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 export default class App extends Component {
   constructor(props) {
@@ -72,6 +72,13 @@ Navigator = createStackNavigator({
   },
   TipForm: {
     screen: TipForm,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Profile: {
+    screen: ProfileScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

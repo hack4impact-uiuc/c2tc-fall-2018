@@ -9,6 +9,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import Geocoder from "react-native-geocoding";
+import API from "./API";
 
 class TipOverview extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class TipOverview extends React.Component {
     this.voteButtons = this.voteButtons.bind(this);
     this.verifyButtons = this.verifyButtons.bind(this);
     this.state = {
-      address: "Grainger"
+      address: "Grainger",
+      username: ""
     };
   }
 
@@ -51,6 +53,21 @@ class TipOverview extends React.Component {
     );
   }
 
+async componentDidMount() {
+    console.log(this.props.tip.author);
+    let user = await API.getUser(this.props.tip.author);
+    console.log(user);
+    let username = user.username;
+    if (user.anon) {
+      username = "Anonymous";
+    }
+
+    this.setState({
+      username
+    });
+  }
+
+
   render() {
     const overviewType = "all";
     let RightActions;
@@ -83,7 +100,7 @@ class TipOverview extends React.Component {
               <FontAwesome name="map-marker" size={17} /> {this.state.address}{" "}
             </Text>
             <Text style={styles.actionText}>
-              <FontAwesome name="user" size={17} /> {this.props.tip.author}
+              <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
           {RightActions}
@@ -96,7 +113,9 @@ class TipOverview extends React.Component {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
-    marginVertical: 10
+    marginVertical: 10,
+    borderColor: 'black',
+    borderWidth: 1
   },
   tags: {
     flexDirection: "row",
@@ -117,7 +136,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     padding: 20,
-    backgroundColor: "rgba(255,255,255,.7)",
+    backgroundColor: "#E4E4E4",
     flexDirection: "row",
     justifyContent: "flex-start"
   },
