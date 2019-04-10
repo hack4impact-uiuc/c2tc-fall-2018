@@ -55,7 +55,6 @@ export default class Registration extends Component {
   }
 
   render() {
-
     const { errors } = this.state;
 
     return (
@@ -112,7 +111,10 @@ export default class Registration extends Component {
             value={this.state.repswd}
             onChangeText={repswd => this.setState({ repswd })}
           />
-          <TouchableOpacity style={styles.login_btn} onPress={this.handleRegistration}>
+          <TouchableOpacity
+            style={styles.login_btn}
+            onPress={this.handleRegistration}
+          >
             <Text style={styles.button_text}>Register</Text>
           </TouchableOpacity>
         </ScrollView>
