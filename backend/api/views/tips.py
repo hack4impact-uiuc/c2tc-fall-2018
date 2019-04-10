@@ -16,9 +16,20 @@ def get_all_tips():
     """
     GET function for retrieving Tips objects
     """
-    response = [tips.to_mongo() for tips in Tips.objects]
+    latitude = request.args.get("lat")
+    longitude = request.args.get("long")
+    if latitude is None or longitude is None:
+        response = [tips.to_mongo() for tips in Tips.objects]
+    else:
+        response = [
+            tips.to_mongo()
+            for tips in Tips.objects
+            if distance.distance(
+                (tips.latitude, tips.longitude), (latitude, longitude)
+            ).miles
+            <= 0.1
+        ]
     response = {"tips": response}
-    logger.info("TIPS: %s", response)
     return create_response(data=response)
 
 
@@ -29,25 +40,6 @@ def get_tip(id):
     """
     response = Tips.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
-
-
-@tips.route("/tips_near", methods=["GET"])
-def get_tips_near():
-    """
-     GET function for retrieving all tips within a certain radius of a longitude and latitude
-     """
-    latitude = request.args.get("lat")
-    longitude = request.args.get("long")
-    response = [
-        tips.to_mongo()
-        for tips in Tips.objects
-        if distance.distance(
-            (tips.latitude, tips.longitude), (latitude, longitude)
-        ).miles
-        <= 0.1
-    ]
-    response = {"tips": response}
-    return create_response(data=response)
 
 
 @tips.route("/user/<user_id>/tips", methods=["GET"])

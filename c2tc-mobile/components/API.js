@@ -2,7 +2,9 @@ const host = "https://cut-to-the-case.now.sh";
 
 async function getEndpoint(endPoint, dataKey) {
   try {
-    let response = await fetch(host + "/" + endPoint);
+    let fullURL = host + "/" + endPoint;
+    console.log("FullUrl is: " + fullURL);
+    let response = await fetch(fullURL);
     let responseJson = await response.json();
     return dataKey === "" ? responseJson.result : responseJson.result[dataKey];
   } catch (error) {
@@ -69,7 +71,7 @@ async function getTip(id) {
 }
 
 async function getTipsNearby(lat, long) {
-  return getEndpoint(`tips_nearby/?lat=${lat}&long=${long}`, "tip");
+  return getEndpoint(`tips?lat=${lat}&long=${long}`, "tips");
 }
 
 async function getTipsFromUser(user_id) {
