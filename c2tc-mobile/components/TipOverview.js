@@ -14,8 +14,6 @@ import API from "./API";
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
-    this.voteButtons = this.voteButtons.bind(this);
-    this.verifyButtons = this.verifyButtons.bind(this);
     this.state = {
       address: "Grainger",
       username: ""
@@ -29,29 +27,6 @@ class TipOverview extends React.Component {
       };
     }
   };
-
-  voteButtons() {
-    return (
-      <View style={styles.rightActions}>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  verifyButtons() {
-    return (
-      <View style={styles.rightActions}>
-        <TouchableOpacity style={styles.button}>
-          <Text>Review</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
 
 async componentDidMount() {
     console.log(this.props.tip.author);
@@ -69,15 +44,7 @@ async componentDidMount() {
 
 
   render() {
-    const overviewType = "all";
-    let RightActions;
-
-    if (overviewType == "all") {
-      RightActions = voteButtons();
-    } else {
-      RightActions = verifyButtons();
-    }
-
+    const screenType = "verification";
     return (
       <TouchableOpacity
         onPress={() =>
@@ -103,7 +70,23 @@ async componentDidMount() {
               <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
-          {RightActions}
+            { screenType === "verification" &&
+            <View style={styles.rightActions}>
+              <TouchableOpacity>
+                <Text color="red">Review</Text>
+              </TouchableOpacity>
+            </View>
+            }
+            { screenType === "basic" &&
+            <View style={styles.rightActions}>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+            </View>
+            }
         </View>
       </TouchableOpacity>
     );

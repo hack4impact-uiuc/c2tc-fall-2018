@@ -51,17 +51,20 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
+    const screenStyle="verification";
     if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (
       <ScrollView style={styles.tipOverview}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
+        { screenStyle === "basic" &&
         <View style={styles.header}>
           <Text style={styles.date}>
             {this.state.currentdate.toUpperCase()}
           </Text>
           <View style={{ flexDirection: "row" }}>
+
             <Text
               style={[
                 styles.headertext,
@@ -91,6 +94,12 @@ class TipOverviewScreen extends React.Component {
           </View>
           {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
         </View>
+        }
+        { screenStyle === "verification" &&
+        <View style={styles.header}>
+          <Text>All Pending Reviews</Text>
+        </View>
+        }
         <View style={styles.content}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TipForm")}

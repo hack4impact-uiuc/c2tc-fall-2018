@@ -35,6 +35,7 @@ class TipDetailsScreen extends React.Component {
 
   render() {
     let tip = this.props.navigation.state.params.tip;
+    const screenStyle = "verification";
 
     return (
       <View style={styles.detail}>
@@ -73,6 +74,22 @@ class TipDetailsScreen extends React.Component {
             <FontAwesome name="clock-o" size={17} /> {tip.posted_time}
           </Text>
         </View>
+
+        {screenStyle === "verification" &&
+        <View style={styles.action}>
+          <View style={styles.leftActions}>
+            <TouchableOpacity style={styles.discardButton}>
+              <Text style={styles.verifButtonText}>Discard</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rightActions}>
+            <TouchableOpacity style={styles.approveButton}>
+              <Text style={styles.verifButtonText}>Approve</Text>
+            </TouchableOpacity>
+          </View>
+        </View>}
+
+        {screenStyle === "basic" &&
         <View style={styles.action}>
           <View style={styles.leftActions}>
             <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
@@ -85,7 +102,9 @@ class TipDetailsScreen extends React.Component {
               <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
             </TouchableOpacity>
           </View>
-        </View>
+        </View>}
+
+
       </View>
     );
   }
@@ -176,6 +195,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontSize: 17
     // padding:10,
+  },
+  discardButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "red"
+  },
+  approveButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "green"
+  },
+  verifButtonText: {
+    color: "white"
   }
 });
 
