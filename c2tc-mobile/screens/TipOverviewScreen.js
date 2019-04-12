@@ -32,29 +32,36 @@ class TipOverviewScreen extends React.Component {
       location: "location",
       user: "Philip",
       currentdate: "Thursday Feb 28",
-      screenType: "view",
+      screenType: "verification",
       tips: []
     };
   }
 
   async componentDidMount() {
-    let tipsResponse = await API.getTips();
-    this.setState({ tips: tipsResponse });
-
-    // let tipsResponse = await API.getVerifiedTips();
-    // this.setState({ tips: tipsResponse });
+    if (this.state.screenType === "view") {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+    } else if (this.state.screenType === "verification") {
+      let tipsResponse = await API.getPendingTips();
+      this.setState({ tips: tipsResponse });
+    } else {
+      let tipsResponse = await API.getTips();
+      this.setState({ tips: tipsResponse });
+    }
   }
 
   onComponentFocused = async () => {
-    // if (this.state.screenType === "verification") {
-    //   let tipsResponse = await API.getPendingTips();
-    //   this.setState({ tips: tipsResponse });
-    // } else {
-    //   let tipsResponse = await API.getVerifiedTips();
-    //   this.setState({ tips: tipsResponse });
-    // }
-    let tipsResponse = await API.getTips();
-    this.setState({ tips: tipsResponse });
+    if (this.state.screenType === "view") {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+    } else if (this.state.screenType === "verification"){
+      let tipsResponse = await API.getPendingTips();
+      this.setState({ tips: tipsResponse });
+    } else {
+      let tipsResponse = await API.getTips();
+      this.setState({ tips: tipsResponse });
+    }
+
   };
 
   profilePicPressed = () => {
