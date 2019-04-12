@@ -44,7 +44,7 @@ Navigator = createStackNavigator({
     }
   },
   Welcome: {
-    screen: RegistrationScreen,
+    screen: WelcomeScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
