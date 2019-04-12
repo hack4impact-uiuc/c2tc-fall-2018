@@ -1,5 +1,6 @@
 from flask_script import Manager
 from api import create_app
+
 # from apscheduler.schedulers.background import BackgroundScheduler
 from api.scrapers.bus_stops import scrape
 from api.scrapers.crimes import crime_scrape
