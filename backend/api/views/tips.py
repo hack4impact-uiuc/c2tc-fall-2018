@@ -5,6 +5,7 @@ from api.core import create_response, serialize_list, logger
 from datetime import datetime
 from bson.objectid import ObjectId
 import json
+from geopy import distance
 from api.constants import UPVOTE, DOWNVOTE
 
 tips = Blueprint("tips", __name__)
@@ -28,6 +29,25 @@ def get_tip(id):
     """
     response = Tips.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
+
+
+@tips.route("/tips_near", methods=["GET"])
+def get_tips_near():
+    """
+     GET function for retrieving all tips within a certain radius of a longitude and latitude
+     """
+    latitude = request.args.get("lat")
+    longitude = request.args.get("long")
+    response = [
+        tips.to_mongo()
+        for tips in Tips.objects
+        if distance.distance(
+            (tips.latitude, tips.longitude), (latitude, longitude)
+        ).miles
+        <= 0.1
+    ]
+    response = {"tips": response}
+    return create_response(data=response)
 
 
 @tips.route("/user/<user_id>/tips", methods=["GET"])
@@ -88,6 +108,16 @@ def get_verified_tips():
     """
     response = [tip.to_mongo() for tip in Tips.objects if tip.verified == True]
     response = {"verified_tips": response}
+    return create_response(data=response)
+
+
+@tips.route("/tips/pending", methods=["GET"])
+def get_pending_tips():
+    """
+    GET function for retrieving all tips that are not verified yet
+    """
+    response = [tip.to_mongo() for tip in Tips.objects if tip.verified == False]
+    response = {"tips": response}
     return create_response(data=response)
 
 

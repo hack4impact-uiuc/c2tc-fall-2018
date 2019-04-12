@@ -32,6 +32,7 @@ class TipOverviewScreen extends React.Component {
       location: "location",
       user: "Philip",
       currentdate: "Thursday Feb 28",
+      screenType: "view",
       tips: []
     };
   }
@@ -39,9 +40,19 @@ class TipOverviewScreen extends React.Component {
   async componentDidMount() {
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
+
+    // let tipsResponse = await API.getVerifiedTips();
+    // this.setState({ tips: tipsResponse });
   }
 
   onComponentFocused = async () => {
+    // if (this.state.screenType === "verification") {
+    //   let tipsResponse = await API.getPendingTips();
+    //   this.setState({ tips: tipsResponse });
+    // } else {
+    //   let tipsResponse = await API.getVerifiedTips();
+    //   this.setState({ tips: tipsResponse });
+    // }
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
   };
@@ -51,14 +62,14 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
-    const screenStyle="verification";
+    const screenStyle=this.state.screenType;
     if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (
       <ScrollView style={styles.tipOverview}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        { screenStyle === "basic" &&
+        { screenStyle === "view" &&
         <View style={styles.header}>
           <Text style={styles.date}>
             {this.state.currentdate.toUpperCase()}
@@ -97,7 +108,7 @@ class TipOverviewScreen extends React.Component {
         }
         { screenStyle === "verification" &&
         <View style={styles.header}>
-          <Text>All Pending Reviews</Text>
+          <Text>All Pending Tips</Text>
         </View>
         }
         <View style={styles.content}>
@@ -106,6 +117,16 @@ class TipOverviewScreen extends React.Component {
           >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
+          { screenStyle === "view" &&
+          <TouchableOpacity
+            onPress={() => this.setState({screenType: "verification"})}>
+            <Text style={styles.button}> Review Pending Tips </Text>
+          </TouchableOpacity> }
+          { screenStyle === "verification" &&
+          <TouchableOpacity
+            onPress={() => this.setState({screenType: "view"})}>
+            <Text style={styles.button}> View Verified Tips </Text>
+          </TouchableOpacity> }
           {this.state.tips.map(tip => (
             <TipOverview
               key={tip._id}

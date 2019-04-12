@@ -68,6 +68,10 @@ async function getTip(id) {
   return getEndpoint(`tips/${id}`, "tip");
 }
 
+async function getTipsNearby(lat, long) {
+  return getEndpoint(`tips_nearby/?lat=${lat}&long=${long}`, "tip");
+}
+
 async function getTipsFromUser(user_id) {
   return getEndpoint(`user/${user_id}/tips`, "tips")
 }
@@ -86,6 +90,10 @@ async function getUserDownvotes(tips_id) {
 
 async function getVerifiedTips() {
   return getEndpoint("tips/verified", "tips")
+}
+
+async function getPendingTips() {
+  return getEndpoint("tips/pending", "tips")
 }
 
 async function editTip(id, data) {
@@ -162,12 +170,14 @@ export default {
   getStreetLight,
   getTips,
   getTip,
+  getTipsNearby,
   createTip,
   getTipsFromUser,
   getTipsFromCategory,
   getUserUpvotes,
   getUserDownvotes,
   getVerifiedTips,
+  getPendingTips,
   editTip,
   updateVerified,
   voteTip,
