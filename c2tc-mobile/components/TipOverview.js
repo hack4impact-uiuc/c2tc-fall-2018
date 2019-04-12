@@ -44,7 +44,7 @@ async componentDidMount() {
 
 
   render() {
-    const screenType = "verification";
+    const screenType = this.props.screenType;
     return (
       <TouchableOpacity
         onPress={() =>
