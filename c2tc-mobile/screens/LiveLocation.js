@@ -184,7 +184,7 @@ class LiveLocation extends Component {
   };
 
   backToUser = () => {
-    this.getLocationAsync()
+    this.getLocationAsync();
   };
 
   onRegionChangeRender = region => {
