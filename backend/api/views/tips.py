@@ -75,7 +75,7 @@ def get_tip_upvotes(tips_id):
     tips_upvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
     ]
-    response = {"upvotes": tips_upvotes_list}
+    response = {"users": tips_upvotes_list}
     return create_response(data=response)
 
 
@@ -89,7 +89,7 @@ def get_tip_downvotes(tips_id):
     tips_downvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
     ]
-    response = {"upvotes": tips_downvotes_list}
+    response = {"users": tips_downvotes_list}
     return create_response(data=response)
 
 
