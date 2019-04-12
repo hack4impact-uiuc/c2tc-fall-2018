@@ -35,7 +35,7 @@ class TipDetailsScreen extends React.Component {
 
   render() {
     let tip = this.props.navigation.state.params.tip;
-    const screenStyle = "verification";
+    const screenStyle = this.props.navigation.state.params.screenType;
 
     return (
       <View style={styles.detail}>
@@ -89,7 +89,7 @@ class TipDetailsScreen extends React.Component {
           </View>
         </View>}
 
-        {screenStyle === "basic" &&
+        {screenStyle === "view" &&
         <View style={styles.action}>
           <View style={styles.leftActions}>
             <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>

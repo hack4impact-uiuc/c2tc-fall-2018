@@ -48,7 +48,7 @@ async componentDidMount() {
     return (
       <TouchableOpacity
         onPress={() =>
-          this.props.navigation.navigate("TipDetail", { tip: this.props.tip })
+          this.props.navigation.navigate("TipDetail", { tip: this.props.tip, screenType: this.props.screenType })
         }
         style={styles.card}
       >
@@ -77,7 +77,7 @@ async componentDidMount() {
               </TouchableOpacity>
             </View>
             }
-            { screenType === "basic" &&
+            { screenType === "view" &&
             <View style={styles.rightActions}>
               <TouchableOpacity style={styles.button}>
                 <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
