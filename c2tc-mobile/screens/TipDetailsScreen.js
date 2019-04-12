@@ -75,36 +75,36 @@ class TipDetailsScreen extends React.Component {
           </Text>
         </View>
 
-        {screenStyle === "verification" &&
-        <View style={styles.action}>
-          <View style={styles.leftActions}>
-            <TouchableOpacity style={styles.discardButton}>
-              <Text style={styles.verifButtonText}>Discard</Text>
-            </TouchableOpacity>
+        {screenStyle === "verification" && (
+          <View style={styles.action}>
+            <View style={styles.leftActions}>
+              <TouchableOpacity style={styles.discardButton}>
+                <Text style={styles.verifButtonText}>Discard</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rightActions}>
+              <TouchableOpacity style={styles.approveButton}>
+                <Text style={styles.verifButtonText}>Approve</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.rightActions}>
-            <TouchableOpacity style={styles.approveButton}>
-              <Text style={styles.verifButtonText}>Approve</Text>
-            </TouchableOpacity>
-          </View>
-        </View>}
+        )}
 
-        {screenStyle === "view" &&
-        <View style={styles.action}>
-          <View style={styles.leftActions}>
-            <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
+        {screenStyle === "view" && (
+          <View style={styles.action}>
+            <View style={styles.leftActions}>
+              <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
+            </View>
+            <View style={styles.rightActions}>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.rightActions}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-          </View>
-        </View>}
-
-
+        )}
       </View>
     );
   }

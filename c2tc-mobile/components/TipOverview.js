@@ -28,7 +28,7 @@ class TipOverview extends React.Component {
     }
   };
 
-async componentDidMount() {
+  async componentDidMount() {
     console.log(this.props.tip.author);
     let user = await API.getUser(this.props.tip.author);
     console.log(user);
@@ -42,13 +42,15 @@ async componentDidMount() {
     });
   }
 
-
   render() {
     const screenType = this.props.screenType;
     return (
       <TouchableOpacity
         onPress={() =>
-          this.props.navigation.navigate("TipDetail", { tip: this.props.tip, screenType: this.props.screenType })
+          this.props.navigation.navigate("TipDetail", {
+            tip: this.props.tip,
+            screenType: this.props.screenType
+          })
         }
         style={styles.card}
       >
@@ -70,14 +72,14 @@ async componentDidMount() {
               <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
-            { screenType === "verification" &&
+          {screenType === "verification" && (
             <View style={styles.rightActions}>
               <TouchableOpacity>
                 <Text color="red">Review</Text>
               </TouchableOpacity>
             </View>
-            }
-            { screenType === "view" &&
+          )}
+          {screenType === "view" && (
             <View style={styles.rightActions}>
               <TouchableOpacity style={styles.button}>
                 <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
@@ -86,7 +88,7 @@ async componentDidMount() {
                 <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
               </TouchableOpacity>
             </View>
-            }
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1
   },
   tags: {
