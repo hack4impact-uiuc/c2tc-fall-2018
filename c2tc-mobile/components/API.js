@@ -2,9 +2,7 @@ const host = "https://cut-to-the-case.now.sh";
 
 async function getEndpoint(endPoint, dataKey) {
   try {
-    let fullURL = host + "/" + endPoint;
-    console.log("FullUrl is: " + fullURL);
-    let response = await fetch(fullURL);
+    let response = await fetch(host + "/" + endPoint);
     let responseJson = await response.json();
     return dataKey === "" ? responseJson.result : responseJson.result[dataKey];
   } catch (error) {
@@ -75,43 +73,43 @@ async function getTipsNearby(lat, long) {
 }
 
 async function getTipsFromUser(user_id) {
-  return getEndpoint(`user/${user_id}/tips`, "tips")
+  return getEndpoint(`user/${user_id}/tips`, "tips");
 }
 
 async function getTipsFromCategory(category) {
-  return getEndpoint(`tips_category/${category}`, "tips")
+  return getEndpoint(`tips_category/${category}`, "tips");
 }
 
 async function getUserUpvotes(tips_id) {
-  return getEndpoint(`tips_upvotes/${tips_id}`, "users")
+  return getEndpoint(`tips_upvotes/${tips_id}`, "users");
 }
 
 async function getUserDownvotes(tips_id) {
-  return getEndpoint(`tips_downvotes/${tips_id}`, "users")
+  return getEndpoint(`tips_downvotes/${tips_id}`, "users");
 }
 
 async function getVerifiedTips() {
-  return getEndpoint("tips/verified", "tips")
+  return getEndpoint("tips/verified", "tips");
 }
 
 async function getPendingTips() {
-  return getEndpoint("tips/pending", "tips")
+  return getEndpoint("tips/pending", "tips");
 }
 
 async function editTip(id, data) {
-  return putEndpoint(`tips/${id}`, data)
+  return putEndpoint(`tips/${id}`, data);
 }
 
 async function updateVerified(id, data) {
-  return putEndpoint(`tips/${id}/verified`, data)
+  return putEndpoint(`tips/${id}/verified`, data);
 }
 
 async function voteTip(data) {
-  return putEndpoint("tips_votes", data)
+  return putEndpoint("tips_votes", data);
 }
 
 async function deleteTip(id) {
-  return deleteEndpoint(`tips/${id}`)
+  return deleteEndpoint(`tips/${id}`);
 }
 
 async function getUsers() {
