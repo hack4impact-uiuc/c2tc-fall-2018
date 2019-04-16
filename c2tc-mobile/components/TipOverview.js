@@ -21,9 +21,7 @@ class TipOverview extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(this.props.tip.author);
     let user = await API.getUser(this.props.tip.author);
-    console.log(user);
     let username = user.username;
     if (user.anon) {
       username = "Anonymous";
@@ -78,7 +76,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1
   },
   tags: {
