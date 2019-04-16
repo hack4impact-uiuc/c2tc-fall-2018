@@ -11,11 +11,18 @@ import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
-import { Location, TaskManager } from 'expo';
+import { Notifications, Location, TaskManager, Permissions } from 'expo';
 
 const LOCATION_TASK_NAME = 'background-location-task';
 
 export default class App extends Component {
+  beginListeningToLocation = async () => {
+    console.log("Setting up startLocationUpdatesAsync");
+    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      accuracy: Location.Accuracy.Balanced,
+    });
+  };
+
   constructor(props) {
     super(props);
   }
@@ -28,6 +35,7 @@ export default class App extends Component {
     }
     console.log("running cod");
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    console.log("running cod2");
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
@@ -38,6 +46,8 @@ export default class App extends Component {
         accuracy: Location.Accuracy.Balanced,
       });
     }
+    console.log("calling async function beginListeningToLocation");
+    await this.beginListeningToLocation();
   }
 
   componentWillUnmount() {
@@ -101,15 +111,43 @@ Navigator = createStackNavigator({
   }
 });
 
-console.log("TaskManager is ");
-console.log(TaskManager);
-TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+function shouldNotify(eventsNearby){
+  return true;
+}
+
+function createNotificationData(eventsNearby){
+  const localnotification = {
+    title: 'Example Title!',
+    body: 'This is the body text of the local notification',
+    android: {
+      sound: true,
+    },
+    ios: {
+      sound: true,
+    },
+  };
+  return localnotification;
+}
+
+handleNewLocation = async ( { data, error }) => {
   if (error) {
-    // Error occurred - check `error.message` for more details.
     return;
   }
   if (data) {
     const { locations } = data;
-    // do something with the locations captured in the background
-  }
-});
+    console.log("NEW BACKGROUND LOCATION CAME IN!!!");
+    console.log(locations);
+    eventsNearby = await API.getTips();
+
+    if (shouldNotify(eventsNearby)){
+      const notificationData = createNotificationData(eventsNearby);
+      const schedulingOptions = { time: Date.now() + 1000 };
+      Notifications.scheduleLocalNotificationAsync(
+        notificationData,
+        schedulingOptions
+      );
+    }
+  };
+}
+
+TaskManager.defineTask(LOCATION_TASK_NAME, handleNewLocation);
