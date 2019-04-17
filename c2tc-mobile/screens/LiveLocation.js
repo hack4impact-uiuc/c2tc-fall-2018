@@ -244,7 +244,7 @@ class LiveLocation extends Component {
               >
                 <Image
                   source={marker.image}
-                  style={{ width: 15, height: 15 }}
+                  style={{ width: 13, height: 13 }}
                 />
               </TouchableOpacity>
               <MapView.Callout tooltip={true} />
