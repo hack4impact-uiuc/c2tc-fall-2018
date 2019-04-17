@@ -98,7 +98,11 @@ def get_verified_tips():
     """
     GET function for retrieving all tips that are verified
     """
-    response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
+    else:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified" and user_id == str(tip.author)]
     response = {"verified_tips": response}
     return create_response(data=response)
 
@@ -106,10 +110,27 @@ def get_verified_tips():
 @tips.route("/tips/pending", methods=["GET"])
 def get_pending_tips():
     """
-    GET function for retrieving all tips that are not pending yet
+    GET function for retrieving all tips that are pending
     """
-    response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
+    else:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending" and user_id == str(tip.author)]
     response = {"pending_tips": response}
+    return create_response(data=response)
+
+@tips.route("/tips/denied", methods=["GET"])
+def get_denied_tips():
+    """
+    GET function for retrieving all tips that are denied
+    """
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
+    else:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied" and user_id == str(tip.author)]
+    response = {"denied_tips": response}
     return create_response(data=response)
 
 
