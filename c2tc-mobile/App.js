@@ -114,13 +114,24 @@ Navigator = createStackNavigator({
 });
 
 function shouldNotify(eventsNearby){
-  return true;
+  console.log("eventsNearby are");
+  console.log(eventsNearby);
+  return eventsNearby.length > 0;
+}
+
+function compareEvents(eventA, eventB){
+  let eventAScore = eventA.upvotes.length - eventA.downvotes.length;
+  let eventBScore = eventB.upvotes.length - eventB.downvotes.length;
+  return (eventAScore < eventBScore) ? -1 : (eventAScore > eventBScore) ? 1 : 0;
 }
 
 function createNotificationData(eventsNearby){
+  topFiveTips = eventsNearby.sort(compareEvents).reverse().slice(0, 5);
+  let compositeTipsTitles = topFiveTips.map((tip) => tip.title).join("\n");
+
   const localnotification = {
-    title: 'Example Title!',
-    body: 'This is the body text of the local notification',
+    title: 'There are tips nearby!',
+    body: compositeTipsTitles,
     android: {
       sound: true,
     },
@@ -137,9 +148,15 @@ handleNewLocation = async ( { data, error }) => {
   }
   if (data) {
     const { locations } = data;
-    console.log("NEW BACKGROUND LOCATION CAME IN!!!");
-    console.log(locations);
-    eventsNearby = await API.getTips();
+    // console.log("NEW BACKGROUND LOCATION CAME IN!!!");
+    // console.log(locations);
+    // const lat = locations[0].coords.latitude;
+    // console.log(`lat: ${lat}`)
+    // const long = locations[0].coords.longitude;
+    // console.log(`long: ${long}`)
+    const lat = 40.112460;
+    const long = -88.227665;
+    eventsNearby = await API.getTipsNearby(lat, long);
 
     if (shouldNotify(eventsNearby)){
       const notificationData = createNotificationData(eventsNearby);
