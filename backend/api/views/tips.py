@@ -102,7 +102,11 @@ def get_verified_tips():
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
     else:
-        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified" and user_id == str(tip.author)]
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "verified" and user_id == str(tip.author)
+        ]
     response = {"verified_tips": response}
     return create_response(data=response)
 
@@ -116,9 +120,14 @@ def get_pending_tips():
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
     else:
-        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending" and user_id == str(tip.author)]
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "pending" and user_id == str(tip.author)
+        ]
     response = {"pending_tips": response}
     return create_response(data=response)
+
 
 @tips.route("/tips/denied", methods=["GET"])
 def get_denied_tips():
@@ -129,7 +138,11 @@ def get_denied_tips():
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
     else:
-        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied" and user_id == str(tip.author)]
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "denied" and user_id == str(tip.author)
+        ]
     response = {"denied_tips": response}
     return create_response(data=response)
 
@@ -188,7 +201,11 @@ def update_status(id):
     """
     data = request.get_json()
     tip = Tips.objects.get(id=id)
-    if data["status"] != "verified" and data["status"] != "pending" and data["status"] != "denied":
+    if (
+        data["status"] != "verified"
+        and data["status"] != "pending"
+        and data["status"] != "denied"
+    ):
         return create_response(message="Please enter a valid status")
     tip.update(status=data["status"])
     return create_response(message="success!")
