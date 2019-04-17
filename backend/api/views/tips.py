@@ -16,9 +16,20 @@ def get_all_tips():
     """
     GET function for retrieving Tips objects
     """
-    response = [tips.to_mongo() for tips in Tips.objects]
+    latitude = request.args.get("lat")
+    longitude = request.args.get("long")
+    if latitude is None or longitude is None:
+        response = [tips.to_mongo() for tips in Tips.objects]
+    else:
+        response = [
+            tips.to_mongo()
+            for tips in Tips.objects
+            if distance.distance(
+                (tips.latitude, tips.longitude), (latitude, longitude)
+            ).miles
+            <= 0.1
+        ]
     response = {"tips": response}
-    logger.info("TIPS: %s", response)
     return create_response(data=response)
 
 
@@ -83,7 +94,7 @@ def get_tip_upvotes(tips_id):
     tips_upvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
     ]
-    response = {"upvotes": tips_upvotes_list}
+    response = {"users": tips_upvotes_list}
     return create_response(data=response)
 
 
@@ -97,7 +108,7 @@ def get_tip_downvotes(tips_id):
     tips_downvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
     ]
-    response = {"upvotes": tips_downvotes_list}
+    response = {"users": tips_downvotes_list}
     return create_response(data=response)
 
 

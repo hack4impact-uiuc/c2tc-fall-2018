@@ -65,7 +65,11 @@ async function getTips() {
 }
 
 async function getTip(id) {
-  return getEndpoint(`tips/${id}`, "tip");
+  return getEndpoint(`tips/${id}`, "");
+}
+
+async function getTipsNearby(lat, long) {
+  return getEndpoint(`tips?lat=${lat}&long=${long}`, "tips");
 }
 
 async function getTipsNearby(lat, long) {
