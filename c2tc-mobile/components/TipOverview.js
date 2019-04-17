@@ -29,9 +29,13 @@ class TipOverview extends React.Component {
   };
 
   async componentDidMount() {
+<<<<<<< HEAD
     //console.log(this.props.tip.author);
     let user = await API.getUser(this.props.tip.author);
     //console.log(user);
+=======
+    let user = await API.getUser(this.props.tip.author);
+>>>>>>> 0c015320623a09c9780fca76f50f16f8368c96bc
     let username = user.username;
     if (user.anon) {
       username = "Anonymous";

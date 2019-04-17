@@ -45,12 +45,7 @@ export default class ProfileScreen extends React.Component {
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
-    const allTips = await API.getTipsFromUser(user_id);
-    console.log(allTips);
-
-    const filterByType = _.groupBy({...allTips.d}, 'verified');
-    console.log(filterByType);
-    let tips = filterByType.true;
+    let tips = await API.getTipsFromUser(user_id);
 
     this.setState({
       displayName: user.username,
