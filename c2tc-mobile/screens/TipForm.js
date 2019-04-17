@@ -27,7 +27,16 @@ class TipForm extends React.Component {
     address: "",
     lat: "0",
     lng: "0",
-    errors: []
+    errors: [],
+    touched: {
+      title: false,
+      body: false,
+      category: false,
+      author: false,
+      userId: false,
+      location: false,
+      address: false
+    }
   };
 
   async componentWillMount() {
@@ -55,10 +64,7 @@ class TipForm extends React.Component {
       this.state.lng = latlng[1];
     }
 
-    this.setState({ errors });
-
-    if (this.state.errors.length === 0) {
-      console.log(this.state.errors);
+    if (errors.length === 0) {
       tip = {
         title: this.state.title,
         content: this.state.body,
@@ -69,7 +75,36 @@ class TipForm extends React.Component {
       };
       await API.createTip(tip);
       this.props.navigation.navigate("TipOverview");
+    } else {
+      this.setState({ errors });
     }
+  };
+
+  validate() {
+    const errors = [];
+
+    if (this.state.title.length === 0) {
+      errors.push("Name cannot be empty");
+    }
+
+    if (this.state.body.length === 0) {
+      errors.push("Body cannot be empty");
+    }
+
+    if (this.state.address.length === 0) {
+      errors.push("Address cannot be empty");
+    }
+
+    if (this.state.category.length === 0) {
+      errors.push("Please select a category");
+    }
+    return errors;
+  }
+
+  shouldMarkError = field => {
+    const hasError = this.validate(this.state.title, this.state.content)[field];
+    const shouldShow = this.state.touched[field];
+    return hasError ? shouldShow : false;
   };
 
   validate() {
@@ -124,6 +159,7 @@ class TipForm extends React.Component {
           </View>
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
+            className={this.shouldMarkError("title") ? "error" : ""}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
@@ -256,6 +292,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "red",
     marginBottom: 10
+  },
+  error: {
+    borderRadius: 1,
+    borderColor: "red"
   }
 });
 
