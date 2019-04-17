@@ -258,8 +258,6 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   inputBodyContainerStyle: {
-    //paddingTop: 15,
-    //paddingBottom: 10,
     marginHorizontal: 20,
     marginTop: 0
   },
