@@ -77,12 +77,12 @@ class TipDetailsScreen extends React.Component {
 
         {screenStyle === "verification" && (
           <View style={styles.action}>
-            <View style={styles.leftActions}>
+            <View style={styles.leftActionsVerif}>
               <TouchableOpacity style={styles.discardButton}>
                 <Text style={styles.verifButtonText}>Discard</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.rightActions}>
+            <View style={styles.rightActionsVerif}>
               <TouchableOpacity style={styles.approveButton}>
                 <Text style={styles.verifButtonText}>Approve</Text>
               </TouchableOpacity>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#E6E6EB",
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "space-between"
   },
   leftActions: {
     width: Dimensions.get("window").width - 145
@@ -158,6 +158,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: 95
+  },
+  leftActionsVerif: {
+    width: Dimensions.get("window").width / 3,
+  },
+  rightActionsVerif: {
+    width: Dimensions.get("window").width / 3,
   },
   button: {
     alignItems: "center",
@@ -194,17 +200,18 @@ const styles = StyleSheet.create({
   postDetails: {
     paddingHorizontal: 20,
     fontSize: 17
-    // padding:10,
   },
   discardButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "red"
+    backgroundColor: "red",
+    justifyContent: "center"
   },
   approveButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "green"
+    backgroundColor: "green",
+    justifyContent: "center"
   },
   verifButtonText: {
     color: "white"
