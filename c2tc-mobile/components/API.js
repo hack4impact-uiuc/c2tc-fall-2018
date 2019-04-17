@@ -100,8 +100,8 @@ async function editTip(id, data) {
   return putEndpoint(`tips/${id}`, data);
 }
 
-async function updateVerified(id, data) {
-  return putEndpoint(`tips/${id}/verified`, data);
+async function updateStatus(id, data) {
+  return putEndpoint(`tips/${id}/status`, data);
 }
 
 async function voteTip(data) {
@@ -179,7 +179,7 @@ export default {
   getVerifiedTips,
   getPendingTips,
   editTip,
-  updateVerified,
+  updateStatus,
   voteTip,
   deleteTip
 };
