@@ -100,12 +100,28 @@ async function getPendingTips() {
   return getEndpoint("tips/pending", "pending_tips");
 }
 
+async function getDeniedTips() {
+  return getEndpoint("tips/pending", "denied_tips");
+}
+
+async function getVerifiedTipsByUser(id) {
+  return getEndpoint(`tips/verified?id=${id}`, "verified_tips");
+}
+
+async function getPendingTipsByUser(id) {
+  return getEndpoint(`tips/pending?id=${id}`, "pending_tips");
+}
+
+async function getDeniedTipsByUser(id) {
+  return getEndpoint(`tips/denied?id=${id}`, "denied_tips");
+}
+
 async function editTip(id, data) {
   return putEndpoint(`tips/${id}`, data);
 }
 
-async function updateVerified(id, data) {
-  return putEndpoint(`tips/${id}/verified`, data);
+async function updateStatus(id, data) {
+  return putEndpoint(`tips/${id}/status`, data);
 }
 
 async function voteTip(data) {
@@ -182,8 +198,12 @@ export default {
   getUserDownvotes,
   getVerifiedTips,
   getPendingTips,
+  getDeniedTips,
+  getVerifiedTipsByUser,
+  getPendingTipsByUser,
+  getDeniedTipsByUser,
   editTip,
-  updateVerified,
+  updateStatus,
   voteTip,
   deleteTip
 };
