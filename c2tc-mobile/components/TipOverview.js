@@ -29,13 +29,7 @@ class TipOverview extends React.Component {
   };
 
   async componentDidMount() {
-<<<<<<< HEAD
-    //console.log(this.props.tip.author);
     let user = await API.getUser(this.props.tip.author);
-    //console.log(user);
-=======
-    let user = await API.getUser(this.props.tip.author);
->>>>>>> 0c015320623a09c9780fca76f50f16f8368c96bc
     let username = user.username;
     if (user.anon) {
       username = "Anonymous";
@@ -91,6 +85,11 @@ class TipOverview extends React.Component {
               <TouchableOpacity style={styles.button}>
                 <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
               </TouchableOpacity>
+            </View>
+          )}
+          {(screenType === "denied") && (
+            <View>
+              <Text>DENIED :(</Text>
             </View>
           )}
         </View>
