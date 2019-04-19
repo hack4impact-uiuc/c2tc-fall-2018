@@ -37,8 +37,8 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentDidMount() {
-    this.getGreeting();
-    this.setDate()
+    this.setGreeting();
+    this.setDate();
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
@@ -86,7 +86,7 @@ class TipOverviewScreen extends React.Component {
     this.props.navigation.navigate("Profile");
   };
 
-  getGreeting = () => {
+  setGreeting = () => {
     let curr_greeting = "";
     let hour = new Date().getUTCHours();
 
