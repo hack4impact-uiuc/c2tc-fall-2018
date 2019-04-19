@@ -33,15 +33,21 @@ class TipDetailsScreen extends React.Component {
     });
   }
 
-  approvePress = () => {
-    let tip = this.props.navigation.params.tip;
-    let tipsResponse = await API.getVerifiedTips();
-
+  approvePress = async () => {
     let data = {
-    	id: tip._id,
-    	status: "verified"
+      id: this.props.navigation.state.params.tip._id,
+      status: "verified"
     }
-    let response = await API.updateUser(this.state.user_id, data);
+    let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
+    this.props.navigation.navigate("TipOverviewScreen");
+  }
+
+  discardPress = async () => {
+    let data = {
+      id: this.props.navigation.state.params.tip._id,
+      status: "denied"
+    }
+    let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
   }
 
   render() {
@@ -89,7 +95,7 @@ class TipDetailsScreen extends React.Component {
         {screenStyle === "verification" && (
           <View style={styles.action}>
             <View style={styles.leftActionsVerif}>
-              <TouchableOpacity style={styles.discardButton} onPress={this.approvePress}>
+              <TouchableOpacity style={styles.discardButton} onPress={this.discardPress}>
                 <Text style={styles.verifButtonText}>Discard</Text>
               </TouchableOpacity>
             </View>
