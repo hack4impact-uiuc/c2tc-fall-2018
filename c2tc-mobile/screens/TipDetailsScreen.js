@@ -33,6 +33,17 @@ class TipDetailsScreen extends React.Component {
     });
   }
 
+  approvePress = () => {
+    let tip = this.props.navigation.params.tip;
+    let tipsResponse = await API.getVerifiedTips();
+
+    let data = {
+    	id: tip._id,
+    	status: "verified"
+    }
+    let response = await API.updateUser(this.state.user_id, data);
+  }
+
   render() {
     let tip = this.props.navigation.state.params.tip;
     const screenStyle = this.props.navigation.state.params.screenType;
@@ -78,12 +89,12 @@ class TipDetailsScreen extends React.Component {
         {screenStyle === "verification" && (
           <View style={styles.action}>
             <View style={styles.leftActionsVerif}>
-              <TouchableOpacity style={styles.discardButton}>
+              <TouchableOpacity style={styles.discardButton} onPress={this.approvePress}>
                 <Text style={styles.verifButtonText}>Discard</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.rightActionsVerif}>
-              <TouchableOpacity style={styles.approveButton}>
+              <TouchableOpacity style={styles.approveButton} onPress={this.approvePress}>
                 <Text style={styles.verifButtonText}>Approve</Text>
               </TouchableOpacity>
             </View>
