@@ -29,7 +29,7 @@ class TipOverviewScreen extends React.Component {
       date: "date posted",
       location: "location",
       user: "Philip",
-      currentdate: "Thursday Feb 28",
+      currentdate: "",
       screenType: "view",
       tips: [], 
       greeting: ""
@@ -37,7 +37,8 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentDidMount() {
-    this.get_greeting();
+    this.getGreeting();
+    this.setDate()
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
@@ -85,7 +86,7 @@ class TipOverviewScreen extends React.Component {
     this.props.navigation.navigate("Profile");
   };
 
-  get_greeting = () => {
+  getGreeting = () => {
     let curr_greeting = "";
     let d = new Date();
     let hour = d.getUTCHours();
@@ -102,6 +103,31 @@ class TipOverviewScreen extends React.Component {
     }
     this.setState({
       greeting: curr_greeting
+    })
+  }
+
+  setDate = () => {
+    date = new Date()
+    let monthNames = [
+      "Jan", "Feb", "Mar",
+      "Apr", "May", "June", "Jul",
+      "Aug", "Sep", "Oct",
+      "Nov", "Dec"
+    ];
+
+    let dayNames = [
+      "Monday", "Tuesday", "Wednesday",
+      "Thrusday", "Friday", "Saturday",
+      "Sunday"
+    ]
+  
+    var day = date.getDay();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+  
+    let date_str = dayNames[day - 1] + ' ' + monthNames[monthIndex] + ' ' + year.toString().slice(2);
+    this.setState({
+      currentdate: date_str
     })
   }
 
