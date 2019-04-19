@@ -128,7 +128,7 @@ class TipOverviewScreen extends React.Component {
                   }
                 ]}
               >
-                {this.state.greeting + "\n" + this.state.user}
+                {this.state.greeting + ",\n" + this.state.user}
               </Text>
               <TouchableOpacity onPress={this.profilePicPressed}>
                 <Image
