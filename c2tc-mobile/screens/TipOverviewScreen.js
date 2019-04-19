@@ -88,8 +88,8 @@ class TipOverviewScreen extends React.Component {
 
   getGreeting = () => {
     let curr_greeting = "";
-    let d = new Date();
-    let hour = d.getUTCHours();
+    let hour = new Date().getUTCHours();
+
     if (hour <= 4) {
       curr_greeting = "Good Night";
     } else if (hour > 4 && hour <= 12) {
@@ -101,6 +101,7 @@ class TipOverviewScreen extends React.Component {
     } else {
       curr_greeting = "Good Night";
     }
+
     this.setState({
       greeting: curr_greeting
     })
@@ -108,24 +109,24 @@ class TipOverviewScreen extends React.Component {
 
   setDate = () => {
     date = new Date()
-    let monthNames = [
+    const monthNames = [
       "Jan", "Feb", "Mar",
       "Apr", "May", "June", "Jul",
       "Aug", "Sep", "Oct",
       "Nov", "Dec"
     ];
 
-    let dayNames = [
+    const dayNames = [
       "Monday", "Tuesday", "Wednesday",
       "Thrusday", "Friday", "Saturday",
       "Sunday"
     ]
   
-    var day = date.getDay();
-    var monthIndex = date.getMonth();
-    var year = date.getFullYear();
+    const day = date.getDay();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
   
-    let date_str = dayNames[day - 1] + ' ' + monthNames[monthIndex] + ' ' + year.toString().slice(2);
+    const date_str = dayNames[day - 1] + ' ' + monthNames[monthIndex] + ' ' + year.toString().slice(2);
     this.setState({
       currentdate: date_str
     })
