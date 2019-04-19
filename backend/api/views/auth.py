@@ -1,5 +1,7 @@
+import pdb
+import functools as funct
 import requests
-from flask import Blueprint
+from flask import Blueprint, request
 from api.core import create_response, serialize_list, logger
 
 auth = Blueprint("auth", __name__)
@@ -8,18 +10,28 @@ auth_server_host = "http://localhost:8000/"
 
 @auth.route("/register", methods=["POST"])
 def register():
-    """
-    GET function for retrieving Police Station objects
-    """
-    print("BEGINNING OF /REGISTER")
-    data = request.get_json()
-    new_user_data = {}
-    new_user_data["email"] = data.get(email, "")
-    new_user_data["password"] = data.get(password, "")
-    new_user_data["role"] = data.get(role, "")
-    print("data: ", data)
+    return auth_helper("register", "email", "password", "role")
 
-    print("BFORE POST TO THE AUTH SERVER")
-    res = requests.post(auth_server_host + "/register/", json=new_user_data)
-    print("AFTER POST TO THE AUTH SERVER")
-    return create_response(message=res.text)
+@auth.route("/login", methods=["POST"])
+def login():
+    return auth_helper("login", "email", "password")
+
+def auth_helper(endpoint, *properties):
+    properties = list(properties)
+    user_input = request.get_json()
+
+    auth_req_data = {}
+    for prop in properties:
+        if prop not in user_input:
+            return create_response(message="Missing required info!", status=422, data={"status": "fail"})
+        auth_req_data[prop] = user_input[prop]
+
+    auth_server_response = requests.post(auth_server_host + endpoint, json=auth_req_data)
+    response_body = auth_server_response.json()
+
+    if "token" not in response_body:
+        return create_response(message=response_body["message"], status=auth_server_response.status_code)
+    else:
+        jwt_token = response_body["token"]
+        our_response_body = { "token": jwt_token }
+        return create_response(message=response_body["message"], status=auth_server_response.status_code, data=our_response_body)
