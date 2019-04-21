@@ -90,7 +90,7 @@ class TipOverviewScreen extends React.Component {
         </View>
         <View style={styles.content}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm")}
+            onPress={() => this.props.navigation.navigate("TipCategories")}
           >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>

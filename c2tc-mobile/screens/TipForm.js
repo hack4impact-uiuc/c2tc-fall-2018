@@ -118,7 +118,7 @@ class TipForm extends React.Component {
       >
         <View style={styles.backHeader}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={() => this.props.navigation.navigate("TipCategory")}
             style={styles.backButton}
           >
             <Text style={styles.backText}>
