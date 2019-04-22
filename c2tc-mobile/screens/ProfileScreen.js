@@ -3,6 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import TipOverview from "../components/TipOverview";
+import { NavigationEvents } from "react-navigation";
 import {
   Animated,
   View,
@@ -30,12 +31,12 @@ export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditingName: false,
-      displayName: "Test user",
+      user_id: "",
+      displayName: "",
       visibleToOthers: true,
-      karmaScore: 42,
+      karmaScore: 0,
       verified: false,
-      email: "user@illinois.edu",
+      email: "",
       tips: []
     };
   }
@@ -45,35 +46,31 @@ export default class ProfileScreen extends React.Component {
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
-    let tips = await API.getTipsFromUser(user_id)
+    let tips = await API.getTipsFromUser(user_id);
+    let email = user.net_id + "@illinois.edu";
 
     this.setState({
+      user_id,
       displayName: user.username,
       karmaScore: user.karma,
       verified: user.verified,
       tips,
-      visibleToOthers: !user.anon
+      visibleToOthers: !user.anon,
+      email
     });
   }
 
-  handleEditPress = e => {
+  onComponentFocused = async () => {
+    let user_id = await AsyncStorage.getItem("user_id");
+    let user = await API.getUser(user_id);
+    let tips = await API.getTipsFromUser(user_id);
+    let email = user.net_id + "@illinois.edu";
+    
     this.setState({
-      isEditingName: true
+      displayName: user.username,
+      email,
+      tips
     });
-  };
-
-  handleSwitchVisiblity = e => {
-    // this.setState({
-    //
-    // })
-    console.log("SWITCHING VISIBILIY...");
-  };
-
-  handleSavePress = e => {
-    this.setState({
-      isEditingName: false
-    });
-    //database update
   };
 
   handleBackPress = e => {
@@ -85,6 +82,7 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View>
             <Appbar.Header>
             <Appbar.BackAction onPress={this.handleBackPress} />

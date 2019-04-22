@@ -2,6 +2,8 @@ import React from "react";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import { FontAwesome } from "@expo/vector-icons";
+import { NavigationEvents } from "react-navigation";
+
 
 import {
   Animated,
@@ -28,6 +30,9 @@ import {
 export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: ""
+    }
   }
 
   async componentDidMount() {
@@ -37,23 +42,35 @@ export default class SettingsScreen extends React.Component {
     let user = await API.getUser(user_id);
 
     this.setState({
+      username: user.username
     });
   }
 
+  onComponentFocused = async () => {
+    let user_id = await AsyncStorage.getItem("user_id");
+    let user = await API.getUser(user_id);
+    let username = user.username;
+    
+    this.setState({
+      username
+    });
+  };
+
   handleBackPress = e => {
-    this.props.navigation.navigate("Profile");
+    this.props.navigation.goBack();
   };
 
   render() {
     return (
     <View>
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View>
             <Appbar.Header>
             <Appbar.BackAction onPress={this.handleBackPress} />
             <Appbar.Content title="Settings"/>
             </Appbar.Header>
         </View>
-        <TouchableOpacity onPress={() => console.log("Edit Profile")}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("EditProfile")}>
           <View style={styles.profile}>
               <Image
               style={{ width: 50, height: 50, borderRadius: 50 / 2}}
@@ -63,7 +80,7 @@ export default class SettingsScreen extends React.Component {
               }}
               />
               <View>
-                  <Text style={styles.name}>Phillip Kuo</Text>
+                  <Text style={styles.name}>{this.state.username}</Text>
                   <Text style={styles.editProfile}>Edit Your Profile</Text>
               </View>
                 <FontAwesome name="chevron-right" size={15} style={styles.profileArrow}/>
@@ -77,7 +94,7 @@ export default class SettingsScreen extends React.Component {
           </View>
         </TouchableOpacity>
         <View style={styles.divider}></View>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Welcome")}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Welcome", {backPage: "Settings"})}>
         <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
             <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
