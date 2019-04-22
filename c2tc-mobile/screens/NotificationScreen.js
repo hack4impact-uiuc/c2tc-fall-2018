@@ -2,7 +2,7 @@ import React from "react";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import ToggleSwitch from 'toggle-switch-react-native'
-
+import { NavigationEvents } from "react-navigation";
 import {
   Animated,
   View,
@@ -35,22 +35,22 @@ export default class SettingsScreen extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  onComponentFocused = async() => {
     this._mounted = true;
     let locationTips = await AsyncStorage.getItem("location_tips");
-    if (locationTips) {
+    if (locationTips === "true") {
       this.setState({
         locationTips: true
       });
     }
     let illiniAlerts = await AsyncStorage.getItem("illini_alerts");
-    if (illiniAlerts) {
+    if (illiniAlerts === "true") {
       this.setState({
         illiniAlerts: true
       });
     }
     let productUpdates = await AsyncStorage.getItem("product_updates");
-    if (productUpdates) {
+    if (productUpdates === "true") {
       this.setState({
         productUpdates: true
       });
@@ -62,29 +62,32 @@ export default class SettingsScreen extends React.Component {
   };
 
   setAndStoreState = async (stateVar) => {
-    console.log(stateVar);
     if (stateVar === "locationTips") {
-      this.setState({locationTips: !this.state.locationTips});
-      if (this.state.locationTips) {
+      if (!this.state.locationTips) {
         await AsyncStorage.setItem("location_tips", "true");
+        this.setState({locationTips: !this.state.locationTips});
       } else {
-        await AsyncStorage.removeItem("location_tips");
+        await AsyncStorage.setItem("location_tips", "false");
+        this.setState({locationTips: !this.state.locationTips});
       }
+
     }
-    if (stateVar === "illiniAlerts") {
-      this.setState({illiniAlerts: !this.state.illiniAlerts});
-      if (this.state.illiniAlerts) {
+    if (stateVar === "illiniAlerts") { 
+      if (!this.state.illiniAlerts) {
         await AsyncStorage.setItem("illini_alerts", "true");
+        this.setState({illiniAlerts: !this.state.illiniAlerts});
       } else {
-        await AsyncStorage.removeItem("illini_alerts");
+        await AsyncStorage.setItem("illini_alerts", "false");
+        this.setState({illiniAlerts: !this.state.illiniAlerts});
       }
     } 
     if (stateVar === "productUpdates") {
-      this.setState({productUpdates: !this.state.productUpdates});
-      if (this.state.productUpdates) {
+      if (!this.state.productUpdates) {
         await AsyncStorage.setItem("product_updates", "true");
+        this.setState({productUpdates: !this.state.productUpdates});
       } else {
-        await AsyncStorage.removeItem("product_updates");
+        await AsyncStorage.setItem("product_updates", "false");
+        this.setState({productUpdates: !this.state.productUpdates});
       }
     }
   }
@@ -92,6 +95,7 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View>
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View>
           <Appbar.Header>
           <Appbar.BackAction onPress={this.handleBackPress} />
