@@ -19,7 +19,6 @@ const LOCATION_TASK_NAME = 'background-location-task';
 
 export default class App extends Component {
   beginListeningToLocation = async () => {
-    console.log("Setting up startLocationUpdatesAsync");
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
       accuracy: Location.Accuracy.Balanced,
     });
@@ -35,20 +34,16 @@ export default class App extends Component {
     } else {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
-    console.log("running cod");
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    console.log("running cod2");
     if (status !== 'granted') {
       this.setState({
         errorMessage: 'Permission to access location was denied',
       });
-      console.log("oh noes, no location permission!");
     } else {
       Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
         accuracy: Location.Accuracy.Balanced,
       });
     }
-    console.log("calling async function beginListeningToLocation");
     await this.beginListeningToLocation();
   }
 
@@ -114,8 +109,6 @@ Navigator = createStackNavigator({
 });
 
 function shouldNotify(eventsNearby){
-  console.log("eventsNearby are");
-  console.log(eventsNearby);
   return eventsNearby.length > 0;
 }
 
@@ -148,14 +141,8 @@ handleNewLocation = async ( { data, error }) => {
   }
   if (data) {
     const { locations } = data;
-    // console.log("NEW BACKGROUND LOCATION CAME IN!!!");
-    // console.log(locations);
-    // const lat = locations[0].coords.latitude;
-    // console.log(`lat: ${lat}`)
-    // const long = locations[0].coords.longitude;
-    // console.log(`long: ${long}`)
-    const lat = 40.112460;
-    const long = -88.227665;
+    const lat = locations[0].coords.latitude;
+    const long = locations[0].coords.longitude;
     eventsNearby = await API.getTipsNearby(lat, long);
 
     if (shouldNotify(eventsNearby)){
