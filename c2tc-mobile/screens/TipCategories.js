@@ -7,8 +7,20 @@ import {
   Dimensions
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 class TipCategories extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedCategory: "" 
+        }
+      }
+    
+    onCategorySelected(selectedCategory){
+        this.setState({selectedCategory})
+    }
+    
   render() {
     return (
         <View style={styles.categories}>
@@ -21,26 +33,30 @@ class TipCategories extends React.Component {
                         <FontAwesome name="chevron-left" size={20} color="white" /> Back
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("TipForm")}
-                    style={styles.nextButton}
-                >
-                    <Text style={styles.nextText}>
-                        Next
-                    </Text>
-                </TouchableOpacity>
+                {this.state.selectedCategory != "" &&
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('TipForm', {
+                            category: this.state.selectedCategory
+                        })}
+                        style={styles.nextButton}
+                    >
+                        <Text style={styles.nextText}>
+                            Next
+                        </Text>
+                    </TouchableOpacity>
+                }
             </View>
             <View style={styles.row}>
-                <TouchableOpacity style={[styles.category, {marginRight: 10, backgroundColor: "#89054E"}]}>
+                <TouchableOpacity onPress={() => this.onCategorySelected("crime")} style={[this.state.selectedCategory !== "crime" ? styles.category : styles.categorySelected, {marginRight: 10, backgroundColor: Colors.crime}]}>
                     <View style={styles.categoryView}>
                         <Text style={styles.categoryText}>
-                            <FontAwesome name="shield" size={40} color="white" />
+                            <FontAwesome name="shield" size={40} color="white"/>
                             {"\n"}
                             Crimes
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.category,{backgroundColor: "#306918"}]}>
+                <TouchableOpacity onPress={() => this.onCategorySelected("health")} style={[this.state.selectedCategory !== "health" ? styles.category : styles.categorySelected, {backgroundColor: Colors.health}]}>
                     <View style={styles.categoryView}>
                         <Text style={styles.categoryText}>
                             <FontAwesome name="child" size={40} color="white" />
@@ -51,7 +67,7 @@ class TipCategories extends React.Component {
                 </TouchableOpacity>
             </View>
             <View style={styles.row}>
-                <TouchableOpacity style={[styles.category, {marginRight: 10, backgroundColor: "#E75000"}]}>
+                <TouchableOpacity onPress={() => this.onCategorySelected("transportation")} style={[this.state.selectedCategory !== "transportation" ? styles.category : styles.categorySelected, {marginRight: 10, backgroundColor: Colors.transportation}]}>
                     <View style={styles.categoryView}>
                         <Text style={styles.categoryText}>
                             <FontAwesome name="bus" size={40} color="white" />
@@ -60,9 +76,8 @@ class TipCategories extends React.Component {
                         </Text>
                 </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.category, {backgroundColor: "#0B66C1"}]}>
+                <TouchableOpacity onPress={() => this.onCategorySelected("financial")} style={[this.state.selectedCategory !== "financial" ? styles.category : styles.categorySelected, {backgroundColor: Colors.financial}]}>
                     <View style={styles.categoryView}>
-                        
                         <Text style={styles.categoryText}>
                             <FontAwesome style={styles.categoryIcon} name="credit-card" size={40} color="white" />
                             {"\n"}
@@ -110,7 +125,15 @@ const styles = StyleSheet.create({
         width: (Dimensions.get("window").width - 30)/2,
         height: (Dimensions.get("window").width - 100)/2,
         borderRadius: 10,
-        // marginRight: 10,
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    categorySelected:{
+        width: (Dimensions.get("window").width - 30)/2,
+        height: (Dimensions.get("window").width - 100)/2,
+        borderWidth: 2,
+        borderColor: "black",
+        borderRadius: 10,
         flexDirection: "row",
         justifyContent: "center",
     },
