@@ -20,7 +20,7 @@ class TipForm extends React.Component {
   state = {
     title: "",
     body: "",
-    category: "",
+    category: this.props.navigation.getParam('category', 'other'),
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
     location: null,
@@ -107,6 +107,27 @@ class TipForm extends React.Component {
     return hasError ? shouldShow : false;
   };
 
+  validate() {
+    const errors = [];
+
+    if (this.state.title.length === 0) {
+      errors.push("Name cannot be empty");
+    }
+
+    if (this.state.body.length === 0) {
+      errors.push("Body cannot be empty");
+    }
+
+    if (this.state.address.length === 0) {
+      errors.push("Address cannot be empty");
+    }
+
+    if (this.state.category.length === 0) {
+      errors.push("Please select a category");
+    }
+    return errors;
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -118,7 +139,7 @@ class TipForm extends React.Component {
       >
         <View style={styles.backHeader}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={() => this.props.navigation.navigate("TipCategory")}
             style={styles.backButton}
           >
             <Text style={styles.backText}>
@@ -153,36 +174,25 @@ class TipForm extends React.Component {
             label="Tip Content"
             placeholder="Content of your tip"
             value={this.state.body}
+            blurOnSubmit={false}
+            multiline={true}
+            numberOfLines={5}
+            maxHeight={150}
             onChangeText={body => this.setState({ body })}
           />
           <Text style={styles.header}>Tip Location</Text>
           <TextInput
             mode="outlined"
-            style={styles.inputContainerStyle}
+            style={styles.inputBodyContainerStyle}
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
             multiline={true}
-            numberOfLines={3}
+            numberOfLines={5}
+            maxHeight={150}
             onChangeText={address => this.setState({ address })}
           />
-          <Text style={styles.header}>Category</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={this.state.category}
-              style={styles.picker}
-              onValueChange={this.setCategory}
-            >
-              <Picker.Item color={Color.campus} label="Campus" value="campus" />
-              <Picker.Item color={Color.safety} label="Safety" value="safety" />
-              <Picker.Item color={Color.food} label="Food" value="food" />
-              <Picker.Item
-                color={Color.traffic}
-                label="Traffic"
-                value="traffic"
-              />
-            </Picker>
-          </View>
+          
           <TouchableOpacity
             style={styles.submit_tip}
             onPress={this.handSubmitTip}
@@ -232,7 +242,6 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   inputBodyContainerStyle: {
-    paddingBottom: 100,
     marginHorizontal: 20,
     marginTop: 0
   },
