@@ -1,3 +1,4 @@
+import pdb
 import configparser
 import requests
 from typing import Tuple, List
@@ -100,37 +101,40 @@ def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
         token = request.headers.get("jwt")
-        auth_server_res = requests.post(auth_server_host + "/verify", headers={"Content-Type": "application/json", "token": token})
-        if auth_server_host.status_code != 200:
+        auth_server_res = requests.post(auth_server_host + "verify/", headers={"Content-Type": "application/json", "token": token})
+        pdb.set_trace()
+        if auth_server_res.status_code != 200:
             return create_response(
-                message=auth_server_host.json()["message"], status=401, data={"status": "fail"}
+                message=auth_server_res.json()["message"], status=401, data={"status": "fail"}
             )
         return route(*args, **kwargs)
 
     return wrapper_wroute
 
-# def necessary_post_params(route, *important_properties):
-#     important_properties = list(important_properties)
-#
-#     @functools.wraps(route)
-#     def wrapper_wroute(*args, **kwargs):
-#         user_data = request.get_json()
-#         if invalid_model_helper(user_data, important_properties):
-#             return create_response(
-#                 message="Missing required quiz result information",
-#                 status=422,
-#                 data={"status": "fail"},
-#             )
-#         return route(*args, **kwargs)
-#
-#     return wrapper_wroute
-
+def necessary_post_params(*important_properties):
+    def real_decorator(route):
+        @functools.wraps(route)
+        def wrapper_wroute(*args, **kwargs):
+            user_data = request.get_json()
+            missing_fields = invalid_model_helper(user_data, important_properties)
+            if missing_fields is not None:
+                return create_response(
+                    message="Missing the following necesary field(s): " + ','.join(missing_fields),
+                    status=422,
+                    data={"status": "fail"},
+                )
+            return route(*args, **kwargs)
+        return wrapper_wroute
+    return real_decorator
 
 def invalid_model_helper(user_data, props):
+    missing_fields = []
     for prop in props:
         if prop not in user_data:
-            return True
-    return False
+            missing_fields.append(prop)
+    if len(missing_fields) == 0:
+        return None
+    return missing_fields
 
 def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
     config = configparser.ConfigParser()

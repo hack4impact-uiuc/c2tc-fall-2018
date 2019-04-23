@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 from api.models.Tips import Tips
 from api.models.User import User
-from api.core import create_response, serialize_list, logger
+from api.core import create_response, serialize_list, logger, authenticated_route
 from datetime import datetime
+import functools
 from bson.objectid import ObjectId
 import json
 from geopy import distance
@@ -148,6 +149,7 @@ def get_denied_tips():
 
 
 @tips.route("/tips", methods=["POST"])
+@authenticated_route
 def create_tip():
     """
     POST function for creating a new Tips object
