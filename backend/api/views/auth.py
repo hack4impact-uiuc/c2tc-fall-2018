@@ -12,7 +12,7 @@ auth_server_host = "http://localhost:8000/"
 
 
 @auth.route("/register", methods=["POST"])
-@necessary_post_params("email", "password", "net_id", "anon", "username")
+@necessary_post_params("email", "password", "net_id", "anon", "username", "role")
 def register():
     our_response, _ = post_to_auth_server("register", "email", "password", "role")
     if our_response.status_code != 200:
@@ -36,28 +36,13 @@ def register():
 @auth.route("/login", methods=["POST"])
 @necessary_post_params("email", "password")
 def login():
-    client_data = request.get_json()
-    if invalid_login_data(client_data):
-        return create_response(
-            message="Missing required information to login!",
-            status=422,
-            data={"status": "fail"},
-        )
     return post_to_auth_server("login", "email", "password")
 
 
-@necessary_post_params("role")
-def post_to_auth_server(endpoint, *properties):
-    properties = list(properties)
+def post_to_auth_server(endpoint, *properties_to_post):
     user_input = request.get_json()
 
-    auth_post_data = {}
-    for prop in properties:
-        if prop not in user_input:
-            return create_response(
-                message="Missing required info!", status=422, data={"status": "fail"}
-            )
-        auth_post_data[prop] = user_input[prop]
+    auth_post_data = { key: user_input[key] for key in properties_to_post }
 
     auth_server_response = requests.post(
         auth_server_host + endpoint, json=auth_post_data
