@@ -23,7 +23,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   handleBackPress = e => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("Profile");
   };
 
   render() {
@@ -57,6 +57,7 @@ export default class SettingsScreen extends React.Component {
               user: this.state.user
             })
           }
+
         >
           <View style={styles.profile}>
             <Image

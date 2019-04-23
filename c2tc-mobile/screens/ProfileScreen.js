@@ -34,6 +34,7 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
+
   async componentWillMount() {
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
@@ -66,13 +67,20 @@ export default class ProfileScreen extends React.Component {
     if (this.state.hasLoaded) {
       let user = this.props.navigation.getParam("user", null);
       if (user) {
-        let tips = await API.getTipsFromUser(user._id);
-
         this.setState({
           user_id: user._id,
           user,
           displayName: user.username,
-          tips
+        });
+        let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+        this.setState({
+          verifiedTips
+        });
+        let pendingTips = await API.getPendingTipsByUser(user_id);
+        let deniedTips = await API.getDeniedTipsByUser(user_id);
+        this.setState({
+          pendingTips,
+          deniedTips,
         });
       }
     }
@@ -87,7 +95,7 @@ export default class ProfileScreen extends React.Component {
   }
 
   handleBackPress = e => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("TipOverview");
   };
 
   render() {
@@ -130,7 +138,6 @@ export default class ProfileScreen extends React.Component {
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
               }}
             />
-
             <Text style={styles.header}>{this.state.displayName} </Text>
             <Text style={styles.subheader}>
               {this.state.karmaScore} Points{" "}
