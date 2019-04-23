@@ -1,18 +1,22 @@
 import configparser
+import requests
 from typing import Tuple, List
 from pathlib import Path
 
 from werkzeug.local import LocalProxy
-from flask import current_app, jsonify
+from flask import current_app, jsonify, request
 from flask.wrappers import Response
 
 from bson import ObjectId
 from datetime import datetime
 import json
 
+import functools
+
 # logger object for all views to use
 logger = LocalProxy(lambda: current_app.logger)
 
+auth_server_host = "http://localhost:8000/"
 
 class Mixin:
     """Utility Base Class for SQLAlchemy Models.
@@ -92,6 +96,41 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
     """
     return create_response(message=str(error), status=500)
 
+def authenticated_route(route):
+    @functools.wraps(route)
+    def wrapper_wroute(*args, **kwargs):
+        token = request.headers.get("jwt")
+        auth_server_res = requests.post(auth_server_host + "/verify", headers={"Content-Type": "application/json", "token": token})
+        if auth_server_host.status_code != 200:
+            return create_response(
+                message=auth_server_host.json()["message"], status=401, data={"status": "fail"}
+            )
+        return route(*args, **kwargs)
+
+    return wrapper_wroute
+
+# def necessary_post_params(route, *important_properties):
+#     important_properties = list(important_properties)
+#
+#     @functools.wraps(route)
+#     def wrapper_wroute(*args, **kwargs):
+#         user_data = request.get_json()
+#         if invalid_model_helper(user_data, important_properties):
+#             return create_response(
+#                 message="Missing required quiz result information",
+#                 status=422,
+#                 data={"status": "fail"},
+#             )
+#         return route(*args, **kwargs)
+#
+#     return wrapper_wroute
+
+
+def invalid_model_helper(user_data, props):
+    for prop in props:
+        if prop not in user_data:
+            return True
+    return False
 
 def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
     config = configparser.ConfigParser()
