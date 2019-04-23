@@ -5,7 +5,7 @@ import {
   Dimensions,
   View,
   Text,
-  ScrollView,
+  ScrollView
 } from "react-native";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
@@ -13,12 +13,11 @@ import { Location } from "expo";
 import Color from "../constants/Colors";
 import { addressToLatLong } from "../components/Geocoding";
 
-
 class TipForm extends React.Component {
   state = {
     title: "",
     body: "",
-    category: this.props.navigation.getParam('category', ''),
+    category: this.props.navigation.getParam("category", ""),
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
     location: null,
@@ -136,10 +135,31 @@ class TipForm extends React.Component {
         keyboardVerticalOffset={0}
       >
         <View style={styles.headerView}>
-          <Appbar.Header >
-            <Appbar.BackAction style={styles.backButton} onPress={() => this.props.navigation.navigate("TipCategories", {category: this.state.category})} style={styles.backButton} />
-            <Appbar.Content titleStyle = {styles.backHeader} title="Categories" onPress={() => this.props.navigation.navigate("TipCategories", {category: this.state.category})} style={styles.backButton}/>
-            <Appbar.Content title = "Submit" titleStyle = {styles.nextHeader} onPress={this.handSubmitTip}/>
+          <Appbar.Header>
+            <Appbar.BackAction
+              style={styles.backButton}
+              onPress={() =>
+                this.props.navigation.navigate("TipCategories", {
+                  category: this.state.category
+                })
+              }
+              style={styles.backButton}
+            />
+            <Appbar.Content
+              titleStyle={styles.backHeader}
+              title="Categories"
+              onPress={() =>
+                this.props.navigation.navigate("TipCategories", {
+                  category: this.state.category
+                })
+              }
+              style={styles.backButton}
+            />
+            <Appbar.Content
+              title="Submit"
+              titleStyle={styles.nextHeader}
+              onPress={this.handSubmitTip}
+            />
           </Appbar.Header>
         </View>
         <ScrollView
@@ -254,20 +274,19 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     borderColor: "red"
   },
-  headerView:{
-    marginBottom:20
+  headerView: {
+    marginBottom: 20
   },
-  backButton:{
-      marginRight:0,
-      paddingRight:0,
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
   },
   backHeader: {
-      marginLeft: -10
+    marginLeft: -10
   },
   nextHeader: {
-      alignSelf: "flex-end"
-  },
-  
+    alignSelf: "flex-end"
+  }
 });
 
 export default withTheme(TipForm);

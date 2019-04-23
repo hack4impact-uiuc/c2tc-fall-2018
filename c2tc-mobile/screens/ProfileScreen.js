@@ -3,7 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import TipOverview from "../components/TipOverview";
-import ToggleSwitch from 'toggle-switch-react-native'
+import ToggleSwitch from "toggle-switch-react-native";
 import { NavigationEvents } from "react-navigation";
 import {
   View,
@@ -14,11 +14,7 @@ import {
   ScrollView
 } from "react-native";
 
-import {
-  Appbar,
-  Divider,
-} from "react-native-paper";
-
+import { Appbar, Divider } from "react-native-paper";
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -34,14 +30,14 @@ export default class ProfileScreen extends React.Component {
       verifiedTips: [],
       pendingTips: [],
       deniedTips: [],
-      hasLoaded : false
+      hasLoaded: false
     };
   }
 
   async componentWillMount() {
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
-    if (user_id){
+    if (user_id) {
       let user = await API.getUser(user_id);
       this.setState({
         user_id,
@@ -50,7 +46,7 @@ export default class ProfileScreen extends React.Component {
         karmaScore: user.karma,
         verified: user.verified,
         anonymousToOthers: user.anon,
-        netId: user.net_id,
+        netId: user.net_id
       });
       let verifiedTips = await API.getVerifiedTipsByUser(user_id);
       this.setState({
@@ -67,11 +63,11 @@ export default class ProfileScreen extends React.Component {
   }
 
   onComponentFocused = async () => {
-    if (this.state.hasLoaded){
-      let user = this.props.navigation.getParam('user', null)
-      if (user){
+    if (this.state.hasLoaded) {
+      let user = this.props.navigation.getParam("user", null);
+      if (user) {
         let tips = await API.getTipsFromUser(user._id);
-        
+
         this.setState({
           user_id: user._id,
           user,
@@ -82,12 +78,12 @@ export default class ProfileScreen extends React.Component {
     }
   };
 
-  async onChangeVisibility(anonymousToOthers){
-    this.setState({anonymousToOthers})
+  async onChangeVisibility(anonymousToOthers) {
+    this.setState({ anonymousToOthers });
     let data = {
       anon: anonymousToOthers
-    }
-    await API.updateUser(this.state.user_id, data)
+    };
+    await API.updateUser(this.state.user_id, data);
   }
 
   handleBackPress = e => {
@@ -100,48 +96,65 @@ export default class ProfileScreen extends React.Component {
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View>
-              <Appbar.Header>
-                <Appbar.BackAction style={styles.backButton} onPress={this.handleBackPress} />
-                <Appbar.Content titleStyle = {styles.backHeader} title="Tip Overview" onPress={this.handleBackPress}/>
-                <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings",  {
+            <Appbar.Header>
+              <Appbar.BackAction
+                style={styles.backButton}
+                onPress={this.handleBackPress}
+              />
+              <Appbar.Content
+                titleStyle={styles.backHeader}
+                title="Tip Overview"
+                onPress={this.handleBackPress}
+              />
+              <Appbar.Content
+                title="Settings"
+                titleStyle={styles.settingsHeader}
+                onPress={() =>
+                  this.props.navigation.navigate("Settings", {
                     user: this.state.user
-                })}/>
-              </Appbar.Header>
+                  })
+                }
+              />
+            </Appbar.Header>
           </View>
           <View style={styles.profile}>
             <Image
-              style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
+              style={{
+                width: 70,
+                height: 70,
+                marginVertical: 10,
+                borderRadius: 70 / 2
+              }}
               source={{
                 uri:
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
               }}
             />
-           
+
             <Text style={styles.header}>{this.state.displayName} </Text>
-            <Text style={styles.subheader}>{this.state.karmaScore} Points </Text>
+            <Text style={styles.subheader}>
+              {this.state.karmaScore} Points{" "}
+            </Text>
           </View>
-          {
-            this.state.verified && 
+          {this.state.verified && (
             <View>
               <Divider style={styles.divider} />
-              <Text style={styles.dividedText}>
-                Moderator (Verified)
-              </Text>
+              <Text style={styles.dividedText}>Moderator (Verified)</Text>
             </View>
-          }
+          )}
           <Divider style={styles.divider} />
           <View style={styles.anonView}>
-              <Text style={[styles.dividedText, styles.anonText]}>
-                Anonymous To Other Users
-              </Text>
-              <ToggleSwitch
-                  style = {styles.anonToggle}
-                  isOn={this.state.anonymousToOthers}
-                  onColor='green'
-                  offColor='gray'
-                  size='small'
-                  onToggle={(e) => this.onChangeVisibility(e)}
-                />
+            <Text style={[styles.dividedText, styles.anonText]}>
+              Anonymous To Other Users
+            </Text>
+            <ToggleSwitch
+              style={styles.anonToggle}
+              isOn={this.state.anonymousToOthers}
+              onColor="green"
+              offColor="gray"
+              size="small"
+              onToggle={e => this.onChangeVisibility(e)}
+            />
           </View>
           <Divider style={styles.divider} />
           <Text style={styles.dividedText}>
@@ -188,27 +201,27 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 18
   },
-  dividedText:{
-    paddingVertical:15,
+  dividedText: {
+    paddingVertical: 15,
     fontSize: 16,
-    alignSelf:"flex-start",
-    paddingLeft:35,
+    alignSelf: "flex-start",
+    paddingLeft: 35,
     fontWeight: "400"
   },
-  anonView:{
+  anonView: {
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width
   },
-  anonToggle:{
-    width:50,
+  anonToggle: {
+    width: 50
   },
-  anonText:{
+  anonText: {
     width: Dimensions.get("window").width - 100
   },
   header: {
     fontSize: 27,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   profile: {
     flexDirection: "column",
@@ -218,9 +231,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  backButton:{
-    marginRight:0,
-    paddingRight:0,
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
   },
   backHeader: {
     marginLeft: -10
@@ -236,7 +249,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
-    marginTop:15,
+    marginTop: 15,
     paddingHorizontal: 35
   }
 });
