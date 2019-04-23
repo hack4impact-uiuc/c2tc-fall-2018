@@ -29,15 +29,10 @@ export default class ProfileScreen extends React.Component {
       visibleToOthers: true,
       karmaScore: 0,
       verified: false,
-<<<<<<< HEAD
-      email: "",
-      tips: []
-=======
       email: "user@illinois.edu",
       verifiedTips: [],
       pendingTips: [],
       deniedTips: []
->>>>>>> master
     };
   }
 
