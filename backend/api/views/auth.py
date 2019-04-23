@@ -10,6 +10,7 @@ auth = Blueprint("auth", __name__)
 
 auth_server_host = "http://localhost:8000/"
 
+
 @auth.route("/register", methods=["POST"])
 @necessary_post_params("email", "password", "net_id", "anon", "username")
 def register():
@@ -30,7 +31,6 @@ def register():
     )
     user.save()
     return our_response
-
 
 
 @auth.route("/login", methods=["POST"])

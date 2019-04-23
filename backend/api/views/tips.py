@@ -1,7 +1,13 @@
 from flask import Blueprint, request, jsonify
 from api.models.Tips import Tips
 from api.models.User import User
-from api.core import create_response, serialize_list, logger, authenticated_route, necessary_post_params
+from api.core import (
+    create_response,
+    serialize_list,
+    logger,
+    authenticated_route,
+    necessary_post_params,
+)
 from datetime import datetime
 import functools
 from bson.objectid import ObjectId
@@ -126,7 +132,9 @@ def get_denied_tips():
 
 @tips.route("/tips", methods=["POST"])
 @authenticated_route
-@necessary_post_params("title", "content", "user_id", "latitude", "longitude", "category", "user_id")
+@necessary_post_params(
+    "title", "content", "user_id", "latitude", "longitude", "category", "user_id"
+)
 def create_tip():
     data = request.get_json()
     tips = Tips.objects.create(

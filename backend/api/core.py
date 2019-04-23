@@ -19,6 +19,7 @@ logger = LocalProxy(lambda: current_app.logger)
 
 auth_server_host = "http://localhost:8000/"
 
+
 class Mixin:
     """Utility Base Class for SQLAlchemy Models.
 
@@ -97,18 +98,25 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
     """
     return create_response(message=str(error), status=500)
 
+
 def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
         token = request.headers.get("jwt")
-        auth_server_res = requests.post(auth_server_host + "verify/", headers={"Content-Type": "application/json", "token": token})
+        auth_server_res = requests.post(
+            auth_server_host + "verify/",
+            headers={"Content-Type": "application/json", "token": token},
+        )
         if auth_server_res.status_code != 200:
             return create_response(
-                message=auth_server_res.json()["message"], status=401, data={"status": "fail"}
+                message=auth_server_res.json()["message"],
+                status=401,
+                data={"status": "fail"},
             )
         return route(*args, **kwargs)
 
     return wrapper_wroute
+
 
 def necessary_post_params(*important_properties):
     def real_decorator(route):
@@ -118,13 +126,17 @@ def necessary_post_params(*important_properties):
             missing_fields = invalid_model_helper(user_data, important_properties)
             if missing_fields is not None:
                 return create_response(
-                    message="Missing the following necesary field(s): " + ', '.join(missing_fields),
+                    message="Missing the following necesary field(s): "
+                    + ", ".join(missing_fields),
                     status=422,
                     data={"status": "fail"},
                 )
             return route(*args, **kwargs)
+
         return wrapper_wroute
+
     return real_decorator
+
 
 def invalid_model_helper(user_data, props):
     missing_fields = []
@@ -134,6 +146,7 @@ def invalid_model_helper(user_data, props):
     if len(missing_fields) == 0:
         return None
     return missing_fields
+
 
 def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
     config = configparser.ConfigParser()
