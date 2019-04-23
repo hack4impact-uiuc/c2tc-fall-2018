@@ -14,11 +14,7 @@ import {
   ScrollView
 } from "react-native";
 
-import {
-  Paragraph,
-  Appbar,
-  Divider,
-} from "react-native-paper";
+import { Paragraph, Appbar, Divider } from "react-native-paper";
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -64,7 +60,7 @@ export default class ProfileScreen extends React.Component {
     let user = await API.getUser(user_id);
     let tips = await API.getTipsFromUser(user_id);
     let email = user.net_id + "@illinois.edu";
-    
+
     this.setState({
       displayName: user.username,
       email,
@@ -82,22 +78,36 @@ export default class ProfileScreen extends React.Component {
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View>
-              <Appbar.Header>
+            <Appbar.Header>
               <Appbar.BackAction onPress={this.handleBackPress} />
-              <Appbar.Content title="Profile" titleStyle = {styles.profileHeader}/>
-              <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings")}/>
-              </Appbar.Header>
+              <Appbar.Content
+                title="Profile"
+                titleStyle={styles.profileHeader}
+              />
+              <Appbar.Content
+                title="Settings"
+                titleStyle={styles.settingsHeader}
+                onPress={() => this.props.navigation.navigate("Settings")}
+              />
+            </Appbar.Header>
           </View>
           <View style={styles.profile}>
             <Image
-              style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
+              style={{
+                width: 70,
+                height: 70,
+                marginVertical: 10,
+                borderRadius: 70 / 2
+              }}
               source={{
                 uri:
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
               }}
             />
             <Text style={styles.header}>{this.state.displayName} </Text>
-            <Text style={styles.subheader}>{this.state.karmaScore} Points </Text>
+            <Text style={styles.subheader}>
+              {this.state.karmaScore} Points{" "}
+            </Text>
           </View>
           <Divider style={styles.divider} />
           <View style={styles.profile}>
@@ -156,7 +166,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 27,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   profile: {
     flexDirection: "column",
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
-    marginTop:10,
+    marginTop: 10,
     paddingHorizontal: 35
   }
 });
