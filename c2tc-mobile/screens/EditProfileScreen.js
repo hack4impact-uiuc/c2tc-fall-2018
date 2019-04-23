@@ -1,69 +1,48 @@
 import React from "react";
-import { AsyncStorage } from "react-native";
 import API from "../components/API";
-import { FontAwesome } from "@expo/vector-icons";
 
 import {
-  Animated,
   View,
-  Dimensions,
   Text,
-  ImageBackground,
-  TouchableOpacity,
   StyleSheet,
-  TextInput,
-  Switch,
   Image,
-  ScrollView,
-  Alert
 } from "react-native";
 
 import {
-  Paragraph,
   Appbar,
-  List,
-  Divider,
-  withTheme,
-  type Theme
+  TextInput
 } from "react-native-paper";
 
 export default class EditProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        user_id: "",
-        edited: false,
-        username: "",
-        pw: ""
+      username: this.props.navigation.getParam('user', 'no user').username,
+      password: this.props.navigation.getParam('user', 'no user').password,
+      user: this.props.navigation.getParam('user', 'no user')
     }
   }
-  
-  async componentDidMount() {
-    this._mounted = true;
-    await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
-    let user_id = await AsyncStorage.getItem("user_id");
-    this.setState({
-      user_id
-    });
-  }
 
-  handleBackPress = e => {
-    this.props.navigation.navigate("Settings");
+
+  async onChangePassword(password){
+    this.setState({password})
+    let data = {
+      password
+    }
+    await API.updateUser(this.state.user._id, data)
+    let currentUser = this.state.user;
+    currentUser.password = password
+    this.setState({user:currentUser})
   };
-
-  handleSave = async () => {
-    if (this.state.edited) {
-      let data = {
-        username: this.state.username,
-        pw: this.state.pw,
-      }
-      let response = await API.updateUser(this.state.user_id, data);
-      Alert.alert("Successfully updated profile!");
-      this.setState({
-        username: this.state.username,
-        pw: this.state.pw
-      });
+  async onChangeUserName(username){
+    this.setState({username})
+    let data = {
+      username
     }
+    await API.updateUser(this.state.user._id, data)
+    let currentUser = this.state.user;
+    currentUser.username = username
+    this.setState({user:currentUser})
   };
 
   render() {
@@ -71,9 +50,8 @@ export default class EditProfileScreen extends React.Component {
         <View behavior="padding" enabled>
             <View>
                 <Appbar.Header>
-                <Appbar.BackAction onPress={this.handleBackPress} />
-                <Appbar.Content title = "Edit Profile"/>
-                <Appbar.Content title = "Save" onPress={this.handleSave}/>
+                <Appbar.BackAction style={styles.backButton} onPress={() => this.props.navigation.navigate("Settings", {user: this.state.user})} />
+                <Appbar.Content titleStyle={styles.backHeader} title = "Save Changes" onPress={() => this.props.navigation.navigate("Settings", {user: this.state.user})}/>
                 </Appbar.Header>
             </View>
             <Text style = {styles.sectionHeader}>Personal Information</Text>
@@ -91,22 +69,15 @@ export default class EditProfileScreen extends React.Component {
             </View>
             <View style = {styles.textInput}>
                 <TextInput
-                    placeholder = "Username"
-                    onChangeText={(text) => this.setState({
-                      username: text,
-                      edited: true
-                    })}
+                    onChangeText={(e) => this.onChangeUserName(e)}
                     value={this.state.username}
                 />
             </View>
             <View style = {styles.textInput}>
                 <TextInput
                     placeholder = "Password"
-                    onChangeText={(text) => this.setState({
-                      pw: text,
-                      edited: true
-                    })}
-                    value={this.state.pw}
+                    onChangeText={(e) => this.onChangePassword(e)}
+                    value={this.state.password}
                 />
             </View>
         </View>
@@ -114,6 +85,10 @@ export default class EditProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backButton:{
+    marginRight:0,
+    paddingRight:0,
+  },
   sectionHeader: {
       paddingTop: 20,
       paddingLeft: 20,
@@ -132,5 +107,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
       padding: 10
-  }
+  },
+  backHeader: {
+    marginLeft: -10
+  },
 });

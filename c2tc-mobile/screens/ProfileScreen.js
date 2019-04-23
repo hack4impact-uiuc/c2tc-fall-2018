@@ -3,22 +3,22 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import TipOverview from "../components/TipOverview";
+import ToggleSwitch from 'toggle-switch-react-native'
 import { NavigationEvents } from "react-navigation";
 import {
   View,
   Text,
   StyleSheet,
-  TextInput,
-  Switch,
+  Dimensions,
   Image,
   ScrollView
 } from "react-native";
 
 import {
-  Paragraph,
   Appbar,
   Divider,
 } from "react-native-paper";
+
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -26,65 +26,86 @@ export default class ProfileScreen extends React.Component {
     this.state = {
       user_id: "",
       displayName: "",
-      visibleToOthers: true,
+      anonymousToOthers: true,
       karmaScore: 0,
       verified: false,
-      email: "user@illinois.edu",
+      netId: "",
+      user: null,
       verifiedTips: [],
       pendingTips: [],
-      deniedTips: []
+      deniedTips: [],
+      hasLoaded : false
     };
   }
 
-  async componentDidMount() {
-    this._mounted = true;
+  async componentWillMount() {
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
-    let user = await API.getUser(user_id);
-    let verifiedTips = await API.getVerifiedTipsByUser(user_id);
-    let pendingTips = await API.getPendingTipsByUser(user_id);
-    let deniedTips = await API.getDeniedTipsByUser(user_id);
-
-    this.setState({
-      user_id,
-      displayName: user.username,
-      karmaScore: user.karma,
-      verified: user.verified,
-      verifiedTips,
-      pendingTips,
-      deniedTips,
-      visibleToOthers: !user.anon
-    });
+    if (user_id){
+      let user = await API.getUser(user_id);
+      this.setState({
+        user_id,
+        displayName: user.username,
+        user,
+        karmaScore: user.karma,
+        verified: user.verified,
+        anonymousToOthers: user.anon,
+        netId: user.net_id,
+      });
+      let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+      this.setState({
+        verifiedTips
+      });
+      let pendingTips = await API.getPendingTipsByUser(user_id);
+      let deniedTips = await API.getDeniedTipsByUser(user_id);
+      this.setState({
+        pendingTips,
+        deniedTips,
+        hasLoaded: true
+      });
+    }
   }
 
   onComponentFocused = async () => {
-    let user_id = await AsyncStorage.getItem("user_id");
-    let user = await API.getUser(user_id);
-    let tips = await API.getTipsFromUser(user_id);
-    let email = user.net_id + "@illinois.edu";
-    
-    this.setState({
-      displayName: user.username,
-      email,
-      tips
-    });
+    if (this.state.hasLoaded){
+      let user = this.props.navigation.getParam('user', null)
+      if (user){
+        let tips = await API.getTipsFromUser(user._id);
+        
+        this.setState({
+          user_id: user._id,
+          user,
+          displayName: user.username,
+          tips
+        });
+      }
+    }
   };
+
+  async onChangeVisibility(anonymousToOthers){
+    this.setState({anonymousToOthers})
+    let data = {
+      anon: anonymousToOthers
+    }
+    await API.updateUser(this.state.user_id, data)
+  }
 
   handleBackPress = e => {
     this.props.navigation.goBack();
   };
 
   render() {
-    const isEditingName = this.state.isEditingName;
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View>
               <Appbar.Header>
-              <Appbar.BackAction onPress={this.handleBackPress} />
-              <Appbar.Content title="Profile" titleStyle = {styles.profileHeader}/>
-              <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings")}/>
+                <Appbar.BackAction style={styles.backButton} onPress={this.handleBackPress} />
+                <Appbar.Content titleStyle = {styles.backHeader} title="Tip Overview" onPress={this.handleBackPress}/>
+                <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings",  {
+                    user: this.state.user
+                })}/>
               </Appbar.Header>
           </View>
           <View style={styles.profile}>
@@ -95,36 +116,37 @@ export default class ProfileScreen extends React.Component {
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
               }}
             />
-            {isEditingName ? (
-              <TextInput
-                onChangeText={text => this.setState({ displayName: text })}
-                placeholder={this.state.displayName}
-              />
-            ) : (
-              <Text style={styles.header}>{this.state.displayName} </Text>
-            )}
+           
+            <Text style={styles.header}>{this.state.displayName} </Text>
             <Text style={styles.subheader}>{this.state.karmaScore} Points </Text>
           </View>
+          {
+            this.state.verified && 
+            <View>
+              <Divider style={styles.divider} />
+              <Text style={styles.dividedText}>
+                Moderator (Verified)
+              </Text>
+            </View>
+          }
           <Divider style={styles.divider} />
-          <View style={styles.profile}>
-            <Text>
-              Visible to other users?{" "}
-              {this.state.visibleToOthers ? "Yes" : "No"}
-            </Text>
-            {isEditingName ? (
-              <Switch
-                value={this.state.visibleToOthers}
-                onValueChage={this.handleSwitchVisiblity}
-              />
-            ) : null}
+          <View style={styles.anonView}>
+              <Text style={[styles.dividedText, styles.anonText]}>
+                Anonymous To Other Users
+              </Text>
+              <ToggleSwitch
+                  style = {styles.anonToggle}
+                  isOn={this.state.anonymousToOthers}
+                  onColor='green'
+                  offColor='gray'
+                  size='small'
+                  onToggle={(e) => this.onChangeVisibility(e)}
+                />
           </View>
           <Divider style={styles.divider} />
-          <View style={styles.profile}>
-            <Paragraph>
-              <FontAwesome name="envelope" size={15} />
-              {this.state.email}
-            </Paragraph>
-          </View>
+          <Text style={styles.dividedText}>
+            {this.state.netId}@illinois.edu
+          </Text>
           <Divider style={styles.divider} />
           <View style={styles.content}>
             <Text style={styles.subheader}> Posted Tips </Text>
@@ -166,6 +188,24 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 18
   },
+  dividedText:{
+    paddingVertical:15,
+    fontSize: 16,
+    alignSelf:"flex-start",
+    paddingLeft:35,
+    fontWeight: "400"
+  },
+  anonView:{
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width
+  },
+  anonToggle:{
+    width:50,
+  },
+  anonText:{
+    width: Dimensions.get("window").width - 100
+  },
   header: {
     fontSize: 27,
     fontWeight: "500",
@@ -178,8 +218,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  profileHeader: {
-    alignSelf: "center"
+  backButton:{
+    marginRight:0,
+    paddingRight:0,
+  },
+  backHeader: {
+    marginLeft: -10
   },
   settingsHeader: {
     alignSelf: "flex-end"
@@ -192,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
-    marginTop:10,
+    marginTop:15,
     paddingHorizontal: 35
   }
 });
