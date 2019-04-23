@@ -57,7 +57,7 @@ export default class SettingsScreen extends React.Component {
   };
 
   handleBackPress = e => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("Profile");
   };
 
   render() {

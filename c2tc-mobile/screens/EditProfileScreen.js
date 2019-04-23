@@ -72,8 +72,8 @@ export default class EditProfileScreen extends React.Component {
             <View>
                 <Appbar.Header>
                 <Appbar.BackAction onPress={this.handleBackPress} />
-                <Appbar.Content title = "Edit Profile"/>
-                <Appbar.Content title = "Save" onPress={this.handleSave}/>
+                <Appbar.Content title = "Edit Profile" style={styles.editProfile}/>
+                <Appbar.Content title = "Save" onPress={this.handleSave} style={styles.save}/>
                 </Appbar.Header>
             </View>
             <Text style = {styles.sectionHeader}>Personal Information</Text>
@@ -114,6 +114,16 @@ export default class EditProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  editProfile: {
+    flexDirection: "column",
+    alignItems: "center",
+    paddingLeft: 10
+  },
+  save: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+    paddingRight: 20
+  },
   sectionHeader: {
       paddingTop: 20,
       paddingLeft: 20,
