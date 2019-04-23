@@ -46,6 +46,7 @@ def login():
     return post_to_auth_server("login", "email", "password")
 
 
+@necessary_post_params("role")
 def post_to_auth_server(endpoint, *properties):
     properties = list(properties)
     user_input = request.get_json()

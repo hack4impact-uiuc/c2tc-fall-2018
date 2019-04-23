@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from api.models.Tips import Tips
 from api.models.User import User
-from api.core import create_response, serialize_list, logger, authenticated_route
+from api.core import create_response, serialize_list, logger, authenticated_route, necessary_post_params
 from datetime import datetime
 import functools
 from bson.objectid import ObjectId
@@ -14,9 +14,6 @@ tips = Blueprint("tips", __name__)
 
 @tips.route("/tips", methods=["GET"])
 def get_all_tips():
-    """
-    GET function for retrieving Tips objects
-    """
     latitude = request.args.get("lat")
     longitude = request.args.get("long")
     if latitude is None or longitude is None:
@@ -36,18 +33,12 @@ def get_all_tips():
 
 @tips.route("/tips/<id>", methods=["GET"])
 def get_tip(id):
-    """
-    GET function for retrieving a single Tip
-    """
     response = Tips.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
 
 
 @tips.route("/user/<user_id>/tips", methods=["GET"])
 def get_tips_by_user(user_id):
-    """
-    GET function for retrieving Tips objects posted by a certain user
-    """
     user = User.objects.get(id=user_id)
     posted_tips = (user.to_mongo())["posted_tips"]
     posted_tips_list = [
@@ -58,9 +49,6 @@ def get_tips_by_user(user_id):
 
 @tips.route("/tips_category/<category>", methods=["GET"])
 def get_tips_by_category(category):
-    """
-    GET function for retrieving Tips objects in a certain category
-    """
     response = [tips.to_mongo() for tips in Tips.objects if tips.category == category]
     response = {"tips": response}
     return create_response(data=response)
@@ -68,9 +56,6 @@ def get_tips_by_category(category):
 
 @tips.route("/tips_upvotes/<tips_id>", methods=["GET"])
 def get_tip_upvotes(tips_id):
-    """
-    GET function for retrieving Tips objects by tip id
-    """
     tip = Tips.objects.get(id=tips_id)
     tips_upvotes = (tips.to_mongo())["upvotes"]
     tips_upvotes_list = [
@@ -96,9 +81,6 @@ def get_tip_downvotes(tips_id):
 
 @tips.route("/tips/verified", methods=["GET"])
 def get_verified_tips():
-    """
-    GET function for retrieving all tips that are verified
-    """
     user_id = request.args.get("id")
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
@@ -114,9 +96,6 @@ def get_verified_tips():
 
 @tips.route("/tips/pending", methods=["GET"])
 def get_pending_tips():
-    """
-    GET function for retrieving all tips that are pending
-    """
     user_id = request.args.get("id")
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
@@ -132,9 +111,6 @@ def get_pending_tips():
 
 @tips.route("/tips/denied", methods=["GET"])
 def get_denied_tips():
-    """
-    GET function for retrieving all tips that are denied
-    """
     user_id = request.args.get("id")
     if user_id is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
@@ -150,10 +126,8 @@ def get_denied_tips():
 
 @tips.route("/tips", methods=["POST"])
 @authenticated_route
+@necessary_post_params("title", "content", "user_id", "latitude", "longitude", "category", "user_id")
 def create_tip():
-    """
-    POST function for creating a new Tips object
-    """
     data = request.get_json()
     tips = Tips.objects.create(
         title=data["title"],

@@ -102,7 +102,6 @@ def authenticated_route(route):
     def wrapper_wroute(*args, **kwargs):
         token = request.headers.get("jwt")
         auth_server_res = requests.post(auth_server_host + "verify/", headers={"Content-Type": "application/json", "token": token})
-        pdb.set_trace()
         if auth_server_res.status_code != 200:
             return create_response(
                 message=auth_server_res.json()["message"], status=401, data={"status": "fail"}
@@ -119,7 +118,7 @@ def necessary_post_params(*important_properties):
             missing_fields = invalid_model_helper(user_data, important_properties)
             if missing_fields is not None:
                 return create_response(
-                    message="Missing the following necesary field(s): " + ','.join(missing_fields),
+                    message="Missing the following necesary field(s): " + ', '.join(missing_fields),
                     status=422,
                     data={"status": "fail"},
                 )
