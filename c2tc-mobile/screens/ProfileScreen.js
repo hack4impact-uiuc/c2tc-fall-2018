@@ -76,19 +76,18 @@ export default class ProfileScreen extends React.Component {
     this.props.navigation.navigate("TipOverview");
   };
 
-  handleEditPress = () => {
-    this.props.navigation.navigate("Settings");
-  }
-
   render() {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
-          <Appbar.Header>
-            <Appbar.BackAction onPress={this.handleBackPress} />
-            <Appbar.Content title="Profile" style={styles.title}/>
-            <Appbar.Content title="Settings" onPress={this.handleEditPress} style={styles.settings}/>
-          </Appbar.Header>
+          <NavigationEvents onDidFocus={this.onComponentFocused} />
+          <View>
+              <Appbar.Header>
+              <Appbar.BackAction onPress={this.handleBackPress} />
+              <Appbar.Content title="Profile" titleStyle = {styles.profileHeader}/>
+              <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings")}/>
+              </Appbar.Header>
+          </View>
           <View style={styles.profile}>
             <Image
               style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
@@ -159,16 +158,6 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: "500",
   },
-  title: {
-    flexDirection: "column",
-    alignItems: "center",
-    paddingLeft: 85
-  },
-  settings: {
-    flexDirection: "column",
-    alignItems: "flex-end",
-    paddingRight: 30
-  },
   profile: {
     flexDirection: "column",
     alignItems: "center",
@@ -177,7 +166,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-
+  profileHeader: {
+    alignSelf: "center"
+  },
+  settingsHeader: {
+    alignSelf: "flex-end"
+  },
   divider: {
     backgroundColor: "black"
   },
