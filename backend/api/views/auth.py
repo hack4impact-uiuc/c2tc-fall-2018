@@ -56,6 +56,24 @@ def post_to_auth_server(endpoint, *properties_to_post):
         our_response.set_cookie("jwt", jwt_token)
         return (our_response, code)
 
+@auth.route("/verifyEmail", methods=["POST"])
+@necessary_post_params("pin")
+def verifyEmail():
+    token = request.cookies.get("jwt")
+    post_body = { "pin": request.get_json()["pin"] }
+    auth_server_res = requests.post(
+        auth_server_host + "verifyEmail/",
+        headers = { "Content-Type": "application/json", "token": token, "google": "undefined" },
+        json=post_body
+    )
+
+    response_body = auth_server_res.json()
+
+    return create_response(
+        message=response_body["message"],
+        status=auth_server_res.status_code,
+    )
+
 def create_new_db_user(client_data, auth_uid):
     user = User.objects.create(
         net_id=client_data["net_id"],
