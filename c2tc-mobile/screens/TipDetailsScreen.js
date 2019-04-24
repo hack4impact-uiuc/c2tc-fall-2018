@@ -24,15 +24,15 @@ class TipDetailsScreen extends React.Component {
     let author = await API.getUser(
       this.props.navigation.state.params.tip.author
     );
-    //console.log(author);
     let username = author.username;
     if (author.anon) {
       username = "Anonymous";
     }
 
     let votestatus = ""
-    let upvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
-    console.log(upvotedUsers);
+    let downvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+    let upVotedUsers = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
+    // console.log(upvotedUsers);
 
     // if (upvotedUsers.includes(author._id)) {
     //   votestatus = "UPVOTE";
