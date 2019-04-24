@@ -3,12 +3,13 @@ from mongoengine.fields import (
     IntField,
     DateTimeField,
     FloatField,
-    EmbeddedDocumentField,
     ObjectIdField,
     ListField,
+    BooleanField,
 )
 import mongoengine
 from api.models.User import User
+
 
 # DynamicDocument allows for unspecified fields to be put in as well
 class Tips(mongoengine.DynamicDocument):
@@ -16,8 +17,9 @@ class Tips(mongoengine.DynamicDocument):
 
     title = StringField(required=True)
     content = StringField(required=True)
-    author = EmbeddedDocumentField(User)
+    author = ObjectIdField(required=True)
     posted_time = DateTimeField(required=True)
+    status = StringField(required=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
     category = StringField(required=True)

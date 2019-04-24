@@ -1,11 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, View, Modal, ActivityIndicator } from "react-native";
 
 const Loader = props => {
   const { loading, ...attributes } = props;
 
   return (
-    <Modal transparent={true} animationType={"none"} visible={loading}>
+    <Modal
+      transparent={true}
+      onRequestClose={() => {
+        Alert.alert("Modal has been closed.");
+      }}
+      animationType={"none"}
+      visible={loading}
+    >
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
           <ActivityIndicator animating={loading} />
