@@ -85,9 +85,6 @@ class TipOverview extends React.Component {
           </View>
           {screenType === "verification" && (
             <View style={styles.rightActions}>
-              <TouchableOpacity>
-                <Text color="red">Review</Text>
-              </TouchableOpacity>
             </View>
           )}
           {screenType === "view" && (
