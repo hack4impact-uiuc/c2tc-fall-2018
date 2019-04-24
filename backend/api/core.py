@@ -106,7 +106,11 @@ def authenticated_route(route):
         token = request.cookies.get("jwt")
         auth_server_res = requests.get(
             auth_server_host + "getUser/",
-            headers = { "Content-Type": "application/json", "token": token, "google": "undefined" },
+            headers={
+                "Content-Type": "application/json",
+                "token": token,
+                "google": "undefined",
+            },
         )
         if auth_server_res.status_code != 200:
             return create_response(
