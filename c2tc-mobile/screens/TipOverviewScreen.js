@@ -5,7 +5,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   Dimensions
 } from "react-native";
@@ -33,25 +32,25 @@ class TipOverviewScreen extends React.Component {
       currentdate: "Thursday Feb 28",
       screenType: "view",
       tips: [],
-      hasLoaded : false
+      hasLoaded: false
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse, hasLoaded:true });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     } else if (this.state.screenType === "verification") {
       let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse, hasLoaded:true });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     } else {
       let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse, hasLoaded:true });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     }
   }
 
   onComponentFocused = async () => {
-    if (this.state.tipsResponse){
+    if (this.state.hasLoaded) {
       if (this.state.screenType === "view") {
         let tipsResponse = await API.getVerifiedTips();
         this.setState({ tips: tipsResponse });
@@ -166,17 +165,16 @@ class TipOverviewScreen extends React.Component {
             ))}
           </View>
         </ScrollView>
-        
-    </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  backgroundImg:{
+  backgroundImg: {
     position: "absolute",
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height
   },
   tipOverview: {
     marginBottom: 76
