@@ -19,8 +19,8 @@ const mapStateToProps = state => {
   };
 };
 
-const DAY_BACKGROUND_IMG = require("../assets/images/bg-day.png")
-const NIGHT_BACKGROUND_IMG = require("../assets/images/bg.png")
+const DAY_BACKGROUND_IMG = require("../assets/images/bg-day.png");
+const NIGHT_BACKGROUND_IMG = require("../assets/images/bg.png");
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
@@ -111,37 +111,54 @@ class TipOverviewScreen extends React.Component {
 
     this.setState({
       greeting: curr_greeting
-    })
-  }
+    });
+  };
 
   isNight = () => {
     const hour = new Date().getUTCHours();
-    return hour <= 4 || hour >= 19
-  }
+    return hour <= 4 || hour >= 19;
+  };
   setDate = () => {
-    date = new Date()
+    date = new Date();
     const monthNames = [
-      "Jan", "Feb", "Mar",
-      "Apr", "May", "June", "Jul",
-      "Aug", "Sep", "Oct",
-      "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ];
 
     const dayNames = [
-      "Monday", "Tuesday", "Wednesday",
-      "Thrusday", "Friday", "Saturday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thrusday",
+      "Friday",
+      "Saturday",
       "Sunday"
-    ]
-  
+    ];
+
     const day = date.getDay();
     const monthIndex = date.getMonth();
     const year = date.getFullYear();
-  
-    const date_str = dayNames[day - 1] + ' ' + monthNames[monthIndex] + ' ' + year.toString().slice(2);
+
+    const date_str =
+      dayNames[day - 1] +
+      " " +
+      monthNames[monthIndex] +
+      " " +
+      year.toString().slice(2);
     this.setState({
       currentdate: date_str
-    })
-  }
+    });
+  };
 
   render() {
     const screenStyle = this.state.screenType;
