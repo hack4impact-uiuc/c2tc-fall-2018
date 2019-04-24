@@ -1,6 +1,6 @@
-# C2TC Spring 2019[![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019)
+# SafeMaps [![CircleCI](https://circleci.com/gh/hack4impact-uiuc/safe-maps.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/safe-maps)
 
-**Goal:** To create a mobile application that makes the students of UIUC feel safer on campus.
+**Description:** Illini SafeMaps is your real-time safety companion. With Illini SafeMaps, you can navigate safely around the U of I campus by viewing  the locations of past crimes, police stations, emergency phones, running buses, open businesses and streetlights. This app also enables you to be notified of the safety and health resources near you so you can stay safe and healthy at U of I. Lastly, students can access SafeWalks and SafeRides immediately through our app when they feel unsafe on campus. 
 
 ## Product Resources
 
@@ -13,7 +13,7 @@
 
 ## Backend Resources
 
-- [Database Schema](https://github.com/hack4impact-uiuc/c2tc-spring-2019/blob/master/docs/api_docs.md)
+- [Database Schema](https://github.com/hack4impact-uiuc/safe-maps/blob/master/docs/api_docs.md)
 
 ## Tech Stack
 
@@ -58,17 +58,22 @@ Note: if you prefer using npm, use `npm` instead of `yarn` in commands provided 
 
 ## Team
 
-- Product Manager - Shreyas Mohan ([@shreyshrey1](https://github.com/shreyshrey1))
-- Technical Lead - Megha Mallya ([@meghatron3000](https://github.com/meghatron3000))
+- **Product Manager:** Shreyas Mohan ([@shreyshrey1](https://github.com/shreyshrey1))
+- **Technical Lead:** Megha Mallya ([@meghatron3000](https://github.com/meghatron3000))
+- **Product Designer:** Philip Kuo ([@pkgamma](https://github.com/pkgamma))
+- **User Research/External Relations:**  Annie Wu ([@anniegw2](https://github.com/anniegw2))
 
-### Software Devs
+### Software Devs Fall 2018
 
 - Neeraj Aggarwal ([@n3a9](https://github.com/n3a9))
 - Daniel Choi ([@choiboy98](https://github.com/choiboy98))
 - Josh Burke ([@JoshBurke](https://github.com/JoshBurke))
 - Anooj Lal([@anoojlal](https://github.com/anoojlal))
 
-### Designers
+### Software Devs Spring 2019
 
-- Philip Kuo ([@pkgamma](https://github.com/pkgamma))
-- Annie Wu
+- Neeraj Aggarwal ([@n3a9](https://github.com/n3a9))
+- Albert Cao ([@abetco](https://github.com/abetco))
+- Alice Fang ([@alicesf2](https://github.com/alicesf2))
+- Michael Leon ([@micleo2](https://github.com/micleo2))
+- Rebecca Xun([@rxun](https://github.com/rxun))

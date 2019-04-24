@@ -41,26 +41,28 @@ class TipOverviewScreen extends React.Component {
     this.setDate();
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     } else if (this.state.screenType === "verification") {
       let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     } else {
       let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse });
+      this.setState({ tips: tipsResponse, hasLoaded: true });
     }
   }
 
   onComponentFocused = async () => {
-    if (this.state.screenType === "view") {
-      let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse });
-    } else if (this.state.screenType === "verification") {
-      let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse });
-    } else {
-      let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse });
+    if (this.state.hasLoaded) {
+      if (this.state.screenType === "view") {
+        let tipsResponse = await API.getVerifiedTips();
+        this.setState({ tips: tipsResponse });
+      } else if (this.state.screenType === "verification") {
+        let tipsResponse = await API.getPendingTips();
+        this.setState({ tips: tipsResponse });
+      } else {
+        let tipsResponse = await API.getTips();
+        this.setState({ tips: tipsResponse });
+      }
     }
   };
 
@@ -157,62 +159,80 @@ class TipOverviewScreen extends React.Component {
               >
                 {this.state.greeting + ",\n" + this.state.user}
               </Text>
-              <TouchableOpacity onPress={this.profilePicPressed}>
-                <Image
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50 / 2,
-                    alignSelf: "flex-end"
-                  }}
-                  source={{
-                    uri:
-                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                  }}
-                />
-              </TouchableOpacity>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={[
+                    styles.headertext,
+                    {
+                      alignSelf: "flex-start",
+                      width: Dimensions.get("window").width - 104
+                    }
+                  ]}
+                >
+                  Good Evening,{"\n"}
+                  {this.state.user}
+                </Text>
+                <TouchableOpacity onPress={this.profilePicPressed}>
+                  <Image
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: 50 / 2,
+                      alignSelf: "flex-end"
+                    }}
+                    source={{
+                      uri:
+                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
-          </View>
-        )}
-        {screenStyle === "verification" && (
-          <View style={styles.header}>
-            <Text>All Pending Tips</Text>
-          </View>
-        )}
-        <View style={styles.content}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm")}
-          >
-            <Text style={styles.button}> Submit A Tip ></Text>
-          </TouchableOpacity>
-          {screenStyle === "view" && (
-            <TouchableOpacity onPress={this.onChangeScreenType}>
-              <Text style={styles.button}> Review Pending Tips </Text>
-            </TouchableOpacity>
           )}
           {screenStyle === "verification" && (
-            <TouchableOpacity onPress={this.onChangeScreenType}>
-              <Text style={styles.button}> View Verified Tips </Text>
-            </TouchableOpacity>
+            <View style={styles.header}>
+              <Text>All Pending Tips</Text>
+            </View>
           )}
-          {this.state.tips.map(tip => (
-            <TipOverview
-              key={tip._id}
-              tip={tip}
-              navigation={this.props.navigation}
-              screenType={this.state.screenType}
-            />
-          ))}
-        </View>
-      </ScrollView>
+          <View style={styles.content}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("TipCategories")}
+            >
+              <Text style={styles.button}> Submit A Tip ></Text>
+            </TouchableOpacity>
+            {screenStyle === "view" && (
+              <TouchableOpacity onPress={this.onChangeScreenType}>
+                <Text style={styles.button}> Review Pending Tips </Text>
+              </TouchableOpacity>
+            )}
+            {screenStyle === "verification" && (
+              <TouchableOpacity onPress={this.onChangeScreenType}>
+                <Text style={styles.button}> View Verified Tips </Text>
+              </TouchableOpacity>
+            )}
+            {this.state.tips.map(tip => (
+              <TipOverview
+                key={tip._id}
+                tip={tip}
+                navigation={this.props.navigation}
+                screenType={this.state.screenType}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundImg: {
+    position: "absolute",
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height
+  },
   tipOverview: {
-    backgroundColor: "#81573D"
+    marginBottom: 76
   },
   content: {
     paddingHorizontal: 35
