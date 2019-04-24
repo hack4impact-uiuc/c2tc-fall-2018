@@ -42,7 +42,7 @@ export default class SettingsScreen extends React.Component {
             />
             <Appbar.Content
               titleStyle={styles.backHeader}
-              title="Settings"
+              title="Profile Screen"
               onPress={() =>
                 this.props.navigation.navigate("Profile", {
                   user: this.state.user
@@ -64,7 +64,7 @@ export default class SettingsScreen extends React.Component {
               style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
               source={{
                 uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  this.state.user.pro_pic
               }}
             />
             <View>
