@@ -15,7 +15,8 @@ class TipDetailsScreen extends React.Component {
     super(props);
     this.state = {
       upvotes: 87,
-      username: ""
+      username: "",
+      votestatus: ""
     };
   }
 
@@ -23,13 +24,28 @@ class TipDetailsScreen extends React.Component {
     let author = await API.getUser(
       this.props.navigation.state.params.tip.author
     );
+    //console.log(author);
     let username = author.username;
     if (author.anon) {
       username = "Anonymous";
     }
 
+    let votestatus = ""
+    let upvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+    console.log(upvotedUsers);
+
+    // if (upvotedUsers.includes(author._id)) {
+    //   votestatus = "UPVOTE";
+    // } else {
+    //   let downvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+    //   if (downvotedUsers["users"].includes(author._id)) {
+    //     votestatus = "DOWNVOTE";
+    //   }
+    // }
+
     this.setState({
-      username
+      username,
+      votestatus
     });
   }
 
@@ -39,7 +55,7 @@ class TipDetailsScreen extends React.Component {
       status: "verified"
     }
     let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
-    this.props.navigation.navigate("TipOverviewScreen");
+    this.props.navigation.navigate("TipOverview");
   }
 
   discardPress = async () => {
@@ -48,6 +64,23 @@ class TipDetailsScreen extends React.Component {
       status: "denied"
     }
     let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
+    this.props.navigation.navigate("TipOverview");
+  }
+
+  upvotePress = async () => {
+    let data = {
+      tips_id: this.props.navigation.state.params.tip._id,
+      vote_type: "UPVOTE"
+    }
+    let response = await API.voteTip(this.props.navigation.state.params.tip._id, data);
+  }
+
+  downvotePress = async () => {
+    let data = {
+      tips_id: this.props.navigation.state.params.tip._id,
+      vote_type: "DOWNVOTE"
+    }
+    let response = await API.voteTip(this.props.navigation.state.params.tip._id, data);
   }
 
   render() {
@@ -113,12 +146,27 @@ class TipDetailsScreen extends React.Component {
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
             </View>
             <View style={styles.rightActions}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-              </TouchableOpacity>
+              {this.state.votestatus == "UPVOTE" &&
+                <TouchableOpacity style={styles.upvotedButton} onPress={this.upvotePress}>
+                  <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+                </TouchableOpacity>
+              }
+              {this.state.votestatus != "UPVOTE" &&
+                <TouchableOpacity style={styles.button} onPress={this.upvotePress}>
+                  <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+                </TouchableOpacity>
+              }
+
+              {this.state.votestatus == "DOWNVOTE" &&
+                <TouchableOpacity style={styles.downvotedButton} onPress={this.downvotePress}>
+                  <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+                </TouchableOpacity>
+              }
+              {this.state.votestatus != "DOWNVOTE" &&
+                <TouchableOpacity style={styles.button} onPress={this.downvotePress}>
+                  <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+                </TouchableOpacity>
+              }
             </View>
           </View>
         )}
@@ -189,6 +237,22 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 25,
     backgroundColor: "white"
+  },
+  upvotedButton: {
+    alignItems: "center",
+    height: 35,
+    width: 35,
+    margin: 5,
+    borderRadius: 25,
+    backgroundColor: "green"
+  },
+  downvotedButton: {
+    alignItems: "center",
+    height: 35,
+    width: 35,
+    margin: 5,
+    borderRadius: 25,
+    backgroundColor: "red"
   },
 
   content: {
