@@ -7,37 +7,23 @@ from api.models.User import User
 from datetime import datetime
 
 auth = Blueprint("auth", __name__)
-
 auth_server_host = "http://localhost:8000/"
-
 
 @auth.route("/register", methods=["POST"])
 @necessary_post_params("email", "password", "net_id", "anon", "username", "role")
 def register():
-    our_response, _ = post_to_auth_server("register", "email", "password", "role")
-    if our_response.status_code != 200:
-        return create_response(
-            message="Missing required info!", status=422, data={"status": "fail"}
-        )
-    client_data = request.get_json()
-    user = User.objects.create(
-        net_id=client_data["net_id"],
-        username=client_data["username"],
-        verified=False,
-        anon=client_data["anon"],
-        karma=0,
-        posted_tips=[],
-        date_created=datetime.now(),
-    )
-    user.save()
-    return our_response
-
+    our_response, code = post_to_auth_server("register", "email", "password", "role")
+    if code != 200:
+        return (our_response, code)
+    res_data = our_response.get_json()["result"]
+    auth_uid = res_data["auth_uid"]
+    create_new_db_user(request.get_json(), auth_uid)
+    return (our_response, code)
 
 @auth.route("/login", methods=["POST"])
 @necessary_post_params("email", "password")
 def login():
     return post_to_auth_server("login", "email", "password")
-
 
 def post_to_auth_server(endpoint, *properties_to_post):
     user_input = request.get_json()
@@ -55,9 +41,24 @@ def post_to_auth_server(endpoint, *properties_to_post):
         )
     else:
         jwt_token = response_body["token"]
-        our_response_body = {"token": jwt_token}
-        return create_response(
+        our_response_body = { "token": jwt_token, "auth_uid": response_body["uid"] }
+        our_response, code = create_response(
             message=response_body["message"],
             status=auth_server_response.status_code,
             data=our_response_body,
         )
+        our_response.set_cookie("jwt", jwt_token)
+        return (our_response, code)
+
+def create_new_db_user(client_data, auth_uid):
+    user = User.objects.create(
+        net_id=client_data["net_id"],
+        username=client_data["username"],
+        verified=False,
+        anon=client_data["anon"],
+        karma=0,
+        posted_tips=[],
+        date_created=datetime.now(),
+        auth_server_uid=auth_uid
+    )
+    user.save()

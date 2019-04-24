@@ -102,10 +102,10 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
 def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
-        token = request.headers.get("jwt")
+        token = request.cookies.get("jwt")
         auth_server_res = requests.post(
-            auth_server_host + "verify/",
-            headers={"Content-Type": "application/json", "token": token},
+            auth_server_host + "getUser/",
+            headers = { "Content-Type": "application/json", "token": token, "google": "undefined" },
         )
         if auth_server_res.status_code != 200:
             return create_response(
@@ -113,7 +113,9 @@ def authenticated_route(route):
                 status=401,
                 data={"status": "fail"},
             )
-        return route(*args, **kwargs)
+        auth_uid = auth_server_res.json()["user_id"]
+        db_user = User.objects.get(auth_server_uid=auth_uid)
+        return route(db_user, *args, **kwargs)
 
     return wrapper_wroute
 
