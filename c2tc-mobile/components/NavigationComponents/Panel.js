@@ -117,13 +117,15 @@ class Panel extends Component {
                       icon="car"
                       name="SafeRide"
                       ref="button"
-                      number="2172657433"
+                      number=""
+                      url="mtd-connect://app"
                     />
                     <PhoneButton
                       icon="male"
                       name="SafeWalk"
                       ref="button"
                       number="2173331216"
+                      url=""
                     />
                   </View>
                 </View>
