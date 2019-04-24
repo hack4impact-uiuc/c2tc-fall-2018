@@ -1,4 +1,3 @@
-import pdb
 import configparser
 import requests
 from typing import Tuple, List
@@ -13,6 +12,8 @@ from datetime import datetime
 import json
 
 import functools
+
+from api.models.User import User
 
 # logger object for all views to use
 logger = LocalProxy(lambda: current_app.logger)
@@ -103,7 +104,7 @@ def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
         token = request.cookies.get("jwt")
-        auth_server_res = requests.post(
+        auth_server_res = requests.get(
             auth_server_host + "getUser/",
             headers = { "Content-Type": "application/json", "token": token, "google": "undefined" },
         )

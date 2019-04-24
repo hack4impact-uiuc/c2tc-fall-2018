@@ -1,4 +1,3 @@
-import pdb
 import requests
 from flask import Blueprint, request
 from api.core import create_response, serialize_list, logger, invalid_model_helper
