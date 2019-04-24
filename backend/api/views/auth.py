@@ -8,15 +8,22 @@ from datetime import datetime
 auth = Blueprint("auth", __name__)
 auth_server_host = "http://localhost:8000/"
 
+def invalid_email(email_address):
+    return not email_address.endswith("@illinois.edu")
+
 @auth.route("/register", methods=["POST"])
 @necessary_post_params("email", "password", "net_id", "anon", "username", "role")
 def register():
+    client_data = request.get_json()
+
+    if invalid_email(client_data["email"]):
+        return create_response(message="Not a valid email to register with!", status=422, data={"status": "fail"})
+
     our_response, code = post_to_auth_server("register", "email", "password", "role")
-    if code != 200:
-        return (our_response, code)
-    res_data = our_response.get_json()["result"]
-    auth_uid = res_data["auth_uid"]
-    create_new_db_user(request.get_json(), auth_uid)
+    if code == 200:
+        res_data = our_response.get_json()["result"]
+        auth_uid = res_data["auth_uid"]
+        create_new_db_user(request.get_json(), auth_uid)
     return (our_response, code)
 
 @auth.route("/login", methods=["POST"])

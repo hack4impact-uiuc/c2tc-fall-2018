@@ -135,12 +135,12 @@ def get_denied_tips():
 @necessary_post_params(
     "title", "content", "user_id", "latitude", "longitude", "category", "user_id"
 )
-def create_tip():
+def create_tip(db_user):
     data = request.get_json()
     tips = Tips.objects.create(
         title=data["title"],
         content=data["content"],
-        author=ObjectId(data["user_id"]),
+        author=db_user.id,
         posted_time=datetime.now(),
         status="pending",
         latitude=data["latitude"],
@@ -148,10 +148,9 @@ def create_tip():
         category=data["category"],
     )
     tips.save()
-    user = User.objects.get(id=data["user_id"])
-    posted_tips = (user.to_mongo())["posted_tips"]
+    posted_tips = (db_user.to_mongo())["posted_tips"]
     posted_tips.append(ObjectId(tips.id))
-    user.update(posted_tips=posted_tips)
+    db_user.update(posted_tips=posted_tips)
     return create_response(message="success!")
 
 
