@@ -196,16 +196,24 @@ const styles = StyleSheet.create({
   headertext: {
     fontSize: 30,
     paddingTop: 4,
-    fontWeight: "700",
+    fontWeight: "600",
     color: "white",
-    borderTopColor: "#c7c7cc"
+    borderTopColor: "#c7c7cc",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   },
   button: {
     paddingBottom: 16,
     paddingLeft: 8,
     fontSize: 18,
     fontWeight: "500",
-    color: "white"
+    color: "white",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   }
 });
 
