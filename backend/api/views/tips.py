@@ -71,7 +71,7 @@ def get_tip_upvotes(tips_id):
     GET function for retrieving Tips objects by tip id
     """
     tip = Tips.objects.get(id=tips_id)
-    tips_upvotes = (tips.to_mongo())["upvotes"]
+    tips_upvotes = (tip.to_mongo())["upvotes"]
     tips_upvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
     ]
@@ -85,7 +85,7 @@ def get_tip_downvotes(tips_id):
     GET function for retrieving all User objects that have downvoted a tip
     """
     tip = Tips.objects.get(id=tips_id)
-    tips_downvotes = (tips.to_mongo())["downvotes"]
+    tips_downvotes = (tip.to_mongo())["downvotes"]
     tips_downvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
     ]
