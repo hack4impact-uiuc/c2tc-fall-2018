@@ -1,8 +1,15 @@
 from flask import Blueprint, request, jsonify
 from api.models.Tips import Tips
 from api.models.User import User
-from api.core import create_response, serialize_list, logger
+from api.core import (
+    create_response,
+    serialize_list,
+    logger,
+    authenticated_route,
+    necessary_post_params,
+)
 from datetime import datetime
+import functools
 from bson.objectid import ObjectId
 import json
 from geopy import distance
@@ -13,9 +20,6 @@ tips = Blueprint("tips", __name__)
 
 @tips.route("/tips", methods=["GET"])
 def get_all_tips():
-    """
-    GET function for retrieving Tips objects
-    """
     latitude = request.args.get("lat")
     longitude = request.args.get("long")
     if latitude is None or longitude is None:
@@ -35,18 +39,12 @@ def get_all_tips():
 
 @tips.route("/tips/<id>", methods=["GET"])
 def get_tip(id):
-    """
-    GET function for retrieving a single Tip
-    """
     response = Tips.objects.get(id=id).to_mongo()
     return create_response(data=dict(response))
 
 
 @tips.route("/user/<user_id>/tips", methods=["GET"])
 def get_tips_by_user(user_id):
-    """
-    GET function for retrieving Tips objects posted by a certain user
-    """
     user = User.objects.get(id=user_id)
     posted_tips = (user.to_mongo())["posted_tips"]
     posted_tips_list = [
@@ -57,9 +55,6 @@ def get_tips_by_user(user_id):
 
 @tips.route("/tips_category/<category>", methods=["GET"])
 def get_tips_by_category(category):
-    """
-    GET function for retrieving Tips objects in a certain category
-    """
     response = [tips.to_mongo() for tips in Tips.objects if tips.category == category]
     response = {"tips": response}
     return create_response(data=response)
@@ -67,11 +62,8 @@ def get_tips_by_category(category):
 
 @tips.route("/tips_upvotes/<tips_id>", methods=["GET"])
 def get_tip_upvotes(tips_id):
-    """
-    GET function for retrieving Tips objects by tip id
-    """
     tip = Tips.objects.get(id=tips_id)
-    tips_upvotes = (tips.to_mongo())["upvotes"]
+    tips_upvotes = (tip.to_mongo())["upvotes"]
     tips_upvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
     ]
@@ -85,7 +77,7 @@ def get_tip_downvotes(tips_id):
     GET function for retrieving all User objects that have downvoted a tip
     """
     tip = Tips.objects.get(id=tips_id)
-    tips_downvotes = (tips.to_mongo())["downvotes"]
+    tips_downvotes = (tip.to_mongo())["downvotes"]
     tips_downvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
     ]
@@ -95,45 +87,70 @@ def get_tip_downvotes(tips_id):
 
 @tips.route("/tips/verified", methods=["GET"])
 def get_verified_tips():
-    """
-    GET function for retrieving all tips that are verified
-    """
-    response = [tip.to_mongo() for tip in Tips.objects if tip.verified == True]
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
+    else:
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "verified" and user_id == str(tip.author)
+        ]
     response = {"verified_tips": response}
     return create_response(data=response)
 
 
 @tips.route("/tips/pending", methods=["GET"])
 def get_pending_tips():
-    """
-    GET function for retrieving all tips that are not verified yet
-    """
-    response = [tip.to_mongo() for tip in Tips.objects if tip.verified == False]
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
+    else:
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "pending" and user_id == str(tip.author)
+        ]
     response = {"pending_tips": response}
     return create_response(data=response)
 
 
+@tips.route("/tips/denied", methods=["GET"])
+def get_denied_tips():
+    user_id = request.args.get("id")
+    if user_id is None:
+        response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
+    else:
+        response = [
+            tip.to_mongo()
+            for tip in Tips.objects
+            if tip.status == "denied" and user_id == str(tip.author)
+        ]
+    response = {"denied_tips": response}
+    return create_response(data=response)
+
+
 @tips.route("/tips", methods=["POST"])
-def create_tip():
-    """
-    POST function for creating a new Tips object
-    """
+@authenticated_route
+@necessary_post_params(
+    "title", "content", "user_id", "latitude", "longitude", "category", "user_id"
+)
+def create_tip(db_user):
     data = request.get_json()
     tips = Tips.objects.create(
         title=data["title"],
         content=data["content"],
-        author=ObjectId(data["user_id"]),
+        author=db_user.id,
         posted_time=datetime.now(),
-        verified=False,
+        status="pending",
         latitude=data["latitude"],
         longitude=data["longitude"],
         category=data["category"],
     )
     tips.save()
-    user = User.objects.get(id=data["user_id"])
-    posted_tips = (user.to_mongo())["posted_tips"]
+    posted_tips = (db_user.to_mongo())["posted_tips"]
     posted_tips.append(ObjectId(tips.id))
-    user.update(posted_tips=posted_tips)
+    db_user.update(posted_tips=posted_tips)
     return create_response(message="success!")
 
 
@@ -148,8 +165,8 @@ def edit_tip(tips_id):
         tip.title = data["title"]
     if "content" in data:
         tip.content = data["content"]
-    if "verified" in data:
-        tip.verified = data["verified"]
+    if "status" in data:
+        tip.status = data["status"]
     if "latitude" in data:
         tip.latitude = data["latitude"]
     if "longitude" in data:
@@ -160,21 +177,21 @@ def edit_tip(tips_id):
     return create_response(message="success!")
 
 
-@tips.route("/tips/<id>/verify", methods=["PUT"])
-def update_verified(id):
+@tips.route("/tips/<id>/status", methods=["PUT"])
+def update_status(id):
     """
-    PUT function for changing the tip's verified status
+    PUT function for changing the tip's status
     """
+    data = request.get_json()
     tip = Tips.objects.get(id=id)
-    if request.args.get("verified") == "True":
-        tip.update(verified=True)
-        return create_response(message="success!")
-    if request.args.get("verified") == "False":
-        tip.update(verified=False)
-        return create_response(message="success!")
-    return create_response(
-        message="query string not recognized, it must be either True or False"
-    )
+    if (
+        data["status"] != "verified"
+        and data["status"] != "pending"
+        and data["status"] != "denied"
+    ):
+        return create_response(message="Please enter a valid status")
+    tip.update(status=data["status"])
+    return create_response(message="success!")
 
 
 @tips.route("/tips_votes", methods=["PUT"])

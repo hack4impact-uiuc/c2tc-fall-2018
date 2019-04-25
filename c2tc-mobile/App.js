@@ -1,17 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import API from "./components/API";
 
+import API from "./components/API";
+import VerifyScreen from "./screens/VerificationScreen";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
+import TipCategories from "./screens/TipCategories";
 import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import NotificationScreen from "./screens/NotificationScreen";
+import EditProfileScreen from "./screens/EditProfileScreen";
 
 import { Notifications, Location, TaskManager, Permissions } from 'expo';
 
@@ -52,7 +57,7 @@ export default class App extends Component {
   }
 
   render() {
-    return <Navigator />;
+    return <Navigator/>;
   }
 }
 
@@ -85,6 +90,13 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
+  TipCategories: {
+    screen: TipCategories,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
   TipDetail: {
     screen: TipDetailsScreen,
     navigationOptions: {
@@ -105,7 +117,35 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
-  }
+  },
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  EditProfile: {
+    screen: EditProfileScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Notifications: {
+    screen: NotificationScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Verify: {
+    screen: VerifyScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
 });
 
 function shouldNotify(eventsNearby){
