@@ -18,7 +18,8 @@ class TipDetailsScreen extends React.Component {
       upvotes: 87,
       username: "",
       userid: "",
-      votestatus: "UPVOTE"
+      isDownvoted: null,
+      isUpvoted: null
     };
   }
 
@@ -28,17 +29,33 @@ class TipDetailsScreen extends React.Component {
     );
 
     if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
-      this.state.votestatus = "UPVOTE";
+      let isUpvoted = true;
+      let isDownvoted = false;
+      this.setState({
+        isUpvoted,
+        isDownvoted
+      });
+      console.log("upvoted");
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
       if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
-        this.state.votestatus = "DOWNVOTE";
+        let isUpvoted = false;
+        let isDownvoted = true;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+        console.log("downvoted");
       } else {
-        this.state.votestatus = "NONE";
+        let isUpvoted = false;
+        let isDownvoted = false;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+        console.log("neither");
       }
     }
-
-    console.log(this.state.votestatus);
   }
 
   async componentDidMount() {
@@ -57,7 +74,7 @@ class TipDetailsScreen extends React.Component {
       userid
     });
 
-    //this.setVoteStatus();
+    this.setVoteStatus();
   }
 
   approvePress = async () => {
@@ -183,39 +200,20 @@ class TipDetailsScreen extends React.Component {
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
             </View>
             <View style={styles.rightActions}>
-              {this.state.votestatus === "UPVOTE" && (
-                <TouchableOpacity
-                  style={styles.upvotedButton}
-                  onPress={this.upvotePress}
-                >
-                  <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-                </TouchableOpacity>
-              )}
-              {this.state.votestatus != "UPVOTE" && (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={this.upvotePress}
-                >
-                  <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.upvotePress}
+              >
+                <FontAwesome name="caret-up" size={30} color={this.state.isUpvoted ? "green" : "#8E8E93"} />
+              </TouchableOpacity>
 
-              {this.state.votestatus === "DOWNVOTE" && (
-                <TouchableOpacity
-                  style={styles.downvotedButton}
-                  onPress={this.downvotePress}
-                >
-                  <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-                </TouchableOpacity>
-              )}
-              {this.state.votestatus != "DOWNVOTE" && (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={this.downvotePress}
-                >
-                  <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-                </TouchableOpacity>
-              )}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.downvotePress}
+              >
+                <FontAwesome name="caret-down" size={30} color={this.state.isDownvoted ? "red" : "#8E8E93"} />
+              </TouchableOpacity>
+
             </View>
           </View>
         )}
@@ -330,18 +328,6 @@ const styles = StyleSheet.create({
   postDetails: {
     paddingHorizontal: 20,
     fontSize: 17
-  },
-  discardButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "red",
-    justifyContent: "center"
-  },
-  approveButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    backgroundColor: "green",
-    justifyContent: "center"
   },
   verifButtonText: {
     color: "white"

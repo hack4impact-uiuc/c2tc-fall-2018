@@ -18,7 +18,8 @@ class TipOverview extends React.Component {
     super(props);
     this.state = {
       address: "Loading...",
-      username: ""
+      username: "",
+      votestatus: ""
     };
   }
 
