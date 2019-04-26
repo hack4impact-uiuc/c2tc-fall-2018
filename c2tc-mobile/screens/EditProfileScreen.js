@@ -1,7 +1,7 @@
 import React from "react";
 import API from "../components/API";
 
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button, Modal } from "react-native";
 
 import { Appbar, TextInput } from "react-native-paper";
 
@@ -11,7 +11,9 @@ export default class EditProfileScreen extends React.Component {
     this.state = {
       username: this.props.navigation.getParam("user", "no user").username,
       password: this.props.navigation.getParam("user", "no user").password,
-      user: this.props.navigation.getParam("user", "no user")
+      user: this.props.navigation.getParam("user", "no user"),
+      url: "",
+      modalVisible: false
     };
   }
 
@@ -23,7 +25,9 @@ export default class EditProfileScreen extends React.Component {
     await API.updateUser(this.state.user._id, data);
     let currentUser = this.state.user;
     currentUser.password = password;
-    this.setState({ user: currentUser });
+    this.setState({ 
+      user: currentUser
+    });
   }
   async onChangeUserName(username) {
     this.setState({ username });
@@ -36,9 +40,44 @@ export default class EditProfileScreen extends React.Component {
     this.setState({ user: currentUser });
   }
 
+  async onChangePicture(picture) {
+    this.setState({
+      url: picture
+    })
+    let data = {
+      pro_pic: this.state.url
+    };
+    await API.updateUser(this.state.user._id, data);
+    let currentUser = this.state.user;
+    this.setState({ user: currentUser });
+  }
+
+  openModal = () => {
+    this.setState({modalVisible: true});
+  }
+
+  closeModal = () => {
+    this.setState({modalVisible: false});
+  }
+
   render() {
     return (
       <View behavior="padding" enabled>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+        >
+          <View>
+            <Text style={styles.modalText}>Enter URL for new picture:</Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={e => this.onChangePicture(e)}
+              value={this.state.url}
+            />
+            <Text onPress={this.closeModal} style={styles.modalSave}>Save</Text>
+          </View>
+        </Modal>
         <View>
           <Appbar.Header>
             <Appbar.BackAction
@@ -65,11 +104,11 @@ export default class EditProfileScreen extends React.Component {
             style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
             source={{
               uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                this.state.user.pro_pic
             }}
           />
           <View>
-            <Text style={styles.changePicture}>Change Picture</Text>
+            <Text onPress={this.openModal} style={styles.changePicture}>Change Picture ></Text>
           </View>
         </View>
         <TextInput
@@ -112,5 +151,15 @@ const styles = StyleSheet.create({
   },
   backHeader: {
     marginLeft: -10
+  },
+  modalText: {
+    fontSize: 20,
+    padding: 30,
+    alignSelf: "center"
+  },
+  modalSave: {
+    fontSize: 20,
+    alignSelf: "center",
+    paddingTop: 30
   }
 });
