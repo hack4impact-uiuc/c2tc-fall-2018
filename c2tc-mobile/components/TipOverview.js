@@ -32,6 +32,8 @@ class TipOverview extends React.Component {
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
+    let address = await latlongToAddress(this.props.tip.latitude, this.props.tip.longitude);
+    
     if (user.anon) {
       username = "Anonymous";
     }
