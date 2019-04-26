@@ -9,6 +9,7 @@ import {
   Dimensions
 } from "react-native";
 import TipOverview from "../components/TipOverview";
+import { FontAwesome } from "@expo/vector-icons";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
@@ -31,7 +32,8 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
-      user: "",
+      user: null,
+      token: "",
       currentdate: "",
       greeting: "",
       bgImg: DAY_BACKGROUND_IMG,
@@ -44,6 +46,7 @@ class TipOverviewScreen extends React.Component {
   async componentWillMount() {
     this.setDate();
     this.setGreeting();
+    let token = something;
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
@@ -90,7 +93,12 @@ class TipOverviewScreen extends React.Component {
   };
 
   profilePicPressed = () => {
-    this.props.navigation.navigate("Profile");
+    if (token) {
+      this.props.navigation.navigate("Profile");
+    }
+    else {
+      this.props.navigation.nativate("NonRegisteredScreen");
+    }
   };
 
   setGreeting = () => {
@@ -199,7 +207,12 @@ class TipOverviewScreen extends React.Component {
                       borderRadius: 50 / 2,
                       alignSelf: "flex-end"
                     }}
-                    source={{
+                    source={token ? {
+                      uri:
+                        "https://i.stack.imgur.com/l60Hf.png"
+                    }
+                    :  
+                    {
                       uri:
                         "https://facebook.github.io/react-native/docs/assets/favicon.png"
                     }}

@@ -146,6 +146,20 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Registration: {
+    screen: RegistrationScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
 });
 
 function shouldNotify(eventsNearby){
