@@ -9,7 +9,6 @@ import {
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
 import API from "../components/API";
-// import console = require("console");
 
 class TipDetailsScreen extends React.Component {
   constructor(props) {
@@ -33,16 +32,6 @@ class TipDetailsScreen extends React.Component {
     let votestatus = ""
     let downvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
     let upVotedUsers = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
-    // console.log(upvotedUsers);
-
-    // if (upvotedUsers.includes(author._id)) {
-    //   votestatus = "UPVOTE";
-    // } else {
-    //   let downvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
-    //   if (downvotedUsers["users"].includes(author._id)) {
-    //     votestatus = "DOWNVOTE";
-    //   }
-    // }
 
     this.setState({
       username,
