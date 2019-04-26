@@ -11,10 +11,12 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView, 
+  TouchableOpacity
 } from "react-native";
 
 import { Appbar, Divider } from "react-native-paper";
+
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -34,7 +36,9 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
+
   async componentWillMount() {
+    
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
     if (user_id) {
@@ -92,17 +96,35 @@ export default class ProfileScreen extends React.Component {
     };
     await API.updateUser(this.state.user_id, data);
   }
-
-  handleBackPress = e => {
-    this.props.navigation.navigate("TipOverview");
-  };
-
+  
   render() {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-          <View>
+          <View style={styles.navBar}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("TipOverview")
+              }
+              style={styles.backButton}
+            >
+              <Text style={styles.headerText}>
+                <FontAwesome name="chevron-left" size={20} color="white" />   Tip Overview
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("TipOverview")
+              }
+              style={styles.settingsButton}
+            >
+              <Text style={styles.headerText}>
+                Settings
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* <View>
             <Appbar.Header>
               <Appbar.BackAction
                 style={styles.backButton}
@@ -122,8 +144,8 @@ export default class ProfileScreen extends React.Component {
                   })
                 }
               />
-            </Appbar.Header>
-          </View>
+            </Appbar.Header> */}
+          {/* </View> */}
           <View style={styles.profile}>
             <Image
               style={{
@@ -203,6 +225,32 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  navBar:{
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 250
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  settingsHeader: {
+    color: "white",
+    marginRight: 20
+  },
+  header: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   subheader: {
     fontWeight: "500",
     fontSize: 18
@@ -237,16 +285,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
-  backHeader: {
-    marginLeft: -10
-  },
-  settingsHeader: {
-    alignSelf: "flex-end"
-  },
+  // backButton: {
+  //   marginRight: 0,
+  //   paddingRight: 0
+  // },
+  // backHeader: {
+  //   marginLeft: -10
+  // },
+  // settingsButton: {
+  //   alignSelf: "flex-end"
+  // },
   divider: {
     backgroundColor: "black"
   },
