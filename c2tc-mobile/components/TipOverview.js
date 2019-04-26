@@ -8,15 +8,15 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
-import Geocoder from "react-native-geocoding";
 import API from "./API";
 import { NavigationEvents } from "react-navigation";
+import { latlongToAddress } from "../components/Geocoding"
 
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: "Grainger",
+      address: "Loading...",
       username: ""
     };
   }
@@ -33,13 +33,14 @@ class TipOverview extends React.Component {
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
     let address = await latlongToAddress(this.props.tip.latitude, this.props.tip.longitude);
-    
+
     if (user.anon) {
       username = "Anonymous";
     }
 
     this.setState({
-      username
+      username: username,
+      address: address
     });
   }
 
@@ -87,9 +88,6 @@ class TipOverview extends React.Component {
           </View>
           {screenType === "verification" && (
             <View style={styles.rightActions}>
-              <TouchableOpacity>
-                <Text color="red">Review</Text>
-              </TouchableOpacity>
             </View>
           )}
           {screenType === "view" && (
