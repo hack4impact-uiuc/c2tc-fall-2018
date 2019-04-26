@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
+import { AsyncStorage } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
@@ -28,7 +29,8 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
-      user: "",
+      proPic: "",
+      username: "",
       currentdate: "Thursday Feb 28",
       screenType: "view",
       tips: [],
@@ -38,6 +40,16 @@ class TipOverviewScreen extends React.Component {
 
   async componentWillMount() {
     if (this.state.screenType === "view") {
+      await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+      let user_id = await AsyncStorage.getItem("user_id");
+      if (user_id) {
+        let user = await API.getUser(user_id);
+        this.setState({
+          proPic: user.pro_pic,
+          username: this.state.username
+        });
+      }
+
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
     } else if (this.state.screenType === "verification") {
@@ -47,10 +59,20 @@ class TipOverviewScreen extends React.Component {
       let tipsResponse = await API.getTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
     }
-  }
+  };
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
+      await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+      let user_id = await AsyncStorage.getItem("user_id");
+      if (user_id) {
+        let user = await API.getUser(user_id);
+        this.setState({
+          proPic: user.pro_pic,
+          username: user.username
+        });
+      }
+
       if (this.state.screenType === "view") {
         let tipsResponse = await API.getVerifiedTips();
         this.setState({ tips: tipsResponse });
@@ -115,7 +137,7 @@ class TipOverviewScreen extends React.Component {
                   ]}
                 >
                   Good Evening,{"\n"}
-                  {this.state.user}
+                  {this.state.username}
                 </Text>
                 <TouchableOpacity onPress={this.profilePicPressed}>
                   <Image
@@ -127,7 +149,7 @@ class TipOverviewScreen extends React.Component {
                     }}
                     source={{
                       uri:
-                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                        this.state.proPic
                     }}
                   />
                 </TouchableOpacity>
