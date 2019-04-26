@@ -9,6 +9,7 @@ import {
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
 import API from "../components/API";
+// import console = require("console");
 
 class TipDetailsScreen extends React.Component {
   constructor(props) {
