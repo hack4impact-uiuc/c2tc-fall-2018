@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  AsyncStorage,
   Dimensions
 } from "react-native";
 import Tag from "../components/Tag";
@@ -17,8 +18,27 @@ class TipDetailsScreen extends React.Component {
       upvotes: 87,
       username: "",
       userid: "",
-      votestatus: ""
+      votestatus: "UPVOTE"
     };
+  }
+
+  setVoteStatus = async () => {
+    let upVotedUsers = await API.getUserUpvotes(
+      this.props.navigation.state.params.tip._id
+    );
+
+    if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+      this.state.votestatus = "UPVOTE";
+    } else {
+      let downVotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+      if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+        this.state.votestatus = "DOWNVOTE";
+      } else {
+        this.state.votestatus = "NONE";
+      }
+    }
+
+    console.log(this.state.votestatus);
   }
 
   async componentDidMount() {
@@ -37,24 +57,7 @@ class TipDetailsScreen extends React.Component {
       userid
     });
 
-    setVoteStatus();
-  }
-
-  setVoteStatus = async () => {
-    let upVotedUsers = await API.getUserUpvotes(
-      this.props.navigation.state.params.tip._id
-    );
-
-    if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
-      votestatus = "UPVOTE";
-    } else {
-      let downVotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
-      if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
-        votestatus = "DOWNVOTE";
-      } else {
-        votestatus = "NONE";
-      }
-    }
+    //this.setVoteStatus();
   }
 
   approvePress = async () => {
@@ -91,6 +94,8 @@ class TipDetailsScreen extends React.Component {
       this.props.navigation.state.params.tip._id
     );
     console.log(upVotedUsers);
+
+    this.setVoteStatus();
   };
 
   downvotePress = async () => {
@@ -105,6 +110,8 @@ class TipDetailsScreen extends React.Component {
       this.props.navigation.state.params.tip._id
     );
     console.log(downVotedUsers);
+
+    this.setVoteStatus();
   };
 
   render() {
@@ -176,7 +183,7 @@ class TipDetailsScreen extends React.Component {
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
             </View>
             <View style={styles.rightActions}>
-              {this.state.votestatus == "UPVOTE" && (
+              {this.state.votestatus === "UPVOTE" && (
                 <TouchableOpacity
                   style={styles.upvotedButton}
                   onPress={this.upvotePress}
@@ -193,7 +200,7 @@ class TipDetailsScreen extends React.Component {
                 </TouchableOpacity>
               )}
 
-              {this.state.votestatus == "DOWNVOTE" && (
+              {this.state.votestatus === "DOWNVOTE" && (
                 <TouchableOpacity
                   style={styles.downvotedButton}
                   onPress={this.downvotePress}
