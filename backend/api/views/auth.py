@@ -61,14 +61,13 @@ def post_to_auth_server(endpoint, *properties_to_post):
             status=auth_server_response.status_code,
             data=our_response_body,
         )
-        our_response.set_cookie("jwt", jwt_token)
         return (our_response, code)
 
 
 @auth.route("/verifyEmail", methods=["POST"])
 @necessary_post_params("pin")
 def verifyEmail():
-    token = request.cookies.get("jwt")
+    token = request.headers.get("jwt")
     post_body = {"pin": request.get_json()["pin"]}
     auth_server_res = requests.post(
         auth_server_host + "verifyEmail/",

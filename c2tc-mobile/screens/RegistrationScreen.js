@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
+import API from "../components/API";
 
 export default class Registration extends Component {
   constructor(props) {
@@ -17,26 +18,33 @@ export default class Registration extends Component {
   }
 
   state = {
-    usr: "",
+    email: "",
     pswd: "",
     repswd: "",
     errors: []
   };
 
   handleRegistration = async () => {
-    const errors = this.validate();
+    let errors = this.validate();
     if (errors.length === 0) {
-      //Login
+      const response = await API.registerNewUser(this.state.email, this.state.pswd);
+      if (!response.token) {
+        errors = [response.message]
+        this.setState({ errors });
+      } else {
+        await AsyncStorage.setItem("token", JSON.stringify(response.token));
+        this.setState({ successfulSubmit: true });
+      }
     } else {
       this.setState({ errors });
     }
   };
 
   validate() {
-    const errors = [];
+    let errors = [];
 
-    if (this.state.usr.length === 0) {
-      errors.push("Username cannot be empty");
+    if (this.state.email.length === 0) {
+      errors.push("Email cannot be empty");
     }
 
     if (this.state.pswd.length === 0) {
@@ -84,14 +92,14 @@ export default class Registration extends Component {
               <Text key={error}>Error: {error}</Text>
             ))}
           </View>
-          <Text style={styles.header}>Username</Text>
+          <Text style={styles.header}>Email</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="Username"
-            placeholder="Username"
-            value={this.state.usr}
-            onChangeText={usr => this.setState({ usr })}
+            label="Email"
+            placeholder="Email"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput

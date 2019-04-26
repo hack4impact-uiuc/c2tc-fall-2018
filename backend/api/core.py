@@ -103,7 +103,7 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
 def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
-        token = request.cookies.get("jwt")
+        token = request.headers.get("jwt")
         auth_server_res = requests.get(
             auth_server_host + "getUser/",
             headers={

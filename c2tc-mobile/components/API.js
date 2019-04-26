@@ -1,4 +1,6 @@
+import { AsyncStorage } from "react-native";
 const host = "https://cut-to-the-case.now.sh";
+const auth_server_host = "http://localhost:5000"
 
 async function getEndpoint(endPoint, dataKey) {
   try {
@@ -56,6 +58,31 @@ async function deleteEndpoint(endPoint) {
     console.error(error);
   }
 }
+
+async function postToAuthServer(endPoint, data, additonal_headers=null){
+  console.log("postToAuthServer");
+  try {
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
+    let response = await fetch(auth_server_host + "/" + endPoint, {
+      method: "POST",
+      headers
+    });
+    let responseJson = await response.json();
+    console.log(`responseJson: ${responseJson}`)
+    return responseJson;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function registerNewUser(email, password){
+  return postToAuthServer("register", { email, password });
+}
+
+async function login(email, password){
+  return postToAuthServer("login", { email, password });
+}
+
 async function createTip(data) {
   return postEndpoint("tips", data);
 }
@@ -201,5 +228,6 @@ export default {
   editTip,
   updateStatus,
   voteTip,
-  deleteTip
+  deleteTip,
+  registerNewUser
 };
