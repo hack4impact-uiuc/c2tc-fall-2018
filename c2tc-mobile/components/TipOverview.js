@@ -11,7 +11,7 @@ import Tag from "../components/Tag";
 import API from "./API";
 import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
-import { latlongToAddress } from "../components/Geocoding"
+import { latlongToAddress } from "../components/Geocoding";
 
 class TipOverview extends React.Component {
   constructor(props) {
@@ -35,7 +35,10 @@ class TipOverview extends React.Component {
 
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
-    let address = await latlongToAddress(this.props.tip.latitude, this.props.tip.longitude);
+    let address = await latlongToAddress(
+      this.props.tip.latitude,
+      this.props.tip.longitude
+    );
 
     if (user.anon) {
       username = "Anonymous";
@@ -92,8 +95,7 @@ class TipOverview extends React.Component {
             </Text>
           </View>
           {screenType === "verification" && (
-            <View style={styles.rightActions}>
-            </View>
+            <View style={styles.rightActions} />
           )}
           {screenType === "view" && (
             <View style={styles.rightActions}>

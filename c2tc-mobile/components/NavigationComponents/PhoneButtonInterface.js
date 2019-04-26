@@ -17,7 +17,9 @@ export default class PhoneButton extends Component {
 
   _onPress = () => {
     if (this.props.url.length !== 0) {
-      Linking.openURL('https://itunes.apple.com/us/app/mtd-connect/id1445758206')
+      Linking.openURL(
+        "https://itunes.apple.com/us/app/mtd-connect/id1445758206"
+      );
     } else {
       const args = {
         number: this.props.number,

@@ -29,10 +29,6 @@ class TipDetailsScreen extends React.Component {
       username = "Anonymous";
     }
 
-    let votestatus = ""
-    let downvotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
-    let upVotedUsers = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
-
     this.setState({
       username,
       votestatus
@@ -42,38 +38,59 @@ class TipDetailsScreen extends React.Component {
   approvePress = async () => {
     let data = {
       status: "verified"
-    }
-    let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
+    };
+    let response = await API.updateStatus(
+      this.props.navigation.state.params.tip._id,
+      data
+    );
     this.props.navigation.navigate("TipOverview");
-  }
+  };
 
   discardPress = async () => {
     let data = {
       status: "denied"
-    }
-    let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
+    };
+    let response = await API.updateStatus(
+      this.props.navigation.state.params.tip._id,
+      data
+    );
     this.props.navigation.navigate("TipOverview");
-  }
+  };
 
   upvotePress = async () => {
+    let author = await API.getUser(
+      this.props.navigation.state.params.tip.author
+    );
+
+    let data = {
+      tips_id: this.props.navigation.state.params.tip._id,
+      user_id: author._id,
+      vote_type: "UPVOTE"
+    };
+
+    let response = await API.voteTip(data);
+    let upVotedUsers = await API.getUserUpvotes(
+      this.props.navigation.state.params.tip._id
+    );
+    console.log(upVotedUsers);
+  };
+
+  downvotePress = async () => {
     let author = await API.getUser(
       this.props.navigation.state.params.tip.author
     );
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: author._id,
-      vote_type: "UPVOTE"
-    }
-    let response = await API.voteTip(data);
-  }
-
-  downvotePress = async () => {
-    let data = {
-      tips_id: this.props.navigation.state.params.tip._id,
       vote_type: "DOWNVOTE"
-    }
-    let response = await API.voteTip(this.props.navigation.state.params.tip._id, data);
-  }
+    };
+
+    let response = await API.voteTip(data);
+    let downVotedUsers = await API.getUserDownvotes(
+      this.props.navigation.state.params.tip._id
+    );
+    console.log(downVotedUsers);
+  };
 
   render() {
     let tip = this.props.navigation.state.params.tip;
@@ -120,12 +137,18 @@ class TipDetailsScreen extends React.Component {
         {screenStyle === "verification" && (
           <View style={styles.action}>
             <View style={styles.leftActionsVerif}>
-              <TouchableOpacity style={styles.discardButton} onPress={this.discardPress}>
+              <TouchableOpacity
+                style={styles.discardButton}
+                onPress={this.discardPress}
+              >
                 <Text style={styles.verifButtonText}>Discard</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.rightActionsVerif}>
-              <TouchableOpacity style={styles.approveButton} onPress={this.approvePress}>
+              <TouchableOpacity
+                style={styles.approveButton}
+                onPress={this.approvePress}
+              >
                 <Text style={styles.verifButtonText}>Approve</Text>
               </TouchableOpacity>
             </View>
@@ -138,27 +161,39 @@ class TipDetailsScreen extends React.Component {
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
             </View>
             <View style={styles.rightActions}>
-              {this.state.votestatus == "UPVOTE" &&
-                <TouchableOpacity style={styles.upvotedButton} onPress={this.upvotePress}>
+              {this.state.votestatus == "UPVOTE" && (
+                <TouchableOpacity
+                  style={styles.upvotedButton}
+                  onPress={this.upvotePress}
+                >
                   <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
                 </TouchableOpacity>
-              }
-              {this.state.votestatus != "UPVOTE" &&
-                <TouchableOpacity style={styles.button} onPress={this.upvotePress}>
+              )}
+              {this.state.votestatus != "UPVOTE" && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={this.upvotePress}
+                >
                   <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
                 </TouchableOpacity>
-              }
+              )}
 
-              {this.state.votestatus == "DOWNVOTE" &&
-                <TouchableOpacity style={styles.downvotedButton} onPress={this.downvotePress}>
+              {this.state.votestatus == "DOWNVOTE" && (
+                <TouchableOpacity
+                  style={styles.downvotedButton}
+                  onPress={this.downvotePress}
+                >
                   <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
                 </TouchableOpacity>
-              }
-              {this.state.votestatus != "DOWNVOTE" &&
-                <TouchableOpacity style={styles.button} onPress={this.downvotePress}>
+              )}
+              {this.state.votestatus != "DOWNVOTE" && (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={this.downvotePress}
+                >
                   <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
                 </TouchableOpacity>
-              }
+              )}
             </View>
           </View>
         )}
