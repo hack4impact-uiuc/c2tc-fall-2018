@@ -5,8 +5,10 @@ import {
   Dimensions,
   View,
   Text,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
@@ -143,7 +145,7 @@ class TipForm extends React.Component {
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />   Tip Overview
+              <FontAwesome name="chevron-left" size={20} color="white" />   Categories
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -151,7 +153,7 @@ class TipForm extends React.Component {
             style={styles.submitButton}
           >
             <Text style={styles.headerText}>
-              Settings
+              Submit
             </Text>
           </TouchableOpacity>
         </View>
@@ -278,7 +280,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingLeft: 20,
-    marginRight: Dimensions.get("window").width - 220
+    marginRight: Dimensions.get("window").width - 255
   },
   headerText: {
     color: "white",

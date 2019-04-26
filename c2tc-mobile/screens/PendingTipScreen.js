@@ -4,11 +4,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
-import { Appbar } from "react-native-paper";
 import TipOverview from "../components/TipOverview"
 
 class PendingTipScreen extends React.Component {
@@ -21,73 +20,76 @@ class PendingTipScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.categories}>
-        <View style={styles.header}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Tip Overview"
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-          </Appbar.Header>
+      <ScrollView style={styles.pendingTips}>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("TipOverview")
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />   TipOverview
+            </Text>
+          </TouchableOpacity>
         </View>
-        {this.state.tips.map(tip => (
-            <TipOverview
-            key={tip._id}
-            tip={tip}
-            tips={this.state.tip}
-            navigation={this.props.navigation}
-            screenType="pending"
-            />
-        ))}
-      </View>
+        <View style={styles.content}>
+            <Text style={styles.title}>
+                All Pending Tips
+            </Text>
+            {this.state.tips.map(tip => (
+                <TipOverview
+                key={tip._id}
+                tip={tip}
+                tips={this.state.tip}
+                navigation={this.props.navigation}
+                screenType="pending"
+                />
+            ))}
+        </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  content: {
+    paddingHorizontal: 22
+  },
   row: {
     flexDirection: "row",
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center"
   },
-  category: {
-    width: (Dimensions.get("window").width - 30) / 2,
-    height: (Dimensions.get("window").width - 100) / 2,
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center"
+  pendingTips:{
+    backgroundColor: "white"
   },
-  categoryText: {
-    color: "white",
-    fontSize: 15,
+  title:{
+    color: "black",
+    fontSize: 22,
     fontWeight: "500",
-    textAlign: "center"
+    alignSelf: "center",
+    marginBottom: 10
   },
-  categoryView: {
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  header: {
-    marginBottom: 20
+  navBar:{
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#C03303",
+    paddingBottom: 15,
+    marginBottom:20
   },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: 20
   },
-  backHeader: {
-    marginLeft: -10
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
-  nextHeader: {
-    alignSelf: "flex-end"
-  }
 });
 
 export default PendingTipScreen;

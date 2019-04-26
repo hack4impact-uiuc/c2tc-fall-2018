@@ -98,7 +98,7 @@ class TipDetailsScreen extends React.Component {
         </View>
 
         {screenStyle === "pending" && (
-          <View style={styles.action}>
+          <View style={styles.verification}>
             <View style={styles.leftActionsVerif}>
               <TouchableOpacity style={styles.discardButton}>
                 <Text style={styles.verifButtonText}>Discard</Text>
@@ -133,16 +133,6 @@ class TipDetailsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
-  backHeader: {
-    marginLeft: -10
-  },
-  uploadButton: {
-    marginRight: 20
-  },
   title: {
     paddingHorizontal: 20,
     marginTop: 30,
@@ -167,6 +157,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     backgroundColor: "#E6E6EB",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  verification:{
+    marginHorizontal: 20,
+    marginTop: 15,
+    borderRadius: 15,
+    padding: 10,
     flexDirection: "row",
     justifyContent: "space-between"
   },
@@ -223,18 +221,38 @@ const styles = StyleSheet.create({
   discardButton: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "red",
+    borderRadius:10,
+    backgroundColor: "#C7C7CC",
     justifyContent: "center"
   },
   approveButton: {
     paddingVertical: 10,
+    borderRadius:10,
     paddingHorizontal: 20,
-    backgroundColor: "green",
+    backgroundColor: "#358F39",
     justifyContent: "center"
   },
   verifButtonText: {
     color: "white"
-  }
+  },
+  navBar:{
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom:30
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
 });
 
 export default TipDetailsScreen;

@@ -88,7 +88,8 @@ class TipOverview extends React.Component {
             </Text>
           </View>
           {screenType === "pending" && (
-            <View style={styles.rightActions}>
+            <View style={styles.rightActionsPending}>
+              <Text style={styles.rightActionText}>Review</Text>
             </View>
           )}
           {screenType === "verified" && (
@@ -159,7 +160,18 @@ const styles = StyleSheet.create({
   rightActions: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    width: 95
+    width: 95,
+  },
+  rightActionsPending: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    width: 95,
+    paddingLeft: 30
+  },
+  rightActionText:{
+    color:"#C03303",
+    fontSize: 16,
+    fontWeight: "500",
   },
   actionText: {
     fontSize: 16,
@@ -168,7 +180,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: 16
-  }
+  },
 });
 
 export default TipOverview;
