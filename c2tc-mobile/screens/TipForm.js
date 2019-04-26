@@ -209,33 +209,34 @@ class TipForm extends React.Component {
             onChangeText={address => this.setState({ address })}
           /> */}
           <GooglePlacesAutocomplete
-            placeholder="Enter Location"
-            minLength={2}
+            placeholder="Enter Address"
+            minLength={1}
             autoFocus={false}
             returnKeyType={"default"}
             fetchDetails={true}
-            styles={{
-              textInputContainer: {
-                backgroundColor: "rgba(0,0,0,0)",
-                borderTopWidth: 0,
-                borderBottomWidth: 0,
-              },
-              textInput: {
-                marginLeft: 0,
-                marginRight: 0,
-                height: 38,
-                color: "#5d5d5d",
-                fontSize: 16
-              },
-              predefinedPlacesDescription: {
-                color: "#1faadb"
-              }
-            }}
+            // styles={{
+            //   textInputContainer: {
+            //     backgroundColor: "rgba(0,0,0,0)",
+            //     borderTopWidth: 0,
+            //     borderBottomWidth: 0,
+            //   },
+            //   textInput: {
+            //     marginLeft: 0,
+            //     marginRight: 0,
+            //     height: 38,
+            //     color: "#5d5d5d",
+            //     fontSize: 16
+            //   },
+            //   predefinedPlacesDescription: {
+            //     color: "#1faadb"
+            //   }
+            // }}
+            style={styles.inputBodyContainerStyle}
             query={{
               key: "api_key",
               language: "en"
             }}
-            currentLocation={false}
+            currentLocation={true}
           />
         </ScrollView>
       </KeyboardAvoidingView>
