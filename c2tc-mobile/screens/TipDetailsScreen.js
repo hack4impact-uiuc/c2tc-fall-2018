@@ -9,13 +9,18 @@ import {
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
 import API from "../components/API";
+import { Appbar } from "react-native-paper";
+
 
 class TipDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       upvotes: 87,
-      username: ""
+      username: "",
+      tip: this.props.navigation.state.params.tip,
+      screenStyle: this.props.navigation.state.params.screenType,
+      tips: this.props.navigation.state.params.tips,
     };
   }
 
@@ -39,28 +44,45 @@ class TipDetailsScreen extends React.Component {
 
     return (
       <View style={styles.detail}>
+
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
-            style={styles.backButton}
-          >
-            <Text style={styles.backText}>
-              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm")}
-            style={styles.uploadButton}
-          >
-            <FontAwesome name="upload" size={20} color="#027BFF" />
-          </TouchableOpacity>
+          {screenStyle === "verified" &&
+            <Appbar.Header>
+              <Appbar.BackAction
+                style={styles.backButton}
+                onPress={() => this.props.navigation.navigate("TipOverview")}
+                style={styles.backButton}
+              />
+              <Appbar.Content
+                titleStyle={styles.backHeader}
+                title="Tip Overview"
+                onPress={() => this.props.navigation.navigate("TipOverview")}
+                style={styles.backButton}
+              />
+            </Appbar.Header>
+          }
+          {screenStyle === "pending" &&
+            <Appbar.Header>
+              <Appbar.BackAction
+                style={styles.backButton}
+                onPress={() => this.props.navigation.navigate("PendingTips", {tips: this.state.tips})}
+                style={styles.backButton}
+              />
+              <Appbar.Content
+                titleStyle={styles.backHeader}
+                title="PendingTips"
+                onPress={() => this.props.navigation.navigate("PendingTips", {tips: this.state.tips})}
+                style={styles.backButton}
+              />
+            </Appbar.Header>
+          }
         </View>
         <View>
-          <Text style={styles.title}>{tip.title}</Text>
+          <Text style={styles.title}>{this.state.tip.title}</Text>
           <View style={styles.tags}>
-            <Tag key={tip.category} category={tip.category} />
+            <Tag key={this.state.tip.category} category={this.state.tip.category} />
           </View>
-          <Text style={styles.content}>{tip.content}</Text>
+          <Text style={styles.content}>{this.state.tip.content}</Text>
           <Text style={styles.postDetails}>
             {" "}
             <FontAwesome name="map-marker" size={17} /> Grainger
@@ -75,7 +97,7 @@ class TipDetailsScreen extends React.Component {
           </Text>
         </View>
 
-        {screenStyle === "verification" && (
+        {screenStyle === "pending" && (
           <View style={styles.action}>
             <View style={styles.leftActionsVerif}>
               <TouchableOpacity style={styles.discardButton}>
@@ -90,7 +112,7 @@ class TipDetailsScreen extends React.Component {
           </View>
         )}
 
-        {screenStyle === "view" && (
+        {screenStyle === "verified" && (
           <View style={styles.action}>
             <View style={styles.leftActions}>
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
@@ -112,20 +134,14 @@ class TipDetailsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   backButton: {
-    paddingLeft: 20,
-    width: Dimensions.get("window").width - 45
+    marginRight: 0,
+    paddingRight: 0
   },
-  backText: {
-    color: "#027BFF",
-    fontSize: 20
+  backHeader: {
+    marginLeft: -10
   },
   uploadButton: {
     marginRight: 20
-  },
-  header: {
-    marginTop: 30,
-    flexDirection: "row",
-    justifyContent: "flex-start"
   },
   title: {
     paddingHorizontal: 20,
@@ -141,6 +157,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height
+  },
+  header: {
+    marginBottom: 20
   },
   action: {
     marginHorizontal: 20,

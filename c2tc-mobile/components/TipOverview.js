@@ -56,7 +56,8 @@ class TipOverview extends React.Component {
         onPress={() =>
           this.props.navigation.navigate("TipDetail", {
             tip: this.props.tip,
-            screenType: this.props.screenType
+            screenType: this.props.screenType,
+            tips: this.props.tips
           })
         }
         style={styles.card}
@@ -80,14 +81,14 @@ class TipOverview extends React.Component {
               <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
-          {screenType === "verification" && (
+          {screenType === "pending" && (
             <View style={styles.rightActions}>
               <TouchableOpacity>
                 <Text color="red">Review</Text>
               </TouchableOpacity>
             </View>
           )}
-          {screenType === "view" && (
+          {screenType === "verified" && (
             <View style={styles.rightActions}>
               <TouchableOpacity style={styles.button}>
                 <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
