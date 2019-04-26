@@ -9,7 +9,6 @@ import {
   Dimensions
 } from "react-native";
 import TipOverview from "../components/TipOverview";
-import { FontAwesome } from "@expo/vector-icons";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
