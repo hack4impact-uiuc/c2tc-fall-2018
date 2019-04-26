@@ -198,7 +198,7 @@ class TipOverviewScreen extends React.Component {
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("TipCategories")}
             >
-            <Text style={styles.button}> Submit A Tip ></Text>
+            <Text style={styles.button}> Submit A Tip </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.props.navigation.navigate("PendingTips",{tips:this.state.pendingTips})}>
               <Text style={styles.button}> Review Pending Tips </Text>
@@ -230,26 +230,40 @@ const styles = StyleSheet.create({
     marginBottom: 76
   },
   content: {
-    paddingHorizontal: 35
+    paddingHorizontal: 22
   },
   date: {
-    color: "white"
+    color: "white",
+    fontWeight: "500",
+    opacity: 0.85,
+    paddingTop: 6
   },
   header: {
-    padding: 35,
+    padding: 30,
     paddingTop: 60,
     paddingBottom: 100
   },
   headertext: {
-    fontSize: 27,
-    fontWeight: "400",
+    fontSize: 30,
+    paddingTop: 4,
+    fontWeight: "600",
     color: "white",
-    borderTopColor: "#c7c7cc"
+    borderTopColor: "#c7c7cc",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   },
   button: {
-    padding: 10,
+    paddingBottom: 16,
+    paddingLeft: 8,
     fontSize: 18,
-    color: "white"
+    fontWeight: "500",
+    color: "white",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   }
 });
 
