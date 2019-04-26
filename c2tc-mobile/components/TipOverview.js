@@ -19,9 +19,9 @@ class TipOverview extends React.Component {
     this.state = {
       address: "Loading...",
       username: "",
-      userid:"",
-      isUpvoted:null,
-      isDownvoted:null
+      userid: "",
+      isUpvoted: null,
+      isDownvoted: null
     };
   }
 
@@ -62,28 +62,28 @@ class TipOverview extends React.Component {
   };
 
   setVoteStatus = async () => {
-    let upVotedUsers = await API.getUserUpvotes(
-      this.props.tip._id
-    );
+    let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
 
-    if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+    if (
+      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+    ) {
       let isUpvoted = true;
       let isDownvoted = false;
       this.setState({
         isUpvoted,
         isDownvoted
       });
-      console.log("upvoted");
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
-      if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+      if (
+        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      ) {
         let isUpvoted = false;
         let isDownvoted = true;
         this.setState({
           isUpvoted,
           isDownvoted
         });
-        console.log("downvoted");
       } else {
         let isUpvoted = false;
         let isDownvoted = false;
@@ -91,10 +91,9 @@ class TipOverview extends React.Component {
           isUpvoted,
           isDownvoted
         });
-        console.log("neither");
       }
     }
-  }
+  };
 
   upvotePress = async () => {
     let data = {
@@ -104,10 +103,6 @@ class TipOverview extends React.Component {
     };
 
     let response = await API.voteTip(data);
-    let upVotedUsers = await API.getUserUpvotes(
-      this.props.tip._id
-    );
-    console.log(upVotedUsers);
 
     this.setVoteStatus();
   };
@@ -120,10 +115,6 @@ class TipOverview extends React.Component {
     };
 
     let response = await API.voteTip(data);
-    let downVotedUsers = await API.getUserDownvotes(
-      this.props.tip._id
-    );
-    console.log(downVotedUsers);
 
     this.setVoteStatus();
   };
@@ -167,11 +158,25 @@ class TipOverview extends React.Component {
           )}
           {screenType === "view" && (
             <View style={styles.rightActions}>
-              <TouchableOpacity style={styles.button} onPress={this.upvotePress}>
-                <FontAwesome name="chevron-up" size={24} color={this.state.isUpvoted ? "green" : "#8E8E93"} />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.upvotePress}
+              >
+                <FontAwesome
+                  name="chevron-up"
+                  size={24}
+                  color={this.state.isUpvoted ? "green" : "#8E8E93"}
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={this.downvotePress}>
-                <FontAwesome name="chevron-down" size={24} color={this.state.isDownvoted ? "red" : "#8E8E93"} />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.downvotePress}
+              >
+                <FontAwesome
+                  name="chevron-down"
+                  size={24}
+                  color={this.state.isDownvoted ? "red" : "#8E8E93"}
+                />
               </TouchableOpacity>
             </View>
           )}

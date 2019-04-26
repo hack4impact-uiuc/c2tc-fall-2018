@@ -28,24 +28,28 @@ class TipDetailsScreen extends React.Component {
       this.props.navigation.state.params.tip._id
     );
 
-    if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+    if (
+      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+    ) {
       let isUpvoted = true;
       let isDownvoted = false;
       this.setState({
         isUpvoted,
         isDownvoted
       });
-      console.log("upvoted");
     } else {
-      let downVotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
-      if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+      let downVotedUsers = await API.getUserDownvotes(
+        this.props.navigation.state.params.tip._id
+      );
+      if (
+        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      ) {
         let isUpvoted = false;
         let isDownvoted = true;
         this.setState({
           isUpvoted,
           isDownvoted
         });
-        console.log("downvoted");
       } else {
         let isUpvoted = false;
         let isDownvoted = false;
@@ -53,10 +57,9 @@ class TipDetailsScreen extends React.Component {
           isUpvoted,
           isDownvoted
         });
-        console.log("neither");
       }
     }
-  }
+  };
 
   async componentDidMount() {
     let author = await API.getUser(
@@ -107,10 +110,6 @@ class TipDetailsScreen extends React.Component {
     };
 
     let response = await API.voteTip(data);
-    let upVotedUsers = await API.getUserUpvotes(
-      this.props.navigation.state.params.tip._id
-    );
-    console.log(upVotedUsers);
 
     this.setVoteStatus();
   };
@@ -123,10 +122,6 @@ class TipDetailsScreen extends React.Component {
     };
 
     let response = await API.voteTip(data);
-    let downVotedUsers = await API.getUserDownvotes(
-      this.props.navigation.state.params.tip._id
-    );
-    console.log(downVotedUsers);
 
     this.setVoteStatus();
   };
@@ -204,16 +199,23 @@ class TipDetailsScreen extends React.Component {
                 style={styles.button}
                 onPress={this.upvotePress}
               >
-                <FontAwesome name="caret-up" size={30} color={this.state.isUpvoted ? "green" : "#8E8E93"} />
+                <FontAwesome
+                  name="caret-up"
+                  size={30}
+                  color={this.state.isUpvoted ? "green" : "#8E8E93"}
+                />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={this.downvotePress}
               >
-                <FontAwesome name="caret-down" size={30} color={this.state.isDownvoted ? "red" : "#8E8E93"} />
+                <FontAwesome
+                  name="caret-down"
+                  size={30}
+                  color={this.state.isDownvoted ? "red" : "#8E8E93"}
+                />
               </TouchableOpacity>
-
             </View>
           </View>
         )}
