@@ -180,7 +180,6 @@ class TipOverviewScreen extends React.Component {
         />
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-          {screenStyle === "view" && (
             <View style={styles.header}>
               <Text style={styles.date}>
                 {this.state.currentdate.toUpperCase()}
@@ -219,12 +218,11 @@ class TipOverviewScreen extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
-          )}
-          {screenStyle === "verification" && (
+          {/* {screenStyle === "verification" && (
             <View style={styles.header}>
               <Text>All Pending Tips</Text>
             </View>
-          )}
+          )} */}
           <View style={styles.content}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("TipCategories")}
