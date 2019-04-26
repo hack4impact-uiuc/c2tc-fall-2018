@@ -81,7 +81,7 @@ Navigator = createStackNavigator({
     navigationOptions: {
       header: null,
       headerMode: "screen",
-      gesturesEnabled: false,
+      gesturesEnabled: false
     }
   },
   TipOverview: {
@@ -89,7 +89,7 @@ Navigator = createStackNavigator({
     navigationOptions: {
       header: null,
       headerMode: "screen",
-      gesturesEnabled: false,
+      gesturesEnabled: false
     }
   },
   TipCategories: {
