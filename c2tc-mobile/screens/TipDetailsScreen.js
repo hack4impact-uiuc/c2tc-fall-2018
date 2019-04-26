@@ -41,7 +41,6 @@ class TipDetailsScreen extends React.Component {
 
   approvePress = async () => {
     let data = {
-      id: this.props.navigation.state.params.tip._id,
       status: "verified"
     }
     let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
@@ -50,7 +49,6 @@ class TipDetailsScreen extends React.Component {
 
   discardPress = async () => {
     let data = {
-      id: this.props.navigation.state.params.tip._id,
       status: "denied"
     }
     let response = await API.updateStatus(this.props.navigation.state.params.tip._id, data);
