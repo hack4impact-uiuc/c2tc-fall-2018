@@ -21,7 +21,16 @@ export default class Login extends Component {
     pswd: ""
   };
 
-  handleLogin = async () => {};
+  handleLogin = async () => {
+    const response = await API.login(this.state.email, this.state.pswd);
+    if (!response.token) {
+      errors = [response.message]
+      this.setState({ errors });
+    } else {
+      await AsyncStorage.setItem("token", JSON.stringify(response.token));
+      this.setState({ successfulSubmit: true });
+    }
+  };
 
   render() {
     return (

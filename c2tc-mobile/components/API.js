@@ -83,6 +83,10 @@ async function login(email, password){
   return postToAuthServer("login", { email, password });
 }
 
+async function verifyPin(pin){
+  return postToAuthServer("verifyEmail", { pin });
+}
+
 async function createTip(data) {
   return postEndpoint("tips", data);
 }

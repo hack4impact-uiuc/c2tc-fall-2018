@@ -15,6 +15,17 @@ class VerificationScreen extends React.Component {
     pin: '0'
   };
 
+  handleVerification = async () => {
+    const response = await API.verifyPin(this.state.pin);
+    if (response.status !== 200) {
+      errors = [response.message]
+      this.setState({ errors });
+    } else {
+      await AsyncStorage.setItem("verifiedEmail", true);
+      this.setState({ successfulSubmit: true });
+    }
+  }
+
   render() {
     return (
       <View >
@@ -43,8 +54,8 @@ class VerificationScreen extends React.Component {
                 maxLength={6}
                 onChange={(e) => this.setState({pin:e})}
             />
-            <TouchableOpacity style={styles.submit}>
-                <Text style={styles.submitText}>Submit</Text>
+            <TouchableOpacity style={styles.submit} onPress={this.handleVerification} >
+              <Text style={styles.submitText}>Submit</Text>
             </TouchableOpacity>
           </View>
       </View>
