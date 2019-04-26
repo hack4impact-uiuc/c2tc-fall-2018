@@ -56,11 +56,15 @@ class TipDetailsScreen extends React.Component {
   }
 
   upvotePress = async () => {
+    let author = await API.getUser(
+      this.props.navigation.state.params.tip.author
+    );
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
+      user_id: author._id,
       vote_type: "UPVOTE"
     }
-    let response = await API.voteTip(this.props.navigation.state.params.tip._id, data);
+    let response = await API.voteTip(data);
   }
 
   downvotePress = async () => {

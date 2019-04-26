@@ -9,6 +9,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import API from "./API";
+import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
 import { latlongToAddress } from "../components/Geocoding"
 
@@ -30,6 +31,8 @@ class TipOverview extends React.Component {
   };
 
   async componentDidMount() {
+    this._mounted = true;
+
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
     let address = await latlongToAddress(this.props.tip.latitude, this.props.tip.longitude);
@@ -42,6 +45,8 @@ class TipOverview extends React.Component {
       username: username,
       address: address
     });
+
+    this._mounted = false;
   }
 
   onComponentFocused = async () => {
