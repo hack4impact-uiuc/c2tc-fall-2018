@@ -47,21 +47,32 @@ class TipDetailsScreen extends React.Component {
 
         <View style={styles.header}>
           {screenStyle === "verified" &&
-            <Appbar.Header>
-              <Appbar.BackAction
+             <View style={styles.navBar}>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("TipOverview")
+                }
                 style={styles.backButton}
-                onPress={() => this.props.navigation.navigate("TipOverview")}
-                style={styles.backButton}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="Tip Overview"
-                onPress={() => this.props.navigation.navigate("TipOverview")}
-                style={styles.backButton}
-              />
-            </Appbar.Header>
+              >
+                <Text style={styles.headerText}>
+                  <FontAwesome name="chevron-left" size={20} color="white" />   TipOverview
+                </Text>
+              </TouchableOpacity>
+            </View>
           }
           {screenStyle === "pending" &&
+           <View style={styles.navBar}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("TipOverview")
+              }
+              style={styles.backButton}
+            >
+              <Text style={styles.headerText}>
+                <FontAwesome name="chevron-left" size={20} color="white" />   TipOverview
+              </Text>
+            </TouchableOpacity>
+          </View>
             <Appbar.Header>
               <Appbar.BackAction
                 style={styles.backButton}
