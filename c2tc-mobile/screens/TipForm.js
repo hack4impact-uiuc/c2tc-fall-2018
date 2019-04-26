@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView
 } from "react-native";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
@@ -129,86 +130,116 @@ class TipForm extends React.Component {
     const { errors } = this.state;
 
     return (
-      <KeyboardAvoidingView
-        style={styles.wrapper}
-        behavior="padding"
-        keyboardVerticalOffset={0}
-      >
-        <View style={styles.headerView}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Categories"
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              title="Submit"
-              titleStyle={styles.nextHeader}
-              onPress={this.handSubmitTip}
-            />
-          </Appbar.Header>
-        </View>
-        <ScrollView
-          style={styles.container}
-          keyboardShouldPersistTaps={"always"}
-          removeClippedSubviews={false}
-        >
-          <View style={styles.errors}>
-            {errors.map(error => (
-              <Text key={error}>Error: {error}</Text>
-            ))}
-          </View>
-          <Text style={styles.header}>Tip Title</Text>
-          <TextInput
-            className={this.shouldMarkError("title") ? "error" : ""}
-            mode="outlined"
-            style={styles.inputContainerStyle}
-            label="Tip Title"
-            placeholder="Title of your tip"
-            value={this.state.title}
-            onChangeText={title => this.setState({ title })}
-          />
-          <Text style={styles.header}>Tip Content</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Content"
-            placeholder="Content of your tip"
-            value={this.state.body}
-            blurOnSubmit={false}
-            multiline={true}
-            numberOfLines={5}
-            maxHeight={150}
-            onChangeText={body => this.setState({ body })}
-          />
-          <Text style={styles.header}>Tip Address</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Address"
-            placeholder="Address of your tip"
-            value={this.state.address}
-            multiline={true}
-            numberOfLines={5}
-            maxHeight={150}
-            onChangeText={address => this.setState({ address })}
-          />
-        </ScrollView>
-      </KeyboardAvoidingView>
+      // <KeyboardAvoidingView
+      //   style={styles.wrapper}
+      //   behavior="padding"
+      //   keyboardVerticalOffset={0}
+      // >
+      //   <View style={styles.headerView}>
+      //     <Appbar.Header>
+      //       <Appbar.BackAction
+      //         style={styles.backButton}
+      //         onPress={() =>
+      //           this.props.navigation.navigate("TipCategories", {
+      //             category: this.state.category
+      //           })
+      //         }
+      //         style={styles.backButton}
+      //       />
+      //       <Appbar.Content
+      //         titleStyle={styles.backHeader}
+      //         title="Categories"
+      //         onPress={() =>
+      //           this.props.navigation.navigate("TipCategories", {
+      //             category: this.state.category
+      //           })
+      //         }
+      //         style={styles.backButton}
+      //       />
+      //       <Appbar.Content
+      //         title="Submit"
+      //         titleStyle={styles.nextHeader}
+      //         onPress={this.handSubmitTip}
+      //       />
+      //     </Appbar.Header>
+      //   </View>
+      //   <ScrollView
+      //     style={styles.container}
+      //     keyboardShouldPersistTaps={"always"}
+      //     removeClippedSubviews={false}
+      //   >
+      //     <View style={styles.errors}>
+      //       {errors.map(error => (
+      //         <Text key={error}>Error: {error}</Text>
+      //       ))}
+      //     </View>
+      //     <Text style={styles.header}>Tip Title</Text>
+      //     <TextInput
+      //       className={this.shouldMarkError("title") ? "error" : ""}
+      //       mode="outlined"
+      //       style={styles.inputContainerStyle}
+      //       label="Tip Title"
+      //       placeholder="Title of your tip"
+      //       value={this.state.title}
+      //       onChangeText={title => this.setState({ title })}
+      //     />
+      //     <Text style={styles.header}>Tip Content</Text>
+      //     <TextInput
+      //       mode="outlined"
+      //       style={styles.inputBodyContainerStyle}
+      //       label="Tip Content"
+      //       placeholder="Content of your tip"
+      //       value={this.state.body}
+      //       blurOnSubmit={false}
+      //       multiline={true}
+      //       numberOfLines={5}
+      //       maxHeight={150}
+      //       onChangeText={body => this.setState({ body })}
+      //     />
+      //     <Text style={styles.header}>Tip Address</Text>
+      //     <TextInput
+      //       mode="outlined"
+      //       style={styles.inputBodyContainerStyle}
+      //       label="Tip Address"
+      //       placeholder="Address of your tip"
+      //       value={this.state.address}
+      //       multiline={true}
+      //       numberOfLines={5}
+      //       maxHeight={150}
+      //       onChangeText={address => this.setState({ address })}
+      //     />
+      //   </ScrollView>
+      // </KeyboardAvoidingView>
+      <GooglePlacesAutocomplete
+  placeholder='Enter Location'
+  minLength={2}
+  autoFocus={false}
+  returnKeyType={'default'}
+  fetchDetails={true}
+  styles={{
+    textInputContainer: {
+      backgroundColor: 'rgba(0,0,0,0)',
+      borderTopWidth: 0,
+      borderBottomWidth:0,
+      marginTop: 100
+    },
+    textInput: {
+      marginLeft: 0,
+      marginRight: 0,
+      height: 38,
+      color: '#5d5d5d',
+      fontSize: 16
+    },
+    predefinedPlacesDescription: {
+      color: '#1faadb'
+    },
+  }}
+  query={{
+    key: 'api_key',
+    language: 'en',
+  }}
+  currentLocation={false}
+/>
     );
   }
 }
