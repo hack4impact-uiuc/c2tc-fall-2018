@@ -16,6 +16,7 @@ class TipDetailsScreen extends React.Component {
     this.state = {
       upvotes: 87,
       username: "",
+      userid: "",
       votestatus: ""
     };
   }
@@ -29,10 +30,31 @@ class TipDetailsScreen extends React.Component {
       username = "Anonymous";
     }
 
+    let userid = await AsyncStorage.getItem("user_id");
+
     this.setState({
       username,
-      votestatus
+      userid
     });
+
+    setVoteStatus();
+  }
+
+  setVoteStatus = async () => {
+    let upVotedUsers = await API.getUserUpvotes(
+      this.props.navigation.state.params.tip._id
+    );
+
+    if (upVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+      votestatus = "UPVOTE";
+    } else {
+      let downVotedUsers = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+      if (downVotedUsers.filter(user => (user._id === this.state.userid)).length > 0) {
+        votestatus = "DOWNVOTE";
+      } else {
+        votestatus = "NONE";
+      }
+    }
   }
 
   approvePress = async () => {
@@ -58,13 +80,9 @@ class TipDetailsScreen extends React.Component {
   };
 
   upvotePress = async () => {
-    let author = await API.getUser(
-      this.props.navigation.state.params.tip.author
-    );
-
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
-      user_id: author._id,
+      user_id: this.state.userid,
       vote_type: "UPVOTE"
     };
 
@@ -76,12 +94,9 @@ class TipDetailsScreen extends React.Component {
   };
 
   downvotePress = async () => {
-    let author = await API.getUser(
-      this.props.navigation.state.params.tip.author
-    );
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
-      user_id: author._id,
+      user_id: this.state.userid,
       vote_type: "DOWNVOTE"
     };
 
