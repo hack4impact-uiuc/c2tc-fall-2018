@@ -207,7 +207,7 @@ class TipOverviewScreen extends React.Component {
                     }}
                     source={token ? {
                       uri:
-                        "https://i.stack.imgur.com/l60Hf.png"
+                        "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png"
                     }
                     :  
                     {
