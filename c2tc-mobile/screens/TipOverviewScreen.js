@@ -20,6 +20,9 @@ const mapStateToProps = state => {
   };
 };
 
+const DAY_BACKGROUND_IMG = require("../assets/images/bg-day.png");
+const NIGHT_BACKGROUND_IMG = require("../assets/images/bg.png");
+
 class TipOverviewScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -31,9 +34,13 @@ class TipOverviewScreen extends React.Component {
       location: "location",
       proPic: "",
       username: "",
-      currentdate: "Thursday Feb 28",
+      user: "",
+      currentdate: "",
+      greeting: "",
+      bgImg: DAY_BACKGROUND_IMG,
       screenType: "view",
       tips: [],
+      pendingTips: [],
       hasLoaded: false
     };
   }
@@ -49,16 +56,10 @@ class TipOverviewScreen extends React.Component {
           username: this.state.username
         });
       }
-
+      this.setDate();
+      this.setGreeting();
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
-    } else if (this.state.screenType === "verification") {
-      let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
-    } else {
-      let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
-    }
   }
 
   onComponentFocused = async () => {
@@ -72,40 +73,81 @@ class TipOverviewScreen extends React.Component {
           username: user.username
         });
       }
-
-      if (this.state.screenType === "view") {
-        let tipsResponse = await API.getVerifiedTips();
-        this.setState({ tips: tipsResponse });
-      } else if (this.state.screenType === "verification") {
-        let tipsResponse = await API.getPendingTips();
-        this.setState({ tips: tipsResponse });
-      } else {
-        let tipsResponse = await API.getTips();
-        this.setState({ tips: tipsResponse });
-      }
-    }
-  };
-
-  onChangeScreenType = async () => {
-    if (this.state.screenType === "view") {
-      this.state.screenType = "verification";
-    } else {
-      this.state.screenType = "view";
-    }
-    if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
-    } else if (this.state.screenType === "verification") {
-      let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse });
-    } else {
-      let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse });
     }
+    let pendingTips = await API.getPendingTips();
+    this.setState({ pendingTips });
   };
-
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
+  };
+
+  setGreeting = () => {
+    let curr_greeting = "";
+    let hour = new Date().getUTCHours();
+
+    if (hour <= 4) {
+      curr_greeting = "Good Night";
+    } else if (hour <= 12) {
+      curr_greeting = "Good Morning";
+    } else if (hour <= 15) {
+      curr_greeting = "Good Afternoon";
+    } else if (hour <= 19) {
+      curr_greeting = "Good Evening";
+    } else {
+      curr_greeting = "Good Night";
+    }
+
+    this.setState({
+      greeting: curr_greeting
+    });
+  };
+
+  isNight = () => {
+    const hour = new Date().getUTCHours();
+    return hour <= 4 || hour >= 19;
+  };
+  setDate = () => {
+    date = new Date();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+
+    const dayNames = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thrusday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ];
+
+    const day = date.getDay();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    const date_str =
+      dayNames[day - 1] +
+      " " +
+      monthNames[monthIndex] +
+      " " +
+      year.toString().slice(2);
+    this.setState({
+      currentdate: date_str
+    });
   };
 
   render() {
@@ -117,14 +159,26 @@ class TipOverviewScreen extends React.Component {
       <View>
         <Image
           style={styles.backgroundImg}
-          source={require("../assets/images/bg.png")}
+          source={this.isNight() ? NIGHT_BACKGROUND_IMG : DAY_BACKGROUND_IMG}
         />
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-          {screenStyle === "view" && (
-            <View style={styles.header}>
-              <Text style={styles.date}>
-                {this.state.currentdate.toUpperCase()}
+          <View style={styles.header}>
+            <Text style={styles.date}>
+              {this.state.currentdate.toUpperCase()}
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={[
+                  styles.headertext,
+                  {
+                    alignSelf: "flex-start",
+                    width: Dimensions.get("window").width - 104
+                  }
+                ]}
+              >
+                Good Evening,{"\n"}
+                {this.state.user}
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <Text
@@ -159,29 +213,30 @@ class TipOverviewScreen extends React.Component {
             <View style={styles.header}>
               <Text>All Pending Tips</Text>
             </View>
-          )}
+          </View>
           <View style={styles.content}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("TipCategories")}
             >
-              <Text style={styles.button}> Submit A Tip ></Text>
+              <Text style={styles.button}> Submit A Tip </Text>
             </TouchableOpacity>
-            {screenStyle === "view" && (
-              <TouchableOpacity onPress={this.onChangeScreenType}>
-                <Text style={styles.button}> Review Pending Tips </Text>
-              </TouchableOpacity>
-            )}
-            {screenStyle === "verification" && (
-              <TouchableOpacity onPress={this.onChangeScreenType}>
-                <Text style={styles.button}> View Verified Tips </Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("PendingTips", {
+                  tips: this.state.pendingTips
+                })
+              }
+            >
+              <Text style={styles.button}> Review Pending Tips </Text>
+            </TouchableOpacity>
+
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}
                 tip={tip}
+                tips={this.state.tip}
                 navigation={this.props.navigation}
-                screenType={this.state.screenType}
+                screenType="verified"
               />
             ))}
           </View>
@@ -201,26 +256,40 @@ const styles = StyleSheet.create({
     marginBottom: 76
   },
   content: {
-    paddingHorizontal: 35
+    paddingHorizontal: 22
   },
   date: {
-    color: "white"
+    color: "white",
+    fontWeight: "500",
+    opacity: 0.85,
+    paddingTop: 6
   },
   header: {
-    padding: 35,
+    padding: 30,
     paddingTop: 60,
     paddingBottom: 100
   },
   headertext: {
-    fontSize: 27,
-    fontWeight: "400",
+    fontSize: 30,
+    paddingTop: 4,
+    fontWeight: "600",
     color: "white",
-    borderTopColor: "#c7c7cc"
+    borderTopColor: "#c7c7cc",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   },
   button: {
-    padding: 10,
+    paddingBottom: 16,
+    paddingLeft: 8,
     fontSize: 18,
-    color: "white"
+    fontWeight: "500",
+    color: "white",
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   }
 });
 

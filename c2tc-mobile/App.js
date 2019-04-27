@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import API from "./components/API";
 
+import API from "./components/API";
+import VerifyScreen from "./screens/VerificationScreen";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -11,13 +12,24 @@ import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
 import TipCategories from "./screens/TipCategories";
 import TipScreen from "./screens/TipScreen";
+import PendingTipScreen from "./screens/PendingTipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 
+import { Notifications, Location, TaskManager, Permissions } from "expo";
+
+const LOCATION_TASK_NAME = "background-location-task";
+
 export default class App extends Component {
+  beginListeningToLocation = async () => {
+    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      accuracy: Location.Accuracy.Balanced
+    });
+  };
+
   constructor(props) {
     super(props);
   }
@@ -28,6 +40,17 @@ export default class App extends Component {
     } else {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+    } else {
+      Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+        accuracy: Location.Accuracy.Balanced
+      });
+    }
+    await this.beginListeningToLocation();
   }
 
   componentWillUnmount() {
@@ -58,14 +81,16 @@ Navigator = createStackNavigator({
     screen: MapScreen,
     navigationOptions: {
       header: null,
-      headerMode: "screen"
+      headerMode: "screen",
+      gesturesEnabled: false
     }
   },
   TipOverview: {
     screen: TipScreen,
     navigationOptions: {
       header: null,
-      headerMode: "screen"
+      headerMode: "screen",
+      gesturesEnabled: false
     }
   },
   TipCategories: {
@@ -116,5 +141,72 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
+  },
+  PendingTips: {
+    screen: PendingTipScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Verify: {
+    screen: VerifyScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
   }
 });
+
+function shouldNotify(eventsNearby) {
+  return eventsNearby.length > 0;
+}
+
+function compareEvents(eventA, eventB) {
+  let eventAScore = eventA.upvotes.length - eventA.downvotes.length;
+  let eventBScore = eventB.upvotes.length - eventB.downvotes.length;
+  return eventAScore < eventBScore ? -1 : eventAScore > eventBScore ? 1 : 0;
+}
+
+function createNotificationData(eventsNearby) {
+  topFiveTips = eventsNearby
+    .sort(compareEvents)
+    .reverse()
+    .slice(0, 5);
+  let compositeTipsTitles = topFiveTips.map(tip => tip.title).join("\n");
+
+  const localnotification = {
+    title: "There are tips nearby!",
+    body: compositeTipsTitles,
+    android: {
+      sound: true
+    },
+    ios: {
+      sound: true
+    }
+  };
+  return localnotification;
+}
+
+handleNewLocation = async ({ data, error }) => {
+  if (error) {
+    return;
+  }
+  if (data) {
+    const { locations } = data;
+    const lat = locations[0].coords.latitude;
+    const long = locations[0].coords.longitude;
+    eventsNearby = await API.getTipsNearby(lat, long);
+
+    if (shouldNotify(eventsNearby)) {
+      const notificationData = createNotificationData(eventsNearby);
+      const schedulingOptions = { time: Date.now() + 1000 };
+      Notifications.scheduleLocalNotificationAsync(
+        notificationData,
+        schedulingOptions
+      );
+    }
+  }
+};
+
+TaskManager.defineTask(LOCATION_TASK_NAME, handleNewLocation);

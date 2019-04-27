@@ -8,16 +8,20 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
-import Geocoder from "react-native-geocoding";
 import API from "./API";
+import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
+import { latlongToAddress } from "../components/Geocoding";
 
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: "Grainger",
-      username: ""
+      address: "Loading...",
+      username: "",
+      userid: "",
+      isUpvoted: null,
+      isDownvoted: null
     };
   }
 
@@ -31,13 +35,20 @@ class TipOverview extends React.Component {
 
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
+    let userid = user._id;
     let username = user.username;
+    let address = await latlongToAddress(
+      this.props.tip.latitude,
+      this.props.tip.longitude
+    );
     if (user.anon) {
       username = "Anonymous";
     }
 
     this.setState({
-      username
+      userid: userid,
+      username: username,
+      address: address
     });
   }
 
@@ -49,6 +60,64 @@ class TipOverview extends React.Component {
     });
   };
 
+  setVoteStatus = async () => {
+    let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
+
+    if (
+      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+    ) {
+      let isUpvoted = true;
+      let isDownvoted = false;
+      this.setState({
+        isUpvoted,
+        isDownvoted
+      });
+    } else {
+      let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
+      if (
+        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      ) {
+        let isUpvoted = false;
+        let isDownvoted = true;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+      } else {
+        let isUpvoted = false;
+        let isDownvoted = false;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+      }
+    }
+  };
+
+  upvotePress = async () => {
+    let data = {
+      tips_id: this.props.tip._id,
+      user_id: this.state.userid,
+      vote_type: "UPVOTE"
+    };
+
+    let response = await API.voteTip(data);
+
+    this.setVoteStatus();
+  };
+
+  downvotePress = async () => {
+    let data = {
+      tips_id: this.props.tip._id,
+      user_id: this.state.userid,
+      vote_type: "DOWNVOTE"
+    };
+
+    let response = await API.voteTip(data);
+
+    this.setVoteStatus();
+  };
+
   render() {
     const screenType = this.props.screenType;
     return (
@@ -56,7 +125,8 @@ class TipOverview extends React.Component {
         onPress={() =>
           this.props.navigation.navigate("TipDetail", {
             tip: this.props.tip,
-            screenType: this.props.screenType
+            screenType: this.props.screenType,
+            tips: this.props.tips
           })
         }
         style={styles.card}
@@ -71,29 +141,44 @@ class TipOverview extends React.Component {
           </View>
           <Text style={styles.tipTitle}>{this.props.tip.title}</Text>
         </View>
+        <View style={styles.cardActionsBorder} />
         <View style={styles.cardActions}>
           <View style={styles.leftActions}>
             <Text style={styles.actionText}>
-              <FontAwesome name="map-marker" size={17} /> {this.state.address}{" "}
+              <FontAwesome name="map-marker" size={16} color="#8E8E93" />{" "}
+              {this.state.address}{" "}
             </Text>
             <Text style={styles.actionText}>
-              <FontAwesome name="user" size={17} /> {this.state.username}
+              <FontAwesome name="user" size={16} color="#8E8E93" />{" "}
+              {this.state.username}
             </Text>
           </View>
-          {screenType === "verification" && (
-            <View style={styles.rightActions}>
-              <TouchableOpacity>
-                <Text color="red">Review</Text>
-              </TouchableOpacity>
+          {screenType === "pending" && (
+            <View style={styles.rightActionsPending}>
+              <Text style={styles.rightActionText}>Review</Text>
             </View>
           )}
-          {screenType === "view" && (
+          {screenType === "verified" && (
             <View style={styles.rightActions}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.upvotePress}
+              >
+                <FontAwesome
+                  name="chevron-up"
+                  size={24}
+                  color={this.state.isUpvoted ? "green" : "#8E8E93"}
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.downvotePress}
+              >
+                <FontAwesome
+                  name="chevron-down"
+                  size={24}
+                  color={this.state.isDownvoted ? "red" : "#8E8E93"}
+                />
               </TouchableOpacity>
             </View>
           )}
@@ -112,53 +197,69 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    shadowColor: "rgba(0,0,0, .6)",
-    shadowOffset: { height: 2, width: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 3
+    elevation: 7,
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   },
   tags: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    marginBottom: 5
+    marginBottom: 10
   },
   cardTitle: {
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    padding: 20,
+    padding: 15,
     backgroundColor: "white"
   },
   tipTitle: {
-    fontSize: 20,
-    fontWeight: "500"
+    fontSize: 18,
+    fontWeight: "600",
+    paddingBottom: 1
+  },
+  cardActionsBorder: {
+    alignItems: "center",
+    height: 1.5,
+    marginTop: -1.5,
+    backgroundColor: "#C7C7CC",
+    marginHorizontal: 15
   },
   cardActions: {
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    padding: 20,
-    backgroundColor: "#E4E4E4",
+    padding: 15,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "flex-start"
   },
   leftActions: {
-    width: Dimensions.get("window").width - 195
+    width: Dimensions.get("window").width - 160
   },
   rightActions: {
     flexDirection: "row",
     justifyContent: "flex-start",
     width: 95
   },
+  rightActionsPending: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    width: 95,
+    paddingLeft: 30
+  },
+  rightActionText: {
+    color: "#C03303",
+    fontSize: 16,
+    fontWeight: "500"
+  },
   actionText: {
-    fontSize: 17
+    fontSize: 16,
+    fontWeight: "600",
+    paddingVertical: 2
   },
   button: {
-    alignItems: "center",
-    height: 35,
-    width: 35,
-    margin: 5,
-    borderRadius: 25,
-    backgroundColor: "white"
+    marginLeft: 16
   }
 });
 

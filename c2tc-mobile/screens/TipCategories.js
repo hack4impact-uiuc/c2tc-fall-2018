@@ -13,51 +13,31 @@ import { Appbar } from "react-native-paper";
 class TipCategories extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedCategory: this.props.navigation.getParam("category", "")
-    };
-  }
-
-  onCategorySelected(selectedCategory) {
-    this.setState({ selectedCategory });
   }
 
   render() {
     return (
       <View style={styles.categories}>
-        <View style={styles.header}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Tip Overview"
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-            {this.state.selectedCategory !== "" && (
-              <Appbar.Content
-                title="Next"
-                titleStyle={styles.nextHeader}
-                onPress={() =>
-                  this.props.navigation.navigate("TipForm", {
-                    category: this.state.selectedCategory
-                  })
-                }
-              />
-            )}
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+              Overview
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("crime")}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "crime"
+              })
+            }
             style={[
-              this.state.selectedCategory !== "crime"
-                ? styles.category
-                : styles.categorySelected,
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.crime }
             ]}
           >
@@ -70,13 +50,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("health")}
-            style={[
-              this.state.selectedCategory !== "health"
-                ? styles.category
-                : styles.categorySelected,
-              { backgroundColor: Colors.health }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "health"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.health }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -89,11 +68,13 @@ class TipCategories extends React.Component {
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("transportation")}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "transportation"
+              })
+            }
             style={[
-              this.state.selectedCategory !== "transportation"
-                ? styles.category
-                : styles.categorySelected,
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.transportation }
             ]}
           >
@@ -106,13 +87,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("financial")}
-            style={[
-              this.state.selectedCategory !== "financial"
-                ? styles.category
-                : styles.categorySelected,
-              { backgroundColor: Colors.financial }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "financial"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.financial }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -147,15 +127,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center"
   },
-  categorySelected: {
-    width: (Dimensions.get("window").width - 30) / 2,
-    height: (Dimensions.get("window").width - 100) / 2,
-    borderWidth: 2,
-    borderColor: "black",
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center"
-  },
   categoryText: {
     color: "white",
     fontSize: 15,
@@ -169,15 +140,23 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20
   },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
+  },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
   },
-  backHeader: {
-    marginLeft: -10
-  },
-  nextHeader: {
-    alignSelf: "flex-end"
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });
 

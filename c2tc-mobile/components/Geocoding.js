@@ -1,15 +1,14 @@
 export async function addressToLatLong(address) {
   api_latlong =
     "http://www.mapquestapi.com/geocoding/v1/address?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&maxResults=5&outFormat=json&location=" +
-    address;
+    address +
+    "&boundingBox=40.121581,-88.253981,40.098315,-88.205082";
 
   const response = await fetch(api_latlong, {});
   const responseJson = await response.json();
 
   lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
   lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-  console.log(lat);
-  console.log(lng);
   return [lat, lng];
 }
 
@@ -19,7 +18,8 @@ export async function latlongToAddress(lat, long) {
     lat +
     "," +
     long +
-    "&includeRoadMetadata=false&includeNearestIntersection=false";
+    "&includeRoadMetadata=false&includeNearestIntersection=false" +
+    "&boundingBox=40.121581,-88.253981,40.098315,-88.205082";
 
   const response = await fetch(api_address, {});
   const responseJson = await response.json();

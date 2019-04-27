@@ -23,3 +23,4 @@ class User(mongoengine.DynamicDocument):
         required=True,
         default="https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
     )
+    auth_server_uid = StringField(required=True)

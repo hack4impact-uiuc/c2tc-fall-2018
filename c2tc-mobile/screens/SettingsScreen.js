@@ -30,26 +30,20 @@ export default class SettingsScreen extends React.Component {
     return (
       <View>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("Profile", {
-                  user: this.state.user
-                })
-              }
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Profile Screen"
-              onPress={() =>
-                this.props.navigation.navigate("Profile", {
-                  user: this.state.user
-                })
-              }
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Profile", {
+                user: this.state.user
+              })
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Profile
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() =>
@@ -103,10 +97,6 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
   profile: {
     flexDirection: "row",
     padding: 25
@@ -140,8 +130,23 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 100
   },
-  backHeader: {
-    marginLeft: -10
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
   arrow: {
     paddingTop: 15
