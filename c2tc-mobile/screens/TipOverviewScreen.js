@@ -181,14 +181,9 @@ class TipOverviewScreen extends React.Component {
                   }
                 ]}
               >
-<<<<<<< HEAD
-                Good Evening,{"\n"}
-                {this.state.user}
-=======
                 {this.state.greeting}
                 {"\n"}
                 {this.state.username}
->>>>>>> master
               </Text>
               <TouchableOpacity onPress={this.profilePicPressed}>
                 <Image
@@ -199,23 +194,10 @@ class TipOverviewScreen extends React.Component {
                     alignSelf: "flex-end"
                   }}
                   source={{
-<<<<<<< HEAD
-                    uri:
-                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          {/* {screenStyle === "verification" && (
-            <View style={styles.header}>
-              <Text>All Pending Tips</Text>
-=======
                     uri: this.state.proPic
                   }}
                 />
               </TouchableOpacity>
->>>>>>> master
             </View>
           </View>
           <View style={styles.content}>

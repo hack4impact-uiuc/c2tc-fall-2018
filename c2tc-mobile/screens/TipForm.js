@@ -233,24 +233,7 @@ class TipForm extends React.Component {
             autoFocus={false}
             returnKeyType={"default"}
             fetchDetails={true}
-            // styles={{
-            //   textInputContainer: {
-            //     backgroundColor: "rgba(0,0,0,0)",
-            //     borderTopWidth: 0,
-            //     borderBottomWidth: 0,
-            //   },
-            //   textInput: {
-            //     marginLeft: 0,
-            //     marginRight: 0,
-            //     height: 38,
-            //     color: "#5d5d5d",
-            //     fontSize: 16
-            //   },
-            //   predefinedPlacesDescription: {
-            //     color: "#1faadb"
-            //   }
-            // }}
-            style={styles.inputBodyContainerStyle}
+            styles={styles.searchAhead}
             query={{
               key: "api_key",
               language: "en"
@@ -290,6 +273,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 0
   },
+  searchAhead: {textInputContainer: {
+        backgroundColor: "rgba(0,0,0,0)",
+        borderTopWidth: 0,
+        borderBottomWidth: 0,
+      },
+      textInput: {
+        marginLeft: 0,
+        marginRight: 0,
+        height: 38,
+        color: "#5d5d5d",
+        fontSize: 16
+      },
+      predefinedPlacesDescription: {
+        color: "#1faadb"
+      }
+    },
   header: {
     fontWeight: "500",
     fontSize: 25,
