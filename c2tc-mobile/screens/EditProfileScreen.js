@@ -44,19 +44,20 @@ export default class EditProfileScreen extends React.Component {
     this.setState({
       url: picture
     })
-    let data = {
-      pro_pic: this.state.url
-    };
-    await API.updateUser(this.state.user._id, data);
-    let currentUser = this.state.user;
-    this.setState({ user: currentUser });
   }
 
   openModal = () => {
     this.setState({modalVisible: true});
   }
 
-  closeModal = () => {
+  closeModal = async() => {
+    console.log(this.state.url)
+    let data = {
+      pro_pic: this.state.url
+    };
+    await API.updateUser(this.state.user._id, data);
+    let currentUser = this.state.user;
+    this.setState({ user: currentUser });
     this.setState({modalVisible: false});
   }
 
@@ -72,7 +73,7 @@ export default class EditProfileScreen extends React.Component {
             <Text style={styles.modalText}>Enter URL for new picture:</Text>
             <TextInput
               style={styles.textInput}
-              onChangeText={e => this.onChangePicture(e)}
+              onChangeText={(e) => this.onChangePicture(e)}
               value={this.state.url}
             />
             <Text onPress={this.closeModal} style={styles.modalSave}>Save</Text>
