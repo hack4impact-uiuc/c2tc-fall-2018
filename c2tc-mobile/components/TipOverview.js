@@ -4,12 +4,13 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Button,
+  Alert
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import API from "./API";
-import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
 import { latlongToAddress } from "../components/Geocoding";
 
@@ -20,8 +21,10 @@ class TipOverview extends React.Component {
       address: "Loading...",
       username: "",
       userid: "",
-      isUpvoted: null,
-      isDownvoted: null
+      isUpvoted: false,
+      isDownvoted: false,
+      downvoteList: [],
+      upvoteList: []
     };
   }
 
@@ -35,37 +38,46 @@ class TipOverview extends React.Component {
 
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
-    let userid = user._id;
-    let username = user.username;
     let address = await latlongToAddress(
       this.props.tip.latitude,
       this.props.tip.longitude
     );
 
-    if (user.anon) {
-      username = "Anonymous";
-    }
-
     this.setState({
-      userid: userid,
-      username: username,
+      user: user,
+      username: user.anon ? "Anonymous" : user.username,
       address: address
     });
+    if (this.props.screenType === "verified") {
+      this.setVoteStatus();
+    }
   }
 
   onComponentFocused = async () => {
     let user = await API.getUser(this.props.tip.author);
+    let address = await latlongToAddress(
+      this.props.tip.latitude,
+      this.props.tip.longitude
+    );
 
     this.setState({
-      username: user.username
+      user: user,
+      username: user.anon ? "Anonymous" : user.username,
+      address: address
     });
+    if (this.props.screenType === "verified") {
+      this.setVoteStatus();
+    }
   };
 
   setVoteStatus = async () => {
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
-
+    this.setState({
+      upvoteList: upVotedUsers
+    });
     if (
-      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      upVotedUsers &&
+      upVotedUsers.filter(user => user._id === this.props.user._id).length > 0
     ) {
       let isUpvoted = true;
       let isDownvoted = false;
@@ -75,8 +87,13 @@ class TipOverview extends React.Component {
       });
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
+      this.setState({
+        downvoteList: downVotedUsers
+      });
       if (
-        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+        downVotedUsers &&
+        downVotedUsers.filter(user => user._id === this.props.user._id).length >
+          0
       ) {
         let isUpvoted = false;
         let isDownvoted = true;
@@ -96,27 +113,49 @@ class TipOverview extends React.Component {
   };
 
   upvotePress = async () => {
+    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.tip._id,
-      user_id: this.state.userid,
+      user_id: this.props.user._id,
       vote_type: "UPVOTE"
     };
-
-    let response = await API.voteTip(data);
-
-    this.setVoteStatus();
+    await API.voteTip(data);
   };
 
   downvotePress = async () => {
+    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.tip._id,
-      user_id: this.state.userid,
+      user_id: this.props.user._id,
       vote_type: "DOWNVOTE"
     };
+    await API.voteTip(data);
+  };
 
-    let response = await API.voteTip(data);
+  editPress = () => {
+    this.props.navigation.navigate("TipForm", {
+      category: this.props.tip.category,
+      edit: true,
+      tip_id: this.props.tip._id,
+      body: this.props.tip.content,
+      title: this.props.tip.title
+    });
+  };
 
-    this.setVoteStatus();
+  deletePress = () => {
+    Alert.alert(
+      "Are you sure you want to Delete?",
+      "Deletions are permanent",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: async () => API.deleteTip(this.props.tip._id) }
+      ],
+      { cancelable: false }
+    );
   };
 
   render() {
@@ -126,7 +165,13 @@ class TipOverview extends React.Component {
         onPress={() =>
           this.props.navigation.navigate("TipDetail", {
             tip: this.props.tip,
-            screenType: this.props.screenType
+            screenType: this.props.screenType,
+            tips: this.props.tips,
+            upvoted: this.state.isUpvoted,
+            downvoted: this.state.isDownvoted,
+            author: this.state.user,
+            upvoteList: this.state.upvoteList,
+            downvoteList: this.state.downvoteList
           })
         }
         style={styles.card}
@@ -153,10 +198,18 @@ class TipOverview extends React.Component {
               {this.state.username}
             </Text>
           </View>
-          {screenType === "verification" && (
-            <View style={styles.rightActions} />
+          {screenType === "pending" && (
+            <View style={styles.rightActionsPending}>
+              <Text style={styles.rightActionText}>Review</Text>
+            </View>
           )}
-          {screenType === "view" && (
+          {this.props.editable === true && (
+            <View>
+              <Button title="Edit" onPress={this.editPress} />
+              <Button title="Delete" onPress={this.deletePress} />
+            </View>
+          )}
+          {screenType === "verified" && (
             <View style={styles.rightActions}>
               <TouchableOpacity
                 style={styles.button}
@@ -195,7 +248,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    elevation: 3,
+    elevation: 7,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 0.25,
@@ -221,7 +274,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 1.5,
     marginTop: -1.5,
-    backgroundColor: "#C7C7CC",
+    backgroundColor: "#E8E8EA",
     marginHorizontal: 15
   },
   cardActions: {
@@ -239,6 +292,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: 95
+  },
+  rightActionsPending: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    width: 95,
+    paddingLeft: 30
+  },
+  rightActionText: {
+    color: "#C03303",
+    fontSize: 16,
+    fontWeight: "500"
   },
   actionText: {
     fontSize: 16,

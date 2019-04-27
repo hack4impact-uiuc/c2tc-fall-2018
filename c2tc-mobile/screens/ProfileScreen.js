@@ -11,7 +11,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 
 import { Appbar, Divider } from "react-native-paper";
@@ -46,7 +47,8 @@ export default class ProfileScreen extends React.Component {
         karmaScore: user.karma,
         verified: user.verified,
         anonymousToOthers: user.anon,
-        netId: user.net_id
+        netId: user.net_id,
+        proPic: user.pro_pic
       });
       let verifiedTips = await API.getVerifiedTipsByUser(user_id);
       this.setState({
@@ -93,36 +95,31 @@ export default class ProfileScreen extends React.Component {
     await API.updateUser(this.state.user_id, data);
   }
 
-  handleBackPress = e => {
-    this.props.navigation.navigate("TipOverview");
-  };
-
   render() {
     return (
-      <View>
+      <View style={styles.profileScreen}>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-          <View>
-            <Appbar.Header>
-              <Appbar.BackAction
-                style={styles.backButton}
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="Tip Overview"
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                title="Settings"
-                titleStyle={styles.settingsHeader}
-                onPress={() =>
-                  this.props.navigation.navigate("Settings", {
-                    user: this.state.user
-                  })
-                }
-              />
-            </Appbar.Header>
+          <View style={styles.navBar}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("TipOverview")}
+              style={styles.backButton}
+            >
+              <Text style={styles.headerText}>
+                <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+                Overview
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("Settings", {
+                  user: this.state.user
+                })
+              }
+              style={styles.settingsButton}
+            >
+              <Text style={styles.headerText}>Settings</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.profile}>
             <Image
@@ -133,8 +130,7 @@ export default class ProfileScreen extends React.Component {
                 borderRadius: 70 / 2
               }}
               source={{
-                uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                uri: this.state.proPic
               }}
             />
             <Text style={styles.header}>{this.state.displayName} </Text>
@@ -144,11 +140,11 @@ export default class ProfileScreen extends React.Component {
           </View>
           {this.state.verified && (
             <View>
-              <Divider style={styles.divider} />
+              <View style={styles.divider} />
               <Text style={styles.dividedText}>Moderator (Verified)</Text>
             </View>
           )}
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <View style={styles.anonView}>
             <Text style={[styles.dividedText, styles.anonText]}>
               Anonymous To Other Users
@@ -156,17 +152,17 @@ export default class ProfileScreen extends React.Component {
             <ToggleSwitch
               style={styles.anonToggle}
               isOn={this.state.anonymousToOthers}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={e => this.onChangeVisibility(e)}
             />
           </View>
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <Text style={styles.dividedText}>
             {this.state.netId}@illinois.edu
           </Text>
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <View style={styles.content}>
             <Text style={styles.subheader}> Posted Tips </Text>
             {this.state.verifiedTips.map(tip => (
@@ -175,6 +171,7 @@ export default class ProfileScreen extends React.Component {
                 tip={tip}
                 navigation={this.props.navigation}
                 screenType={"view"}
+                editable={true}
               />
             ))}
             <Text style={styles.subheader}> Pending Tips </Text>
@@ -203,6 +200,36 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  profileScreen: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 270
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  settingsHeader: {
+    color: "white",
+    marginRight: 20
+  },
+  header: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   subheader: {
     fontWeight: "500",
     fontSize: 18
@@ -237,18 +264,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
-  backHeader: {
-    marginLeft: -10
-  },
-  settingsHeader: {
-    alignSelf: "flex-end"
-  },
   divider: {
-    backgroundColor: "black"
+    borderBottomColor: "#CACACF",
+    marginHorizontal: 22,
+    borderBottomWidth: 1
   },
 
   tipOverview: {
