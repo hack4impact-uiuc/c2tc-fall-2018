@@ -86,7 +86,6 @@ class TipForm extends React.Component {
         category: this.state.category
       };
       if (this.props.navigation.getParam("edit", false)) {
-        console.log("Edit Tip");
         await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
         this.props.navigation.navigate("Profile", {
           user: true
