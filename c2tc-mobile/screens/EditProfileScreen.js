@@ -1,7 +1,14 @@
 import React from "react";
 import API from "../components/API";
 
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput } from "react-native-paper";
 
@@ -49,7 +56,8 @@ export default class EditProfileScreen extends React.Component {
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />   Save Changes
+              <FontAwesome name="chevron-left" size={20} color="white" /> Save
+              Changes
             </Text>
           </TouchableOpacity>
         </View>
@@ -103,14 +111,14 @@ const styles = StyleSheet.create({
     borderColor: "black",
     marginHorizontal: 35
   },
-  navBar:{
+  navBar: {
     paddingTop: 37,
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom:30
+    marginBottom: 30
   },
   backButton: {
     paddingLeft: 20,
@@ -120,5 +128,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "500"
-  },
+  }
 });

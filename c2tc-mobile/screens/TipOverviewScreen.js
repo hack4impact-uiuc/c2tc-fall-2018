@@ -37,7 +37,7 @@ class TipOverviewScreen extends React.Component {
       bgImg: DAY_BACKGROUND_IMG,
       screenType: "view",
       tips: [],
-      pendingTips:[],
+      pendingTips: [],
       hasLoaded: false
     };
   }
@@ -47,16 +47,15 @@ class TipOverviewScreen extends React.Component {
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
     this.setState({ tips: tipsResponse, hasLoaded: true });
-  
   }
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-        let tipsResponse = await API.getVerifiedTips();
-        this.setState({ tips: tipsResponse });
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
     }
     let pendingTips = await API.getPendingTips();
-    this.setState({ pendingTips});
+    this.setState({ pendingTips });
   };
 
   // onChangeScreenType = async () => {
@@ -161,46 +160,52 @@ class TipOverviewScreen extends React.Component {
         />
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-            <View style={styles.header}>
-              <Text style={styles.date}>
-                {this.state.currentdate.toUpperCase()}
+          <View style={styles.header}>
+            <Text style={styles.date}>
+              {this.state.currentdate.toUpperCase()}
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={[
+                  styles.headertext,
+                  {
+                    alignSelf: "flex-start",
+                    width: Dimensions.get("window").width - 104
+                  }
+                ]}
+              >
+                Good Evening,{"\n"}
+                {this.state.user}
               </Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text
-                  style={[
-                    styles.headertext,
-                    {
-                      alignSelf: "flex-start",
-                      width: Dimensions.get("window").width - 104
-                    }
-                  ]}
-                >
-                  Good Evening,{"\n"}
-                  {this.state.user}
-                </Text>
-                <TouchableOpacity onPress={this.profilePicPressed}>
-                  <Image
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 50 / 2,
-                      alignSelf: "flex-end"
-                    }}
-                    source={{
-                      uri:
-                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity onPress={this.profilePicPressed}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50 / 2,
+                    alignSelf: "flex-end"
+                  }}
+                  source={{
+                    uri:
+                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  }}
+                />
+              </TouchableOpacity>
             </View>
+          </View>
           <View style={styles.content}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("TipCategories")}
             >
-            <Text style={styles.button}> Submit A Tip </Text>
+              <Text style={styles.button}> Submit A Tip </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate("PendingTips",{tips:this.state.pendingTips})}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("PendingTips", {
+                  tips: this.state.pendingTips
+                })
+              }
+            >
               <Text style={styles.button}> Review Pending Tips </Text>
             </TouchableOpacity>
 

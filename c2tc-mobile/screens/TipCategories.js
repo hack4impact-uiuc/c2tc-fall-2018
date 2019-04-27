@@ -20,22 +20,24 @@ class TipCategories extends React.Component {
       <View style={styles.categories}>
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("TipOverview")
-            }
+            onPress={() => this.props.navigation.navigate("TipOverview")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />  Tip Overview
+              <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+              Overview
             </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "crime"
-            })}
-            style={[ styles.category,
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "crime"
+              })
+            }
+            style={[
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.crime }
             ]}
           >
@@ -48,11 +50,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "health"
-            })}
-            style={[styles.category, { backgroundColor: Colors.health }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "health"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.health }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -65,10 +68,13 @@ class TipCategories extends React.Component {
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "transportation"
-            })}
-            style={[styles.category,
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "transportation"
+              })
+            }
+            style={[
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.transportation }
             ]}
           >
@@ -81,13 +87,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "financial"
-            })}
-            style={[
-              styles.category,
-              { backgroundColor: Colors.financial }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "financial"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.financial }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -135,14 +140,14 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20
   },
-  navBar:{
+  navBar: {
     paddingTop: 37,
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom:30
+    marginBottom: 30
   },
   backButton: {
     paddingLeft: 20,
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     fontWeight: "500"
-  },
+  }
 });
 
 export default TipCategories;

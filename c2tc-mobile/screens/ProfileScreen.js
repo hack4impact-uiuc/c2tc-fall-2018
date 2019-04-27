@@ -11,12 +11,11 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ScrollView, 
+  ScrollView,
   TouchableOpacity
 } from "react-native";
 
 import { Appbar, Divider } from "react-native-paper";
-
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -36,9 +35,7 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
-
   async componentWillMount() {
-    
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
     if (user_id) {
@@ -96,7 +93,7 @@ export default class ProfileScreen extends React.Component {
     };
     await API.updateUser(this.state.user_id, data);
   }
-  
+
   render() {
     return (
       <View>
@@ -104,13 +101,12 @@ export default class ProfileScreen extends React.Component {
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View style={styles.navBar}>
             <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("TipOverview")
-              }
+              onPress={() => this.props.navigation.navigate("TipOverview")}
               style={styles.backButton}
             >
               <Text style={styles.headerText}>
-                <FontAwesome name="chevron-left" size={20} color="white" />   Tip Overview
+                <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+                Overview
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -121,9 +117,7 @@ export default class ProfileScreen extends React.Component {
               }
               style={styles.settingsButton}
             >
-              <Text style={styles.headerText}>
-                Settings
-              </Text>
+              <Text style={styles.headerText}>Settings</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.profile}>
@@ -205,13 +199,13 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  navBar:{
+  navBar: {
     paddingTop: 37,
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
-    paddingBottom: 15,
+    paddingBottom: 15
   },
   backButton: {
     paddingLeft: 20,

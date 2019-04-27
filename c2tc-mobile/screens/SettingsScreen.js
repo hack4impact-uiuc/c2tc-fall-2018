@@ -40,7 +40,8 @@ export default class SettingsScreen extends React.Component {
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />   Profile
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Profile
             </Text>
           </TouchableOpacity>
         </View>
@@ -134,14 +135,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 100
   },
-  navBar:{
+  navBar: {
     paddingTop: 37,
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom:30
+    marginBottom: 30
   },
   backButton: {
     paddingLeft: 20,

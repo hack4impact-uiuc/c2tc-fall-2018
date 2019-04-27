@@ -10,7 +10,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import API from "./API";
 import { NavigationEvents } from "react-navigation";
-import { latlongToAddress } from "../components/Geocoding"
+import { latlongToAddress } from "../components/Geocoding";
 
 class TipOverview extends React.Component {
   constructor(props) {
@@ -32,7 +32,10 @@ class TipOverview extends React.Component {
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
-    let address = await latlongToAddress(this.props.tip.latitude, this.props.tip.longitude);
+    let address = await latlongToAddress(
+      this.props.tip.latitude,
+      this.props.tip.longitude
+    );
     console.log("Address: " + address);
     if (user.anon) {
       username = "Anonymous";
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   rightActions: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    width: 95,
+    width: 95
   },
   rightActionsPending: {
     flexDirection: "column",
@@ -168,10 +171,10 @@ const styles = StyleSheet.create({
     width: 95,
     paddingLeft: 30
   },
-  rightActionText:{
-    color:"#C03303",
+  rightActionText: {
+    color: "#C03303",
     fontSize: 16,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   actionText: {
     fontSize: 16,
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: 16
-  },
+  }
 });
 
 export default TipOverview;

@@ -136,25 +136,21 @@ class TipForm extends React.Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-      
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("TipOverview")
-            }
+            onPress={() => this.props.navigation.navigate("TipOverview")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />   Categories
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Categories
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.handSubmitTip}
             style={styles.submitButton}
           >
-            <Text style={styles.headerText}>
-              Submit
-            </Text>
+            <Text style={styles.headerText}>Submit</Text>
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -269,14 +265,14 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     borderColor: "red"
   },
-  navBar:{
+  navBar: {
     paddingTop: 37,
     flexDirection: "row",
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom:30
+    marginBottom: 30
   },
   backButton: {
     paddingLeft: 20,
@@ -290,7 +286,7 @@ const styles = StyleSheet.create({
   submitHeader: {
     color: "white",
     marginRight: 20
-  },
+  }
 });
 
 export default withTheme(TipForm);
