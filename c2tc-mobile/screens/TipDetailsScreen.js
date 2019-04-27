@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  ScrollView
+  ScrollView,
+  AsyncStorage,
 } from "react-native";
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
@@ -20,9 +21,50 @@ class TipDetailsScreen extends React.Component {
       username: "",
       tip: this.props.navigation.state.params.tip,
       screenStyle: this.props.navigation.state.params.screenType,
-      tips: this.props.navigation.state.params.tips
+      tips: this.props.navigation.state.params.tips,
+      userid: "",
+      isDownvoted: null,
+      isUpvoted: null
     };
   }
+
+  setVoteStatus = async () => {
+    let upVotedUsers = await API.getUserUpvotes(
+      this.props.navigation.state.params.tip._id
+    );
+
+    if (
+      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+    ) {
+      let isUpvoted = true;
+      let isDownvoted = false;
+      this.setState({
+        isUpvoted,
+        isDownvoted
+      });
+    } else {
+      let downVotedUsers = await API.getUserDownvotes(
+        this.props.navigation.state.params.tip._id
+      );
+      if (
+        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      ) {
+        let isUpvoted = false;
+        let isDownvoted = true;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+      } else {
+        let isUpvoted = false;
+        let isDownvoted = false;
+        this.setState({
+          isUpvoted,
+          isDownvoted
+        });
+      }
+    }
+  };
 
   async componentDidMount() {
     let author = await API.getUser(
@@ -33,10 +75,61 @@ class TipDetailsScreen extends React.Component {
       username = "Anonymous";
     }
 
+    let userid = await AsyncStorage.getItem("user_id");
+
     this.setState({
-      username
+      username,
+      userid
     });
+
+    this.setVoteStatus();
   }
+
+  approvePress = async () => {
+    let data = {
+      status: "verified"
+    };
+    let response = await API.updateStatus(
+      this.props.navigation.state.params.tip._id,
+      data
+    );
+    this.props.navigation.navigate("TipOverview");
+  };
+
+  discardPress = async () => {
+    let data = {
+      status: "denied"
+    };
+    let response = await API.updateStatus(
+      this.props.navigation.state.params.tip._id,
+      data
+    );
+    this.props.navigation.navigate("TipOverview");
+  };
+
+  upvotePress = async () => {
+    let data = {
+      tips_id: this.props.navigation.state.params.tip._id,
+      user_id: this.state.userid,
+      vote_type: "UPVOTE"
+    };
+
+    let response = await API.voteTip(data);
+
+    this.setVoteStatus();
+  };
+
+  downvotePress = async () => {
+    let data = {
+      tips_id: this.props.navigation.state.params.tip._id,
+      user_id: this.state.userid,
+      vote_type: "DOWNVOTE"
+    };
+
+    let response = await API.voteTip(data);
+
+    this.setVoteStatus();
+  };
 
   render() {
     let tip = this.props.navigation.state.params.tip;
@@ -100,12 +193,18 @@ class TipDetailsScreen extends React.Component {
         {screenStyle === "pending" && (
           <View style={styles.verification}>
             <View style={styles.leftActionsVerif}>
-              <TouchableOpacity style={styles.discardButton}>
+              <TouchableOpacity
+                style={styles.discardButton}
+                onPress={this.discardPress}
+              >
                 <Text style={styles.verifButtonText}>Discard</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.rightActionsVerif}>
-              <TouchableOpacity style={styles.approveButton}>
+              <TouchableOpacity
+                style={styles.approveButton}
+                onPress={this.approvePress}
+              >
                 <Text style={styles.verifButtonText}>Approve</Text>
               </TouchableOpacity>
             </View>
@@ -118,11 +217,26 @@ class TipDetailsScreen extends React.Component {
               <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
             </View>
             <View style={styles.rightActions}>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.upvotePress}
+              >
+                <FontAwesome
+                  name="caret-up"
+                  size={30}
+                  color={this.state.isUpvoted ? "green" : "#8E8E93"}
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.downvotePress}
+              >
+                <FontAwesome
+                  name="caret-down"
+                  size={30}
+                  color={this.state.isDownvoted ? "red" : "#8E8E93"}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -194,6 +308,22 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 25,
     backgroundColor: "white"
+  },
+  upvotedButton: {
+    alignItems: "center",
+    height: 35,
+    width: 35,
+    margin: 5,
+    borderRadius: 25,
+    backgroundColor: "green"
+  },
+  downvotedButton: {
+    alignItems: "center",
+    height: 35,
+    width: 35,
+    margin: 5,
+    borderRadius: 25,
+    backgroundColor: "red"
   },
 
   content: {

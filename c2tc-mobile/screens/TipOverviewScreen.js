@@ -57,25 +57,6 @@ class TipOverviewScreen extends React.Component {
     let pendingTips = await API.getPendingTips();
     this.setState({ pendingTips });
   };
-
-  // onChangeScreenType = async () => {
-  //   if (this.state.screenType === "view") {
-  //     this.state.screenType = "verification";
-  //   } else {
-  //     this.state.screenType = "view";
-  //   }
-  //   if (this.state.screenType === "view") {
-  //     let tipsResponse = await API.getVerifiedTips();
-  //     this.setState({ tips: tipsResponse });
-  //   } else if (this.state.screenType === "verification") {
-  //     let tipsResponse = await API.getPendingTips();
-  //     this.setState({ tips: tipsResponse });
-  //   } else {
-  //     let tipsResponse = await API.getTips();
-  //     this.setState({ tips: tipsResponse });
-  //   }
-  // };
-
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
   };
