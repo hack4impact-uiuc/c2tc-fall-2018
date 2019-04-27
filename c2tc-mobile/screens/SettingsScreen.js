@@ -57,14 +57,12 @@ export default class SettingsScreen extends React.Component {
               user: this.state.user
             })
           }
-
         >
           <View style={styles.profile}>
             <Image
               style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
               source={{
-                uri:
-                  this.state.user.pro_pic
+                uri: this.state.user.pro_pic
               }}
             />
             <View>

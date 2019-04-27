@@ -59,7 +59,7 @@ class TipOverviewScreen extends React.Component {
       let tipsResponse = await API.getTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
     }
-  };
+  }
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
@@ -148,8 +148,7 @@ class TipOverviewScreen extends React.Component {
                       alignSelf: "flex-end"
                     }}
                     source={{
-                      uri:
-                        this.state.proPic
+                      uri: this.state.proPic
                     }}
                   />
                 </TouchableOpacity>

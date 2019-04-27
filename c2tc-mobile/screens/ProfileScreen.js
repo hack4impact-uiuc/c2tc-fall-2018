@@ -34,7 +34,6 @@ export default class ProfileScreen extends React.Component {
     };
   }
 
-
   async componentWillMount() {
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
@@ -71,7 +70,7 @@ export default class ProfileScreen extends React.Component {
         this.setState({
           user_id: user._id,
           user,
-          displayName: user.username,
+          displayName: user.username
         });
         let verifiedTips = await API.getVerifiedTipsByUser(user_id);
         this.setState({
@@ -81,7 +80,7 @@ export default class ProfileScreen extends React.Component {
         let deniedTips = await API.getDeniedTipsByUser(user_id);
         this.setState({
           pendingTips,
-          deniedTips,
+          deniedTips
         });
       }
     }
@@ -135,8 +134,7 @@ export default class ProfileScreen extends React.Component {
                 borderRadius: 70 / 2
               }}
               source={{
-                uri:
-                  this.state.proPic
+                uri: this.state.proPic
               }}
             />
             <Text style={styles.header}>{this.state.displayName} </Text>

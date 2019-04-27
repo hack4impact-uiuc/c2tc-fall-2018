@@ -25,7 +25,7 @@ export default class EditProfileScreen extends React.Component {
     await API.updateUser(this.state.user._id, data);
     let currentUser = this.state.user;
     currentUser.password = password;
-    this.setState({ 
+    this.setState({
       user: currentUser
     });
   }
@@ -43,23 +43,23 @@ export default class EditProfileScreen extends React.Component {
   async onChangePicture(picture) {
     this.setState({
       url: picture
-    })
+    });
   }
 
   openModal = () => {
-    this.setState({modalVisible: true});
-  }
+    this.setState({ modalVisible: true });
+  };
 
-  closeModal = async() => {
-    console.log(this.state.url)
+  closeModal = async () => {
+    console.log(this.state.url);
     let data = {
       pro_pic: this.state.url
     };
     await API.updateUser(this.state.user._id, data);
     let currentUser = this.state.user;
     this.setState({ user: currentUser });
-    this.setState({modalVisible: false});
-  }
+    this.setState({ modalVisible: false });
+  };
 
   render() {
     return (
@@ -73,10 +73,12 @@ export default class EditProfileScreen extends React.Component {
             <Text style={styles.modalText}>Enter URL for new picture:</Text>
             <TextInput
               style={styles.textInput}
-              onChangeText={(e) => this.onChangePicture(e)}
+              onChangeText={e => this.onChangePicture(e)}
               value={this.state.url}
             />
-            <Text onPress={this.closeModal} style={styles.modalSave}>Save</Text>
+            <Text onPress={this.closeModal} style={styles.modalSave}>
+              Save
+            </Text>
           </View>
         </Modal>
         <View>
@@ -104,12 +106,13 @@ export default class EditProfileScreen extends React.Component {
           <Image
             style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
             source={{
-              uri:
-                this.state.user.pro_pic
+              uri: this.state.user.pro_pic
             }}
           />
           <View>
-            <Text onPress={this.openModal} style={styles.changePicture}>Change Picture ></Text>
+            <Text onPress={this.openModal} style={styles.changePicture}>
+              Change Picture >
+            </Text>
           </View>
         </View>
         <TextInput
