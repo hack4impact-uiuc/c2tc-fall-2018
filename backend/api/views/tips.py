@@ -132,9 +132,7 @@ def get_denied_tips():
 
 @tips.route("/tips", methods=["POST"])
 @authenticated_route
-@necessary_post_params(
-    "title", "content", "latitude", "longitude", "category"
-)
+@necessary_post_params("title", "content", "latitude", "longitude", "category")
 def create_tip(db_user):
     data = request.get_json()
     tips = Tips.objects.create(
