@@ -1,8 +1,17 @@
 import React from "react";
 import API from "../components/API";
 
-import { View, Text, StyleSheet, Image } from "react-native";
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  Button,
+  Modal
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput } from "react-native-paper";
 
 export default class EditProfileScreen extends React.Component {
@@ -11,7 +20,9 @@ export default class EditProfileScreen extends React.Component {
     this.state = {
       username: this.props.navigation.getParam("user", "no user").username,
       password: this.props.navigation.getParam("user", "no user").password,
-      user: this.props.navigation.getParam("user", "no user")
+      user: this.props.navigation.getParam("user", "no user"),
+      url: this.props.navigation.getParam("user", "no user").pro_pic,
+      modalVisible: false
     };
   }
 
@@ -23,7 +34,9 @@ export default class EditProfileScreen extends React.Component {
     await API.updateUser(this.state.user._id, data);
     let currentUser = this.state.user;
     currentUser.password = password;
-    this.setState({ user: currentUser });
+    this.setState({
+      user: currentUser
+    });
   }
   async onChangeUserName(username) {
     this.setState({ username });
@@ -36,42 +49,74 @@ export default class EditProfileScreen extends React.Component {
     this.setState({ user: currentUser });
   }
 
+  async onChangePicture(picture) {
+    this.setState({
+      url: picture
+    });
+  }
+
+  openModal = () => {
+    this.setState({ modalVisible: true });
+  };
+
+  closeModal = async () => {
+    let data = {
+      pro_pic: this.state.url
+    };
+    await API.updateUser(this.state.user._id, data);
+    let currentUser = this.state.user;
+    this.setState({ user: currentUser });
+    this.setState({ modalVisible: false });
+  };
+
   render() {
     return (
-      <View behavior="padding" enabled>
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("Settings", {
-                  user: this.state.user
-                })
-              }
+      <View style={styles.editProfile} behavior="padding" enabled>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+        >
+          <View>
+            <Text style={styles.modalText}>
+              Enter Image URL for New Profile Picture:
+            </Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={e => this.onChangePicture(e)}
+              value={this.state.url}
             />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Save Changes"
-              onPress={() =>
-                this.props.navigation.navigate("Settings", {
-                  user: this.state.user
-                })
-              }
-            />
-          </Appbar.Header>
+            <Text onPress={this.closeModal} style={styles.modalSave}>
+              Save
+            </Text>
+          </View>
+        </Modal>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Settings", {
+                user: this.state.user
+              })
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" /> Save
+              Changes
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.profile}>
+        <TouchableOpacity onPress={this.openModal} style={styles.profile}>
           <Image
             style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
             source={{
-              uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
+              uri: this.state.user.pro_pic
             }}
           />
           <View>
             <Text style={styles.changePicture}>Change Picture</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <TextInput
           style={styles.textInput}
           onChangeText={e => this.onChangeUserName(e)}
@@ -89,28 +134,60 @@ export default class EditProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
+  editProfile: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
   },
   profile: {
     flexDirection: "row",
-    padding: 35
+    padding: 22
   },
   changePicture: {
     flexDirection: "row",
-    paddingLeft: 30,
+    paddingLeft: 20,
     paddingTop: 10,
-    fontSize: 17
+    fontSize: 19,
+    fontWeight: "400"
   },
   textInput: {
     marginVertical: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "black",
-    marginHorizontal: 35
+    backgroundColor: "white",
+    marginHorizontal: 22
   },
-  backHeader: {
-    marginLeft: -10
+  modalText: {
+    fontSize: 20,
+    fontWeight: "500",
+    padding: 30,
+    marginTop: 20,
+    alignSelf: "center"
+  },
+  modalSave: {
+    fontSize: 20,
+    fontWeight: "500",
+    alignSelf: "center",
+    color: "white",
+    marginTop: 30,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#9042AF"
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });

@@ -5,9 +5,11 @@ import {
   Dimensions,
   View,
   Text,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
@@ -43,6 +45,18 @@ class TipForm extends React.Component {
       location
     });
   }
+
+  componentDidMount() {
+    let editable = this.props.navigation.getParam("edit", false);
+    let title = this.props.navigation.getParam("title", "")
+    let body = this.props.navigation.getParam("body", "")
+    let address = this.props.navigation.getParam("address", "")
+
+    if (editable) {
+      this.setState({ title, body, address })
+    }
+  }
+
   setCategory = category => {
     this.setState({ category });
   };
@@ -71,8 +85,16 @@ class TipForm extends React.Component {
         longitude: this.state.lng,
         category: this.state.category
       };
-      await API.createTip(tip);
-      this.props.navigation.navigate("TipOverview");
+      if (this.props.navigation.getParam("edit", false)) {
+        console.log("Edit Tip")
+        await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
+        this.props.navigation.navigate("Profile", {
+          user: true
+        });
+      } else {
+        await API.createTip(tip);
+        this.props.navigation.navigate("TipOverview");
+      }
     } else {
       this.setState({ errors });
     }
@@ -126,6 +148,14 @@ class TipForm extends React.Component {
     return errors;
   }
 
+  backPress = () => {
+    if (this.props.navigation.getParam("edit", false)) {
+      this.props.navigation.navigate("Profile") 
+    } else {
+      this.props.navigation.navigate("TipCategories")
+    }
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -135,33 +165,22 @@ class TipForm extends React.Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-        <View style={styles.headerView}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Categories"
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              title="Submit"
-              titleStyle={styles.nextHeader}
-              onPress={this.handSubmitTip}
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={this.backPress}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              {this.props.navigation.getParam("edit", false) ? "Back" : "Categories"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.handSubmitTip}
+            style={styles.submitButton}
+          >
+            <Text style={styles.headerText}>Submit</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView
           style={styles.container}
@@ -305,18 +324,27 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     borderColor: "red"
   },
-  headerView: {
-    marginBottom: 20
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
   },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 235
   },
-  backHeader: {
-    marginLeft: -10
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
-  nextHeader: {
-    alignSelf: "flex-end"
+  submitHeader: {
+    color: "white",
+    marginRight: 20
   }
 });
 
