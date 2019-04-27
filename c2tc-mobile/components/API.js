@@ -238,5 +238,6 @@ export default {
   voteTip,
   deleteTip,
   registerNewUser,
-  login
+  login,
+  verifyPin
 };
