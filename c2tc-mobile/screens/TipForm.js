@@ -6,9 +6,10 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import AwesomeAlert from 'react-native-awesome-alerts';
 import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
@@ -36,7 +37,20 @@ class TipForm extends React.Component {
       userId: false,
       location: false,
       address: false
-    }
+    },
+    showSuccessAlert: false
+  };
+
+  showSuccessAlert = () => {
+    this.setState({
+      showSuccessAlert: true
+    });
+  };
+
+  hideSuccessAlert = () => {
+    this.setState({
+      showSuccessAlert: false
+    });
   };
 
   async componentWillMount() {
@@ -45,6 +59,7 @@ class TipForm extends React.Component {
       location
     });
   }
+
 
   componentDidMount() {
     let editable = this.props.navigation.getParam("edit", false);
@@ -69,6 +84,7 @@ class TipForm extends React.Component {
   };
 
   handSubmitTip = async () => {
+    this.showSuccessAlert();
     const errors = this.validate();
     if (this.state.address.length !== 0) {
       const latlng = await addressToLatLong(this.state.address);
@@ -126,27 +142,6 @@ class TipForm extends React.Component {
     return hasError ? shouldShow : false;
   };
 
-  validate() {
-    const errors = [];
-
-    if (this.state.title.length === 0) {
-      errors.push("Name cannot be empty");
-    }
-
-    if (this.state.body.length === 0) {
-      errors.push("Body cannot be empty");
-    }
-
-    if (this.state.address.length === 0) {
-      errors.push("Address cannot be empty");
-    }
-
-    if (this.state.category.length === 0) {
-      errors.push("Please select a category");
-    }
-    return errors;
-  }
-
   backPress = () => {
     if (this.props.navigation.getParam("edit", false)) {
       this.props.navigation.navigate("Profile");
@@ -157,6 +152,7 @@ class TipForm extends React.Component {
 
   render() {
     const { errors } = this.state;
+    const {showSuccessAlert} = this.state;
 
     return (
       <KeyboardAvoidingView
@@ -229,6 +225,20 @@ class TipForm extends React.Component {
               this.setState({ address: details.formatted_address });
             }}
           />
+          <AwesomeAlert
+          show={showSuccessAlert}
+          showProgress={false}
+          title="Success!"
+          message="Your tip has been submitted :)"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Thanks!"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideSuccessAlert();
+          }}
+        />
         </ScrollView>
       </KeyboardAvoidingView>
     );
