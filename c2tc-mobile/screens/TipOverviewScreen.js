@@ -46,20 +46,19 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentWillMount() {
-    if (this.state.screenType === "view") {
-      await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
-      let user_id = await AsyncStorage.getItem("user_id");
-      if (user_id) {
-        let user = await API.getUser(user_id);
-        this.setState({
-          proPic: user.pro_pic,
-          username: this.state.username
-        });
-      }
-      this.setDate();
-      this.setGreeting();
-      let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
+    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+    let user_id = await AsyncStorage.getItem("user_id");
+    if (user_id) {
+      let user = await API.getUser(user_id);
+      this.setState({
+        proPic: user.pro_pic,
+        username: this.state.username
+      });
+    }
+    this.setDate();
+    this.setGreeting();
+    let tipsResponse = await API.getVerifiedTips();
+    this.setState({ tips: tipsResponse, hasLoaded: true });
   }
 
   onComponentFocused = async () => {
@@ -79,6 +78,7 @@ class TipOverviewScreen extends React.Component {
     let pendingTips = await API.getPendingTips();
     this.setState({ pendingTips });
   };
+
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
   };
@@ -207,11 +207,6 @@ class TipOverviewScreen extends React.Component {
                   />
                 </TouchableOpacity>
               </View>
-            </View>
-          )}
-          {screenStyle === "verification" && (
-            <View style={styles.header}>
-              <Text>All Pending Tips</Text>
             </View>
           </View>
           <View style={styles.content}>

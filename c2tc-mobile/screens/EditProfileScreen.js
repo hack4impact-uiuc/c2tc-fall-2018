@@ -8,7 +8,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Button, 
+  Button,
   Modal
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
