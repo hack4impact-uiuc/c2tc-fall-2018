@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
+import { AsyncStorage } from "react-native";
 import API from "../components/API";
 
 export default class Registration extends Component {
@@ -21,18 +22,19 @@ export default class Registration extends Component {
     email: "",
     pswd: "",
     repswd: "",
+    username: "",
     errors: []
   };
 
   handleRegistration = async () => {
     let errors = this.validate();
     if (errors.length === 0) {
-      const response = await API.registerNewUser(this.state.email, this.state.pswd);
-      if (!response.token) {
+      const response = await API.registerNewUser(this.state.email, this.state.pswd, this.state.username);
+      if (!response.success) {
         errors = [response.message]
         this.setState({ errors });
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.token));
+        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
         this.setState({ successfulSubmit: true });
       }
     } else {
@@ -57,6 +59,17 @@ export default class Registration extends Component {
 
     if (this.state.pswd !== this.state.repswd) {
       errors.push("Passwords do not match!");
+    }
+
+    let emailParts = this.state.email.split("@");
+    if (emailParts.length != 2) {
+      errors.push("Invalid amount of @'s");
+    } else {
+      if (emailParts[1] != "illinois.edu"){
+        errors.push("Have to have an illinois email to register with the app!");
+      } else {
+        this.state.username = emailParts[0];
+      }
     }
 
     return errors;
@@ -107,6 +120,7 @@ export default class Registration extends Component {
             style={styles.inputContainerStyle}
             label="Password"
             placeholder="Password"
+            secureTextEntry={true}
             value={this.state.pswd}
             onChangeText={pswd => this.setState({ pswd })}
           />
@@ -114,6 +128,7 @@ export default class Registration extends Component {
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
+            secureTextEntry={true}
             label="Re-Password"
             placeholder="Re-Password"
             value={this.state.repswd}
