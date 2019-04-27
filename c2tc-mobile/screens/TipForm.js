@@ -216,17 +216,6 @@ class TipForm extends React.Component {
             onChangeText={body => this.setState({ body })}
           />
           <Text style={styles.header}>Tip Address</Text>
-          {/* <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Address"
-            placeholder="Address of your tip"
-            value={this.state.address}
-            multiline={true}
-            numberOfLines={5}
-            maxHeight={150}
-            onChangeText={address => this.setState({ address })}
-          /> */}
           <GooglePlacesAutocomplete
             placeholder="Enter Address"
             minLength={1}
@@ -238,7 +227,6 @@ class TipForm extends React.Component {
               key: "api_key",
               language: "en"
             }}
-            currentLocation={true}
           />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -274,16 +262,18 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   searchAhead: {textInputContainer: {
-        backgroundColor: "rgba(0,0,0,0)",
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
+    backgroundColor: 'rgba(0,0,0,0)',
+    borderTopWidth: 0,
+    borderBottomWidth:0
       },
       textInput: {
-        marginLeft: 0,
-        marginRight: 0,
+        marginLeft: 22,
+        marginRight: 22,
         height: 38,
-        color: "#5d5d5d",
-        fontSize: 16
+        color: "#444444",
+        fontSize: 16,
+        borderWidth: 1,
+    borderColor: "black",
       },
       predefinedPlacesDescription: {
         color: "#1faadb"
