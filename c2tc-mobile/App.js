@@ -3,7 +3,7 @@ import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
 import API from "./components/API";
-import VerifyScreen from "./screens/VerificationScreen";
+import VerificationScreen from "./screens/VerificationScreen";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -17,6 +17,8 @@ import SettingsScreen from "./screens/SettingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
+import AlertScreen from "./screens/AlertScreen";
+import NonRegisteredScreen from "./screens/NonRegisteredScreen";
 
 import { Notifications, Location, TaskManager, Permissions } from 'expo';
 
@@ -140,7 +142,7 @@ Navigator = createStackNavigator({
     }
   },
   Verify: {
-    screen: VerifyScreen,
+    screen: VerificationScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
@@ -155,6 +157,20 @@ Navigator = createStackNavigator({
   },
   Registration: {
     screen: RegistrationScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Alert: {
+    screen: AlertScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  NonRegistered: {
+    screen: NonRegisteredScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

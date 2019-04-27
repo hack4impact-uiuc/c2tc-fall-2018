@@ -33,6 +33,7 @@ class TipOverviewScreen extends React.Component {
       location: "location",
       user: null,
       token: "",
+      verifiedPin: false,
       currentdate: "",
       greeting: "",
       bgImg: DAY_BACKGROUND_IMG,
@@ -45,7 +46,8 @@ class TipOverviewScreen extends React.Component {
   async componentWillMount() {
     this.setDate();
     this.setGreeting();
-    let token = something;
+    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    // let token = await AsyncStorage.getItem("token");
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
@@ -92,11 +94,11 @@ class TipOverviewScreen extends React.Component {
   };
 
   profilePicPressed = () => {
-    if (token) {
+    if (this.state.verifiedPin) {
       this.props.navigation.navigate("Profile");
     }
     else {
-      this.props.navigation.nativate("NonRegisteredScreen");
+      this.props.navigation.navigate("NonRegistered");
     }
   };
 
@@ -205,14 +207,14 @@ class TipOverviewScreen extends React.Component {
                       borderRadius: 50 / 2,
                       alignSelf: "flex-end"
                     }}
-                    source={token ? {
+                    source={this.state.verifiedPin ? {
                       uri:
-                        "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png"
+                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
                     }
                     :  
                     {
                       uri:
-                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                        "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png"
                     }}
                   />
                 </TouchableOpacity>
