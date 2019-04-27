@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
@@ -85,7 +86,6 @@ class TipForm extends React.Component {
         category: this.state.category
       };
       if (this.props.navigation.getParam("edit", false)) {
-        console.log("Edit Tip");
         await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
         this.props.navigation.navigate("Profile", {
           user: true
@@ -214,16 +214,20 @@ class TipForm extends React.Component {
             onChangeText={body => this.setState({ body })}
           />
           <Text style={styles.header}>Tip Address</Text>
-          <TextInput
-            mode="outlined"
-            style={styles.inputBodyContainerStyle}
-            label="Tip Address"
-            placeholder="Address of your tip"
-            value={this.state.address}
-            multiline={true}
-            numberOfLines={5}
-            maxHeight={150}
-            onChangeText={address => this.setState({ address })}
+          <GooglePlacesAutocomplete
+            placeholder="Enter Address"
+            minLength={1}
+            autoFocus={false}
+            returnKeyType={"default"}
+            fetchDetails={true}
+            styles={styles.searchAhead}
+            query={{
+              key: "api_key",
+              language: "en"
+            }}
+            onPress={(data, details = null) => {
+              this.setState({ address: details.formatted_address });
+            }}
           />
         </ScrollView>
       </KeyboardAvoidingView>
@@ -257,6 +261,25 @@ const styles = StyleSheet.create({
   inputBodyContainerStyle: {
     marginHorizontal: 20,
     marginTop: 0
+  },
+  searchAhead: {
+    textInputContainer: {
+      backgroundColor: "rgba(0,0,0,0)",
+      borderTopWidth: 0,
+      borderBottomWidth: 0
+    },
+    textInput: {
+      marginLeft: 22,
+      marginRight: 22,
+      height: 38,
+      color: "#444444",
+      fontSize: 16,
+      borderWidth: 1,
+      borderColor: "black"
+    },
+    predefinedPlacesDescription: {
+      color: "#1faadb"
+    }
   },
   header: {
     fontWeight: "500",
