@@ -42,10 +42,10 @@ class TipOverview extends React.Component {
 
     this.setState({
       user: user,
-      username: user.anon? "Anonymous" : user.username,
+      username: user.anon ? "Anonymous" : user.username,
       address: address
     });
-    if(this.props.screenType === "verified"){
+    if (this.props.screenType === "verified") {
       this.setVoteStatus();
     }
   }
@@ -59,10 +59,10 @@ class TipOverview extends React.Component {
 
     this.setState({
       user: user,
-      username: user.anon? "Anonymous" : user.username,
+      username: user.anon ? "Anonymous" : user.username,
       address: address
     });
-    if(this.props.screenType === "verified"){
+    if (this.props.screenType === "verified") {
       this.setVoteStatus();
     }
   };
@@ -71,7 +71,8 @@ class TipOverview extends React.Component {
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
 
     if (
-      upVotedUsers && upVotedUsers.filter(user => user._id === this.props.user._id).length > 0
+      upVotedUsers &&
+      upVotedUsers.filter(user => user._id === this.props.user._id).length > 0
     ) {
       let isUpvoted = true;
       let isDownvoted = false;
@@ -82,7 +83,9 @@ class TipOverview extends React.Component {
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
       if (
-        downVotedUsers && downVotedUsers.filter(user => user._id === this.props.user._id).length > 0
+        downVotedUsers &&
+        downVotedUsers.filter(user => user._id === this.props.user._id).length >
+          0
       ) {
         let isUpvoted = false;
         let isDownvoted = true;
@@ -102,7 +105,7 @@ class TipOverview extends React.Component {
   };
 
   upvotePress = async () => {
-    this.setState({isUpvoted: !this.state.isUpvoted, isDownvoted: false});
+    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.tip._id,
       user_id: this.props.user._id,
@@ -112,7 +115,7 @@ class TipOverview extends React.Component {
   };
 
   downvotePress = async () => {
-    this.setState({isDownvoted: !this.state.isDownvoted, isUpvoted: false});
+    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.tip._id,
       user_id: this.props.user._id,

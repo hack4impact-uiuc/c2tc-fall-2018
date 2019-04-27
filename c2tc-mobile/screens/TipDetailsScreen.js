@@ -67,12 +67,12 @@ class TipDetailsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    let author = this.props.navigation.getParam("author", false)
+    let author = this.props.navigation.getParam("author", false);
 
     let userid = await AsyncStorage.getItem("user_id");
 
     this.setState({
-      username: author.anon? "Anonymous" : author.username,
+      username: author.anon ? "Anonymous" : author.username,
       userid
     });
   }
@@ -81,10 +81,7 @@ class TipDetailsScreen extends React.Component {
     let data = {
       status: "verified"
     };
-    await API.updateStatus(
-      this.props.navigation.state.params.tip._id,
-      data
-    );
+    await API.updateStatus(this.props.navigation.state.params.tip._id, data);
     this.props.navigation.navigate("TipOverview");
   };
 
@@ -92,15 +89,12 @@ class TipDetailsScreen extends React.Component {
     let data = {
       status: "denied"
     };
-    await API.updateStatus(
-      this.props.navigation.state.params.tip._id,
-      data
-    );
+    await API.updateStatus(this.props.navigation.state.params.tip._id, data);
     this.props.navigation.navigate("TipOverview");
   };
 
   upvotePress = async () => {
-    this.setState({isUpvoted: !this.state.isUpvoted, isDownvoted: false});
+    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: this.state.userid,
@@ -111,7 +105,7 @@ class TipDetailsScreen extends React.Component {
   };
 
   downvotePress = async () => {
-    this.setState({isDownvoted: !this.state.isDownvoted, isUpvoted: false});
+    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: this.state.userid,
@@ -365,7 +359,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom:0
+    marginBottom: 0
   },
   navBarPending: {
     paddingTop: 37,
