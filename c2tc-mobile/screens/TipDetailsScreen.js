@@ -67,18 +67,20 @@ class TipDetailsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    let upvoteNumb=  this.props.navigation.getParam("upvoteList", []).length
-    let downvoteNumb=  this.props.navigation.getParam("downvoteList", []).length
-    let upvotePercentage = ""
-    if( upvoteNumb === 0 && downvoteNumb === 0){
-      upvotePercentage = " 0% Upvoted"
-    } else if(upvoteNumb >= downvoteNumb){
-      upvotePercentage = ((upvoteNumb)/(downvoteNumb + upvoteNumb)) * 100+"% Upvoted"
+    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
+    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
+      .length;
+    let upvotePercentage = "";
+    if (upvoteNumb === 0 && downvoteNumb === 0) {
+      upvotePercentage = " 0% Upvoted";
+    } else if (upvoteNumb >= downvoteNumb) {
+      upvotePercentage =
+        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+    } else {
+      upvotePercentage =
+        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
     }
-    else{
-      upvotePercentage = ((downvoteNumb)/(downvoteNumb + upvoteNumb)) * 100+"% Downvoted"
-    }
-    this.setState({upvotePercentage})
+    this.setState({ upvotePercentage });
     let author = this.props.navigation.getParam("author", false);
 
     let userid = await AsyncStorage.getItem("user_id");

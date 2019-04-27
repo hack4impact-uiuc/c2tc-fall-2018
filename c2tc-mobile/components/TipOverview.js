@@ -25,7 +25,6 @@ class TipOverview extends React.Component {
       isDownvoted: false,
       downvoteList: [],
       upvoteList: []
-
     };
   }
 
@@ -74,7 +73,7 @@ class TipOverview extends React.Component {
   setVoteStatus = async () => {
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
     this.setState({
-      upvoteList: upVotedUsers,
+      upvoteList: upVotedUsers
     });
     if (
       upVotedUsers &&
@@ -89,7 +88,7 @@ class TipOverview extends React.Component {
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
       this.setState({
-        downvoteList: downVotedUsers,
+        downvoteList: downVotedUsers
       });
       if (
         downVotedUsers &&
@@ -139,25 +138,25 @@ class TipOverview extends React.Component {
       edit: true,
       tip_id: this.props.tip._id,
       body: this.props.tip.content,
-      title: this.props.tip.title,
-    })
-  }
+      title: this.props.tip.title
+    });
+  };
 
   deletePress = () => {
     Alert.alert(
-      'Are you sure you want to Delete?',
-      'Deletions are permanent',
+      "Are you sure you want to Delete?",
+      "Deletions are permanent",
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
-        {text: 'OK', onPress: async () => API.deleteTip(this.props.tip._id)},
+        { text: "OK", onPress: async () => API.deleteTip(this.props.tip._id) }
       ],
-      {cancelable: false},
+      { cancelable: false }
     );
-  }
+  };
 
   render() {
     const screenType = this.props.screenType;
@@ -206,14 +205,8 @@ class TipOverview extends React.Component {
           )}
           {this.props.editable === true && (
             <View>
-              <Button
-                title="Edit"
-                onPress={this.editPress}
-              />
-              <Button
-                title="Delete"
-                onPress={this.deletePress}
-              />
+              <Button title="Edit" onPress={this.editPress} />
+              <Button title="Delete" onPress={this.deletePress} />
             </View>
           )}
           {screenType === "verified" && (

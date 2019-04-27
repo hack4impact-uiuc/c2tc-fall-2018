@@ -65,7 +65,7 @@ export default class ProfileScreen extends React.Component {
   }
 
   onComponentFocused = async () => {
-    console.log("On component focused")
+    console.log("On component focused");
     if (this.state.hasLoaded) {
       let user = this.props.navigation.getParam("user", null);
       if (user) {

@@ -47,12 +47,12 @@ class TipForm extends React.Component {
 
   componentDidMount() {
     let editable = this.props.navigation.getParam("edit", false);
-    let title = this.props.navigation.getParam("title", "")
-    let body = this.props.navigation.getParam("body", "")
-    let address = this.props.navigation.getParam("address", "")
+    let title = this.props.navigation.getParam("title", "");
+    let body = this.props.navigation.getParam("body", "");
+    let address = this.props.navigation.getParam("address", "");
 
     if (editable) {
-      this.setState({ title, body, address })
+      this.setState({ title, body, address });
     }
   }
 
@@ -85,7 +85,7 @@ class TipForm extends React.Component {
         category: this.state.category
       };
       if (this.props.navigation.getParam("edit", false)) {
-        console.log("Edit Tip")
+        console.log("Edit Tip");
         await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
         this.props.navigation.navigate("Profile", {
           user: true
@@ -149,11 +149,11 @@ class TipForm extends React.Component {
 
   backPress = () => {
     if (this.props.navigation.getParam("edit", false)) {
-      this.props.navigation.navigate("Profile") 
+      this.props.navigation.navigate("Profile");
     } else {
-      this.props.navigation.navigate("TipCategories")
+      this.props.navigation.navigate("TipCategories");
     }
-  }
+  };
 
   render() {
     const { errors } = this.state;
@@ -165,13 +165,12 @@ class TipForm extends React.Component {
         keyboardVerticalOffset={0}
       >
         <View style={styles.navBar}>
-          <TouchableOpacity
-            onPress={this.backPress}
-            style={styles.backButton}
-          >
+          <TouchableOpacity onPress={this.backPress} style={styles.backButton}>
             <Text style={styles.headerText}>
               <FontAwesome name="chevron-left" size={20} color="white" />{" "}
-              {this.props.navigation.getParam("edit", false) ? "Back" : "Categories"}
+              {this.props.navigation.getParam("edit", false)
+                ? "Back"
+                : "Categories"}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
