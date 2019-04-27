@@ -26,24 +26,20 @@ export default class NonRegisteredScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={{ marginTop: 22 }}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("TipOverview")
-              }
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Settings"
-              onPress={() =>
-                this.props.navigation.navigate("TipOverview")
-              }
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("TipOverview")
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Tip Overview
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.divider} />
         <TouchableOpacity
@@ -121,5 +117,10 @@ const styles = StyleSheet.create({
   },
   arrow: {
     paddingTop: 15
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });

@@ -48,12 +48,10 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentWillMount() {
-    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
-    let user_id = await AsyncStorage.getItem("user_id");
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let token = await AsyncStorage.getItem("token");
-    if (user_id) {
-      let user = await API.getUser(user_id);
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    if (verifiedPin) {
+      let user = await API.getUser(token);
       this.setState({
         proPic: user.pro_pic,
         username: user.username,
@@ -70,13 +68,19 @@ class TipOverviewScreen extends React.Component {
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-      let user_id = await AsyncStorage.getItem("user_id");
-      if (user_id) {
-        let user = await API.getUser(user_id);
+      let token = await AsyncStorage.getItem("token");
+      let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+      let user;
+      if (token) {
+        user = await API.getUser(token);
         this.setState({
-          proPic: user.pro_pic,
           username: user.username,
           user: user
+        });
+      }
+      if (verifiedPin) {
+        this.setState({
+          proPic: user.pro_pic,
         });
       }
       let tipsResponse = await API.getVerifiedTips();

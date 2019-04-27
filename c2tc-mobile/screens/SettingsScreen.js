@@ -28,28 +28,22 @@ export default class SettingsScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.settings}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("Profile", {
-                  user: this.state.user
-                })
-              }
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Settings"
-              onPress={() =>
-                this.props.navigation.navigate("Profile", {
-                  user: this.state.user
-                })
-              }
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Profile", {
+                user: this.state.user
+              })
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Profile
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() =>
@@ -62,8 +56,7 @@ export default class SettingsScreen extends React.Component {
             <Image
               style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
               source={{
-                uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                uri: this.state.user.pro_pic
               }}
             />
             <View>
@@ -73,6 +66,7 @@ export default class SettingsScreen extends React.Component {
             <FontAwesome
               name="chevron-right"
               size={15}
+              color="#D2D2D7"
               style={styles.profileArrow}
             />
           </View>
@@ -83,7 +77,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -94,7 +93,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -104,9 +108,9 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
+  settings: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
   },
   profile: {
     flexDirection: "row",
@@ -134,15 +138,30 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 40
   },
   divider: {
-    borderBottomColor: "gray",
+    borderBottomColor: "#D2D2D7",
     borderBottomWidth: 1
   },
   profileArrow: {
     paddingTop: 20,
     paddingLeft: 100
   },
-  backHeader: {
-    marginLeft: -10
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
   arrow: {
     paddingTop: 15

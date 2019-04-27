@@ -70,18 +70,18 @@ class TipDetailsScreen extends React.Component {
   async componentDidMount() {
     let author = this.props.navigation.getParam("author", false);
     let userid = await AsyncStorage.getItem("user_id");
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     this.setState({
       username: author.anon ? "Anonymous" : author.username,
       userid: userid,
-      verifiedPin: verifiedPin
+      // verifiedPin: verifiedPin
     });
   }
 
   onComponentFocused = async () => {
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     this.setState({
-      verifiedPin: verifiedPin
+      // verifiedPin: verifiedPin
     });
   };
 
@@ -102,7 +102,7 @@ class TipDetailsScreen extends React.Component {
   };
 
   upvotePress = async () => {
-    if (this.state.verifiedPin) {
+    if (!this.state.verifiedPin) {
       this.props.navigation.navigate("Alert");
     }
     else {
@@ -118,7 +118,7 @@ class TipDetailsScreen extends React.Component {
   };
 
   downvotePress = async () => {
-    if (this.state.verifiedPin) {
+    if (!this.state.verifiedPin) {
       this.props.navigation.navigate("Alert");
     }
     else {

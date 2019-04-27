@@ -18,27 +18,26 @@ class TipCategories extends React.Component {
   render() {
     return (
       <View style={styles.categories}>
-        <View style={styles.header}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Tip Overview"
-              onPress={() => this.props.navigation.navigate("TipOverview")}
-              style={styles.backButton}
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+              Overview
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "crime"
-            })}
-            style={[ styles.category,
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "crime"
+              })
+            }
+            style={[
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.crime }
             ]}
           >
@@ -51,11 +50,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "health"
-            })}
-            style={[styles.category, { backgroundColor: Colors.health }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "health"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.health }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -68,10 +68,13 @@ class TipCategories extends React.Component {
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "transportation"
-            })}
-            style={[styles.category,
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "transportation"
+              })
+            }
+            style={[
+              styles.category,
               { marginRight: 10, backgroundColor: Colors.transportation }
             ]}
           >
@@ -84,13 +87,12 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm", {
-              category: "financial"
-            })}
-            style={[
-              styles.category,
-              { backgroundColor: Colors.financial }
-            ]}
+            onPress={() =>
+              this.props.navigation.navigate("TipForm", {
+                category: "financial"
+              })
+            }
+            style={[styles.category, { backgroundColor: Colors.financial }]}
           >
             <View style={styles.categoryView}>
               <Text style={styles.categoryText}>
@@ -138,15 +140,23 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20
   },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
+  },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
   },
-  backHeader: {
-    marginLeft: -10
-  },
-  nextHeader: {
-    alignSelf: "flex-end"
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });
 

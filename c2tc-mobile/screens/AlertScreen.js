@@ -5,7 +5,10 @@ import {
   View,
   Text,
   Dimensions,
+  TouchableOpacity
 } from "react-native";
+
+import { FontAwesome } from "@expo/vector-icons";
 
 import { Appbar, Button } from "react-native-paper";
 
@@ -20,17 +23,19 @@ export default class AlertScreen extends React.Component {
   render() {
     return (
       <View style={{ marginTop: 22 }}>
-          <Appbar.Header>
-              <Appbar.BackAction
-                style={styles.backButton}
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="Login/Register"
-                onPress={this.handleBackPress}
-              />
-            </Appbar.Header>
+          <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("TipOverview")
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Tip Overview
+            </Text>
+          </TouchableOpacity>
+        </View>
           <View style={{ marginTop: 22 }}>
             <View>
               <Text style={styles.reason_text}>

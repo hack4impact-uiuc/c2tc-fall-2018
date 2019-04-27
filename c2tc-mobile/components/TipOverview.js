@@ -39,7 +39,7 @@ class TipOverview extends React.Component {
 
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let address = await latlongToAddress(
       this.props.tip.latitude,
       this.props.tip.longitude
@@ -49,7 +49,7 @@ class TipOverview extends React.Component {
       user: user,
       username: user.anon ? "Anonymous" : user.username,
       address: address,
-      verifiedPin: verifiedPin
+      // verifiedPin: verifiedPin
     });
     if (this.props.screenType === "verified") {
       this.setVoteStatus();
@@ -57,7 +57,7 @@ class TipOverview extends React.Component {
   }
 
   onComponentFocused = async () => {
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let user = await API.getUser(this.props.tip.author);
     let address = await latlongToAddress(
       this.props.tip.latitude,
@@ -68,7 +68,7 @@ class TipOverview extends React.Component {
       user: user,
       username: user.anon ? "Anonymous" : user.username,
       address: address,
-      verifiedPin: verifiedPin
+      // verifiedPin: verifiedPin
     });
     if (this.props.screenType === "verified") {
       this.setVoteStatus();
@@ -113,23 +113,34 @@ class TipOverview extends React.Component {
   };
 
   upvotePress = async () => {
-    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
-    let data = {
-      tips_id: this.props.tip._id,
-      user_id: this.props.user._id,
-      vote_type: "UPVOTE"
-    };
-    await API.voteTip(data);
+    if (!this.state.verifiedPin) {
+      this.props.navigation.navigate("Alert");
+    }
+    else {
+      console.log(verifiedPin);
+      this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
+      let data = {
+        tips_id: this.props.tip._id,
+        user_id: this.props.user._id,
+        vote_type: "UPVOTE"
+      };
+      await API.voteTip(data);
+    }
   };
 
   downvotePress = async () => {
-    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
-    let data = {
-      tips_id: this.props.tip._id,
-      user_id: this.props.user._id,
-      vote_type: "DOWNVOTE"
-    };
-    await API.voteTip(data);
+    if (!this.state.verifiedPin) {
+      this.props.navigation.navigate("Alert");
+    }
+    else {
+      this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
+      let data = {
+        tips_id: this.props.tip._id,
+        user_id: this.props.user._id,
+        vote_type: "DOWNVOTE"
+      };
+      await API.voteTip(data);
+    }
   };
 
   editPress = () => {
