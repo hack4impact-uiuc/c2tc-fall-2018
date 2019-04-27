@@ -226,6 +226,9 @@ class TipForm extends React.Component {
               key: "api_key",
               language: "en"
             }}
+            onPress={(data, details = null) => {
+              this.setState({ address: details.formatted_address });
+            }}
           />
         </ScrollView>
       </KeyboardAvoidingView>
