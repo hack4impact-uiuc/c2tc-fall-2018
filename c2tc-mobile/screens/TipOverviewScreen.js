@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
+import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
 
@@ -37,13 +38,19 @@ class TipOverviewScreen extends React.Component {
       bgImg: DAY_BACKGROUND_IMG,
       screenType: "view",
       tips: [],
-      hasLoaded: false
+      hasLoaded: false,
+      _mounted: false
     };
   }
 
   async componentWillMount() {
     this.setDate();
     this.setGreeting();
+
+  }
+
+  async componentDidMount() {
+    this._mounted = true;
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
@@ -54,22 +61,23 @@ class TipOverviewScreen extends React.Component {
       let tipsResponse = await API.getTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
     }
+    this._mounted = false;
   }
 
-  onComponentFocused = async () => {
-    if (this.state.hasLoaded) {
-      if (this.state.screenType === "view") {
-        let tipsResponse = await API.getVerifiedTips();
-        this.setState({ tips: tipsResponse });
-      } else if (this.state.screenType === "verification") {
-        let tipsResponse = await API.getPendingTips();
-        this.setState({ tips: tipsResponse });
-      } else {
-        let tipsResponse = await API.getTips();
-        this.setState({ tips: tipsResponse });
-      }
-    }
-  };
+  // onComponentFocused = async () => {
+  //   if (this.state.hasLoaded) {
+  //     if (this.state.screenType === "view") {
+  //       let tipsResponse = await API.getVerifiedTips();
+  //       this.setState({ tips: tipsResponse });
+  //     } else if (this.state.screenType === "verification") {
+  //       let tipsResponse = await API.getPendingTips();
+  //       this.setState({ tips: tipsResponse });
+  //     } else {
+  //       let tipsResponse = await API.getTips();
+  //       this.setState({ tips: tipsResponse });
+  //     }
+  //   }
+  // };
 
   onChangeScreenType = async () => {
     if (this.state.screenType === "view") {
@@ -162,7 +170,9 @@ class TipOverviewScreen extends React.Component {
 
   render() {
     const screenStyle = this.state.screenType;
-    if (this.props.page !== "tips") {
+    if (this._mounted) {
+      return <Loader loading={this._mounted} />;
+    } if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (
