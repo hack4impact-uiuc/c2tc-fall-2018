@@ -115,7 +115,9 @@ export default class ProfileScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() =>
-                this.props.navigation.navigate("TipOverview")
+                this.props.navigation.navigate("Settings", {
+                  user: this.state.user
+                })
               }
               style={styles.settingsButton}
             >
@@ -124,28 +126,6 @@ export default class ProfileScreen extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* <View>
-            <Appbar.Header>
-              <Appbar.BackAction
-                style={styles.backButton}
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="Tip Overview"
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                title="Settings"
-                titleStyle={styles.settingsHeader}
-                onPress={() =>
-                  this.props.navigation.navigate("Settings", {
-                    user: this.state.user
-                  })
-                }
-              />
-            </Appbar.Header> */}
-          {/* </View> */}
           <View style={styles.profile}>
             <Image
               style={{
@@ -235,7 +215,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingLeft: 20,
-    marginRight: Dimensions.get("window").width - 250
+    marginRight: Dimensions.get("window").width - 270
   },
   headerText: {
     color: "white",

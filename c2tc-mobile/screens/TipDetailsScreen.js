@@ -4,7 +4,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
@@ -43,25 +44,10 @@ class TipDetailsScreen extends React.Component {
     const screenStyle = this.props.navigation.state.params.screenType;
 
     return (
-      <View style={styles.detail}>
+      <ScrollView style={styles.detail}>
 
-        <View style={styles.header}>
-          {screenStyle === "verified" &&
-             <View style={styles.navBar}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("TipOverview")
-                }
-                style={styles.backButton}
-              >
-                <Text style={styles.headerText}>
-                  <FontAwesome name="chevron-left" size={20} color="white" />   TipOverview
-                </Text>
-              </TouchableOpacity>
-            </View>
-          }
-          {screenStyle === "pending" &&
-           <View style={styles.navBar}>
+        {screenStyle === "verified" &&
+            <View style={styles.navBar}>
             <TouchableOpacity
               onPress={() =>
                 this.props.navigation.navigate("TipOverview")
@@ -73,21 +59,19 @@ class TipDetailsScreen extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-            <Appbar.Header>
-              <Appbar.BackAction
-                style={styles.backButton}
-                onPress={() => this.props.navigation.navigate("PendingTips", {tips: this.state.tips})}
-                style={styles.backButton}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="PendingTips"
-                onPress={() => this.props.navigation.navigate("PendingTips", {tips: this.state.tips})}
-                style={styles.backButton}
-              />
-            </Appbar.Header>
-          }
+        }
+        {screenStyle === "pending" &&
+          <View style={styles.navBarPending}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("PendingTips", {tips: this.state.tips})}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />  Pending Tips
+            </Text>
+          </TouchableOpacity>
         </View>
+        }
         <View>
           <Text style={styles.title}>{this.state.tip.title}</Text>
           <View style={styles.tags}>
@@ -138,7 +122,7 @@ class TipDetailsScreen extends React.Component {
             </View>
           </View>
         )}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -162,6 +146,11 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 20
   },
+  verifButtonText:{
+    fontSize: 15,
+    fontWeight:"500",
+    color: "white"
+  },
   action: {
     marginHorizontal: 20,
     marginTop: 15,
@@ -173,7 +162,7 @@ const styles = StyleSheet.create({
   },
   verification:{
     marginHorizontal: 20,
-    marginTop: 15,
+    marginTop: 40,
     borderRadius: 15,
     padding: 10,
     flexDirection: "row",
@@ -188,7 +177,7 @@ const styles = StyleSheet.create({
     width: 95
   },
   leftActionsVerif: {
-    width: Dimensions.get("window").width / 3
+    width: Dimensions.get("window").width / 3,
   },
   rightActionsVerif: {
     width: Dimensions.get("window").width / 3
@@ -233,18 +222,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius:10,
-    backgroundColor: "#C7C7CC",
-    justifyContent: "center"
+    backgroundColor: "#C03303",
+    flexDirection:"row",
+    justifyContent: "center",
   },
   approveButton: {
     paddingVertical: 10,
     borderRadius:10,
     paddingHorizontal: 20,
     backgroundColor: "#358F39",
-    justifyContent: "center"
-  },
-  verifButtonText: {
-    color: "white"
+    justifyContent: "center",
+    flexDirection:"row",
   },
   navBar:{
     paddingTop: 37,
@@ -252,6 +240,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom:30
+  },
+  navBarPending:{
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#C03303",
     paddingBottom: 15,
     marginBottom:30
   },
