@@ -216,7 +216,7 @@ class TipOverviewScreen extends React.Component {
             </View>
           </View>
           <View style={styles.content}>
-            <View style={styles.contentNav}>
+            {this.state.verifiedPin ? <View style={styles.contentNav}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("TipCategories")}
               >
@@ -231,7 +231,7 @@ class TipOverviewScreen extends React.Component {
               >
                 <Text style={styles.button}> Review Pending Tips </Text>
               </TouchableOpacity>
-            </View>
+            </View> : null}
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}
