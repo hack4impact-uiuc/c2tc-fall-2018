@@ -42,7 +42,8 @@ class TipOverviewScreen extends React.Component {
       bgImg: DAY_BACKGROUND_IMG,
       tips: [],
       pendingTips: [],
-      hasLoaded: false
+      hasLoaded: false,
+      isLoading: true
     };
   }
 
@@ -57,13 +58,20 @@ class TipOverviewScreen extends React.Component {
         user: user
       });
     }
+
+  }
+
+  async componentDidMount() {
+    this.setState({isLoading: true});
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
     this.setState({ tips: tipsResponse, hasLoaded: true });
+    this.setState({isLoading: false});
   }
 
   onComponentFocused = async () => {
+    console.log("component focused: " + this.state.isLoading);
     if (this.state.hasLoaded) {
       let user_id = await AsyncStorage.getItem("user_id");
       if (user_id) {
@@ -157,7 +165,9 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
-    if (this.props.page !== "tips") {
+    if (this.state.isLoading) {
+      return <Loader loading={this.state.isLoading} />;
+    } else if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (
