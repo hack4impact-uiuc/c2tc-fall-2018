@@ -5,16 +5,32 @@ import {
   View,
   Text,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 
 import { FontAwesome } from "@expo/vector-icons";
 
 import { Appbar, Button } from "react-native-paper";
+import API from "../components/API";
 
 const { width, height } = Dimensions.get("window");
 
 export default class AlertScreen extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      token: ""
+    }
+  }
+
+  async componentDidMount() {
+    let token = await AsyncStorage.getItem("token");
+    this.setState({
+      token: token
+    });
+  }
 
   handleBackPress = e => {
     this.props.navigation.navigate("TipOverview");
@@ -60,7 +76,7 @@ export default class AlertScreen extends React.Component {
                 Register
               </Button>
             </View>
-            <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
+            {this.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
               <Button
                 mode="contained"
                 style={styles.button}
@@ -68,7 +84,7 @@ export default class AlertScreen extends React.Component {
               >
                 Verify
               </Button>
-            </View>
+            </View> : null}
           </View>
       </View>
     );
