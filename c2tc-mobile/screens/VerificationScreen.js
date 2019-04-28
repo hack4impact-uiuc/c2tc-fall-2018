@@ -21,13 +21,13 @@ class VerificationScreen extends React.Component {
 
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
-    console.log("response");
-    console.log(response);
     if (response.status !== 200) {
       errors = [response.message]
       this.setState({ errors });
     } else {
-      await AsyncStorage.setItem("verifiedPin", true);
+      console.log("setting verifiedPin");
+      await AsyncStorage.setItem("verifiedPin", "yes");
+      console.log(await AsyncStorage.getItem("verifyPin"));
       this.setState({ successfulSubmit: true });
     }
   }

@@ -88,6 +88,17 @@ async function login(email, password){
   return postToAuthServer("login", { email, password });
 }
 
+async function setVerifiedPin(){
+  console.log("function setVerifiedPin");
+  let token = await AsyncStorage.getItem("token");
+  let response = await getEndpoint("userinfo", "", { token });
+  console.log("response");
+  console.log(response);
+  if (response.verified){
+    await AsyncStorage.setItem("verifiedPin", "yes");
+  }
+}
+
 async function verifyPin(pin){
   let token = await AsyncStorage.getItem("token");
   return postToAuthServer("verifyEmail", { pin }, { token });
@@ -118,10 +129,7 @@ async function getTipsFromCategory(category) {
   return getEndpoint(`tips_category/${category}`, "tips");
 }
 
-async function getUserUpvotes(tips_id, token=null) {
-  if (token === null){
-    token = await AsyncStorage.getItem("token");
-  }
+async function getUserUpvotes(tips_id, token) {
   return getEndpoint(`tips_upvotes/${tips_id}`, "users");
 }
 
@@ -161,7 +169,10 @@ async function updateStatus(id, data) {
   return putEndpoint(`tips/${id}/status`, data);
 }
 
-async function voteTip(data, token) {
+async function voteTip(data, token=null) {
+  if (token === null){
+    token = await AsyncStorage.getItem("token");
+  }
   return putEndpoint("tips_votes", data, { token });
 }
 
@@ -245,5 +256,6 @@ export default {
   deleteTip,
   registerNewUser,
   login,
-  verifyPin
+  verifyPin,
+  setVerifiedPin
 };

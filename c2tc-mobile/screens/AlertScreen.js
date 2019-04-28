@@ -27,6 +27,8 @@ export default class AlertScreen extends React.Component {
 
   async componentDidMount() {
     let token = await AsyncStorage.getItem("token");
+    console.log("AlertScreen");
+    console.log(`token: ${token}`)
     this.setState({
       token: token
     });
@@ -76,7 +78,7 @@ export default class AlertScreen extends React.Component {
                 Register
               </Button>
             </View>
-            {this.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
+            {this.state.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
               <Button
                 mode="contained"
                 style={styles.button}
