@@ -2,7 +2,7 @@ import pdb
 from flask import Blueprint, request
 from datetime import datetime
 from api.models.User import User
-from api.core import create_response, serialize_list, logger
+from api.core import create_response, serialize_list, logger, authenticated_route
 
 user = Blueprint("user", __name__)
 
@@ -35,6 +35,12 @@ def create_user():
     )
     user.save()
     return create_response(message="success!")
+
+
+@user.route("/userinfo", methods=["GET"])
+@authenticated_route
+def current_user_info(db_user):
+    return create_response(message="Success!", status=200, data=dict(db_user.to_mongo()))
 
 
 @user.route("/users/<id>", methods=["GET"])
