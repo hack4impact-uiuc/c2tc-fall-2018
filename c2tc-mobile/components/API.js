@@ -180,8 +180,8 @@ async function createUser(data) {
   return postEndpoint("users", data);
 }
 
-async function updateUser(id, data) {
-  return putEndpoint(`users/${id}`, data);
+async function updateUser(token, data) {
+  return putEndpoint(`users`, data, { token });
 }
 
 async function deleteUser(id) {
