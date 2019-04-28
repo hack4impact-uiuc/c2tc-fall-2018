@@ -40,7 +40,9 @@ def create_user():
 @user.route("/userinfo", methods=["GET"])
 @authenticated_route
 def current_user_info(db_user):
-    return create_response(message="Success!", status=200, data=dict(db_user.to_mongo()))
+    return create_response(
+        message="Success!", status=200, data=dict(db_user.to_mongo())
+    )
 
 
 @user.route("/users/<id>", methods=["GET"])
