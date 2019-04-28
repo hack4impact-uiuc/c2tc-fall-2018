@@ -29,14 +29,10 @@ export default class Login extends Component {
 
     if (errors.length == 0){
       const response = await API.login(this.state.email, this.state.pswd);
-      console.log("response");
-      console.log(response);
       if (!response.success) {
         errors = [response.message]
-        console.log(`errors: ${errors}`)
       } else {
         await AsyncStorage.setItem("token", response.result.token);
-        console.log("hello calling setVerifiedPin");
         await API.setVerifiedPin()
         this.setState({ successfulSubmit: true });
       }
