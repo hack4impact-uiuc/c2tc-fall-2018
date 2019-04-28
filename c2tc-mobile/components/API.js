@@ -112,8 +112,8 @@ async function getTipsNearby(lat, long) {
   return getEndpoint(`tips?lat=${lat}&long=${long}`, "tips");
 }
 
-async function getTipsFromUser(user_id) {
-  return getEndpoint(`user/${user_id}/tips`, "tips");
+async function getTipsFromUser(token) {
+  return getEndpoint(`user/tips`, "tips", { token });
 }
 
 async function getTipsFromCategory(category) {
@@ -141,15 +141,15 @@ async function getDeniedTips() {
 }
 
 async function getVerifiedTipsByUser(token) {
-  return getEndpoint(`tips/verified?id=${token}`, "verified_tips", { token });
+  return getEndpoint(`tips/verified`, "verified_tips", { token });
 }
 
 async function getPendingTipsByUser(token) {
-  return getEndpoint(`tips/pending?id=${token}`, "pending_tips", { token });
+  return getEndpoint(`tips/pending`, "pending_tips", { token });
 }
 
 async function getDeniedTipsByUser(token) {
-  return getEndpoint(`tips/denied?id=${token}`, "denied_tips", { token });
+  return getEndpoint(`tips/denied`, "denied_tips", { token });
 }
 
 async function editTip(id, data) {
