@@ -31,6 +31,9 @@ class TipDetailsScreen extends React.Component {
   }
 
   setVoteStatus = async () => {
+    if (!this.state.user) {
+      return;
+    }
     let upVotedUsers = await API.getUserUpvotes(
       this.props.navigation.state.params.tip._id
     );

@@ -50,16 +50,21 @@ class TipOverviewScreen extends React.Component {
   async componentWillMount() {
     let token = await AsyncStorage.getItem("token");
     let verifiedPin = await AsyncStorage.getItem("verifiedPin");
-    if (verifiedPin) {
-      let user = await API.getUser(token);
-      this.setState({
-        proPic: user.pro_pic,
-        username: user.username,
-        user: user,
-        verifiedPin: verifiedPin,
-        token: token
-      });
-    }
+    let user;
+      if (token) {
+        user = await API.getUser(token);
+        this.setState({
+          username: user.username,
+          user: user,
+          token: token
+        });
+      }
+      if (verifiedPin) {
+        this.setState({
+          proPic: user.pro_pic,
+          verifiedPin: verifiedPin
+        });
+      }
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
@@ -75,12 +80,14 @@ class TipOverviewScreen extends React.Component {
         user = await API.getUser(token);
         this.setState({
           username: user.username,
-          user: user
+          user: user,
+          token: token
         });
       }
       if (verifiedPin) {
         this.setState({
           proPic: user.pro_pic,
+          verifiedPin: verifiedPin
         });
       }
       let tipsResponse = await API.getVerifiedTips();

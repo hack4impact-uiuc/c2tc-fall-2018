@@ -76,7 +76,7 @@ export default class AlertScreen extends React.Component {
                 Register
               </Button>
             </View>
-            {this.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
+            {this.state.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
               <Button
                 mode="contained"
                 style={styles.button}

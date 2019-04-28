@@ -80,6 +80,9 @@ class TipOverview extends React.Component {
   };
 
   setVoteStatus = async () => {
+    if (!this.props.user) {
+      return;
+    }
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
 
     if (
