@@ -82,6 +82,7 @@ def get_user_by_token(token):
     auth_uid = auth_server_res.json()["user_id"]
     return User.objects.get(auth_server_uid=auth_uid)
 
+
 @auth.route("/verifyEmail", methods=["POST"])
 @necessary_post_params("pin")
 def verifyEmail():
