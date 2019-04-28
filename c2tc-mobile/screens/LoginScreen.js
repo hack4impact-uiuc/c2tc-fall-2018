@@ -27,12 +27,15 @@ export default class Login extends Component {
   handleLogin = async () => {
     let errors = this.validate();
 
-    if (errors.length == 0){
+    if (errors.length == 0) {
       const response = await API.login(this.state.email, this.state.pswd);
       if (!response.success) {
-        errors = [response.message]
+        errors = [response.message];
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        await AsyncStorage.setItem(
+          "token",
+          JSON.stringify(response.result.token)
+        );
         this.setState({ successfulSubmit: true });
       }
     }

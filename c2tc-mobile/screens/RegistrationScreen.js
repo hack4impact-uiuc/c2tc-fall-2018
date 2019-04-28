@@ -29,12 +29,19 @@ export default class Registration extends Component {
   handleRegistration = async () => {
     let errors = this.validate();
     if (errors.length === 0) {
-      const response = await API.registerNewUser(this.state.email, this.state.pswd, this.state.username);
+      const response = await API.registerNewUser(
+        this.state.email,
+        this.state.pswd,
+        this.state.username
+      );
       if (!response.success) {
-        errors = [response.message]
+        errors = [response.message];
         this.setState({ errors });
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        await AsyncStorage.setItem(
+          "token",
+          JSON.stringify(response.result.token)
+        );
         this.setState({ successfulSubmit: true });
       }
     } else {
@@ -65,7 +72,7 @@ export default class Registration extends Component {
     if (emailParts.length != 2) {
       errors.push("Invalid amount of @'s");
     } else {
-      if (emailParts[1] != "illinois.edu"){
+      if (emailParts[1] != "illinois.edu") {
         errors.push("Have to have an illinois email to register with the app!");
       } else {
         this.state.username = emailParts[0];
