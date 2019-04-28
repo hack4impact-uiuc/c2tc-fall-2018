@@ -197,11 +197,13 @@ def update_status(id):
 
 
 @tips.route("/tips_votes", methods=["PUT"])
-def change_vote():
+@authenticated_route
+def change_vote(user_db):
     """
     PUT function for changing a user's upvote or downvote
     """
     data = request.get_json()
+    data["user_id"] = user_db.id
     tip = Tips.objects.get(id=data["tips_id"])
     if data["vote_type"] == UPVOTE:
         if ObjectId(data["user_id"]) in tip.to_mongo()["upvotes"]:
