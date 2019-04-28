@@ -22,7 +22,6 @@ class TipOverview extends React.Component {
     this.state = {
       address: "Loading...",
       username: "",
-      userid: "",
       isUpvoted: false,
       isDownvoted: false,
       verifiedPin: false
@@ -39,7 +38,7 @@ class TipOverview extends React.Component {
 
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
-    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let address = await latlongToAddress(
       this.props.tip.latitude,
       this.props.tip.longitude
@@ -57,8 +56,9 @@ class TipOverview extends React.Component {
   }
 
   onComponentFocused = async () => {
-    // let verifiedPin = await AsyncStorage.getItem("verifiedPin");
-    let user = await API.getUser(this.props.tip.author);
+    let token = await AsyncStorage.getItem("token");
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let user = await API.getUser(token);
     let address = await latlongToAddress(
       this.props.tip.latitude,
       this.props.tip.longitude

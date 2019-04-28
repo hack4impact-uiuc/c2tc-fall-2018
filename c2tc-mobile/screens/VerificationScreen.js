@@ -15,36 +15,49 @@ class VerificationScreen extends React.Component {
     pin: "0"
   };
 
+  handleVerification = async () => {
+    const response = await API.verifyPin(this.state.pin);
+    if (response.status !== 200) {
+      errors = [response.message]
+      this.setState({ errors });
+    } else {
+      await AsyncStorage.setItem("verifiedEmail", true);
+      this.setState({ successfulSubmit: true });
+    }
+  }
+
   render() {
     return (
-      <View>
-        <View style={styles.navBar}>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("TipOverview")
-            }
-            style={styles.backButton}
-          >
-            <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
-              Tip Overview
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.header}>Enter Verification Pin</Text>
-          <TextInput
-            style={styles.verificationText}
-            keyboardType="numeric"
-            textContentType="oneTimeCode"
-            value={this.state.pin}
-            maxLength={6}
-            onChange={e => this.setState({ pin: e })}
-          />
-          <TouchableOpacity style={styles.submit}>
-            <Text style={styles.submitText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
+      <View >
+          <Appbar.Header>
+            <Appbar.BackAction
+              style={styles.backButton}
+              onPress={() =>
+                this.props.navigation.navigate("TipOverview")
+              }
+            />
+            <Appbar.Content
+              titleStyle={styles.backHeader}
+              title="Tip Overview"
+              onPress={() =>
+                this.props.navigation.navigate("TipOverview")
+              }
+            />
+          </Appbar.Header>
+          <View style={styles.content}>
+            <Text style={styles.header}>Enter Verification Pin</Text>
+            <TextInput
+                style={styles.verificationText}
+                keyboardType="numeric"
+                textContentType = "oneTimeCode"
+                value={this.state.pin}
+                maxLength={6}
+                onChange={(e) => this.setState({pin:e})}
+            />
+            <TouchableOpacity style={styles.submit} onPress={this.handleVerification} >
+              <Text style={styles.submitText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     );
   }

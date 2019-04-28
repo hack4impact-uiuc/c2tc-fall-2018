@@ -17,15 +17,14 @@ class TipDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      upvotes: 87,
       username: "",
       tip: this.props.navigation.state.params.tip,
       screenStyle: this.props.navigation.state.params.screenType,
       tips: this.props.navigation.state.params.tips,
       userid: "",
+      upvotePercentage: 0,
       isDownvoted: this.props.navigation.getParam("downvoted", false),
-      isUpvoted: this.props.navigation.getParam("upvoted", false),
-      verifiedPin: false
+      isUpvoted: this.props.navigation.getParam("upvoted", false)
     };
   }
 
@@ -83,7 +82,30 @@ class TipDetailsScreen extends React.Component {
     this.setState({
       // verifiedPin: verifiedPin
     });
-  };
+
+    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
+    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
+      .length;
+    let upvotePercentage = "";
+    if (upvoteNumb === 0 && downvoteNumb === 0) {
+      upvotePercentage = " 0% Upvoted";
+    } else if (upvoteNumb >= downvoteNumb) {
+      upvotePercentage =
+        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+    } else {
+      upvotePercentage =
+        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
+    }
+    this.setState({ upvotePercentage });
+    let author = this.props.navigation.getParam("author", false);
+
+    let userid = await AsyncStorage.getItem("user_id");
+
+    this.setState({
+      username: author.anon ? "Anonymous" : author.username,
+      userid
+    });
+  }
 
   approvePress = async () => {
     let data = {
@@ -215,7 +237,7 @@ class TipDetailsScreen extends React.Component {
         {screenStyle === "verified" && (
           <View style={styles.action}>
             <View style={styles.leftActions}>
-              <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
+              <Text style={styles.upvotes}>{this.state.upvotePercentage}</Text>
             </View>
             <View style={styles.rightActions}>
               <TouchableOpacity
