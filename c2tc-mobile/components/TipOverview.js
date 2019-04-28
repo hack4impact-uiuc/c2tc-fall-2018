@@ -24,7 +24,8 @@ class TipOverview extends React.Component {
       username: "",
       isUpvoted: false,
       isDownvoted: false,
-      verifiedPin: false
+      verifiedPin: false,
+      token: ""
     };
   }
 
@@ -37,7 +38,8 @@ class TipOverview extends React.Component {
   };
 
   async componentDidMount() {
-    let user = await API.getUser(this.props.tip.author);
+    let token = await AsyncStorage.getItem("token");
+    let user = await API.getUser(token);
     let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let address = await latlongToAddress(
       this.props.tip.latitude,
@@ -48,7 +50,8 @@ class TipOverview extends React.Component {
       user: user,
       username: user.anon ? "Anonymous" : user.username,
       address: address,
-      // verifiedPin: verifiedPin
+      verifiedPin: verifiedPin,
+      token: token
     });
     if (this.props.screenType === "verified") {
       this.setVoteStatus();
@@ -68,7 +71,8 @@ class TipOverview extends React.Component {
       user: user,
       username: user.anon ? "Anonymous" : user.username,
       address: address,
-      // verifiedPin: verifiedPin
+      verifiedPin: verifiedPin,
+      token: token
     });
     if (this.props.screenType === "verified") {
       this.setVoteStatus();
@@ -121,7 +125,6 @@ class TipOverview extends React.Component {
       this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
       let data = {
         tips_id: this.props.tip._id,
-        user_id: this.props.user._id,
         vote_type: "UPVOTE"
       };
       await API.voteTip(data);
@@ -136,7 +139,6 @@ class TipOverview extends React.Component {
       this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
       let data = {
         tips_id: this.props.tip._id,
-        user_id: this.props.user._id,
         vote_type: "DOWNVOTE"
       };
       await API.voteTip(data);

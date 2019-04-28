@@ -134,11 +134,10 @@ class TipDetailsScreen extends React.Component {
       this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
       let data = {
         tips_id: this.props.navigation.state.params.tip._id,
-        user_id: this.state.user._id,
         vote_type: "UPVOTE"
       };
 
-      await API.voteTip(data);
+      await API.voteTip(data, this.state.token);
     }
   };
 
@@ -150,10 +149,9 @@ class TipDetailsScreen extends React.Component {
       this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
       let data = {
         tips_id: this.props.navigation.state.params.tip._id,
-        user_id: this.state.user._id,
         vote_type: "DOWNVOTE"
       };
-      await API.voteTip(data);
+      await API.voteTip(data, this.state.token);
     }
   };
 
