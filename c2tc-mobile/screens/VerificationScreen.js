@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import API from "../components/API";
 import { Appbar } from "react-native-paper";
+import { AsyncStorage } from "react-native";
 
 class VerificationScreen extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class VerificationScreen extends React.Component {
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
     if (!response.success) {
-      errors = [response.message]
+      errors = ["Error: " + response.message]
       this.setState({ errors });
     } else {
       await AsyncStorage.setItem("verifiedPin", "yes");
@@ -54,7 +55,7 @@ class VerificationScreen extends React.Component {
           <View style={styles.content}>
             <View style={styles.errors}>
               {errors.map(error => (
-                <Text key={error}>Error: {error}</Text>
+                <Text key={error}>{error}</Text>
               ))}
             </View>
             <Text style={styles.header}>Enter Verification Pin</Text>
