@@ -52,13 +52,13 @@ def get_user(id):
     return create_response(data=dict(response))
 
 
-@user.route("/users/<id>", methods=["PUT"])
-def update_user(id):
+@user.route("/users", methods=["PUT"])
+@authenticated_route
+def update_user(user):
     """
     PUT function for updating a User
     """
     data = request.get_json()
-    user = User.objects.get(id=id)
     if "username" in data:
         user.update(username=data["username"])
     if "verified" in data:

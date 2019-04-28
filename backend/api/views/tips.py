@@ -44,10 +44,10 @@ def get_tip(id):
     return create_response(data=dict(response))
 
 
-@tips.route("/user/<user_id>/tips", methods=["GET"])
-def get_tips_by_user(user_id):
-    user = User.objects.get(id=user_id)
-    posted_tips = (user.to_mongo())["posted_tips"]
+@tips.route("/user/tips", methods=["GET"])
+@authenticated_route
+def get_tips_by_user(user_db):
+    posted_tips = (user_db.to_mongo())["posted_tips"]
     posted_tips_list = [
         Tips.objects.get(id=str(tips)).to_mongo() for tips in posted_tips
     ]
