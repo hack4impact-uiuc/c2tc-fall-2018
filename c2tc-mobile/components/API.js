@@ -89,11 +89,8 @@ async function login(email, password){
 }
 
 async function setVerifiedPin(){
-  console.log("function setVerifiedPin");
   let token = await AsyncStorage.getItem("token");
   let response = await getEndpoint("userinfo", "", { token });
-  console.log("response");
-  console.log(response);
   if (response.verified){
     await AsyncStorage.setItem("verifiedPin", "yes");
   }

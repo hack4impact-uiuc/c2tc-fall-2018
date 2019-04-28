@@ -25,9 +25,7 @@ class VerificationScreen extends React.Component {
       errors = [response.message]
       this.setState({ errors });
     } else {
-      console.log("setting verifiedPin");
       await AsyncStorage.setItem("verifiedPin", "yes");
-      console.log(await AsyncStorage.getItem("verifyPin"));
       this.setState({ successfulSubmit: true });
     }
   }
