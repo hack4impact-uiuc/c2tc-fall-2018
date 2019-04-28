@@ -153,13 +153,13 @@ class TipOverviewScreen extends React.Component {
     ];
 
     const dayNames = [
+      "Sunday",
       "Monday",
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
-      "Saturday",
-      "Sunday"
+      "Saturday"
     ];
 
     const day = date.getDay();
@@ -167,11 +167,12 @@ class TipOverviewScreen extends React.Component {
     const year = date.getFullYear();
 
     const date_str =
-      dayNames[day - 1] +
+      dayNames[day] +
       " " +
       monthNames[monthIndex] +
       " " +
       year.toString().slice(2);
+    console.log(date_str)
     this.setState({
       currentdate: date_str
     });
