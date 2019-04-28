@@ -160,8 +160,8 @@ async function updateStatus(id, data) {
   return putEndpoint(`tips/${id}/status`, data);
 }
 
-async function voteTip(data) {
-  return putEndpoint("tips_votes", data);
+async function voteTip(data, token) {
+  return putEndpoint("tips_votes", data, { token });
 }
 
 async function deleteTip(id) {
