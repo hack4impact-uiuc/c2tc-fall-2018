@@ -14,12 +14,15 @@ class VerificationScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      pin: "0"
+      pin: "0",
+      errors: []
     }
   }
 
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
+    console.log("response");
+    console.log(response);
     if (response.status !== 200) {
       errors = [response.message]
       this.setState({ errors });
@@ -30,6 +33,7 @@ class VerificationScreen extends React.Component {
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <View >
           {/* <Appbar.Header>
@@ -48,6 +52,11 @@ class VerificationScreen extends React.Component {
             />
           </Appbar.Header> */}
           <View style={styles.content}>
+            <View style={styles.errors}>
+              {errors.map(error => (
+                <Text key={error}>Error: {error}</Text>
+              ))}
+            </View>
             <Text style={styles.header}>Enter Verification Pin</Text>
             <TextInput
                 style={styles.verificationText}
