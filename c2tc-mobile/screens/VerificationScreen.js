@@ -11,9 +11,12 @@ import API from "../components/API";
 import { Appbar } from "react-native-paper";
 
 class VerificationScreen extends React.Component {
-  state = {
-    pin: "0"
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      pin: "0"
+    }
+  }
 
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
@@ -52,7 +55,7 @@ class VerificationScreen extends React.Component {
                 textContentType = "oneTimeCode"
                 value={this.state.pin}
                 maxLength={6}
-                onChange={(e) => this.setState({pin:e})}
+                onChangeText={(pin) => this.setState({ pin })}
             />
             <TouchableOpacity style={styles.submit} onPress={this.handleVerification} >
               <Text style={styles.submitText}>Submit</Text>

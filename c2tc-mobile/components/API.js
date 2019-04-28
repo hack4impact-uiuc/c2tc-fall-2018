@@ -73,8 +73,6 @@ async function postToAuthServer(endPoint, data, additonal_headers=null){
       body: JSON.stringify(data)
     });
     let responseJson = await response.json();
-    console.log("responseJson");
-    console.log(responseJson);
     return responseJson;
   } catch (error) {
     console.error(error);
@@ -92,7 +90,8 @@ async function login(email, password){
 }
 
 async function verifyPin(pin){
-  return postToAuthServer("verifyEmail", { pin });
+  let token = await AsyncStorage.getItem("token");
+  return postToAuthServer("verifyEmail", { pin }, { token });
 }
 
 async function createTip(data) {
