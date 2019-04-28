@@ -15,8 +15,6 @@ class VerificationScreen extends React.Component {
     pin: "0"
   };
 
-  // 303650
-
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
     if (response.status !== 200) {
