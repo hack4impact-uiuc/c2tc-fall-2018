@@ -64,7 +64,6 @@ async function deleteEndpoint(endPoint) {
 }
 
 async function postToAuthServer(endPoint, data, additonal_headers=null){
-  console.log("postToAuthServer");
   try {
     let headers = { ... additonal_headers, "Content-Type": "application/json" }
     let response = await fetch(auth_server_host + "/" + endPoint, {
@@ -119,7 +118,10 @@ async function getTipsFromCategory(category) {
   return getEndpoint(`tips_category/${category}`, "tips");
 }
 
-async function getUserUpvotes(tips_id) {
+async function getUserUpvotes(tips_id, token=null) {
+  if (token === null){
+    token = await AsyncStorage.getItem("token");
+  }
   return getEndpoint(`tips_upvotes/${tips_id}`, "users");
 }
 
