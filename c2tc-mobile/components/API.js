@@ -92,7 +92,8 @@ async function login(email, password){
 }
 
 async function verifyPin(pin){
-  return postToAuthServer("verifyEmail", { pin });
+  let token = await AsyncStorage.getItem("token");
+  return postToAuthServer("verifyEmail", { pin }, { token });
 }
 
 async function createTip(data) {
