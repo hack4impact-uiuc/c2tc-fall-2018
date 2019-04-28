@@ -27,6 +27,8 @@ export default class AlertScreen extends React.Component {
 
   async componentDidMount() {
     let token = await AsyncStorage.getItem("token");
+    console.log("AlertScreen");
+    console.log(`token: ${token}`)
     this.setState({
       token: token
     });

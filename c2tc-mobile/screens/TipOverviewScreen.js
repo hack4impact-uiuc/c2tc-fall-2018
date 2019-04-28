@@ -75,6 +75,7 @@ class TipOverviewScreen extends React.Component {
     if (this.state.hasLoaded) {
       let token = await AsyncStorage.getItem("token");
       let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+      console.log(`verifiedPin: ${verifiedPin}`)
       let user;
       if (token) {
         user = await API.getUser(token);

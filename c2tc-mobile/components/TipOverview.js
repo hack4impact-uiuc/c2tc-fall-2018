@@ -124,7 +124,6 @@ class TipOverview extends React.Component {
       this.props.navigation.navigate("Alert");
     }
     else {
-      console.log(verifiedPin);
       this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
       let data = {
         tips_id: this.props.tip._id,
