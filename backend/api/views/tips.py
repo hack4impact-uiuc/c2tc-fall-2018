@@ -7,7 +7,7 @@ from api.core import (
     logger,
     authenticated_route,
     necessary_post_params,
-    can_be_authenticated
+    can_be_authenticated,
 )
 from datetime import datetime
 import functools

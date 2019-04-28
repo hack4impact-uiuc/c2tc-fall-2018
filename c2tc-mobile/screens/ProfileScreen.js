@@ -36,6 +36,10 @@ export default class ProfileScreen extends React.Component {
   }
 
   async componentWillMount() {
+<<<<<<< HEAD
+=======
+    // await AsyncStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Y2MzOTNmYjhiMDFlNjAwMjRmMjNiNjQiLCJoYXNoZWRQYXNzd29yZCI6IiQyYiQxMCRRaUlqc0lLRFF1Y1JBR2t1czhNSmN1cGZDWG1SdkVLNmV3UGVYNXJIalAyemthN2hyQ2cwYSIsImlhdCI6MTU1NjQwODU5OSwiZXhwIjoxNTU2NDk0OTk5fQ.P6uvF9iqETTykRsJGGYuTdgnqSZShL2OEbhkLDTHMaU")
+>>>>>>> master
     let token = await AsyncStorage.getItem("token");
     if (token) {
       let user = await API.getUser(token);

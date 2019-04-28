@@ -118,7 +118,9 @@ def can_be_authenticated(route):
         auth_uid = auth_server_res.json()["user_id"]
         db_user = User.objects.get(auth_server_uid=auth_uid)
         return route(db_user, *args, **kwargs)
+
     return wrapper_wroute
+
 
 def authenticated_route(route):
     @functools.wraps(route)
