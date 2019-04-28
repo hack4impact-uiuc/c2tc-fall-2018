@@ -10,6 +10,7 @@ import {
 import API from "../components/API";
 import { Appbar } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
+import { AsyncStorage } from "react-native";
 
 class VerificationScreen extends React.Component {
   constructor(props) {
@@ -22,11 +23,13 @@ class VerificationScreen extends React.Component {
 
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
-    if (response.status !== 200) {
-      errors = [response.message]
+    if (!response.success) {
+      errors = ["Error: " + response.message]
       this.setState({ errors });
     } else {
       await AsyncStorage.setItem("verifiedPin", "yes");
+      errors = ["Congrats, you're verified!"]
+      this.setState({ errors });
       this.setState({ successfulSubmit: true });
     }
   }
@@ -51,7 +54,7 @@ class VerificationScreen extends React.Component {
           <View style={styles.content}>
             <View style={styles.errors}>
               {errors.map(error => (
-                <Text key={error}>Error: {error}</Text>
+                <Text key={error}>{error}</Text>
               ))}
             </View>
             <Text style={styles.header}>Enter Verification Pin</Text>
