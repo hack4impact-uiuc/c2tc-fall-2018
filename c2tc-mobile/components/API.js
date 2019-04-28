@@ -2,9 +2,13 @@ import { AsyncStorage } from "react-native";
 const host = "https://cut-to-the-case.now.sh";
 const auth_server_host = "https://cut-to-the-case.now.sh"
 
-async function getEndpoint(endPoint, dataKey) {
+async function getEndpoint(endPoint, dataKey, additonal_headers=null) {
   try {
-    let response = await fetch(host + "/" + endPoint);
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
+    let response = await fetch(host + "/" + endPoint, {
+      method: "GET",
+      headers
+    });
     let responseJson = await response.json();
     return dataKey === "" || responseJson.success === false
       ? responseJson.result
@@ -137,16 +141,16 @@ async function getDeniedTips() {
   return getEndpoint("tips/denied", "denied_tips");
 }
 
-async function getVerifiedTipsByUser(id) {
-  return getEndpoint(`tips/verified?id=${id}`, "verified_tips");
+async function getVerifiedTipsByUser(token) {
+  return getEndpoint(`tips/verified?id=${token}`, "verified_tips", { token });
 }
 
-async function getPendingTipsByUser(id) {
-  return getEndpoint(`tips/pending?id=${id}`, "pending_tips");
+async function getPendingTipsByUser(token) {
+  return getEndpoint(`tips/pending?id=${token}`, "pending_tips", { token });
 }
 
-async function getDeniedTipsByUser(id) {
-  return getEndpoint(`tips/denied?id=${id}`, "denied_tips");
+async function getDeniedTipsByUser(token) {
+  return getEndpoint(`tips/denied?id=${token}`, "denied_tips", { token });
 }
 
 async function editTip(id, data) {
@@ -169,8 +173,8 @@ async function getUsers() {
   return getEndpoint("users", "users");
 }
 
-async function getUser(id) {
-  return getEndpoint(`users/${id}`, "");
+async function getUser(token) {
+  return getEndpoint("userinfo", "", { token });
 }
 
 async function createUser(data) {
