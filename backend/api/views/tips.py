@@ -7,6 +7,7 @@ from api.core import (
     logger,
     authenticated_route,
     necessary_post_params,
+    can_be_authenticated
 )
 from datetime import datetime
 import functools
@@ -86,11 +87,12 @@ def get_tip_downvotes(tips_id):
 
 
 @tips.route("/tips/verified", methods=["GET"])
-def get_verified_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_verified_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
@@ -101,11 +103,12 @@ def get_verified_tips():
 
 
 @tips.route("/tips/pending", methods=["GET"])
-def get_pending_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_pending_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
@@ -116,11 +119,12 @@ def get_pending_tips():
 
 
 @tips.route("/tips/denied", methods=["GET"])
-def get_denied_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_denied_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
