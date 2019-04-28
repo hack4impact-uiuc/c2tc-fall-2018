@@ -21,7 +21,7 @@ class VerificationScreen extends React.Component {
       errors = [response.message]
       this.setState({ errors });
     } else {
-      await AsyncStorage.setItem("verifiedEmail", true);
+      await AsyncStorage.setItem("verifiedPin", true);
       this.setState({ successfulSubmit: true });
     }
   }
@@ -29,7 +29,7 @@ class VerificationScreen extends React.Component {
   render() {
     return (
       <View >
-          <Appbar.Header>
+          {/* <Appbar.Header>
             <Appbar.BackAction
               style={styles.backButton}
               onPress={() =>
@@ -43,7 +43,7 @@ class VerificationScreen extends React.Component {
                 this.props.navigation.navigate("TipOverview")
               }
             />
-          </Appbar.Header>
+          </Appbar.Header> */}
           <View style={styles.content}>
             <Text style={styles.header}>Enter Verification Pin</Text>
             <TextInput
