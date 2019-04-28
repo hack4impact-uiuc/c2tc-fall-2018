@@ -33,13 +33,12 @@ async function postEndpoint(endPoint, data, additonal_headers=null) {
   }
 }
 
-async function putEndpoint(endPoint, data) {
+async function putEndpoint(endPoint, data, additonal_headers=null) {
   try {
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
     let response = await fetch(host + "/" + endPoint, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers,
       body: JSON.stringify(data)
     });
     let responseJson = await response.json();
