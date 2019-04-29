@@ -165,11 +165,11 @@ class TipForm extends React.Component {
 
   backPress = () => {
     if (this.props.navigation.getParam("edit", false)) {
-      this.props.navigation.navigate("Profile") 
+      this.props.navigation.navigate("Profile");
     } else {
-      this.props.navigation.navigate("TipCategories")
+      this.props.navigation.navigate("TipCategories");
     }
-  }
+  };
 
   render() {
     const { errors } = this.state;

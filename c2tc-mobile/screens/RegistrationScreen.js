@@ -44,7 +44,7 @@ export default class Registration extends Component {
         );
         await AsyncStorage.setItem("token", response.result.token);
         this.setState({ successfulSubmit: true });
-        this.props.navigation.navigate("Verify")
+        this.props.navigation.navigate("Verify");
       }
     } else {
       this.setState({ errors });
@@ -93,11 +93,9 @@ export default class Registration extends Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-       <View style={styles.navBar}>
+        <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("NonRegistered")
-            }
+            onPress={() => this.props.navigation.navigate("NonRegistered")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
@@ -185,7 +183,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    height:Dimensions.get("window").height,
+    height: Dimensions.get("window").height,
     backgroundColor: "white"
   },
   inputContainerStyle: {

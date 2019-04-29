@@ -37,9 +37,9 @@ export default class Login extends Component {
           JSON.stringify(response.result.token)
         );
         await AsyncStorage.setItem("token", response.result.token);
-        await API.setVerifiedPin()
+        await API.setVerifiedPin();
         this.setState({ successfulSubmit: true });
-        this.props.navigation.navigate("TipOverview")
+        this.props.navigation.navigate("TipOverview");
       }
     }
 
@@ -69,9 +69,7 @@ export default class Login extends Component {
       >
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("NonRegistered")
-            }
+            onPress={() => this.props.navigation.navigate("NonRegistered")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
@@ -125,7 +123,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    height:Dimensions.get("window").height,
+    height: Dimensions.get("window").height,
     backgroundColor: "white"
   },
   inputContainerStyle: {
