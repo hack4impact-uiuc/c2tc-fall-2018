@@ -37,7 +37,6 @@ def register():
 @auth.route("/login", methods=["POST"])
 @necessary_post_params("email", "password")
 def login():
-    print("attempting to login")
     return post_to_auth_server("login", "email", "password")
 
 
@@ -46,12 +45,10 @@ def post_to_auth_server(endpoint, *properties_to_post):
 
     auth_post_data = {key: user_input[key] for key in properties_to_post}
 
-    print("auth_server_host + endpoint: ", auth_server_host + endpoint)
     auth_server_response = requests.post(
         auth_server_host + endpoint, json=auth_post_data
     )
     response_body = auth_server_response.json()
-    print("response_body: ", response_body)
 
     if "token" not in response_body:
         return create_response(
@@ -66,6 +63,21 @@ def post_to_auth_server(endpoint, *properties_to_post):
             data=our_response_body,
         )
         return (our_response, code)
+
+
+def get_user_by_token(token):
+    auth_server_res = requests.get(
+        auth_server_host + "getUser/",
+        headers={
+            "Content-Type": "application/json",
+            "token": token,
+            "google": "undefined",
+        },
+    )
+    if auth_server_res.status_code != 200:
+        return None
+    auth_uid = auth_server_res.json()["user_id"]
+    return User.objects.get(auth_server_uid=auth_uid)
 
 
 @auth.route("/verifyEmail", methods=["POST"])
@@ -85,6 +97,10 @@ def verifyEmail():
 
     response_body = auth_server_res.json()
 
+    if auth_server_res.status_code == 200:
+        db_user = get_user_by_token(token)
+        db_user.update(verified=True)
+
     return create_response(
         message=response_body["message"], status=auth_server_res.status_code
     )
@@ -93,6 +109,7 @@ def verifyEmail():
 def create_new_db_user(client_data, auth_uid):
     user = User.objects.create(
         username=client_data["username"],
+        trusted=False,
         verified=False,
         anon=client_data["anon"],
         karma=0,

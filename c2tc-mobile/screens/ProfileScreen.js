@@ -26,36 +26,35 @@ export default class ProfileScreen extends React.Component {
       anonymousToOthers: true,
       karmaScore: 0,
       verified: false,
-      netId: "",
+      email: "",
       user: null,
       verifiedTips: [],
       pendingTips: [],
       deniedTips: [],
-      hasLoaded: false
+      hasLoaded: false,
     };
   }
 
   async componentWillMount() {
-    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
-    let user_id = await AsyncStorage.getItem("user_id");
-    if (user_id) {
-      let user = await API.getUser(user_id);
+    let token = await AsyncStorage.getItem("token");
+    if (token) {
+      let user = await API.getUser(token);
+      console.log(user)
       this.setState({
-        user_id,
         displayName: user.username,
         user,
         karmaScore: user.karma,
         verified: user.verified,
         anonymousToOthers: user.anon,
-        netId: user.net_id,
+        email: user.email,
         proPic: user.pro_pic
       });
-      let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+      let verifiedTips = await API.getVerifiedTipsByUser(token);
       this.setState({
         verifiedTips
       });
-      let pendingTips = await API.getPendingTipsByUser(user_id);
-      let deniedTips = await API.getDeniedTipsByUser(user_id);
+      let pendingTips = await API.getPendingTipsByUser(token);
+      let deniedTips = await API.getDeniedTipsByUser(token);
       this.setState({
         pendingTips,
         deniedTips,
@@ -66,19 +65,19 @@ export default class ProfileScreen extends React.Component {
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-      let user = this.props.navigation.getParam("user", null);
-      if (user) {
+      let token = await AsyncStorage.getItem("token");
+      if (token) {
+        let user = await API.getUser(token);
         this.setState({
-          user_id: user._id,
           user,
           displayName: user.username
         });
-        let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+        let verifiedTips = await API.getVerifiedTipsByUser(token);
         this.setState({
           verifiedTips
         });
-        let pendingTips = await API.getPendingTipsByUser(user_id);
-        let deniedTips = await API.getDeniedTipsByUser(user_id);
+        let pendingTips = await API.getPendingTipsByUser(token);
+        let deniedTips = await API.getDeniedTipsByUser(token);
         this.setState({
           pendingTips,
           deniedTips
@@ -159,10 +158,10 @@ export default class ProfileScreen extends React.Component {
             />
           </View>
           <View style={styles.divider} />
-          <Text style={styles.dividedText}>
-            {this.state.netId}@illinois.edu
+          {/* <Text style={styles.dividedText}>
+            {this.state.email}
           </Text>
-          <View style={styles.divider} />
+          <View style={styles.divider} /> */}
           <View style={styles.content}>
             <Text style={styles.subheader}> Posted Tips </Text>
             {this.state.verifiedTips.map(tip => (

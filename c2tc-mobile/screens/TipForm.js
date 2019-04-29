@@ -163,6 +163,14 @@ class TipForm extends React.Component {
     }
   };
 
+  backPress = () => {
+    if (this.props.navigation.getParam("edit", false)) {
+      this.props.navigation.navigate("Profile") 
+    } else {
+      this.props.navigation.navigate("TipCategories")
+    }
+  }
+
   render() {
     const { errors } = this.state;
     const { showSuccessAlert } = this.state;
@@ -245,7 +253,7 @@ class TipForm extends React.Component {
               }
             }}
             query={{
-              key: "api_key",
+              key: "AIzaSyCmAnBd0gtNpTjbou4LreRuWX2uKyUK6Po",
               language: "en"
             }}
             onPress={(data, details = null) => {
