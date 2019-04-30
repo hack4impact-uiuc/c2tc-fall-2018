@@ -7,8 +7,8 @@ from api.models.User import User
 from datetime import datetime
 
 auth = Blueprint("auth", __name__)
-# auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
-auth_server_host = "http://localhost:8000/"
+auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
+# auth_server_host = "http://localhost:8000/"
 
 
 def invalid_email(email_address):
