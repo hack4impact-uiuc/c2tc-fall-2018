@@ -45,6 +45,11 @@ def login():
 def forgot_password():
     return wrap_auth_server_response(forward_post_to_auth_server("forgotPassword", "email"))
 
+@auth.route("/passwordReset", methods=["POST"])
+@necessary_post_params("email", "pin", "password")
+def password_reset():
+    return wrap_auth_server_response(forward_post_to_auth_server("passwordReset", "email", "pin", "password"))
+
 def wrap_auth_server_response(auth_server_response):
     response_body = auth_server_response.json()
     return create_response(
