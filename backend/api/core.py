@@ -18,8 +18,8 @@ from api.models.User import User
 # logger object for all views to use
 logger = LocalProxy(lambda: current_app.logger)
 
-auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
-# auth_server_host = "http://localhost:8001/"
+# auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
+auth_server_host = "http://localhost:8000/"
 
 
 class Mixin:
