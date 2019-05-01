@@ -8,7 +8,8 @@ import {
   Dimensions,
   Text,
   TouchableOpacity,
-  Image
+  Image,
+  AsyncStorage
 } from "react-native";
 
 import { Appbar } from "react-native-paper";
@@ -24,6 +25,12 @@ export default class SettingsScreen extends React.Component {
 
   handleBackPress = e => {
     this.props.navigation.navigate("Profile");
+  };
+
+  handleLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("verifiedPin");
+    this.props.navigation.navigate("Intro");
   };
 
   render() {
@@ -44,6 +51,12 @@ export default class SettingsScreen extends React.Component {
               Profile
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+              onPress={this.handleLogout}
+              style={styles.backButton}
+            >
+              <Text style={styles.headerText}>Logout</Text>
+            </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() =>
