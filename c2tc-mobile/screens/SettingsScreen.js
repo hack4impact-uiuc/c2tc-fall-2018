@@ -52,11 +52,11 @@ export default class SettingsScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-              onPress={this.handleLogout}
-              style={styles.backButton}
-            >
-              <Text style={styles.headerText}>Logout</Text>
-            </TouchableOpacity>
+            onPress={this.handleLogout}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>Logout</Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           onPress={() =>
