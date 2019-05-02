@@ -89,17 +89,11 @@ async function login(email, password){
 }
 
 async function forgotPassword(email){
-  let response = await postToAuthServer("forgotPassword", { email });
-  console.log("response");
-  console.log(response);
-  return response;
+  return await postToAuthServer("forgotPassword", { email });
 }
 
 async function passwordReset(email, pin, password){
-  let response = await postToAuthServer("passwordReset", { email, pin, password });
-  console.log("response");
-  console.log(response);
-  return response;
+  return await postToAuthServer("passwordReset", { email, pin, password });
 }
 
 async function setVerifiedPin(){

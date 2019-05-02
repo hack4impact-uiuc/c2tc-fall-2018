@@ -34,9 +34,7 @@ export default class Registration extends Component {
       if (!response.success) {
         errors = [response.message]
       } else {
-        await AsyncStorage.setItem("token", response.result.token);
-        this.setState({ successfulSubmit: true });
-        this.props.navigation.navigate("Verify");
+        this.props.navigation.goBack(null);
       }
     }
     this.setState({ errors });
@@ -93,7 +91,7 @@ export default class Registration extends Component {
               <Text key={error}>Error: {error}</Text>
             ))}
           </View>
-          <Text style={styles.header}>Pin</Text>
+          <Text style={styles.header}>Pin (check your email)</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}

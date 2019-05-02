@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -21,54 +22,57 @@ export default class Login extends Component {
   state = {
     email: "",
     pswd: "",
-    errors: []
+    errors: [],
+    loading: false,
   };
 
-  handleLogin = async () => {
-    let errors = this.validate();
+  handleApiCall = async (errorChecks, apiCall, onSuccess) => {
+    let errors = errorChecks(this);
 
-    if (errors.length == 0){
-      const response = await API.login(this.state.email, this.state.pswd);
-      if (!response.success) {
-        errors = [response.message]
-      } else {
-        await AsyncStorage.setItem("token", response.result.token);
-        console.log(`response.result.token: ${response.result.token}`)
-        await API.setVerifiedPin()
-        this.setState({ successfulSubmit: true });
-        this.props.navigation.navigate("TipOverview")
-      }
-    }
-
-    this.setState({ errors });
-  };
-
-  handleForgotpassword = async () => {
-    let errors = []
-    if (this.state.email.length === 0) {
-      errors = ["Error: Email cannot be empty!"]
-    } else {
-      this.setState({ errors: ["Loading..."] });
-      const response = await API.forgotPassword(this.state.email);
-      if (!response.success) {
+    if (errors.length === 0){
+      this.setState({ loading: true });
+      const response = await apiCall(this);
+      this.setState({ loading: false });
+      if (!response.success){
         errors = ["Error: " + response.message]
       } else {
-        console.log("SENT EMAIL TO RESET PASSWORD");
-        console.log(response.message);
-        this.props.navigation.navigate("PasswordReset", { "email": this.state.email });
+        await onSuccess(this, response);
       }
     }
+
     this.setState({ errors });
   }
 
-  validate() {
+  handleLogin = async () => {
+    await this.handleApiCall(this.validateLogin, async (comp) => { return await API.login(comp.state.email, comp.state.pswd) }, async (comp, response) => {
+      await AsyncStorage.setItem("token", response.result.token);
+      await API.setVerifiedPin()
+      comp.setState({ successfulSubmit: true });
+      comp.props.navigation.navigate("TipOverview")
+    });
+  };
+
+  handleForgotpassword = async () => {
+    await this.handleApiCall(this.validateForgotPassword, async (comp) => { return await API.forgotPassword(comp.state.email) }, async (comp, response) => {
+      comp.props.navigation.navigate("PasswordReset", { "email": comp.state.email });
+    });
+  }
+
+  validateForgotPassword(comp) {
+    if (comp.state.email.length === 0) {
+      return ["Error: Email cannot be empty!"];
+    }
+    return [];
+  }
+
+  validateLogin(comp) {
     let errors = [];
 
-    if (this.state.email.length === 0) {
+    if (comp.state.email.length === 0) {
       errors.push("Email cannot be empty");
     }
 
-    if (this.state.pswd.length === 0) {
+    if (comp.state.pswd.length === 0) {
       errors.push("Password cannot be empty");
     }
 
@@ -132,6 +136,7 @@ export default class Login extends Component {
           <TouchableOpacity style={styles.login_btn} onPress={this.handleForgotpassword}>
             <Text style={styles.button_text}>Forgot Password</Text>
           </TouchableOpacity>
+          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
         </ScrollView>
       </KeyboardAvoidingView>
     );
