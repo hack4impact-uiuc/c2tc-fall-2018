@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -22,15 +23,17 @@ export default class Registration extends Component {
     pin: "",
     pswd: "",
     repswd: "",
-    errors: []
+    errors: [],
+    loading: false
   };
 
   handlePasswordReset = async () => {
     let errors = this.validate();
     if (errors.length === 0) {
       let { email } = this.props.navigation.state.params;
-      console.log(`email: ${email}`)
+      this.setState({ loading: true });
       const response = await API.passwordReset(email, this.state.pin, this.state.pswd);
+      this.setState({ loading: false });
       if (!response.success) {
         errors = [response.message]
       } else {
@@ -85,6 +88,7 @@ export default class Registration extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
           <Text style={styles.full_header}>Reset Password</Text>
           <View style={styles.errors}>
             {errors.map(error => (
