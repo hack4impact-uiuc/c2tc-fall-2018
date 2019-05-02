@@ -94,11 +94,11 @@ async function login(email, password) {
   return postToAuthServer("login", { email, password });
 }
 
-async function forgotPassword(email){
+async function forgotPassword(email) {
   return await postToAuthServer("forgotPassword", { email });
 }
 
-async function passwordReset(email, pin, password){
+async function passwordReset(email, pin, password) {
   return await postToAuthServer("passwordReset", { email, pin, password });
 }
 
