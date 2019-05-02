@@ -105,6 +105,7 @@ export default class Login extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
           <Text style={styles.full_header}>Login</Text>
           <View style={styles.errors}>
             {errors.map(error => (
@@ -136,7 +137,6 @@ export default class Login extends Component {
           <TouchableOpacity style={styles.login_btn} onPress={this.handleForgotpassword}>
             <Text style={styles.button_text}>Forgot Password</Text>
           </TouchableOpacity>
-          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
         </ScrollView>
       </KeyboardAvoidingView>
     );
