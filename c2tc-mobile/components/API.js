@@ -88,6 +88,20 @@ async function login(email, password){
   return postToAuthServer("login", { email, password });
 }
 
+async function forgotPassword(email){
+  let response = await postToAuthServer("forgotPassword", { email });
+  console.log("response");
+  console.log(response);
+  return response;
+}
+
+async function passwordReset(email, pin, password){
+  let response = await postToAuthServer("passwordReset", { email, pin, password });
+  console.log("response");
+  console.log(response);
+  return response;
+}
+
 async function setVerifiedPin(){
   let token = await AsyncStorage.getItem("token");
   let response = await getEndpoint("userinfo", "", { token });
@@ -254,5 +268,7 @@ export default {
   registerNewUser,
   login,
   verifyPin,
-  setVerifiedPin
+  setVerifiedPin,
+  forgotPassword,
+  passwordReset
 };

@@ -33,6 +33,7 @@ export default class Login extends Component {
         errors = [response.message]
       } else {
         await AsyncStorage.setItem("token", response.result.token);
+        console.log(`response.result.token: ${response.result.token}`)
         await API.setVerifiedPin()
         this.setState({ successfulSubmit: true });
         this.props.navigation.navigate("TipOverview")
@@ -41,6 +42,25 @@ export default class Login extends Component {
 
     this.setState({ errors });
   };
+
+  handleForgotpassword = async () => {
+    let errors = []
+    if (this.state.email.length === 0) {
+      errors = ["Error: Email cannot be empty!"]
+    } else {
+      this.setState({ errors: ["Loading..."] });
+      const response = await API.forgotPassword(this.state.email);
+      if (!response.success) {
+        errors = ["Error: " + response.message]
+      } else {
+        console.log("SENT EMAIL TO RESET PASSWORD");
+        console.log(response.message);
+        this.props.navigation.navigate("PasswordReset", { "email": this.state.email });
+      }
+    }
+    this.setState({ errors });
+  }
+
   validate() {
     let errors = [];
 
@@ -84,7 +104,7 @@ export default class Login extends Component {
           <Text style={styles.full_header}>Login</Text>
           <View style={styles.errors}>
             {errors.map(error => (
-              <Text key={error}>Error: {error}</Text>
+              <Text key={error}>{error}</Text>
             ))}
           </View>
           <Text style={styles.header}>Email</Text>
@@ -108,6 +128,9 @@ export default class Login extends Component {
           />
           <TouchableOpacity style={styles.login_btn} onPress={this.handleLogin}>
             <Text style={styles.button_text}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.login_btn} onPress={this.handleForgotpassword}>
+            <Text style={styles.button_text}>Forgot Password</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
