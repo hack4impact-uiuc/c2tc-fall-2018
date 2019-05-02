@@ -23,40 +23,54 @@ export default class Login extends Component {
     email: "",
     pswd: "",
     errors: [],
-    loading: false,
+    loading: false
   };
 
   handleApiCall = async (errorChecks, apiCall, onSuccess) => {
     let errors = errorChecks(this);
 
-    if (errors.length === 0){
+    if (errors.length === 0) {
       this.setState({ loading: true });
       const response = await apiCall(this);
       this.setState({ loading: false });
-      if (!response.success){
-        errors = ["Error: " + response.message]
+      if (!response.success) {
+        errors = ["Error: " + response.message];
       } else {
         await onSuccess(this, response);
       }
     }
 
     this.setState({ errors });
-  }
+  };
 
   handleLogin = async () => {
-    await this.handleApiCall(this.validateLogin, async (comp) => { return await API.login(comp.state.email, comp.state.pswd) }, async (comp, response) => {
-      await AsyncStorage.setItem("token", response.result.token);
-      await API.setVerifiedPin()
-      comp.setState({ successfulSubmit: true });
-      comp.props.navigation.navigate("TipOverview")
-    });
+    await this.handleApiCall(
+      this.validateLogin,
+      async comp => {
+        return await API.login(comp.state.email, comp.state.pswd);
+      },
+      async (comp, response) => {
+        await AsyncStorage.setItem("token", response.result.token);
+        await API.setVerifiedPin();
+        comp.setState({ successfulSubmit: true });
+        comp.props.navigation.navigate("TipOverview");
+      }
+    );
   };
 
   handleForgotpassword = async () => {
-    await this.handleApiCall(this.validateForgotPassword, async (comp) => { return await API.forgotPassword(comp.state.email) }, async (comp, response) => {
-      comp.props.navigation.navigate("PasswordReset", { "email": comp.state.email });
-    });
-  }
+    await this.handleApiCall(
+      this.validateForgotPassword,
+      async comp => {
+        return await API.forgotPassword(comp.state.email);
+      },
+      async (comp, response) => {
+        comp.props.navigation.navigate("PasswordReset", {
+          email: comp.state.email
+        });
+      }
+    );
+  };
 
   validateForgotPassword(comp) {
     if (comp.state.email.length === 0) {
@@ -103,7 +117,11 @@ export default class Login extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
           <Text style={styles.full_header}>Login</Text>
           <View style={styles.errors}>
             {errors.map(error => (
@@ -132,7 +150,10 @@ export default class Login extends Component {
           <TouchableOpacity style={styles.login_btn} onPress={this.handleLogin}>
             <Text style={styles.button_text}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.login_btn} onPress={this.handleForgotpassword}>
+          <TouchableOpacity
+            style={styles.login_btn}
+            onPress={this.handleForgotpassword}
+          >
             <Text style={styles.button_text}>Forgot Password</Text>
           </TouchableOpacity>
         </ScrollView>

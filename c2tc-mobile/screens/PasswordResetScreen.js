@@ -32,10 +32,14 @@ export default class Registration extends Component {
     if (errors.length === 0) {
       let { email } = this.props.navigation.state.params;
       this.setState({ loading: true });
-      const response = await API.passwordReset(email, this.state.pin, this.state.pswd);
+      const response = await API.passwordReset(
+        email,
+        this.state.pin,
+        this.state.pswd
+      );
       this.setState({ loading: false });
       if (!response.success) {
-        errors = [response.message]
+        errors = [response.message];
       } else {
         this.props.navigation.goBack(null);
       }
@@ -70,11 +74,9 @@ export default class Registration extends Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-       <View style={styles.navBar}>
+        <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("NonRegistered")
-            }
+            onPress={() => this.props.navigation.navigate("NonRegistered")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
@@ -88,7 +90,11 @@ export default class Registration extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <ActivityIndicator size="large" color="#0000ff" animating={this.state.loading}/>
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
           <Text style={styles.full_header}>Reset Password</Text>
           <View style={styles.errors}>
             {errors.map(error => (
@@ -163,7 +169,7 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    height:Dimensions.get("window").height,
+    height: Dimensions.get("window").height,
     backgroundColor: "white"
   },
   inputContainerStyle: {
