@@ -141,6 +141,7 @@ def get_auth_server_user():
             "google": "undefined",
         },
     )
+    return auth_server_res
 
 
 def necessary_post_params(*important_properties):
