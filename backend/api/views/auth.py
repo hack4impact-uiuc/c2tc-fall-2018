@@ -40,21 +40,29 @@ def register():
 def login():
     return post_and_expect_token("login", "email", "password")
 
+
 @auth.route("/forgotPassword", methods=["POST"])
 @necessary_post_params("email")
 def forgot_password():
-    return wrap_auth_server_response(forward_post_to_auth_server("forgotPassword", "email"))
+    return wrap_auth_server_response(
+        forward_post_to_auth_server("forgotPassword", "email")
+    )
+
 
 @auth.route("/passwordReset", methods=["POST"])
 @necessary_post_params("email", "pin", "password")
 def password_reset():
-    return wrap_auth_server_response(forward_post_to_auth_server("passwordReset", "email", "pin", "password"))
+    return wrap_auth_server_response(
+        forward_post_to_auth_server("passwordReset", "email", "pin", "password")
+    )
+
 
 def wrap_auth_server_response(auth_server_response):
     response_body = auth_server_response.json()
     return create_response(
         message=response_body["message"], status=auth_server_response.status_code
     )
+
 
 def post_and_expect_token(endpoint, *props_to_forward):
     auth_server_response = forward_post_to_auth_server(endpoint, *props_to_forward)
@@ -71,14 +79,14 @@ def post_and_expect_token(endpoint, *props_to_forward):
         )
         return (our_response, code)
 
+
 def forward_post_to_auth_server(endpoint, *props_to_forward):
     user_input = request.get_json()
 
-    auth_post_data = { key: user_input[key] for key in props_to_forward }
+    auth_post_data = {key: user_input[key] for key in props_to_forward}
 
-    return requests.post(
-        auth_server_host + endpoint, json=auth_post_data
-    )
+    return requests.post(auth_server_host + endpoint, json=auth_post_data)
+
 
 def get_user_by_token(token):
     auth_server_res = requests.get(

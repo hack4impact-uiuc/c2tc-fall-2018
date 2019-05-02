@@ -130,6 +130,7 @@ def authenticated_route(route):
 
     return wrapper_wroute
 
+
 def get_auth_server_user():
     token = request.headers.get("token")
     auth_server_res = requests.get(
@@ -146,7 +147,9 @@ def necessary_post_params(*important_properties):
     def real_decorator(route):
         @functools.wraps(route)
         def wrapper_wroute(*args, **kwargs):
-            missing_fields = invalid_model_helper(request.get_json(), important_properties)
+            missing_fields = invalid_model_helper(
+                request.get_json(), important_properties
+            )
             if missing_fields is not None:
                 return create_response(
                     message="Missing the following necesary field(s): "
