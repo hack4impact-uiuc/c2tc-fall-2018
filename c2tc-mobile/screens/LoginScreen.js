@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -21,32 +22,71 @@ export default class Login extends Component {
   state = {
     email: "",
     pswd: "",
-    errors: []
+    errors: [],
+    loading: false
   };
 
-  handleLogin = async () => {
-    let errors = this.validate();
+  handleApiCall = async (errorChecks, apiCall, onSuccess) => {
+    let errors = errorChecks(this);
 
-    if (errors.length == 0){
-      const response = await API.login(this.state.email, this.state.pswd);
+    if (errors.length === 0) {
+      this.setState({ loading: true });
+      const response = await apiCall(this);
+      this.setState({ loading: false });
       if (!response.success) {
-        errors = [response.message]
+        errors = ["Error: " + response.message];
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
-        this.setState({ successfulSubmit: true });
+        await onSuccess(this, response);
       }
     }
 
     this.setState({ errors });
   };
-  validate() {
+
+  handleLogin = async () => {
+    await this.handleApiCall(
+      this.validateLogin,
+      async comp => {
+        return await API.login(comp.state.email, comp.state.pswd);
+      },
+      async (comp, response) => {
+        await AsyncStorage.setItem("token", response.result.token);
+        await API.setVerifiedPin();
+        comp.setState({ successfulSubmit: true });
+        comp.props.navigation.navigate("TipOverview");
+      }
+    );
+  };
+
+  handleForgotpassword = async () => {
+    await this.handleApiCall(
+      this.validateForgotPassword,
+      async comp => {
+        return await API.forgotPassword(comp.state.email);
+      },
+      async (comp, response) => {
+        comp.props.navigation.navigate("PasswordReset", {
+          email: comp.state.email
+        });
+      }
+    );
+  };
+
+  validateForgotPassword(comp) {
+    if (comp.state.email.length === 0) {
+      return ["Error: Email cannot be empty!"];
+    }
+    return [];
+  }
+
+  validateLogin(comp) {
     let errors = [];
 
-    if (this.state.email.length === 0) {
+    if (comp.state.email.length === 0) {
       errors.push("Email cannot be empty");
     }
 
-    if (this.state.pswd.length === 0) {
+    if (comp.state.pswd.length === 0) {
       errors.push("Password cannot be empty");
     }
 
@@ -61,13 +101,14 @@ export default class Login extends Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-        <View style={styles.backHeader}>
+        <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={() => this.props.navigation.navigate("NonRegistered")}
             style={styles.backButton}
           >
-            <Text style={styles.backText}>
-              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Settings
             </Text>
           </TouchableOpacity>
         </View>
@@ -76,10 +117,15 @@ export default class Login extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
           <Text style={styles.full_header}>Login</Text>
           <View style={styles.errors}>
             {errors.map(error => (
-              <Text key={error}>Error: {error}</Text>
+              <Text key={error}>{error}</Text>
             ))}
           </View>
           <Text style={styles.header}>Email</Text>
@@ -104,6 +150,12 @@ export default class Login extends Component {
           <TouchableOpacity style={styles.login_btn} onPress={this.handleLogin}>
             <Text style={styles.button_text}>Login</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.login_btn}
+            onPress={this.handleForgotpassword}
+          >
+            <Text style={styles.button_text}>Forgot Password</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -114,21 +166,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  backButton: {
-    paddingLeft: 20,
-    width: Dimensions.get("window").width
-  },
-  backText: {
-    color: "#027BFF",
-    fontSize: 20
-  },
-  backHeader: {
-    marginTop: 30,
-    flexDirection: "row",
-    justifyContent: "flex-start"
-  },
   wrapper: {
     flex: 1,
+    height: Dimensions.get("window").height,
     backgroundColor: "white"
   },
   inputContainerStyle: {
@@ -173,5 +213,26 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     marginTop: 30,
     marginLeft: 20
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  arrow: {
+    paddingTop: 15
   }
 });
