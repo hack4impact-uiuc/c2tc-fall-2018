@@ -129,8 +129,6 @@ class TipForm extends React.Component {
         this.setState({ errors });
         this.showErrorAlert();
       }
-    } else {
-      console.log("already submitted");
     }
   };
 
