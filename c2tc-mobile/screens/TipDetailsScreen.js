@@ -72,6 +72,10 @@ class TipDetailsScreen extends React.Component {
     }
   };
 
+  async componentWillMount() {
+
+  }
+
   async componentDidMount() {
     let author = this.props.navigation.getParam("author", false);
     let token = await AsyncStorage.getItem("token");
@@ -83,18 +87,44 @@ class TipDetailsScreen extends React.Component {
       verifiedPin: verifiedPin,
       token: token
     });
-    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
-    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
-      .length;
+
+    this.updateVotePercentages();
+
+    // let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
+    // let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
+    //   .length;
+    // let upvotePercentage = "";
+    // if (upvoteNumb === 0 && downvoteNumb === 0) {
+    //   upvotePercentage = "0% Upvoted";
+    // } else if (upvoteNumb >= downvoteNumb) {
+    //   upvotePercentage =
+    //     (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+    // } else {
+    //   upvotePercentage =
+    //     (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
+    // }
+    // this.setState({ upvotePercentage });
+  }
+
+  updateVotePercentages = async () => {
+    let upvotes = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
+    let downvotes = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
+    let upvoteNumb = upvotes.length;
+    let downvoteNumb = downvotes.length;
+
+    console.log(upvoteNumb);
+    console.log(downvoteNumb);
     let upvotePercentage = "";
     if (upvoteNumb === 0 && downvoteNumb === 0) {
-      upvotePercentage = "0% Upvoted";
+      upvotePercentage = " 0% Upvoted";
     } else if (upvoteNumb >= downvoteNumb) {
       upvotePercentage =
         (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+      console.log(upvotePercentage);
     } else {
       upvotePercentage =
         (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
+      console.log(upvotePercentage);
     }
     this.setState({ upvotePercentage });
   }
@@ -107,20 +137,6 @@ class TipDetailsScreen extends React.Component {
       verifiedPin: verifiedPin
     });
 
-    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
-    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
-      .length;
-    let upvotePercentage = "";
-    if (upvoteNumb === 0 && downvoteNumb === 0) {
-      upvotePercentage = " 0% Upvoted";
-    } else if (upvoteNumb >= downvoteNumb) {
-      upvotePercentage =
-        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
-    } else {
-      upvotePercentage =
-        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
-    }
-    this.setState({ upvotePercentage });
     let author = this.props.navigation.getParam("author", false);
 
     this.setState({
@@ -155,6 +171,7 @@ class TipDetailsScreen extends React.Component {
       };
 
       await API.voteTip(data, this.state.token);
+      this.updateVotePercentages();
     }
   };
 
@@ -168,6 +185,7 @@ class TipDetailsScreen extends React.Component {
         vote_type: "DOWNVOTE"
       };
       await API.voteTip(data, this.state.token);
+      this.updateVotePercentages();
     }
   };
 
