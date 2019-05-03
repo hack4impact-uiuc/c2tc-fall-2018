@@ -97,9 +97,6 @@ class TipDetailsScreen extends React.Component {
     let upvoteNumb = upvotes.length;
     let downvoteNumb = downvotes.length;
 
-    console.log(upvoteNumb);
-    console.log(downvoteNumb);
-
     let upvotePercentage = "";
     if (upvoteNumb === 0 && downvoteNumb === 0) {
       upvotePercentage = " 0% Upvoted";
