@@ -1,97 +1,152 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   StyleSheet,
   Alert,
   View,
-  Modal,
-  TouchableHighlight,
   Text,
-  Container
+  Dimensions,
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 
+import { FontAwesome } from "@expo/vector-icons";
+
 import { Appbar, Button } from "react-native-paper";
+import API from "../components/API";
 
-class AlertScreen extends React.Component {
-  state = {
-    modalVisible: false
-  };
+const { width, height } = Dimensions.get("window");
 
+export default class AlertScreen extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   modalVisible: props.shouldDisplayAlert,
-    //   attemptedAction: props.attemptedAction
-    // }
+    this.state = {
+      token: null
+    };
   }
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+  async componentDidMount() {
+    let token = await AsyncStorage.getItem("token");
+    this.setState({
+      token: token
+    });
   }
 
-  attemptLogin = () => {
-    console.log("ATTEMPTING TO LOGIN");
+  handleBackPress = e => {
+    this.props.navigation.navigate("TipOverview");
   };
 
   render() {
     return (
-      <View style={{ marginTop: 22 }}>
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.props.modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-          }}
-        >
-          <Appbar.Header>
-            <Appbar.Action
-              icon="arrow-back"
-              onPress={() => this.setModalVisible(!this.props.modalVisible)}
-            />
-            {/* <Appbar.Action icon="navigate-back" onPress={() => console.log("Hello, world!")} /> */}
-            <Appbar.Content title="Back" />
-          </Appbar.Header>
-          <View style={{ marginTop: 22 }}>
+      <View style={styles.alert}>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+              Overview
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginTop: 22 }}>
+          <View style={styles.reason}>
+            <Text style={styles.reason_text}>
+              Sorry, in order to access this feature you must login!
+            </Text>
+          </View>
+          {!this.state.token && (
             <View>
-              <Text style={styles.reason_text}>
-                Sorry, in order to {this.props.attemptedAction}, you must login!
-              </Text>
+              <View style={{ justifyContent: "center", flexDirection: "row" }}>
+                <Button
+                  mode="contained"
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate("Login")}
+                >
+                  Login
+                </Button>
+              </View>
+              <View
+                style={{
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  marginTop: 22
+                }}
+              >
+                <Button
+                  mode="contained"
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate("Registration")}
+                >
+                  Register
+                </Button>
+              </View>
             </View>
-            <View style={{ justifyContent: "center", flexDirection: "row" }}>
+          )}
+          {this.state.token ? (
+            <View
+              style={{
+                justifyContent: "center",
+                flexDirection: "row",
+                marginTop: 22
+              }}
+            >
               <Button
                 mode="contained"
                 style={styles.button}
-                onPress={this.attemptLogin}
+                onPress={() => this.props.navigation.navigate("Verify")}
               >
-                Login
+                Verify
               </Button>
             </View>
-          </View>
-        </Modal>
-
-        <TouchableHighlight
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
-          <Text>Show Modal</Text>
-        </TouchableHighlight>
+          ) : null}
+        </View>
       </View>
     );
   }
 }
 
-export default AlertScreen;
 const styles = StyleSheet.create({
+  alert: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
+  reason: {
+    marginHorizontal: 22,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
   reason_text: {
-    margin: 10
+    fontSize: 20,
+    fontWeight: "500"
   },
-
   button: {
-    width: "40%"
-    // flex: 0.3
+    alignItems: "center",
+    backgroundColor: "#8E44AD",
+    borderRadius: 7,
+    width: "50%",
+    fontSize: 17,
+    paddingVertical: 5
   },
-
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
   alert: {
     position: "absolute"
   }

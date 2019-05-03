@@ -21,20 +21,25 @@ class TipDetailsScreen extends React.Component {
       tip: this.props.navigation.state.params.tip,
       screenStyle: this.props.navigation.state.params.screenType,
       tips: this.props.navigation.state.params.tips,
-      userid: "",
-      upvotePercentage: 0,
+      user: null,
+      token: "",
+      verifiedPin: false,
+      upvotePercentage: "0% Upvoted",
       isDownvoted: this.props.navigation.getParam("downvoted", false),
       isUpvoted: this.props.navigation.getParam("upvoted", false)
     };
   }
 
   setVoteStatus = async () => {
+    if (!this.state.user) {
+      return;
+    }
     let upVotedUsers = await API.getUserUpvotes(
       this.props.navigation.state.params.tip._id
     );
 
     if (
-      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      upVotedUsers.filter(user => user._id === this.state.user._id).length > 0
     ) {
       let isUpvoted = true;
       let isDownvoted = false;
@@ -47,7 +52,8 @@ class TipDetailsScreen extends React.Component {
         this.props.navigation.state.params.tip._id
       );
       if (
-        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+        downVotedUsers.filter(user => user._id === this.state.user._id).length >
+        0
       ) {
         let isUpvoted = false;
         let isDownvoted = true;
@@ -67,6 +73,40 @@ class TipDetailsScreen extends React.Component {
   };
 
   async componentDidMount() {
+    let author = this.props.navigation.getParam("author", false);
+    let token = await AsyncStorage.getItem("token");
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let user = await API.getUser(token);
+    this.setState({
+      username: author.anon ? "Anonymous" : author.username,
+      user: user,
+      verifiedPin: verifiedPin,
+      token: token
+    });
+    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
+    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
+      .length;
+    let upvotePercentage = "";
+    if (upvoteNumb === 0 && downvoteNumb === 0) {
+      upvotePercentage = "0% Upvoted";
+    } else if (upvoteNumb >= downvoteNumb) {
+      upvotePercentage =
+        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+    } else {
+      upvotePercentage =
+        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
+    }
+    this.setState({ upvotePercentage });
+  }
+
+  onComponentFocused = async () => {
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let token = await AsyncStorage.getItem("token");
+    this.setState({
+      token: token,
+      verifiedPin: verifiedPin
+    });
+
     let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
     let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
       .length;
@@ -83,13 +123,10 @@ class TipDetailsScreen extends React.Component {
     this.setState({ upvotePercentage });
     let author = this.props.navigation.getParam("author", false);
 
-    let userid = await AsyncStorage.getItem("user_id");
-
     this.setState({
-      username: author.anon ? "Anonymous" : author.username,
-      userid
+      username: author.anon ? "Anonymous" : author.username
     });
-  }
+  };
 
   approvePress = async () => {
     let data = {
@@ -108,24 +145,30 @@ class TipDetailsScreen extends React.Component {
   };
 
   upvotePress = async () => {
-    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
-    let data = {
-      tips_id: this.props.navigation.state.params.tip._id,
-      user_id: this.state.userid,
-      vote_type: "UPVOTE"
-    };
+    if (!this.state.verifiedPin) {
+      this.props.navigation.navigate("Alert");
+    } else {
+      this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
+      let data = {
+        tips_id: this.props.navigation.state.params.tip._id,
+        vote_type: "UPVOTE"
+      };
 
-    await API.voteTip(data);
+      await API.voteTip(data, this.state.token);
+    }
   };
 
   downvotePress = async () => {
-    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
-    let data = {
-      tips_id: this.props.navigation.state.params.tip._id,
-      user_id: this.state.userid,
-      vote_type: "DOWNVOTE"
-    };
-    await API.voteTip(data);
+    if (!this.state.verifiedPin) {
+      this.props.navigation.navigate("Alert");
+    } else {
+      this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
+      let data = {
+        tips_id: this.props.navigation.state.params.tip._id,
+        vote_type: "DOWNVOTE"
+      };
+      await API.voteTip(data, this.state.token);
+    }
   };
 
   render() {

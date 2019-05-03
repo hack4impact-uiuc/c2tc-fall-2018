@@ -33,12 +33,15 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
+      token: "",
+      verifiedPin: false,
       proPic:
         "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
       username: "",
       user: null,
       currentdate: "",
       greeting: "",
+      trusted: false,
       bgImg: DAY_BACKGROUND_IMG,
       tips: [],
       pendingTips: [],
@@ -62,35 +65,67 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({isLoading: true});
+    this.setState({isLoading: true})
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
     this.setState({ tips: tipsResponse, hasLoaded: true });
     this.setState({isLoading: false});
+    let token = await AsyncStorage.getItem("token");
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let user;
+    if (token) {
+      user = await API.getUser(token);
+      this.setState({
+        username: user.username,
+        user: user,
+        trusted: user.trusted,
+        token: token
+      });
+    }
+    if (verifiedPin) {
+      this.setState({
+        proPic: user.pro_pic,
+        verifiedPin: verifiedPin
+      });
+    }
   }
 
   onComponentFocused = async () => {
     console.log("component focused: " + this.state.isLoading);
     if (this.state.hasLoaded) {
-      let user_id = await AsyncStorage.getItem("user_id");
-      if (user_id) {
-        let user = await API.getUser(user_id);
-        this.setState({
-          proPic: user.pro_pic,
-          username: user.username,
-          user: user
-        });
-      }
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
+      // await AsyncStorage.removeItem("verifiedPin");
+      let token = await AsyncStorage.getItem("token");
+      let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+      let user;
+      if (token) {
+        user = await API.getUser(token);
+        this.setState({
+          username: user.username,
+          user: user,
+          token: token,
+          trusted: user.trusted
+        });
+      }
+      if (verifiedPin) {
+        this.setState({
+          proPic: user.pro_pic,
+          verifiedPin: verifiedPin
+        });
+      }
     }
     let pendingTips = await API.getPendingTips();
     this.setState({ pendingTips });
   };
 
   profilePicPressed = () => {
-    this.props.navigation.navigate("Profile");
+    if (this.state.verifiedPin) {
+      this.props.navigation.navigate("Profile");
+    } else {
+      this.props.navigation.navigate("NonRegistered");
+    }
   };
 
   setGreeting = () => {
@@ -140,13 +175,13 @@ class TipOverviewScreen extends React.Component {
     ];
 
     const dayNames = [
+      "Sunday",
       "Monday",
       "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
-      "Saturday",
-      "Sunday"
+      "Saturday"
     ];
 
     const day = date.getDay();
@@ -154,11 +189,12 @@ class TipOverviewScreen extends React.Component {
     const year = date.getFullYear();
 
     const date_str =
-      dayNames[day - 1] +
+      dayNames[day] +
       " " +
       monthNames[monthIndex] +
       " " +
       year.toString().slice(2);
+    console.log(date_str);
     this.setState({
       currentdate: date_str
     });
@@ -212,22 +248,28 @@ class TipOverviewScreen extends React.Component {
             </View>
           </View>
           <View style={styles.content}>
-            <View style={styles.contentNav}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("TipCategories")}
-              >
-                <Text style={styles.button}> Submit A Tip </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("PendingTips", {
-                    tips: this.state.pendingTips
-                  })
-                }
-              >
-                <Text style={styles.button}> Review Pending Tips </Text>
-              </TouchableOpacity>
-            </View>
+            {this.state.verifiedPin ? (
+              <View style={styles.contentNav}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("TipCategories")
+                  }
+                >
+                  <Text style={styles.button}> Submit A Tip </Text>
+                </TouchableOpacity>
+                {this.state.trusted && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("PendingTips", {
+                        tips: this.state.pendingTips
+                      })
+                    }
+                  >
+                    <Text style={styles.button}> Review Pending Tips </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}

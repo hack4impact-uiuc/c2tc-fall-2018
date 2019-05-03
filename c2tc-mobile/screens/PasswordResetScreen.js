@@ -6,7 +6,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
@@ -19,44 +20,35 @@ export default class Registration extends Component {
   }
 
   state = {
-    email: "",
+    pin: "",
     pswd: "",
     repswd: "",
-    username: "",
-    errors: []
+    errors: [],
+    loading: false
   };
 
-  handleRegistration = async () => {
+  handlePasswordReset = async () => {
     let errors = this.validate();
     if (errors.length === 0) {
-      const response = await API.registerNewUser(
-        this.state.email,
-        this.state.pswd,
-        this.state.username
+      let { email } = this.props.navigation.state.params;
+      this.setState({ loading: true });
+      const response = await API.passwordReset(
+        email,
+        this.state.pin,
+        this.state.pswd
       );
+      this.setState({ loading: false });
       if (!response.success) {
         errors = [response.message];
-        this.setState({ errors });
       } else {
-        await AsyncStorage.setItem(
-          "token",
-          JSON.stringify(response.result.token)
-        );
-        await AsyncStorage.setItem("token", response.result.token);
-        this.setState({ successfulSubmit: true });
-        this.props.navigation.navigate("Verify");
+        this.props.navigation.goBack(null);
       }
-    } else {
-      this.setState({ errors });
     }
+    this.setState({ errors });
   };
 
   validate() {
     let errors = [];
-
-    if (this.state.email.length === 0) {
-      errors.push("Email cannot be empty");
-    }
 
     if (this.state.pswd.length === 0) {
       errors.push("Password cannot be empty");
@@ -68,17 +60,6 @@ export default class Registration extends Component {
 
     if (this.state.pswd !== this.state.repswd) {
       errors.push("Passwords do not match!");
-    }
-
-    let emailParts = this.state.email.split("@");
-    if (emailParts.length != 2) {
-      errors.push("Invalid amount of @'s");
-    } else {
-      if (emailParts[1] != "illinois.edu") {
-        errors.push("Have to have an illinois email to register with the app!");
-      } else {
-        this.state.username = emailParts[0];
-      }
     }
 
     return errors;
@@ -109,20 +90,25 @@ export default class Registration extends Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <Text style={styles.full_header}>Create Account</Text>
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            animating={this.state.loading}
+          />
+          <Text style={styles.full_header}>Reset Password</Text>
           <View style={styles.errors}>
             {errors.map(error => (
               <Text key={error}>Error: {error}</Text>
             ))}
           </View>
-          <Text style={styles.header}>Email</Text>
+          <Text style={styles.header}>Pin (check your email)</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="Email"
-            placeholder="Email"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
+            label="Pin"
+            placeholder="Pin"
+            value={this.state.pin}
+            onChangeText={pin => this.setState({ pin })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput
@@ -146,9 +132,9 @@ export default class Registration extends Component {
           />
           <TouchableOpacity
             style={styles.login_btn}
-            onPress={this.handleRegistration}
+            onPress={this.handlePasswordReset}
           >
-            <Text style={styles.button_text}>Register</Text>
+            <Text style={styles.button_text}>Reset</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
