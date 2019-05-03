@@ -93,9 +93,12 @@ class TipDetailsScreen extends React.Component {
 
   updateVotePercentages = async () => {
     let upvotes = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
-    let downvotes = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
+    let downvotes = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
     let upvoteNumb = upvotes.length;
     let downvoteNumb = downvotes.length;
+
+    console.log(upvoteNumb);
+    console.log(downvoteNumb);
 
     let upvotePercentage = "";
     if (upvoteNumb === 0 && downvoteNumb === 0) {
