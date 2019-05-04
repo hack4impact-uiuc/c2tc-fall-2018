@@ -90,11 +90,15 @@ export default class ProfileScreen extends React.Component {
   };
 
   async onChangeVisibility(anonymousToOthers) {
+    
     this.setState({ anonymousToOthers });
     let data = {
       anon: anonymousToOthers
     };
-    await API.updateUser(this.state.user_id, data);
+    let token = await AsyncStorage.getItem("token");
+    if (token) {
+      await API.updateUser(token, data);
+    }
   }
 
   render() {
@@ -146,6 +150,10 @@ export default class ProfileScreen extends React.Component {
               <Text style={styles.dividedText}>Moderator (Verified)</Text>
             </View>
           )}
+          <View>
+            <View style={styles.divider} />
+            <Text style={styles.dividedText}>Email: {this.state.email}</Text>
+          </View>
           <View style={styles.divider} />
           <View style={styles.anonView}>
             <Text style={[styles.dividedText, styles.anonText]}>
@@ -174,6 +182,7 @@ export default class ProfileScreen extends React.Component {
                 navigation={this.props.navigation}
                 screenType={"view"}
                 editable={true}
+                anon={this.state.anonymousToOthers}
               />
             ))}
             <Text style={styles.subheader}> Pending Tips </Text>
@@ -183,6 +192,7 @@ export default class ProfileScreen extends React.Component {
                 tip={tip}
                 navigation={this.props.navigation}
                 screenType={"approved"}
+                anon={this.state.anonymousToOthers}
               />
             ))}
             <Text style={styles.subheader}> Denied Tips </Text>
@@ -192,6 +202,7 @@ export default class ProfileScreen extends React.Component {
                 tip={tip}
                 navigation={this.props.navigation}
                 screenType={"denied"}
+                anon={this.state.anonymousToOthers}
               />
             ))}
           </View>
